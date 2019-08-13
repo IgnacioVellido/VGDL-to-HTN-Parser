@@ -48,12 +48,36 @@ tokens { INDENT, DEDENT }
 
 // file: Algo EOF ;
 // BasicGame:  'BasicGame' something(optional) newline spriteset,levelmapping... ;
+// Correct solution, check in parser that it recieves each part only once
+// basicGame
+//   : 'BasicGame' parameter* INDENT (spriteSet | levelMapping | 
+//                                     interactionSet | terminationSet )* DEDENT;
+
+// Provisional solution
+basicGame
+  : 'BasicGame' parameter* INDENT spriteSet levelMapping interactionSet terminationSet DEDENT* EOF
+  | 'BasicGame' parameter* INDENT spriteSet levelMapping terminationSet interactionSet DEDENT* EOF
+  | 'BasicGame' parameter* INDENT spriteSet terminationSet interactionSet levelMapping DEDENT* EOF
+  | 'BasicGame' parameter* INDENT spriteSet terminationSet levelMapping interactionSet DEDENT* EOF
+
+  | 'BasicGame' parameter* INDENT levelMapping interactionSet terminationSet spriteSet DEDENT* EOF
+  | 'BasicGame' parameter* INDENT levelMapping interactionSet spriteSet terminationSet DEDENT* EOF
+  | 'BasicGame' parameter* INDENT levelMapping spriteSet interactionSet terminationSet DEDENT* EOF
+  | 'BasicGame' parameter* INDENT levelMapping spriteSet terminationSet interactionSet DEDENT* EOF
+
+  | 'BasicGame' parameter* INDENT interactionSet spriteSet levelMapping terminationSet DEDENT* EOF
+  | 'BasicGame' parameter* INDENT interactionSet spriteSet terminationSet levelMapping DEDENT* EOF
+  | 'BasicGame' parameter* INDENT interactionSet terminationSet spriteSet levelMapping DEDENT* EOF
+  | 'BasicGame' parameter* INDENT interactionSet terminationSet levelMapping spriteSet DEDENT* EOF
+
+  | 'BasicGame' parameter* INDENT terminationSet spriteSet levelMapping interactionSet DEDENT* EOF
+  | 'BasicGame' parameter* INDENT terminationSet spriteSet interactionSet levelMapping DEDENT* EOF
+  | 'BasicGame' parameter* INDENT terminationSet interactionSet spriteSet levelMapping DEDENT* EOF
+  | 'BasicGame' parameter* INDENT terminationSet interactionSet levelMapping spriteSet DEDENT* EOF ;
 
 
 // SpriteSet ------------------------------------------------------------------
 // SpriteSet: 'SpriteSet' something(optional) newline list-of-sprites ;
-// INDENTATION IS RELEVANT
-// https://stackoverflow.com/questions/6918555/antlr-how-to-parse-a-region-within-matching-brackets-with-a-lexer
 spriteSet
   : 'SpriteSet' INDENT spriteDefinition+ DEDENT ; // ✓
 
@@ -64,7 +88,7 @@ spriteDefinition
 // LevelMapping --------------------------------------------------------------- // ✓
 // LevelMapping: 'LevelMapping' something(optional) newline list-of-mappers ;
 levelMapping
-  : 'LevelMapping' NL* (levelDefinition NL*)+ ; // ✓
+  : 'LevelMapping' INDENT (levelDefinition NL*)+ DEDENT ; // ✓
 
 levelDefinition
   : WS* SYMBOL WS* '>' WS* WORD+ WS* ; // ✓
@@ -72,7 +96,7 @@ levelDefinition
 // InteractionSet ------------------------------------------------------------- // ✓
 // InteractionSet: 'InteractionSet' something(optional) newline list-of-interactions ; 
 interactionSet
-  : 'InteractionSet' NL* (interaction NL*)+ ; // ✓
+  : 'InteractionSet' INDENT (interaction NL*)+ DEDENT ; // ✓
 
 interaction
   : WORD WORD+ WS* '>' WORD parameter* ; // ✓
@@ -80,7 +104,7 @@ interaction
 // TerminationSet ------------------------------------------------------------- // ✓
 // TerminationSet: 'TerminationSet' something(optional) newline list-of-terminations ;
 terminationSet
-  : 'TerminationSet' NL* (terminationCriteria NL*)+ ; // ✓
+  : 'TerminationSet' INDENT (terminationCriteria NL*)+ DEDENT; // ✓
 
 terminationCriteria
   : WORD parameter* 'win='(TRUE | FALSE) parameter* ; // ✓
