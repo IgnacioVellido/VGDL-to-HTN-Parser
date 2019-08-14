@@ -49,46 +49,46 @@ tokens { INDENT, DEDENT }
 // file: Algo EOF ;
 // BasicGame:  'BasicGame' something(optional) newline spriteset,levelmapping... ;
 // Correct solution, check in parser that it recieves each part only once
-// basicGame
-//   : 'BasicGame' parameter* INDENT (spriteSet | levelMapping | 
-//                                     interactionSet | terminationSet )* DEDENT;
+basicGame
+  : 'BasicGame' parameter* INDENT (spriteSet | levelMapping | 
+                                    interactionSet | terminationSet | DEDENT | INDENT )* DEDENT;
 
 // Provisional solution
-basicGame
-  : 'BasicGame' parameter* INDENT spriteSet levelMapping interactionSet terminationSet DEDENT* EOF
-  | 'BasicGame' parameter* INDENT spriteSet levelMapping terminationSet interactionSet DEDENT* EOF
-  | 'BasicGame' parameter* INDENT spriteSet terminationSet interactionSet levelMapping DEDENT* EOF
-  | 'BasicGame' parameter* INDENT spriteSet terminationSet levelMapping interactionSet DEDENT* EOF
+// basicGame
+//   : 'BasicGame' parameter* INDENT? spriteSet levelMapping interactionSet terminationSet DEDENT* EOF
+//   | 'BasicGame' parameter* INDENT? spriteSet levelMapping terminationSet interactionSet DEDENT* EOF
+//   | 'BasicGame' parameter* INDENT? spriteSet terminationSet interactionSet levelMapping DEDENT* EOF
+//   | 'BasicGame' parameter* INDENT? spriteSet terminationSet levelMapping interactionSet DEDENT* EOF
 
-  | 'BasicGame' parameter* INDENT levelMapping interactionSet terminationSet spriteSet DEDENT* EOF
-  | 'BasicGame' parameter* INDENT levelMapping interactionSet spriteSet terminationSet DEDENT* EOF
-  | 'BasicGame' parameter* INDENT levelMapping spriteSet interactionSet terminationSet DEDENT* EOF
-  | 'BasicGame' parameter* INDENT levelMapping spriteSet terminationSet interactionSet DEDENT* EOF
+//   | 'BasicGame' parameter* INDENT? levelMapping interactionSet terminationSet spriteSet DEDENT* EOF
+//   | 'BasicGame' parameter* INDENT? levelMapping interactionSet spriteSet terminationSet DEDENT* EOF
+//   | 'BasicGame' parameter* INDENT? levelMapping spriteSet interactionSet terminationSet DEDENT* EOF
+//   | 'BasicGame' parameter* INDENT? levelMapping spriteSet terminationSet interactionSet DEDENT* EOF
 
-  | 'BasicGame' parameter* INDENT interactionSet spriteSet levelMapping terminationSet DEDENT* EOF
-  | 'BasicGame' parameter* INDENT interactionSet spriteSet terminationSet levelMapping DEDENT* EOF
-  | 'BasicGame' parameter* INDENT interactionSet terminationSet spriteSet levelMapping DEDENT* EOF
-  | 'BasicGame' parameter* INDENT interactionSet terminationSet levelMapping spriteSet DEDENT* EOF
+//   | 'BasicGame' parameter* INDENT? interactionSet spriteSet levelMapping terminationSet DEDENT* EOF
+//   | 'BasicGame' parameter* INDENT? interactionSet spriteSet terminationSet levelMapping DEDENT* EOF
+//   | 'BasicGame' parameter* INDENT? interactionSet terminationSet spriteSet levelMapping DEDENT* EOF
+//   | 'BasicGame' parameter* INDENT? interactionSet terminationSet levelMapping spriteSet DEDENT* EOF
 
-  | 'BasicGame' parameter* INDENT terminationSet spriteSet levelMapping interactionSet DEDENT* EOF
-  | 'BasicGame' parameter* INDENT terminationSet spriteSet interactionSet levelMapping DEDENT* EOF
-  | 'BasicGame' parameter* INDENT terminationSet interactionSet spriteSet levelMapping DEDENT* EOF
-  | 'BasicGame' parameter* INDENT terminationSet interactionSet levelMapping spriteSet DEDENT* EOF ;
+//   | 'BasicGame' parameter* INDENT? terminationSet spriteSet levelMapping interactionSet DEDENT* EOF
+//   | 'BasicGame' parameter* INDENT? terminationSet spriteSet interactionSet levelMapping DEDENT* EOF
+//   | 'BasicGame' parameter* INDENT? terminationSet interactionSet spriteSet levelMapping DEDENT* EOF
+//   | 'BasicGame' parameter* INDENT? terminationSet interactionSet levelMapping spriteSet DEDENT* EOF ;
 
 
 // SpriteSet ------------------------------------------------------------------
 // SpriteSet: 'SpriteSet' something(optional) newline list-of-sprites ;
 spriteSet
-  : 'SpriteSet' INDENT spriteDefinition+ DEDENT ; // ✓
+  : 'SpriteSet' INDENT (NL* spriteDefinition NL*)+ DEDENT ; // ✓
 
 spriteDefinition
   : WORD WS* '>' WS* WORD? parameter* INDENT (WS* spriteDefinition NL?)+ DEDENT // ✓
-  | WORD WS* '>' WS* WORD parameter* ; // ✓
+  | WORD WS* '>' WS* WORD? parameter* ; // ✓ If second WORD is not defined, is a child
 
 // LevelMapping --------------------------------------------------------------- // ✓
 // LevelMapping: 'LevelMapping' something(optional) newline list-of-mappers ;
 levelMapping
-  : 'LevelMapping' INDENT (levelDefinition NL*)+ DEDENT ; // ✓
+  : 'LevelMapping' INDENT (NL* levelDefinition NL*)+ DEDENT ; // ✓
 
 levelDefinition
   : WS* SYMBOL WS* '>' WS* WORD+ WS* ; // ✓
@@ -96,7 +96,7 @@ levelDefinition
 // InteractionSet ------------------------------------------------------------- // ✓
 // InteractionSet: 'InteractionSet' something(optional) newline list-of-interactions ; 
 interactionSet
-  : 'InteractionSet' INDENT (interaction NL*)+ DEDENT ; // ✓
+  : 'InteractionSet' INDENT (NL* interaction NL*)+ DEDENT ; // ✓
 
 interaction
   : WORD WORD+ WS* '>' WORD parameter* ; // ✓
@@ -104,14 +104,14 @@ interaction
 // TerminationSet ------------------------------------------------------------- // ✓
 // TerminationSet: 'TerminationSet' something(optional) newline list-of-terminations ;
 terminationSet
-  : 'TerminationSet' INDENT (terminationCriteria NL*)+ DEDENT; // ✓
+  : 'TerminationSet' INDENT (NL* terminationCriteria NL*)+ DEDENT; // ✓
 
 terminationCriteria
   : WORD parameter* 'win='(TRUE | FALSE) parameter* ; // ✓
 
 // Others ---------------------------------------------------------------------
 parameter
-  : WORD '=' (WORD | NUMBER) ; // ✓
+  : WORD '=' (WORD | NUMBER | TRUE | FALSE) ; // ✓
 
 /* ----------------------------------------------------------------------------
                                Lexer rules
@@ -124,7 +124,7 @@ parameter
   // : '\r'? '\n' -> skip;
 
 NL
-  : ('\r'? '\n' ' '*);
+  : ('\r'? '\n' ' '*) ;
 
 // DON'T SKIP NEWLINES YET
 // WhiteSpace
@@ -148,9 +148,7 @@ NUMBER
 SYMBOL  
   : ~[>\n\t\r ] ;  // Put here non valid symbols in names and level mapping
 WORD
-  : [a-zA-Z]+
-  // | SYMBOL 
-  | (TRUE | FALSE) ;
+  : [a-zA-Z]+ ;
 
 ANY: . ;  // Ignore everything not recognised
 

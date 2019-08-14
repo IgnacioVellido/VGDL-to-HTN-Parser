@@ -34,6 +34,13 @@ IF "%arg1%"=="buildgrun" (
   grun Vgdl %arg2% -gui
 )
 
+IF "%arg1%"=="tokens" (  
+  antlr4 Vgdl.g4
+  javac Vgdl*.java
+  @ECHO Introduce input:
+  grun Vgdl %arg2% -tokens
+)
+
 
 @ECHO ON
 
