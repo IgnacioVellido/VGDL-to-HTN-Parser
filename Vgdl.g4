@@ -1,6 +1,6 @@
 /*
-  VGDL grammar:
-  Parse a file in VGDL notation (initially only accepts the GVGAI version)  
+  antlr-vgdl:
+  Parse a file in VGDL notation using ANTLR4
 
   Ignacio Vellido Expósito
   09/08/2019
@@ -66,12 +66,14 @@ spriteDefinition
   : WORD WS* '>' WS* WORD? parameter* INDENT (WS* spriteDefinition NL?)+ DEDENT
   | WORD WS* '>' WS* WORD? parameter* ; // If second WORD is not defined, is a child
 
+
 // LevelMapping ---------------------------------------------------------------
 levelMapping
   : 'LevelMapping' INDENT (NL* levelDefinition NL*)+ DEDENT ;
 
 levelDefinition
   : WS* SYMBOL WS* '>' WS* WORD+ WS* ;
+
 
 // InteractionSet -------------------------------------------------------------
 interactionSet
@@ -80,6 +82,7 @@ interactionSet
 interaction
   : WORD WORD+ WS* '>' WORD parameter* ;
 
+
 // TerminationSet -------------------------------------------------------------
 terminationSet
   : 'TerminationSet' INDENT (NL* terminationCriteria NL*)+ DEDENT;
@@ -87,12 +90,13 @@ terminationSet
 terminationCriteria
   : WORD parameter* 'win='(TRUE | FALSE) parameter* ;
 
+
 // Others ---------------------------------------------------------------------
 parameter
-  : WORD '=' (WORD | NUMBER | TRUE | FALSE) ;
+  : WORD '=' (WORD | NUMBER | TRUE | FALSE) 
+  | WORD '=' (WORD '/' WORD)* ;
 
 
-tru: TRUE ;
 /* ----------------------------------------------------------------------------
                                Lexer rules
   -----------------------------------------------------------------------------
@@ -103,6 +107,7 @@ NL  // NewLine
 
 WS  // WhiteSpace
   : [ \t]+ -> skip ;  // Skip spaces and tabs
+
 
 // These rules are ambiguous, this order of definition must be maintained
 TRUE
@@ -116,7 +121,9 @@ SYMBOL
 WORD
   : [a-zA-Z]+ ;
 
+
 ANY: . ;  // Ignore everything not recognised
+
 
 fragment CHAR:  [a-zA-Z] ;
 fragment DIGIT: [0-9] ;
