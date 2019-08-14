@@ -6,32 +6,17 @@ set arg2=%2
 
 IF "%arg1%"=="build"  (
   antlr4 Vgdl.g4
-  javac Vgdl*.java
-  REM antlr4 Hello.g4  
+  javac Vgdl*.java  
 )
 
-IF "%arg1%"=="run" (  
+IF "%arg1%"=="tree" (  
   @ECHO Introduce input:
   grun Vgdl %arg2% -tree
 )
 
-IF "%arg1%"=="grun" (  
+IF "%arg1%"=="gui" (  
   @ECHO Introduce input:
   grun Vgdl %arg2% -gui 
-)
-
-IF "%arg1%"=="buildrun" (  
-  antlr4 Vgdl.g4
-  javac Vgdl*.java
-  @ECHO Introduce input:
-  grun Vgdl %arg2% -tree
-)
-
-IF "%arg1%"=="buildgrun" (  
-  antlr4 Vgdl.g4
-  javac Vgdl*.java
-  @ECHO Introduce input:
-  grun Vgdl %arg2% -gui
 )
 
 IF "%arg1%"=="tokens" (  
@@ -41,26 +26,25 @@ IF "%arg1%"=="tokens" (
   grun Vgdl %arg2% -tokens
 )
 
+IF "%arg1%"=="buildtree" (  
+  antlr4 Vgdl.g4
+  javac Vgdl*.java
+  @ECHO Introduce input:
+  grun Vgdl %arg2% -tree
+)
+
+IF "%arg1%"=="buildgui" (  
+  antlr4 Vgdl.g4
+  javac Vgdl*.java
+  @ECHO Introduce input:
+  grun Vgdl %arg2% -gui
+)
+
+IF "%arg1%"=="buildtokens" (  
+  antlr4 Vgdl.g4
+  javac Vgdl*.java
+  @ECHO Introduce input:
+  grun Vgdl %arg2% -tokens
+)
 
 @ECHO ON
-
-
-REM For Python: ----------------------
-
-REM @ECHO OFF
-
-REM set arg1=%1
-REM set arg2=%2
-
-REM IF "%arg1%"=="build"  (
-REM   antlr4 -Dlanguage=Python3 Vgdl.g4
-REM   REM antlr4 -Dlanguage=Python3 Hello.g4
-REM )
-
-REM IF "%arg1%"=="run" (  
-REM   @ECHO Introduce input:
-REM   REM py test_hello.py
-REM   py test_vgdl.py
-REM )
-
-REM @ECHO ON

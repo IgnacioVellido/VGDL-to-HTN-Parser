@@ -21,7 +21,7 @@
 grammar Vgdl; 
 
 /* ----------------------------------------------------------------------------
-  To manage indentation, I use antlr-denter.
+  To manage indentation I use antlr-denter.
   See https://github.com/yshavit/antlr-denter for more information
   -----------------------------------------------------------------------------
 */ 

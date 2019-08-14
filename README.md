@@ -8,10 +8,11 @@ See the [Wiki](https://github.com/IgnacioVellido/antlr-vgdl/wiki) for installati
 Having set up everything, you can put (in the command prompt):
 ```batch
 > make.bat buildrun basicGame
+```
 
+Or, for a visual representation of the parsed tree:
 
-or, for a visual representation of the parsed tree
-
+```batch 
 > make.bat buildgrun basicGame
 ```
 
