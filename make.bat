@@ -1,50 +1,35 @@
 
 @ECHO OFF
 
-set arg1=%1
-set arg2=%2
+set grammar="./grammar/Vgdl.g4"
+set java-dir="./outdir"
 
-IF "%arg1%"=="build"  (
-  antlr4 Vgdl.g4
-  javac Vgdl*.java  
+set option=%1
+set rule=%2
+set vgdl-file=%3
+
+
+IF NOT x%option:build=% == x%option% (
+  ECHO Compiling the grammar...
+  >nul 2>nul cmd /c antlr4 %grammar% -o %java-dir%
+  >nul 2>nul cmd /c javac %java-dir%/Vgdl*.java
+  ECHO Done
+  ECHO.  
+) 
+
+IF NOT x%option:tree=% == x%option% (  
+  ECHO Introduce input:
+  grun Vgdl %rule% %vgdl-file% -tree
+) 
+
+IF NOT x%option:gui=% == x%option% (  
+  ECHO Introduce input:
+  grun Vgdl %rule% %vgdl-file% -gui
 )
 
-IF "%arg1%"=="tree" (  
-  @ECHO Introduce input:
-  grun Vgdl %arg2% -tree
-)
-
-IF "%arg1%"=="gui" (  
-  @ECHO Introduce input:
-  grun Vgdl %arg2% -gui 
-)
-
-IF "%arg1%"=="tokens" (  
-  antlr4 Vgdl.g4
-  javac Vgdl*.java
-  @ECHO Introduce input:
-  grun Vgdl %arg2% -tokens
-)
-
-IF "%arg1%"=="buildtree" (  
-  antlr4 Vgdl.g4
-  javac Vgdl*.java
-  @ECHO Introduce input:
-  grun Vgdl %arg2% -tree
-)
-
-IF "%arg1%"=="buildgui" (  
-  antlr4 Vgdl.g4
-  javac Vgdl*.java
-  @ECHO Introduce input:
-  grun Vgdl %arg2% -gui
-)
-
-IF "%arg1%"=="buildtokens" (  
-  antlr4 Vgdl.g4
-  javac Vgdl*.java
-  @ECHO Introduce input:
-  grun Vgdl %arg2% -tokens
+IF NOT x%option:tokens=% == x%option% (  
+  ECHO Introduce input:
+  grun Vgdl %rule% %vgdl-file% -tokens
 )
 
 @ECHO ON

@@ -1,21 +1,9 @@
 /*
-  antlr-vgdl:
-  Parse a file in VGDL notation using ANTLR4
+  Vgdl.g4
+  Grammar definition for a VGDL file following ANTLR4 syntaxis
 
   Ignacio Vellido Expósito
   09/08/2019
-
-  ✓ = Tested
-
-  Mejoras:
-  - Ahora mismo no puede haber sprites cuyo nombre sea una única letra, ya que
-  se convierte en el token SYMBOL 
-  - Hay reglas ambiguas
-  - Si el parámetro es de GVGAI conteniendo una ruta, no funciona (no reconoce
-  el caracter /)
-  - Debe terminar con salto de línea
-  - Para detectar la indentación necesita que no se utilice \t, sino '  ' (dos espacios)
-  Quizás se puede arreglar modificando los archivos de antlr-denter
 */
 
 grammar Vgdl; 
