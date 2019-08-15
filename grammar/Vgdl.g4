@@ -97,6 +97,8 @@ WS  // WhiteSpace
 
 
 // These rules are ambiguous, this order of definition must be maintained
+// Maybe these two are not relevant, we should be able to know wich one is defined
+// just looking at what word accompanies 'win='
 TRUE
   : [Tt] [Rr] [Uu] [Ee] ;
 FALSE
@@ -106,12 +108,14 @@ WORD
   : CHAR (CHAR | UNDERSCORE | NUMBER)* 
   | NUMBER ;
 
-// Probably too big to be a lexer rule, but the definition of a SYMBOL lexer
+
+// Probably too big for a lexer rule, but the definition of a SYMBOL lexer
 // rule generates ambiguity
 LEVELDEFINITION
   : WS* SYMBOL WS* '>' WS* (WORD WS*)+ ;
 
 ANY: . ;  // Ignore everything not recognised
+
 
 fragment SYMBOL
   : ~[ ] ;
