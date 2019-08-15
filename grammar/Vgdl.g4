@@ -84,7 +84,6 @@ parameter
   : WORD '=' (WORD | NUMBER | TRUE | FALSE) 
   | WORD '=' (WORD '/' WORD)* ;
 
-
 /* ----------------------------------------------------------------------------
                                Lexer rules
   -----------------------------------------------------------------------------
@@ -102,12 +101,12 @@ TRUE
   : [Tt] [Rr] [Uu] [Ee] ;
 FALSE
   : [Ff] [Aa] [Ll] [Ss] [Ee] ; 
-NUMBER
-  : '-'? DIGIT+ ([.,] DIGIT+)? ;  // Can be negative or decimal
 SYMBOL  
   : ~[>\n\t\r ] ;  // Put here non valid symbols in names and level mapping
+NUMBER
+  : '-'? DIGIT+ ([.,] DIGIT+)? ;  // Can be negative or decimal
 WORD
-  : [a-zA-Z]+ ;
+  : CHAR (CHAR | UNDERSCORE | DIGIT)* ;
 
 
 ANY: . ;  // Ignore everything not recognised
@@ -115,4 +114,4 @@ ANY: . ;  // Ignore everything not recognised
 
 fragment CHAR:  [a-zA-Z] ;
 fragment DIGIT: [0-9] ;
-fragment SPACE: [ \t] ;
+fragment UNDERSCORE: '_' ;

@@ -18,7 +18,7 @@ Or, for a visual representation of the parsed tree:
 
 For testing a specific rule:
 ```batch
-> make.bat <option> <rule name>
+> make.bat <option> <rule name> <vgdl-file>
 ```
 
 You can find a list of available options in the [Wiki](https://github.com/IgnacioVellido/antlr-vgdl/wiki/Make-options)
