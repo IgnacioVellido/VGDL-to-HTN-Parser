@@ -57,10 +57,7 @@ spriteDefinition
 
 // LevelMapping ---------------------------------------------------------------
 levelMapping
-  : 'LevelMapping' INDENT (NL* levelDefinition NL*)+ DEDENT ;
-
-levelDefinition
-  : WS* SYMBOL WS* '>' WS* WORD+ WS* ;
+  : 'LevelMapping' INDENT (NL* LEVELDEFINITION NL*)+ DEDENT ;  
 
 
 // InteractionSet -------------------------------------------------------------
@@ -81,8 +78,8 @@ terminationCriteria
 
 // Others ---------------------------------------------------------------------
 parameter
-  : WORD '=' (WORD | NUMBER | TRUE | FALSE) 
-  | WORD '=' (WORD '/' WORD)* ;
+  : WORD '=' (WORD | TRUE | FALSE ) 
+  | WORD '=' (WORD '/' WORD) ;
 
 /* ----------------------------------------------------------------------------
                                Lexer rules
@@ -101,17 +98,23 @@ TRUE
   : [Tt] [Rr] [Uu] [Ee] ;
 FALSE
   : [Ff] [Aa] [Ll] [Ss] [Ee] ; 
-SYMBOL  
-  : ~[>\n\t\r ] ;  // Put here non valid symbols in names and level mapping
-NUMBER
-  : '-'? DIGIT+ ([.,] DIGIT+)? ;  // Can be negative or decimal
-WORD
-  : CHAR (CHAR | UNDERSCORE | DIGIT)* ;
 
+WORD
+  : CHAR (CHAR | UNDERSCORE | NUMBER)* 
+  | NUMBER ;
+
+// Probably too big to be a lexer rule, but the definition of a SYMBOL lexer
+// rule generates ambiguity
+LEVELDEFINITION
+  : WS* SYMBOL WS* '>' WS* (WORD WS*)+ ;
 
 ANY: . ;  // Ignore everything not recognised
 
-
-fragment CHAR:  [a-zA-Z] ;
-fragment DIGIT: [0-9] ;
-fragment UNDERSCORE: '_' ;
+fragment SYMBOL
+  : ~[ ] ;
+fragment CHAR
+  :  [a-zA-Z/.] ;
+fragment UNDERSCORE
+  : '_' ;
+fragment NUMBER
+  : '-'? [0-9]+ ([.,] [0-9]+)? ;  // Can be negative or decimal

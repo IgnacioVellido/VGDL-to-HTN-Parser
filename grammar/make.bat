@@ -1,17 +1,14 @@
 
 @ECHO OFF
 
-set grammar-dir="./grammar"
-
 set option=%1
 set rule=%2
 set vgdl-file=%3
 
-
 IF NOT x%option:build=% == x%option% (
   ECHO Compiling the grammar...
-  >nul 2>nul cmd /c antlr4 %grammar-dir%/Vgdl.g4 -o %grammar-dir%
-  >nul 2>nul cmd /c javac %grammar-dir%/Vgdl*.java
+  >nul 2>nul cmd /c antlr4 Vgdl.g4
+  >nul 2>nul cmd /c javac Vgdl*.java
   ECHO Done
   ECHO.  
 ) 
