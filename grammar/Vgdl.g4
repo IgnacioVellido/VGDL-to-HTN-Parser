@@ -43,43 +43,53 @@ tokens { INDENT, DEDENT }
 basicGame
   : 'BasicGame' parameter* INDENT 
         (spriteSet | levelMapping | interactionSet | terminationSet 
-                   | DEDENT | INDENT | NL )* DEDENT ;
+                   | DEDENT | INDENT | NL )* DEDENT 
+  ;
 
 
 // SpriteSet ------------------------------------------------------------------
 spriteSet
-  : 'SpriteSet' INDENT (NL* spriteDefinition NL*)+ DEDENT ;
+  : 'SpriteSet' INDENT (NL* spriteDefinition NL*)+ DEDENT 
+  ;
 
 spriteDefinition
-  : WORD WS* '>' WS* WORD? parameter* INDENT (WS* spriteDefinition NL?)+ DEDENT
-  | WORD WS* '>' WS* WORD? parameter* ; // If second WORD is not defined, is a child
+  : WORD WS* '>' WS* WORD? parameter* INDENT (WS* spriteDefinition NL?)+ DEDENT # Recursive
+  | WORD WS* '>' WS* WORD? parameter*   # NonRecursive 
+  // If second WORD is not defined, is a child
+  ;
 
 
 // LevelMapping ---------------------------------------------------------------
 levelMapping
-  : 'LevelMapping' INDENT (NL* LEVELDEFINITION NL*)+ DEDENT ;  
+  : 'LevelMapping' INDENT (NL* LEVELDEFINITION NL*)+ DEDENT 
+  ;  
 
 
 // InteractionSet -------------------------------------------------------------
 interactionSet
-  : 'InteractionSet' INDENT (NL* interaction NL*)+ DEDENT ;
+  : 'InteractionSet' INDENT (NL* interaction NL*)+ DEDENT 
+  ;
 
 interaction
-  : WORD WORD+ WS* '>' WORD parameter* ;
+  : WORD WORD+ WS* '>' WORD parameter* 
+  ;
 
 
 // TerminationSet -------------------------------------------------------------
 terminationSet
-  : 'TerminationSet' INDENT (NL* terminationCriteria NL*)+ DEDENT;
+  : 'TerminationSet' INDENT (NL* terminationCriteria NL*)+ DEDENT
+  ;
 
 terminationCriteria
-  : WORD parameter* 'win='(TRUE | FALSE) parameter* ;
+  : WORD parameter* 'win='(TRUE | FALSE) parameter* 
+  ;
 
 
 // Others ---------------------------------------------------------------------
 parameter
-  : WORD '=' (WORD | TRUE | FALSE ) 
-  | WORD '=' (WORD '/' WORD) ;
+  : WORD '=' (WORD | TRUE | FALSE ) # NonPath
+  | WORD '=' (WORD '/' WORD)  # Path
+  ; 
 
 /* ----------------------------------------------------------------------------
                                Lexer rules
@@ -100,21 +110,27 @@ WS  // WhiteSpace
 // Maybe these two are not relevant, we should be able to know wich one is defined
 // just looking at what word accompanies 'win='
 TRUE
-  : [Tt] [Rr] [Uu] [Ee] ;
+  : [Tt] [Rr] [Uu] [Ee] 
+  ;
 FALSE
-  : [Ff] [Aa] [Ll] [Ss] [Ee] ; 
+  : [Ff] [Aa] [Ll] [Ss] [Ee] 
+  ; 
 
 WORD
   : CHAR (CHAR | UNDERSCORE | NUMBER)* 
-  | NUMBER ;
+  | NUMBER 
+  ;
 
 
 // Probably too big for a lexer rule, but the definition of a SYMBOL lexer
 // rule generates ambiguity
 LEVELDEFINITION
-  : WS* SYMBOL WS* '>' WS* (WORD WS*)+ ;
+  : WS* SYMBOL WS* '>' WS* (WORD WS*)+ 
+  ;
 
-ANY: . ;  // Ignore everything not recognised
+ANY
+  : . // Ignore everything not recognised
+  ;
 
 
 fragment SYMBOL
