@@ -53,8 +53,8 @@ spriteSet
   ;
 
 spriteDefinition
-  : WORD WS* '>' WS* WORD? parameter* INDENT (WS* spriteDefinition NL?)+ DEDENT # RecursiveSprite
-  | WORD WS* '>' WS* WORD? parameter*   # NonRecursiveSprite
+  : name=WORD WS* '>' WS* type=WORD? parameter* INDENT (WS* spriteDefinition NL?)+ DEDENT # RecursiveSprite
+  | name=WORD WS* '>' WS* type=WORD? parameter*   # NonRecursiveSprite
   // If second WORD is not defined, is a child
   ;
 
@@ -71,7 +71,7 @@ interactionSet
   ;
 
 interaction
-  : WORD WORD+ WS* '>' WORD parameter* 
+  : sprite1=WORD list_sprite2=WORD+ WS* '>' type=WORD parameter* 
   ;
 
 
@@ -87,8 +87,8 @@ terminationCriteria
 
 // Others ---------------------------------------------------------------------
 parameter
-  : WORD '=' (WORD | TRUE | FALSE ) # NonPathParameter
-  | WORD '=' (WORD '/' WORD)  # PathParameter
+  : left=WORD '=' (WORD | TRUE | FALSE ) # NonPathParameter
+  | left=WORD '=' (WORD '/' WORD)  # PathParameter
   ; 
 
 /* ----------------------------------------------------------------------------
