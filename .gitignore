@@ -4,6 +4,7 @@
 
 ###
 
-*.java
 *.tokens
 *.interp
+
+.settings/*
