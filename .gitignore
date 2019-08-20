@@ -11,4 +11,4 @@
 
 *.py
 /grammar/*.java
-
+*.pyc
