@@ -12,3 +12,7 @@
 *.py
 /grammar/*.java
 
+src/VgdlParser.java
+src/VgdlListener.java
+src/VgdlLexer.java
+src/VgdlBaseListener.java
