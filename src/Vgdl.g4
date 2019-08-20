@@ -4,6 +4,8 @@
 
   Ignacio Vellido Expósito
   09/08/2019
+
+  Only works in Java
 */
 
 grammar Vgdl; 
