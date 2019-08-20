@@ -87,7 +87,7 @@ The following structure is required to domainParser.py to work:
 # Receiving an array of lines, checks if it contains the basic structure of a
 # VGDL game description file
 def CheckVGDL(lines):
-    basicGame = spriteSet = interactionSet = False
+    basicGame = spriteSet = interactionSet = terminationSet = levelMapping = False    
 
     for l in lines:
         if "BasicGame" in l:
@@ -96,8 +96,13 @@ def CheckVGDL(lines):
             spriteSet = True
         elif "InteractionSet" in l:
             interactionSet = True
+        elif "LevelMapping" in l:
+            levelMapping = True
+        elif "TerminationSet" in l:
+            terminationSet = True
 
-    if not basicGame or not spriteSet or not interactionSet:
+    if not basicGame or not spriteSet or not interactionSet \
+        or not terminationSet or not levelMapping:
         return False
     else:
         return True
@@ -229,10 +234,10 @@ def main(argv):
     input_name = ""
     output_name = ""
 
-    # If argument "-help"
+    # If argument "-help"    
 
     if len(argv) == 2:
-        input_name = argv[2]
+        input_name = argv[1]
 
         if input_name == "-help" or input_name == "-h":
             print(GetHelp())
@@ -260,10 +265,10 @@ def main(argv):
     # Opening input file, separating it in lines and checking VGDL structure
 
     input_file = open(input_name)
+    lines = [line.rstrip("\n") for line in input_file]
     input_file.close()
 
-    lines = [line.rstrip("\n") for line in input_file]
-
+    
     if not CheckVGDL(lines):
         raise ValueError(
             'Wrong format in VGDL file.\nSee "make.bat run -help" for more information.'
@@ -271,6 +276,7 @@ def main(argv):
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
+    # Calling the ANTLR grammar
 
     input_stream = FileStream(input_name)
 
