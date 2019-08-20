@@ -4,6 +4,8 @@
 
   Ignacio Vellido Expósito
   09/08/2019
+
+  Only works in Python
 */
 
 grammar Vgdl; 
@@ -11,7 +13,6 @@ grammar Vgdl;
 /* ----------------------------------------------------------------------------
   To manage indentation, thanks to:
   https://stackoverflow.com/questions/43622514/translating-java-to-python-in-antlr4-python3-target
-  
   -----------------------------------------------------------------------------
 */ 
 
@@ -108,7 +109,6 @@ def atStartOfInput(self):
   -----------------------------------------------------------------------------
  */ 
 
-
 // Correct solution, check in parser that it recieves each part oNEWLINEy once
 basicGame
   : 'BasicGame' parameter* nlindent 
@@ -127,7 +127,6 @@ spriteDefinition
   | name=WORD WS* '>' WS* spriteType=WORD? parameter*   # NonRecursiveSprite
   // If second WORD is not defined, is a child
   ;  
-
 
 // LevelMapping ---------------------------------------------------------------
 levelMapping
@@ -161,11 +160,11 @@ parameter
   | left=WORD '=' (WORD '/' WORD)  # PathParameter
   ; 
 
-// For better visualization
+// For better code visualization
 nlindent
   : NEWLINE INDENT
   ;
-
+  
 /* ----------------------------------------------------------------------------
                                Lexer rules
   -----------------------------------------------------------------------------
@@ -214,6 +213,7 @@ NEWLINE
 
    };  
 
+
 WS  // WhiteSpace
   : [ \t]+ -> skip ;  // Skip spaces and tabs
 
@@ -243,6 +243,7 @@ LEVELDEFINITION
 ANY
   : . // Ignore everything not recognised
   ;
+
 
 fragment SPACES
   : [ \t]+ ;
