@@ -111,33 +111,33 @@ def atStartOfInput(self):
 
 // Correct solution, check in parser that it recieves each part oNEWLINEy once
 basicGame
-  : 'BasicGame' parameter* NEWLINE INDENT 
+  : 'BasicGame' parameter* nlindent 
         (spriteSet | levelMapping | interactionSet | terminationSet 
-                   | DEDENT | NEWLINE INDENT | NEWLINE )* DEDENT 
+                   | DEDENT | nlindent | NEWLINE )* DEDENT 
   ;
 
 
 // SpriteSet ------------------------------------------------------------------
 spriteSet
-  : 'SpriteSet' NEWLINE  INDENT (NEWLINE* spriteDefinition NEWLINE*)+ DEDENT 
+  : 'SpriteSet' nlindent (NEWLINE* spriteDefinition NEWLINE*)+ DEDENT 
   ;
 
 spriteDefinition
-  : name=WORD WS* '>' WS* spriteType=WORD? parameter* NEWLINE  INDENT (WS* spriteDefinition NEWLINE?)+ DEDENT # RecursiveSprite
+  : name=WORD WS* '>' WS* spriteType=WORD? parameter* nlindent (WS* spriteDefinition NEWLINE?)+ DEDENT # RecursiveSprite
   | name=WORD WS* '>' WS* spriteType=WORD? parameter*   # NonRecursiveSprite
   // If second WORD is not defined, is a child
-  ;
+  ;  
 
 
 // LevelMapping ---------------------------------------------------------------
 levelMapping
-  : 'LevelMapping' NEWLINE INDENT (NEWLINE* LEVELDEFINITION NEWLINE*)+ DEDENT 
+  : 'LevelMapping' nlindent (NEWLINE* LEVELDEFINITION NEWLINE*)+ DEDENT 
   ;  
 
 
 // InteractionSet -------------------------------------------------------------
 interactionSet
-  : 'InteractionSet' NEWLINE INDENT (NEWLINE* interaction NEWLINE*)+ DEDENT 
+  : 'InteractionSet' nlindent (NEWLINE* interaction NEWLINE*)+ DEDENT 
   ;
 
 interaction
@@ -147,7 +147,7 @@ interaction
 
 // TerminationSet -------------------------------------------------------------
 terminationSet
-  : 'TerminationSet' NEWLINE INDENT (NEWLINE* terminationCriteria NEWLINE*)+ DEDENT
+  : 'TerminationSet' nlindent (NEWLINE* terminationCriteria NEWLINE*)+ DEDENT
   ;
 
 terminationCriteria
@@ -161,6 +161,11 @@ parameter
   | left=WORD '=' (WORD '/' WORD)  # PathParameter
   ; 
 
+// For better visualization
+nlindent
+  : NEWLINE INDENT
+  ;
+
 /* ----------------------------------------------------------------------------
                                Lexer rules
   -----------------------------------------------------------------------------
@@ -168,9 +173,6 @@ parameter
 
 COMMENT
   : '#' ~[\r\n]* -> skip ;
-
-// NEWLINE  // NewLine
-  // : ('\r'? '\n' ' '*) ;
 
 NEWLINE
  : ( {self.atStartOfInput()}?   SPACES
