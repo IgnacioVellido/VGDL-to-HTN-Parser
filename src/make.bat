@@ -2,30 +2,28 @@
 @ECHO OFF
 
 set option=%1
-set rule=%2
-set vgdl-file=%3
+set vgdl-file=%2
 
 IF NOT x%option:build=% == x%option% (
   ECHO Compiling the grammar...
-  >nul 2>nul cmd /c antlr4 Vgdl.g4
-  >nul 2>nul cmd /c javac Vgdl*.java
+  >nul 2>nul cmd /c antlr4 -Dlanguage=Python3 Vgdl.g4
   ECHO Done
-  ECHO.  
 ) 
 
-IF NOT x%option:tree=% == x%option% (  
-  ECHO Introduce input:
-  grun Vgdl %rule% %vgdl-file% -tree
+IF NOT x%option:run=% == x%option% (  
+  IF "%vgdl-file%" == "" (
+    ECHO Wrong number of arguments
+    ECHO Usage: make.bat run [VGDL file]
+  ) ELSE (
+    ECHO ------- Parsed tree -----------
+    py Main.py %vgdl-file%
+  )
 ) 
 
-IF NOT x%option:gui=% == x%option% (  
-  ECHO Introduce input:
-  grun Vgdl %rule% %vgdl-file% -gui
-)
-
-IF NOT x%option:tokens=% == x%option% (  
-  ECHO Introduce input:
-  grun Vgdl %rule% %vgdl-file% -tokens
+IF NOT x%option:help=% == x%option% (  
+  ECHO Usage ---------------------------
+  ECHO To build: make.bat build 
+  ECHO To run: make.bat run [VGDL file]
 )
 
 @ECHO ON

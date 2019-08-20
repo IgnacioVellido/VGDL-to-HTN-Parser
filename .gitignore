@@ -1,18 +1,12 @@
-*.class
-/**/.antlr/*
 .vscode/*
-
-###
-
-*.tokens
-*.interp
-
 .settings/*
+/**/.antlr/*
+*.pyc
 
-*.py
-/grammar/*.java
+#############
 
-src/VgdlParser.java
-src/VgdlListener.java
-src/VgdlLexer.java
-src/VgdlBaseListener.java
+*.interp
+*.tokens
+src/VgdlParser.py
+src/VgdlListener.py
+src/VgdlLexer.py
