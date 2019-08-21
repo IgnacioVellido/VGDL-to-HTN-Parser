@@ -200,7 +200,7 @@ def main(argv):
     listener = HpdlVgdlListener()
     walker = ParseTreeWalker()
     walker.walk(listener, tree)    
-    text_domain = listener.get_ouput()
+    text_domain = listener.text_domain
 
     # -------------------------------------------------------------------------
     # -----------------------------------------------------------------------------

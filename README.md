@@ -1,24 +1,17 @@
 # antlr-vgdl
-ANTLR4 grammar definition for VGDL language.
+ANTLR4 grammar definition for VGDL language and transformation in a HPDL domain.
 
 ## Installation
-See the [Wiki](https://github.com/IgnacioVellido/antlr-vgdl/wiki) for installation instructions.
+See the [Wiki](https://github.com/IgnacioVellido/antlr-vgdl/wiki) for installation instructions (ANTLR and Java).
 
 ## Usage
-Having set up everything, you can put (in the command prompt):
+Having set up everything, to compile the grammar:
 ```batch
-> make.bat buildrun basicGame
+> make.bat build
 ```
 
-Or, for a visual representation of the parsed tree:
+And to transform in a HPDL domain:
 
 ```batch 
-> make.bat buildgrun basicGame
+> make.bat run <VGDL file> [ouput file]
 ```
-
-For testing a specific rule:
-```batch
-> make.bat <option> <rule name> <vgdl-file>
-```
-
-You can find a list of available options in the [Wiki](https://github.com/IgnacioVellido/antlr-vgdl/wiki/Make-options)
