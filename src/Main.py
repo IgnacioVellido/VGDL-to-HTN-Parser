@@ -86,7 +86,7 @@ The following structure is required to domainParser.py to work:
 """Right now it only check if contains BasicGame, SpriteSet and InteractionSet"""
 # Receiving an array of lines, checks if it contains the basic structure of a
 # VGDL game description file
-def CheckVGDL(lines):
+def check_VGDL(lines):
     basicGame = spriteSet = interactionSet = terminationSet = levelMapping = False    
 
     for l in lines:
@@ -109,9 +109,8 @@ def CheckVGDL(lines):
 
 # -----------------------------------------------------------------------------
 
-# UNTESTED
 # Returns a string containing the domain definition
-def GetDomainDefinition():
+def get_domain_definition():
     text = """
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; HPDL domain for a VGDL game
@@ -119,7 +118,20 @@ def GetDomainDefinition():
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (domain VGDLGame)  
-  (:requirements :strips :typing)
+  (:requirements
+    :typing
+    :fluents
+    :derived-predicates
+    :negative-preconditions
+    :universal-preconditions
+    :disjuntive-preconditions
+    :conditional-effects
+    :htn-expansion
+
+    ; For time management
+    :durative-actions
+    :metatags
+  )
 """
 
     return text
@@ -131,7 +143,7 @@ def GetDomainDefinition():
 #
 # @types: 2D array, in each line, first value represents the type, the rest are
 # the name of the objects
-def GetTypes(types):
+def get_types(types):
     start_text = """
   (:types    
 """
@@ -158,7 +170,7 @@ def GetTypes(types):
 # Returns a string with the functions definition
 #
 # @functions: list of functions, in brackets
-def GetFunctions(functions):
+def get_functions(functions):
     start_text = """
   (:functions    
 """
@@ -180,7 +192,7 @@ def GetFunctions(functions):
 # Returns a string with the predicates definition
 #
 # @predicates: list of predicates, in brackets
-def GetPredicates(predicates):
+def get_predicates(predicates):
     start_text = """
   (:predicates    
 """
@@ -202,7 +214,7 @@ def GetPredicates(predicates):
 # Returns a string with the actions definition
 #
 # @actions: list of actions
-def GetActions(actions):
+def get_actions(actions):
     text = ""
 
     for a in actions:
@@ -213,13 +225,23 @@ def GetActions(actions):
 
 # -----------------------------------------------------------------------------
 
-# UNTESTED
 # Returns a string with the predicates definition
-def GetEndDomain(predicates):
+def get_end_domain():
     text = """
 )
 """
     return text
+
+# -----------------------------------------------------------------------------
+
+# Writes domain in file
+def write_output(path, text):  
+  try:
+    with open(path, "wb") as file:
+      file.write(text.encode('utf-8'))
+  except Exception as e:
+    print("Cannot open file " + path)
+    print(str(e))
 
 
 ###############################################################################
@@ -243,6 +265,14 @@ def main(argv):
             print(GetHelp())
             sys.exit()
 
+        proceed = input('Proceding con output file "domain.pddl", continue?\nY/N: ')        
+
+        if proceed == "y" or proceed == "Y":
+          print('Writing in file "domain.pddl"')
+        else: 
+          print('Please specify output file in command\nUsage:\tmake.bat run <VGDL file> [output file]')
+          sys.exit()
+
         output_name = "domain.pddl"
 
     elif len(argv) == 3:
@@ -264,14 +294,14 @@ def main(argv):
     # -----------------------------------------------------------------------------
     # Opening input file, separating it in lines and checking VGDL structure
 
-    input_file = open(input_name)
+    input_file = open(input_name, "r")
     lines = [line.rstrip("\n") for line in input_file]
     input_file.close()
 
-    
-    if not CheckVGDL(lines):
+  
+    if not check_VGDL(lines):
         raise ValueError(
-            'Wrong format in VGDL file.\nSee "make.bat run -help" for more information.'
+            'Wrong structure in VGDL file.\nSee "make.bat run -help" for more information.'
         )
 
     # -------------------------------------------------------------------------
@@ -286,32 +316,32 @@ def main(argv):
     tree = parser.basicGame()
 
     # Printing parsed tree
-    print(Trees.toStringTree(tree, None, parser))
+    # print(Trees.toStringTree(tree, None, parser))
 
     # -------------------------------------------------------------------------
     # -----------------------------------------------------------------------------
     # Initializing auxiliar variables
 
+    text_domain = ""
+
+    text_domain = get_domain_definition()
+    """
+    text_domain += get_types(list_types)
+    text_domain += get_functions(list_functions)
+    text_domain += get_predicates(list_predicates)
+    text_domain += get_actions(list_actions)
+    """
+    text_domain += get_end_domain()
     # -----------------------------------------------------------------------------
     # Opening and printing HPDL domain file
 
-    output_file = open(output_name, "w")
-
-    """
-    text_domain = GetDomainDefinition()
-    text_domain += GetTypes(list_types)
-    text_domain += GetFunctions(list_functions)
-    text_domain += GetPredicates(list_predicates)
-    text_domain += GetActions(list_actions)
-    text_domain += GetEndDomain()
-
-    output_file.write(text_domain)
-    """
+    try:
+      write_output(output_name, text_domain)
+    except Exception as e:
+      print("I shouldn't be here " + str(e))
 
     # -------------------------------------------------------------------------
-    # Closing output file, exiting script
-
-    output_file.close()
+    # Exiting script
 
     print("Conversion made without errors.")
 

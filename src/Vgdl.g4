@@ -15,8 +15,6 @@ grammar Vgdl;
   https://stackoverflow.com/questions/43622514/translating-java-to-python-in-antlr4-python3-target
   -----------------------------------------------------------------------------
 */ 
-
-
 tokens { INDENT, DEDENT }
 
 @lexer::members {
