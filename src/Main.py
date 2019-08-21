@@ -13,6 +13,10 @@ from antlr4 import *
 from VgdlLexer import VgdlLexer
 from VgdlParser import VgdlParser
 
+# Custom listener
+from HpdlVgdlListener import HpdlVgdlListener
+
+# Needed to show parsed tree in terminal
 from antlr4.tree.Trees import Trees
 
 # -----------------------------------------------------------------------------
@@ -109,139 +113,14 @@ def check_VGDL(lines):
 
 # -----------------------------------------------------------------------------
 
-# Returns a string containing the domain definition
-def get_domain_definition():
-    text = """
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; HPDL domain for a VGDL game
-;;; Made with antlr-vgdl
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(define (domain VGDLGame)  
-  (:requirements
-    :typing
-    :fluents
-    :derived-predicates
-    :negative-preconditions
-    :universal-preconditions
-    :disjuntive-preconditions
-    :conditional-effects
-    :htn-expansion
-
-    ; For time management
-    :durative-actions
-    :metatags
-  )
-"""
-
-    return text
-
-# -----------------------------------------------------------------------------
-
-# UNTESTED
-# Returns a string with the types definition
-#
-# @types: 2D array, in each line, first value represents the type, the rest are
-# the name of the objects
-def get_types(types):
-    start_text = """
-  (:types    
-"""
-    end_text = """
-  )
-"""
-
-    text_content = "\t\t"
-
-    for t in types:
-        type_class = t[0]
-
-        for i in range(1, len(t)):
-            text_content += t[i]
-
-        text_content += " - " + type_class + "\n\t\t"
-
-    return start_text + text_content + end_text
-
-
-# -----------------------------------------------------------------------------
-
-# UNTESTED
-# Returns a string with the functions definition
-#
-# @functions: list of functions, in brackets
-def get_functions(functions):
-    start_text = """
-  (:functions    
-"""
-    end_text = """
-  )
-"""
-
-    text_content = "\t\t"
-
-    for f in functions:
-        text_content += f + "\n\t\t"
-
-    return start_text + text_content + end_text
-
-
-# -----------------------------------------------------------------------------
-
-# UNTESTED
-# Returns a string with the predicates definition
-#
-# @predicates: list of predicates, in brackets
-def get_predicates(predicates):
-    start_text = """
-  (:predicates    
-"""
-    end_text = """
-  )
-"""
-
-    text_content = "\t\t"
-
-    for p in predicates:
-        text_content += p + "\n\t\t"
-
-    return start_text + text_content + end_text
-
-
-# -----------------------------------------------------------------------------
-
-# UNTESTED
-# Returns a string with the actions definition
-#
-# @actions: list of actions
-def get_actions(actions):
-    text = ""
-
-    for a in actions:
-        text += a
-
-    return text
-
-
-# -----------------------------------------------------------------------------
-
-# Returns a string with the predicates definition
-def get_end_domain():
-    text = """
-)
-"""
-    return text
-
-# -----------------------------------------------------------------------------
-
 # Writes domain in file
 def write_output(path, text):  
-  try:
-    with open(path, "wb") as file:
-      file.write(text.encode('utf-8'))
-  except Exception as e:
-    print("Cannot open file " + path)
-    print(str(e))
+    try:
+        with open(path, "wb") as file:
+          file.write(text.encode('utf-8'))
+    except Exception as e:
+        print("Cannot open file " + path)
+        print(str(e))
 
 
 ###############################################################################
@@ -318,27 +197,28 @@ def main(argv):
     # Printing parsed tree
     # print(Trees.toStringTree(tree, None, parser))
 
+    listener = HpdlVgdlListener()
+    walker = ParseTreeWalker()
+    walker.walk(listener, tree)    
+    text_domain = listener.get_ouput()
+
     # -------------------------------------------------------------------------
     # -----------------------------------------------------------------------------
     # Initializing auxiliar variables
 
-    text_domain = ""
-
-    text_domain = get_domain_definition()
     """
     text_domain += get_types(list_types)
     text_domain += get_functions(list_functions)
     text_domain += get_predicates(list_predicates)
     text_domain += get_actions(list_actions)
-    """
-    text_domain += get_end_domain()
+    """    
     # -----------------------------------------------------------------------------
     # Opening and printing HPDL domain file
 
     try:
-      write_output(output_name, text_domain)
+        write_output(output_name, text_domain)
     except Exception as e:
-      print("I shouldn't be here " + str(e))
+        print("I shouldn't be here " + str(e))
 
     # -------------------------------------------------------------------------
     # Exiting script
