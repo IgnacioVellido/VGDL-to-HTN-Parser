@@ -200,18 +200,13 @@ def main(argv):
     listener = HpdlVgdlListener()
     walker = ParseTreeWalker()
     walker.walk(listener, tree)    
-    text_domain = listener.text_domain
 
     # -------------------------------------------------------------------------
     # -----------------------------------------------------------------------------
-    # Initializing auxiliar variables
+    # Getting the domain
 
-    """
-    text_domain += get_types(list_types)
-    text_domain += get_functions(list_functions)
-    text_domain += get_predicates(list_predicates)
-    text_domain += get_actions(list_actions)
-    """    
+    text_domain = listener.text_domain
+
     # -----------------------------------------------------------------------------
     # Opening and printing HPDL domain file
 

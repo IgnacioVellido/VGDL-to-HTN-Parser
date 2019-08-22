@@ -233,7 +233,12 @@ class HpdlVgdlListener(VgdlListener):
     def enterBasicGame(self, ctx:VgdlParser.BasicGameContext):
         self.text_domain = self.get_domain_definition()
 
-    def exitBasicGame(self, ctx:VgdlParser.BasicGameContext):
+    def exitBasicGame(self, ctx:VgdlParser.BasicGameContext):        
+        # self.text_domain += get_types(self.types)
+        # self.text_domain += get_functions(self.functions)
+        # self.text_domain += get_predicates(self.predicates)
+        # self.text_domain += get_actions(self.actions)    
+
         self.text_domain += self.get_end_domain()
 
     # -------------------------------------------------------------------------
@@ -267,7 +272,12 @@ class HpdlVgdlListener(VgdlListener):
     # -------------------------------------------------------------------------
 
     def enterLevelMapping(self, ctx:VgdlParser.LevelMappingContext):
-        pass
+        self.mappings = []
+
+        for level in ctx.LEVELDEFINITION():            
+            char, sprites = level.getText().split(">", 1)
+            l = LevelMap(char, sprites)
+            self.mappings.append(l)            
 
     def exitLevelMapping(self, ctx:VgdlParser.LevelMappingContext):
         pass
@@ -287,6 +297,8 @@ class HpdlVgdlListener(VgdlListener):
     # Divide in multiple Interaction if requierd
 
     def enterInteraction(self, ctx:VgdlParser.InteractionContext):
+        # self.interactions = []
+        # ctx.TEXT[i]
         pass
 
     def exitInteraction(self, ctx:VgdlParser.InteractionContext):
@@ -296,7 +308,7 @@ class HpdlVgdlListener(VgdlListener):
     # -------------------------------------------------------------------------
 
     def enterTerminationSet(self, ctx:VgdlParser.TerminationSetContext):
-        pass
+        self.terminations = []
 
     def exitTerminationSet(self, ctx:VgdlParser.TerminationSetContext):
         pass
@@ -304,8 +316,18 @@ class HpdlVgdlListener(VgdlListener):
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
 
-    def enterTerminationCriteria(self, ctx:VgdlParser.TerminationCriteriaContext):
-        pass
+    def enterTerminationCriteria(self, ctx:VgdlParser.TerminationCriteriaContext):        
+        if ctx.TRUE():
+            win = True
+        else:
+            win = False
+
+        parameters = []
+        for p in ctx.parameter():
+            parameters.append(p.getText())
+
+        termination = Termination(ctx.WORD().getText(), win, parameters)
+        self.terminations.append(termination)
 
     def exitTerminationCriteria(self, ctx:VgdlParser.TerminationCriteriaContext):
         pass
