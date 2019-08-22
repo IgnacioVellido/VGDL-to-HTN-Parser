@@ -84,6 +84,20 @@ class LevelMap:
         self.char = char
         self.sprites = sprites    
 
+
+###############################################################################
+# -----------------------------------------------------------------------------
+###############################################################################
+# Auxiliar functions
+
+# Returns a list with each parameter in the token
+def get_rule_parameters(list):
+    parameters = []
+    for p in list:
+        parameters.append(p.getText())
+
+    return parameters
+
 ###############################################################################
 # -----------------------------------------------------------------------------
 ###############################################################################
@@ -141,7 +155,7 @@ class HpdlVgdlListener(VgdlListener):
 """
         return text
 
-    # -----------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # UNTESTED
     # Returns a string with the types definition
@@ -169,7 +183,7 @@ class HpdlVgdlListener(VgdlListener):
         return start_text + text_content + end_text
 
 
-    # -----------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # UNTESTED
     # Returns a string with the functions definition
@@ -191,7 +205,7 @@ class HpdlVgdlListener(VgdlListener):
         return start_text + text_content + end_text
 
 
-    # -----------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # UNTESTED
     # Returns a string with the predicates definition
@@ -213,7 +227,7 @@ class HpdlVgdlListener(VgdlListener):
         return start_text + text_content + end_text
 
 
-    # -----------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     # UNTESTED
     # Returns a string with the actions definition
@@ -286,7 +300,7 @@ class HpdlVgdlListener(VgdlListener):
     # -------------------------------------------------------------------------
 
     def enterInteractionSet(self, ctx:VgdlParser.InteractionSetContext):
-        pass
+        self.interactions = []
 
     def exitInteractionSet(self, ctx:VgdlParser.InteractionSetContext):
         pass
@@ -294,12 +308,14 @@ class HpdlVgdlListener(VgdlListener):
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
 
-    # Divide in multiple Interaction if requierd
-
     def enterInteraction(self, ctx:VgdlParser.InteractionContext):
-        # self.interactions = []
-        # ctx.TEXT[i]
-        pass
+        for sprite2 in ctx.WORD()[1::]:
+            if sprite2.getText() != ctx.interactionType.text:
+                interaction = Interaction(ctx.sprite1.text, sprite2.getText(),
+                                ctx.interactionType.text, 
+                                get_rule_parameters(ctx.parameter()))
+
+                self.interactions.append(interaction)
 
     def exitInteraction(self, ctx:VgdlParser.InteractionContext):
         pass
@@ -320,13 +336,10 @@ class HpdlVgdlListener(VgdlListener):
         if ctx.TRUE():
             win = True
         else:
-            win = False
+            win = False        
 
-        parameters = []
-        for p in ctx.parameter():
-            parameters.append(p.getText())
-
-        termination = Termination(ctx.WORD().getText(), win, parameters)
+        termination = Termination(ctx.WORD().getText(), win, 
+                                        get_rule_parameters(ctx.parameter()))
         self.terminations.append(termination)
 
     def exitTerminationCriteria(self, ctx:VgdlParser.TerminationCriteriaContext):

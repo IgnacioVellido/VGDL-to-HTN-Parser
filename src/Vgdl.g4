@@ -138,7 +138,7 @@ interactionSet
   ;
 
 interaction
-  : sprite1=WORD list_sprite2=WORD+ WS* '>' interactionType=WORD parameter* 
+  : sprite1=WORD WORD+ WS* '>' interactionType=WORD parameter* 
   ;
 
 
