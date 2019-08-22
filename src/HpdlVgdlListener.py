@@ -259,7 +259,7 @@ class HpdlVgdlListener(VgdlListener):
     # -------------------------------------------------------------------------
 
     def enterSpriteSet(self, ctx:VgdlParser.SpriteSetContext):
-        pass
+        self.sprites = []
 
     def exitSpriteSet(self, ctx:VgdlParser.SpriteSetContext):
         pass
@@ -267,8 +267,15 @@ class HpdlVgdlListener(VgdlListener):
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
 
-    def enterRecursiveSprite(self, ctx:VgdlParser.RecursiveSpriteContext):
-        pass
+    def enterRecursiveSprite(self, ctx:VgdlParser.RecursiveSpriteContext):        
+        # If it has a type, include it (if not, father must have one)
+        if hasattr(ctx, 'spriteType') and hasattr(ctx.spriteType, 'text'):
+            stype = ctx.spriteType.text
+        else:
+            stype = None
+
+        sprite = Sprite(ctx.name.text, stype, None,
+                get_rule_parameters(ctx.parameter()))
 
     def exitRecursiveSprite(self, ctx:VgdlParser.RecursiveSpriteContext):
         pass
@@ -277,7 +284,23 @@ class HpdlVgdlListener(VgdlListener):
     # -------------------------------------------------------------------------
 
     def enterNonRecursiveSprite(self, ctx:VgdlParser.NonRecursiveSpriteContext):
-        pass
+        # If it has parent, include it
+        parentCtx = ctx.parentCtx        
+        if hasattr(parentCtx, 'name'):
+            parent_name = parentCtx.name.text
+        else:
+            parent_name = None
+
+        # If it has a type, include it (if not, father must have one)
+        if hasattr(ctx, 'spriteType') and hasattr(ctx.spriteType, 'text'):
+            stype = ctx.spriteType.text
+        else:
+            stype = None
+
+        sprite = Sprite(ctx.name.text, stype, parent_name,
+                        get_rule_parameters(ctx.parameter()))
+        
+        
 
     def exitNonRecursiveSprite(self, ctx:VgdlParser.NonRecursiveSpriteContext):
         pass
