@@ -14,10 +14,13 @@ from VgdlLexer import VgdlLexer
 from VgdlParser import VgdlParser
 
 # Custom listener
-from HpdlVgdlListener import HpdlVgdlListener
+from hpdl.HpdlVgdlListener import HpdlVgdlListener
 
 # Needed to show parsed tree in terminal
 from antlr4.tree.Trees import Trees
+
+# HPDL domain generator
+from hpdl.domainWriter import DomainWriter
 
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
@@ -205,7 +208,14 @@ def main(argv):
     # -----------------------------------------------------------------------------
     # Getting the domain
 
-    text_domain = listener.text_domain
+    types = listener.types
+    functions = listener.functions
+    predicates = listener.predicates
+    actions = listener.actions
+
+    writer = DomainWriter(types, functions, predicates, actions)
+
+    text_domain = writer.get_domain()
 
     # -----------------------------------------------------------------------------
     # Opening and printing HPDL domain file
