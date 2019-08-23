@@ -13,16 +13,11 @@ class DomainWriter:
         types - functions - predicates - actions
     """
     def __init__(self, types, functions, predicates, actions):
-        # String arrays
-        # self.types = types
-        # self.functions = functions
-        # self.predicates = predicates
-        # self.actions = actions
-
         self.text_domain = self.get_domain_definition()
         self.text_domain += self.get_types(types)
-        # self.text_domain += self.get_predicates()
-        # self.text_domain += self.get_functions()
+        # self.text_domain += self.get_predicates(predicates)
+        self.text_domain += self.get_functions(functions)
+        # self.text_domain += self.get_actions(actions)
         self.text_domain += self.get_end_domain()
 
     def get_domain(self):
@@ -106,7 +101,7 @@ class DomainWriter:
   )
   """
 
-        text_content = "    "
+        text_content = "  "
 
         for f in functions:
             text_content += f + "\n    "
@@ -128,7 +123,7 @@ class DomainWriter:
   )
   """
 
-        text_content = "    "
+        text_content = "  "
 
         for p in predicates:
             text_content += p + "\n    "

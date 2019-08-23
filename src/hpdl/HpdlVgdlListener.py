@@ -50,6 +50,7 @@ class HpdlVgdlListener(VgdlListener):
         Generates the multiple parts of a HPDL domain, to be sent to the writer
         """
         self.assign_types()
+        self.assign_functions()
 
     def assign_types(self):
         """ Object, the types of each sprite and the sprites in their hierarchy """        
@@ -69,6 +70,12 @@ class HpdlVgdlListener(VgdlListener):
         stypes.insert(0, 'Object')  # Inserting at the beginning
         
         self.types.append(stypes)
+
+    def assign_functions(self):
+        """ One for each coordinate, one for counter """
+        self.functions.append("(coordinate_x ?o - Object)")
+        self.functions.append("(coordinate_y ?o - Object)")
+        self.functions.append("(counter ?o - Object)")
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
