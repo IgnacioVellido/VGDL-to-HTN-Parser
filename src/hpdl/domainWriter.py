@@ -7,15 +7,20 @@
 ###############################################################################
 
 class DomainWriter:
+    """ Produces a string with a HPDL domain 
+
+    Arguments:
+        types - functions - predicates - actions
+    """
     def __init__(self, types, functions, predicates, actions):
         # String arrays
-        self.types = types
-        self.functions = functions
-        self.predicates = predicates
-        self.actions = actions
+        # self.types = types
+        # self.functions = functions
+        # self.predicates = predicates
+        # self.actions = actions
 
         self.text_domain = self.get_domain_definition()
-        # self.text_domain += self.get_types()
+        self.text_domain += self.get_types(types)
         # self.text_domain += self.get_predicates()
         # self.text_domain += self.get_functions()
         self.text_domain += self.get_end_domain()
@@ -62,40 +67,38 @@ class DomainWriter:
         return text
 
     # -------------------------------------------------------------------------
-
-    # UNTESTED
-    # Returns a string with the types definition
-    #
-    # @types: 2D array, in each line, first value represents the type, the rest are
-    # the name of the objects
+    
     def get_types(self, types):
+        """ Returns a string with the types definition
+    
+        types: 2D array, in each line, first value represents the type, the 
+        rest are the name of the objects
+        """
         start_text = """
   (:types    
   """
         end_text = """
   )
   """
-
-        text_content = "    "
+        text_content = "  "
 
         for t in types:
             type_class = t[0]
 
             for i in range(1, len(t)):
-                text_content += t[i]
+                text_content += " " + t[i]
 
             text_content += " - " + type_class + "\n    "
 
         return start_text + text_content + end_text
 
-
     # -------------------------------------------------------------------------
-
-    # UNTESTED
-    # Returns a string with the functions definition
-    #
-    # @functions: list of functions, in brackets
+    
     def get_functions(self, functions):
+        """ Returns a string with the functions definition
+    
+        functions: list of functions, in brackets
+        """
         start_text = """
   (:functions    
   """
@@ -113,11 +116,11 @@ class DomainWriter:
 
     # -------------------------------------------------------------------------
 
-    # UNTESTED
-    # Returns a string with the predicates definition
-    #
-    # @predicates: list of predicates, in brackets
     def get_predicates(self, predicates):
+        """ Returns a string with the predicates definition
+    
+        predicates: list of predicates, in brackets
+        """
         start_text = """
   (:predicates    
   """
@@ -135,11 +138,11 @@ class DomainWriter:
 
     # -------------------------------------------------------------------------
 
-    # UNTESTED
-    # Returns a string with the actions definition
-    #
-    # @actions: list of actions
     def get_actions(actions):
+        """ Returns a string with the actions definition
+    
+        actions: list of actions
+        """
         text = ""
 
         for a in actions:

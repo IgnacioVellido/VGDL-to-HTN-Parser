@@ -48,13 +48,13 @@ class Sprite:
 
     Atributes:
         name        The name of the sprite
-        type        Type of sprite
+        stype        Type of sprite
         father      Father of the sprite (can be None)
         parameters  List of optionals parameters
     """
-    def __init__(self, name, type, father, parameters):
+    def __init__(self, name, stype, father, parameters):
         self.name = name
-        self.type = type
+        self.stype = stype
         self.father = father
         self.parameters = parameters
         

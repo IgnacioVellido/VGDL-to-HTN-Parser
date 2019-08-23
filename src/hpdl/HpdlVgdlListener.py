@@ -31,8 +31,10 @@ def get_rule_parameters(list):
 # -----------------------------------------------------------------------------
 ###############################################################################
 
-# This class defines a complete listener for a parse tree produced by VgdlParser.
 class HpdlVgdlListener(VgdlListener):
+    """ 
+    This class defines a complete listener for a parse tree produced by VgdlParser.
+    """
     def __init__(self):
         # String arrays
         self.types = []
@@ -43,11 +45,39 @@ class HpdlVgdlListener(VgdlListener):
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
 
+    def process_domain(self):
+        """ 
+        Generates the multiple parts of a HPDL domain, to be sent to the writer
+        """
+        self.assign_types()
+
+    def assign_types(self):
+        """ Object, the types of each sprite and the sprites in their hierarchy """        
+        stypes = []
+
+        for sprite in self.sprites:
+            if sprite.stype is not None:
+                stypes.append(sprite.stype)
+
+            if sprite.stype is not None:
+                self.types.append([sprite.stype, sprite.name])
+            elif sprite.father is not None:
+                self.types.append([sprite.father, sprite.name])
+                
+
+        stypes = list(set(stypes))  # Removing duplicates
+        stypes.insert(0, 'Object')  # Inserting at the beginning
+        
+        self.types.append(stypes)
+
+    # -------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
+
     def enterBasicGame(self, ctx:VgdlParser.BasicGameContext):
         pass
 
     def exitBasicGame(self, ctx:VgdlParser.BasicGameContext):        
-        pass
+        self.process_domain()
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
@@ -71,6 +101,8 @@ class HpdlVgdlListener(VgdlListener):
         sprite = Sprite(ctx.name.text, stype, None,
                 get_rule_parameters(ctx.parameter()))
 
+        self.sprites.append(sprite)
+
     def exitRecursiveSprite(self, ctx:VgdlParser.RecursiveSpriteContext):
         pass
 
@@ -93,8 +125,9 @@ class HpdlVgdlListener(VgdlListener):
 
         sprite = Sprite(ctx.name.text, stype, parent_name,
                         get_rule_parameters(ctx.parameter()))
-        
-        
+
+        self.sprites.append(sprite)        
+    
 
     def exitNonRecursiveSprite(self, ctx:VgdlParser.NonRecursiveSpriteContext):
         pass
