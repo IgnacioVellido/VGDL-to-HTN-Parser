@@ -3,7 +3,7 @@
 # Ignacio Vellido Expósito
 # 23/08/2019
 # 
-# Produces a HPDL domain(
+# Produces a HPDL domain
 ###############################################################################
 
 class DomainWriter:

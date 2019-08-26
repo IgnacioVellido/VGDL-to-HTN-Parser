@@ -3,7 +3,8 @@
 # Ignacio Vellido Expósito
 # 21/08/2019
 # 
-# 
+# Probably a class for the avatar will be needed (to know the type and the
+# additional parameter it uses)
 ###############################################################################
 
 import sys
@@ -98,6 +99,13 @@ class HpdlVgdlListener(VgdlListener):
     def assign_actions(self):
         """ ?? """
         action = Action("action", [["test1","test2"],["test3","test4"]], ["(t ?t - test)", "(t1 ?t2 - test)"], ["(c ?c - test)", "(c1 ?c2 - test)"])
+
+        # Searching the type of avatar
+        for sprite in self.sprites:
+            if sprite.stype is not None and "avatar" in sprite.stype.lower():
+                avatar = sprite
+
+        # avatar_actions = AvatarActionsGenerator(avatar.name, avatar.stype).get_actions()
 
         self.actions.append(action)
 
