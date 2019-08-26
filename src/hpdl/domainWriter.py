@@ -18,7 +18,7 @@ class DomainWriter:
         # self.text_domain += self.get_predicates(predicates)
         self.text_domain += self.get_functions(functions)
         self.text_domain += self.get_tasks(tasks)
-        # self.text_domain += self.get_actions(actions)
+        self.text_domain += self.get_actions(actions)
         self.text_domain += self.get_end_domain()
 
     def get_domain(self):
@@ -164,12 +164,15 @@ class DomainWriter:
         Arguments:
             actions     list of Action
         """
-        text = ""
+        text = "\n"
 
         for a in actions:
-            text_action = ("(:action """ + a.name + "\n\t:parameters (" + a.get_parameters()
-                        + ")\n\t:condition (and " + a.get_conditions() + 
-                        + ")\n\t:effect (and " + a.get_effects())
+            text_action = ("\t(:action """ + a.name + "\n\t\t:parameters ( "
+                        + a.get_parameters()
+                        + ")\n\t\t:condition (and\n\t\t\t\t\t\t\t\t\t" 
+                        + a.get_conditions()
+                        + "\n\t\t\t\t\t\t\t )\n\t\t:effect (and\n\t\t\t\t\t\t\t\t" 
+                        + a.get_effects() + "\n\t\t\t\t\t\t)")
 
             text += text_action + "\n"
 

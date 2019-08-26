@@ -75,7 +75,7 @@ class Action:
         name            String
         parameters      List of pairs <alias, type>
         conditions      List of predicates, with brackets
-        effects         List of predicates, with brackets
+        effects         List of effects, with brackets
     """
     def __init__(self, name, parameters, conditions, effects):
         self.name = name

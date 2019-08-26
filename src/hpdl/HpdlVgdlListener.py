@@ -52,10 +52,10 @@ class HpdlVgdlListener(VgdlListener):
         Generates the multiple parts of a HPDL domain, to be sent to the writer
         """
         self.assign_types()
-        # self.assign_predicates()
+        self.assign_predicates()
         self.assign_functions()
         self.assign_tasks()
-        # self.assign_actions()
+        self.assign_actions()
 
     def assign_types(self):
         """ Object, the types of each sprite and the sprites in their hierarchy """        
@@ -97,7 +97,9 @@ class HpdlVgdlListener(VgdlListener):
 
     def assign_actions(self):
         """ ?? """
-        pass
+        action = Action("action", [["test1","test2"],["test3","test4"]], ["(t ?t - test)", "(t1 ?t2 - test)"], ["(c ?c - test)", "(c1 ?c2 - test)"])
+
+        self.actions.append(action)
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
