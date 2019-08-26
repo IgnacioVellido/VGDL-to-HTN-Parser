@@ -10,13 +10,14 @@ class DomainWriter:
     """ Produces a string with a HPDL domain 
 
     Arguments:
-        types - functions - predicates - actions
+        types - functions - predicates - tasks - actions
     """
-    def __init__(self, types, functions, predicates, actions):
+    def __init__(self, types, functions, predicates, tasks, actions):
         self.text_domain = self.get_domain_definition()
         self.text_domain += self.get_types(types)
         # self.text_domain += self.get_predicates(predicates)
         self.text_domain += self.get_functions(functions)
+        self.text_domain += self.get_tasks(tasks)
         # self.text_domain += self.get_actions(actions)
         self.text_domain += self.get_end_domain()
 
@@ -75,7 +76,7 @@ class DomainWriter:
         end_text = """
   )
   """
-        text_content = "  "
+        text_content = "\t"
 
         for t in types:
             type_class = t[0]
@@ -83,7 +84,7 @@ class DomainWriter:
             for i in range(1, len(t)):
                 text_content += " " + t[i]
 
-            text_content += " - " + type_class + "\n    "
+            text_content += " - " + type_class + "\n\t\t"
 
         return start_text + text_content + end_text
 
@@ -101,10 +102,10 @@ class DomainWriter:
   )
   """
 
-        text_content = "  "
+        text_content = "\t"
 
         for f in functions:
-            text_content += f + "\n    "
+            text_content += f + "\n\t\t"
 
         return start_text + text_content + end_text
 
@@ -123,24 +124,53 @@ class DomainWriter:
   )
   """
 
-        text_content = "  "
+        text_content = "\t"
 
         for p in predicates:
-            text_content += p + "\n    "
+            text_content += p + "\n\t\t"
 
         return start_text + text_content + end_text
 
+    # -------------------------------------------------------------------------
+
+    def get_tasks(self, tasks):
+        """ Returns a string with the task definition
+
+        Arguments:
+            tasks       list of Task
+        """
+        text = "\n\t"
+
+        for t in tasks:
+            text_method = ""
+
+            for m in t.methods:                
+                text_method += ("\n\t\t(:method " + m.name + "\n\t\t\t\t:precondition ( " 
+                               + m.get_preconditions() + ")\n\t\t\t\t:tasks ( " 
+                               + m.get_tasks() + " )\n\t\t)\n")
+
+            text_task = ("(:task """ + t.name + "\n\t\t:parameters (" + t.get_parameters()
+                        + ")\n" + text_method + "\t)")
+
+            text += text_task + "\n"
+
+        return text
 
     # -------------------------------------------------------------------------
 
-    def get_actions(actions):
+    def get_actions(self, actions):
         """ Returns a string with the actions definition
     
-        actions: list of actions
+        Arguments:
+            actions     list of Action
         """
         text = ""
 
         for a in actions:
-            text += a
+            text_action = ("(:action """ + a.name + "\n\t:parameters (" + a.get_parameters()
+                        + ")\n\t:condition (and " + a.get_conditions() + 
+                        + ")\n\t:effect (and " + a.get_effects())
+
+            text += text_action + "\n"
 
         return text

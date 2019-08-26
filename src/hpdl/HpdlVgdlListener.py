@@ -12,6 +12,7 @@ from antlr4 import *
 from VgdlParser import VgdlParser
 from VgdlListener import VgdlListener
 from hpdl.vgdlTypes import *
+from hpdl.hpdlTypes import *
 
 
 ###############################################################################
@@ -37,10 +38,11 @@ class HpdlVgdlListener(VgdlListener):
     """
     def __init__(self):
         # String arrays
-        self.types = []
-        self.functions = []
+        self.types      = []
         self.predicates = []
-        self.actions = []
+        self.functions  = []
+        self.tasks      = []
+        self.actions    = []
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
@@ -50,7 +52,10 @@ class HpdlVgdlListener(VgdlListener):
         Generates the multiple parts of a HPDL domain, to be sent to the writer
         """
         self.assign_types()
+        # self.assign_predicates()
         self.assign_functions()
+        self.assign_tasks()
+        # self.assign_actions()
 
     def assign_types(self):
         """ Object, the types of each sprite and the sprites in their hierarchy """        
@@ -71,11 +76,28 @@ class HpdlVgdlListener(VgdlListener):
         
         self.types.append(stypes)
 
+    def assign_predicates(self):
+        """ ?? """
+        pass
+
     def assign_functions(self):
         """ One for each coordinate, one for counter """
         self.functions.append("(coordinate_x ?o - Object)")
         self.functions.append("(coordinate_y ?o - Object)")
         self.functions.append("(counter ?o - Object)")
+
+    def assign_tasks(self):
+        """ ?? """
+        method1 = Method("test", ["(t ?t - test)", "(t1 ?t2 - test)"], ["(c ?c - test)", "(c1 ?c2 - test)"])
+        method2 = Method("test2", ["(t ?t - test)", "(t1 ?t2 - test)"], ["(c ?c - test)", "(c1 ?c2 - test)"])
+        test_task = Task("Test", [["test1","test2"],["test3","test4"]],
+                            [method1, method2])
+
+        self.tasks.append(test_task)
+
+    def assign_actions(self):
+        """ ?? """
+        pass
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------

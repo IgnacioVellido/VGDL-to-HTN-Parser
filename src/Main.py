@@ -211,9 +211,10 @@ def main(argv):
     types = listener.types
     functions = listener.functions
     predicates = listener.predicates
+    tasks = listener.tasks
     actions = listener.actions
 
-    writer = DomainWriter(types, functions, predicates, actions)
+    writer = DomainWriter(types, functions, predicates, tasks, actions)
 
     text_domain = writer.get_domain()
 

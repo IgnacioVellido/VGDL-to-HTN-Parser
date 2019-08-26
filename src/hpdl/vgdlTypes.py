@@ -3,7 +3,7 @@
 # Ignacio Vellido Expósito
 # 23/08/2019
 # 
-# Multiples classes for the VGDL structure
+# Multiple classes for the VGDL structure
 ###############################################################################
 
 class Interaction:
