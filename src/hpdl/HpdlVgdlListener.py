@@ -71,6 +71,13 @@ def get_rule_parameters(list):
 class HpdlVgdlListener(VgdlListener):
     """ 
     This class defines a complete listener for a parse tree produced by VgdlParser.
+
+    Atributes:
+        types       List of pairs string-string
+        predicates  List of strings
+        functions   List of strings
+        tasks       List of strings
+        actions     List of strings
     """
     def __init__(self):
         # String arrays
@@ -93,6 +100,8 @@ class HpdlVgdlListener(VgdlListener):
         self.assign_tasks()
         self.assign_actions()
 
+    # -------------------------------------------------------------------------
+
     def assign_types(self):
         """ Object, the types of each sprite and the sprites in their hierarchy """        
         stypes = []
@@ -110,17 +119,38 @@ class HpdlVgdlListener(VgdlListener):
         stypes = list(set(stypes))  # Removing duplicates
         stypes.insert(0, 'Object')  # Inserting at the beginning
         
-        self.types.append(stypes)
+        self.types.append(stypes)        
+
+    # -------------------------------------------------------------------------
 
     def assign_predicates(self):
         """ ?? """
-        pass
+        # Debería haber una clase para esto, por si acaso no lo hago aún
+        # Si fuese otro tipo de avatar (por ejemplo OrientatedAvatar) tendría can-move-up y can-move-down
+        mobility = ["(can-move-left ?a FlakAvatar)", "(can-move-right ?a FlakAvatar)"]
+
+        self.predicates.extend(mobility)
+
+    # -------------------------------------------------------------------------
 
     def assign_functions(self):
-        """ One for each coordinate, one for counter """
+        """ One for each coordinate, one counter for each type of object in the game """
         self.functions.append("(coordinate_x ?o - Object)")
         self.functions.append("(coordinate_y ?o - Object)")
-        self.functions.append("(counter ?o - Object)")
+
+        # Getting each type of object removing duplicates
+        types_names = []
+
+        for sprite in self.types:
+            types_names.append(sprite[0])
+            types_names.append(sprite[1])
+        
+        types_names = list(set(types_names))
+
+        for t in types_names:
+            self.functions.append("(counter ?o - " + t + ")")
+
+    # -------------------------------------------------------------------------
 
     def assign_tasks(self):
         """ ?? """
@@ -130,6 +160,8 @@ class HpdlVgdlListener(VgdlListener):
                             [method1, method2])
 
         self.tasks.append(test_task)
+
+    # -------------------------------------------------------------------------
 
     def assign_actions(self):
         """ ?? """

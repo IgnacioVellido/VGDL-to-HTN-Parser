@@ -15,7 +15,7 @@ class DomainWriter:
     def __init__(self, types, functions, predicates, tasks, actions):
         self.text_domain = self.get_domain_definition()
         self.text_domain += self.get_types(types)
-        # self.text_domain += self.get_predicates(predicates)
+        self.text_domain += self.get_predicates(predicates)
         self.text_domain += self.get_functions(functions)
         self.text_domain += self.get_tasks(tasks)
         self.text_domain += self.get_actions(actions)
@@ -129,10 +129,10 @@ class DomainWriter:
 \t)
   """
 
-        text_content = "\t"
+        text_content = ""
 
         for p in predicates:
-            text_content += p + "\n\t\t"
+            text_content += "\n\t\t" + p
 
         return start_text + text_content + end_text
 

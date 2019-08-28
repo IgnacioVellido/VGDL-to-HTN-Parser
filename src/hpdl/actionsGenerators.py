@@ -29,6 +29,26 @@ class AvatarActionsGenerator:
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
 
+    def move_up(self):
+        name = "AVATAR_MOVE_UP"
+        parameters = [["a", self.avatar_type]]        
+        conditions = ["(can-move-up ?a)"]
+        effects = ["(decrease (coordinate_x ?a) 1)"]
+
+        return Action(name, parameters, conditions, effects)
+
+    # -------------------------------------------------------------------------
+
+    def move_down(self):
+        name = "AVATAR_MOVE_DOWN"
+        parameters = [["a", self.avatar_type]]        
+        conditions = ["(can-move-down ?a)"]
+        effects = ["(increase (coordinate_x ?a) 1)"]
+
+        return Action(name, parameters, conditions, effects)
+
+    # -------------------------------------------------------------------------
+
     def move_left(self):
         name = "AVATAR_MOVE_LEFT"
         parameters = [["a", self.avatar_type]]        
@@ -39,6 +59,10 @@ class AvatarActionsGenerator:
 
     # -------------------------------------------------------------------------
 
-    # -------------------------------------------------------------------------
+    def move_left(self):
+        name = "AVATAR_MOVE_RIGHT"
+        parameters = [["a", self.avatar_type]]        
+        conditions = ["(can-move-right ?a)"]
+        effects = ["(increase (coordinate_y ?a) 1)"]
 
-    # -------------------------------------------------------------------------
+        return Action(name, parameters, conditions, effects)
