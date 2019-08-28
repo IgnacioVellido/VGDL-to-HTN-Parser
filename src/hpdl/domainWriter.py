@@ -36,20 +36,20 @@ class DomainWriter:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (domain VGDLGame)  
-  (:requirements
-    :typing
-    :fluents
-    :derived-predicates
-    :negative-preconditions
-    :universal-preconditions
-    :disjuntive-preconditions
-    :conditional-effects
-    :htn-expansion
+\t(:requirements
+\t\t:typing
+\t\t:fluents
+\t\t:derived-predicates
+\t\t:negative-preconditions
+\t\t:universal-preconditions
+\t\t:disjuntive-preconditions
+\t\t:conditional-effects
+\t\t:htn-expansion
 
-    ; For time management
-    :durative-actions
-    :metatags
-  )
+\t\t; For time management
+\t\t:durative-actions
+\t\t:metatags
+\t)
 """
         return text    
 
@@ -71,12 +71,14 @@ class DomainWriter:
         rest are the name of the objects
         """
         start_text = """
-  (:types    
+\t; Types -----------------------------------------------------------------....
+
+\t(:types    
   """
         end_text = """
-  )
+\t)
   """
-        text_content = "\t"
+        text_content = "\t\t"
 
         for t in types:
             type_class = t[0]
@@ -96,16 +98,18 @@ class DomainWriter:
         functions: list of functions, in brackets
         """
         start_text = """
-  (:functions    
+\t; Functions -----------------------------------------------------------------
+
+\t(:functions    
   """
         end_text = """
-  )
+\t)
   """
 
-        text_content = "\t"
+        text_content = ""
 
         for f in functions:
-            text_content += f + "\n\t\t"
+            text_content += "\n\t\t" + f
 
         return start_text + text_content + end_text
 
@@ -118,10 +122,11 @@ class DomainWriter:
         predicates: list of predicates, in brackets
         """
         start_text = """
-  (:predicates    
+\t; Predicates ----------------------------------------------------------------
+\t(:predicates    
   """
         end_text = """
-  )
+\t)
   """
 
         text_content = "\t"
@@ -139,6 +144,9 @@ class DomainWriter:
         Arguments:
             tasks       list of Task
         """
+        start_text = """
+\t; Tasks ---------------------------------------------------------------------
+  """
         text = "\n\t"
 
         for t in tasks:
@@ -150,11 +158,11 @@ class DomainWriter:
                                + m.get_tasks() + " )\n\t\t)\n")
 
             text_task = ("(:task """ + t.name + "\n\t\t:parameters (" + t.get_parameters()
-                        + ")\n" + text_method + "\t)")
+                        + ")\n" + text_method + "\t)\n")
 
             text += text_task + "\n"
 
-        return text
+        return start_text + text
 
     # -------------------------------------------------------------------------
 
@@ -164,16 +172,18 @@ class DomainWriter:
         Arguments:
             actions     list of Action
         """
+        start_text = """
+\t; Actions -------------------------------------------------------------------
+  """
+
         text = "\n"
 
         for a in actions:
-            text_action = ("\t(:action """ + a.name + "\n\t\t:parameters ( "
-                        + a.get_parameters()
-                        + ")\n\t\t:condition (and\n\t\t\t\t\t\t\t\t\t" 
-                        + a.get_conditions()
-                        + "\n\t\t\t\t\t\t\t )\n\t\t:effect (and\n\t\t\t\t\t\t\t\t" 
-                        + a.get_effects() + "\n\t\t\t\t\t\t)")
+            text  += ("\t(:action """ + a.name + "\n\t\t:parameters ( "
+                     + a.get_parameters()
+                     + ")\n\t\t:condition (and\n\t\t\t\t\t\t" 
+                     + a.get_conditions()
+                     + "\n\t\t\t\t\t)\n\t\t:effect (and\n\t\t\t\t\t" 
+                     + a.get_effects() + "\n\t\t\t\t)\n\t)\n\n")
 
-            text += text_action + "\n"
-
-        return text
+        return start_text + text

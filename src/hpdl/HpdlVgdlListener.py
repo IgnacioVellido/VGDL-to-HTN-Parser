@@ -12,8 +12,43 @@ from antlr4 import *
 
 from VgdlParser import VgdlParser
 from VgdlListener import VgdlListener
+
 from hpdl.vgdlTypes import *
 from hpdl.hpdlTypes import *
+
+from hpdl.actionsGenerators import *
+
+# REMOVE
+# GVGAI available sprites, interactions and termination conditions
+
+# spriteStrings = [
+#     "Conveyor", "Flicker", "Immovable", "OrientedFlicker", "Passive", "Resource", "Spreader",
+#     "ErraticMissile", "Missile", "RandomMissile", "Walker", "WalkerJumper",
+#     "ResourcePack", "Chaser", "PathChaser", "Fleeing", "RandomInertial",
+#     "RandomNPC", "AlternateChaser", "RandomAltChaser","PathAltChaser", "RandomPathAltChaser",
+#     "Bomber", "RandomBomber", "Portal", "SpawnPoint", "SpriteProducer", "Door",
+#     "FlakAvatar", "HorizontalAvatar", "VerticalAvatar", "MovingAvatar","MissileAvatar",
+#     "OrientedAvatar","ShootAvatar", "OngoingAvatar", "OngoingTurningAvatar", "BomberRandomMissile",
+#     "OngoingShootAvatar", "NullAvatar", "AimedAvatar", "PlatformerAvatar", "BirdAvatar",
+#     "SpaceshipAvatar", "CarAvatar", "WizardAvatar", "LanderAvatar", "ShootOnlyAvatar", "SpawnPointMultiSprite",
+#     "LOSChaser"
+# ]
+
+# effectStrings = [
+#     "stepBack", "turnAround", "killSprite", "killBoth", "killAll", "transformTo", "transformToSingleton", "transformIfCount",
+#     "wrapAround", "changeResource", "killIfHasLess", "killIfHasMore", "cloneSprite",
+#     "flipDirection", "reverseDirection", "shieldFrom", "undoAll", "spawn", "spawnIfHasMore", "spawnIfHasLess",
+#     "pullWithIt", "wallStop", "collectResource", "collectResourceIfHeld", "killIfOtherHasMore", "killIfFromAbove",
+#     "teleportToExit", "bounceForward", "attractGaze", "align", "subtractHealthPoints", "addHealthPoints",
+#     "transformToAll", "addTimer", "killIfFrontal", "killIfNotFrontal", "spawnBehind",
+#     "updateSpawnType", "removeScore", "increaseSpeedToAll", "decreaseSpeedToAll", "setSpeedForAll", "transformToRandomChild",
+#     "addHealthPointsToMax", "spawnIfCounterSubTypes", "bounceDirection", "wallBounce", "killIfSlow", "killIfAlive",
+#     "waterPhysics", "halfSpeed", "killIfNotUpright", "killIfFast", "wallReverse", "spawnAbove", "spawnLeft", "spawnRight", "spawnBelow"
+# ]
+
+# terminationStrings = [
+#     "MultiSpriteCounter", "SpriteCounter", "SpriteCounterMore", "MultiSpriteCounterSubTypes", "Timeout", "StopCounter"
+# ]
 
 
 ###############################################################################
@@ -105,7 +140,8 @@ class HpdlVgdlListener(VgdlListener):
             if sprite.stype is not None and "avatar" in sprite.stype.lower():
                 avatar = sprite
 
-        # avatar_actions = AvatarActionsGenerator(avatar.name, avatar.stype).get_actions()
+        avatar_actions = AvatarActionsGenerator(avatar.name, avatar.stype).get_actions()
+        self.actions.extend(avatar_actions)
 
         self.actions.append(action)
 
