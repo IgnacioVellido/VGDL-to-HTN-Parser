@@ -73,20 +73,22 @@ class DomainWriter:
         start_text = """
 \t; Types -----------------------------------------------------------------....
 
-\t(:types    
-  """
+\t(:types"""
+
         end_text = """
 \t)
-  """
-        text_content = "\t\t"
+"""
+        text_content = ""
 
         for t in types:
             type_class = t[0]
 
-            for i in range(1, len(t)):
-                text_content += " " + t[i]
+            text_content += "\n\t\t"
 
-            text_content += " - " + type_class + "\n\t\t"
+            for i in range(1, len(t)):
+                text_content += t[i] + " "
+
+            text_content += " - " + type_class
 
         return start_text + text_content + end_text
 
@@ -100,12 +102,11 @@ class DomainWriter:
         start_text = """
 \t; Functions -----------------------------------------------------------------
 
-\t(:functions    
-  """
+\t(:functions"""
+
         end_text = """
 \t)
-  """
-
+"""
         text_content = ""
 
         for f in functions:
@@ -123,8 +124,7 @@ class DomainWriter:
         """
         start_text = """
 \t; Predicates ----------------------------------------------------------------
-\t(:predicates    
-  """
+\n\t(:predicates"""
         end_text = """
 \t)
   """
@@ -180,11 +180,11 @@ class DomainWriter:
         text = "\n"
 
         for a in actions:
-            text  += ("\t(:action """ + a.name + "\n\t\t:parameters ( "
+            text  += ("\t(:action """ + a.name + "\n\t\t:parameters ("
                      + a.get_parameters()
                      + ")\n\t\t:condition (and\n\t\t\t\t\t\t" 
                      + a.get_conditions()
-                     + "\n\t\t\t\t\t)\n\t\t:effect (and\n\t\t\t\t\t" 
+                     + "\n\t\t\t\t\t)\n\t\t:effect (and" 
                      + a.get_effects() + "\n\t\t\t\t)\n\t)\n\n")
 
         return start_text + text

@@ -21,10 +21,10 @@ class Task:
 
     def get_parameters(self):
         """ Returns list of parameters without external brackets """
-        text = " "
+        text = ""
 
         for p in self.parameters:
-            text += "?" + p[0] + " - " + p[1] + " "
+            text += "?" + p[0] + " - " + p[1] + "\t"
 
         return text
 
@@ -106,6 +106,6 @@ class Action:
         text = ""
 
         for e in self.effects:
-            text += e + " "
+            text += "\n\t\t\t\t\t" + e
 
         return text

@@ -158,8 +158,8 @@ class HpdlVgdlListener(VgdlListener):
         # turn = Task("Turn", [], [method_avatar, method_objects, method_interactions])
 
 
-        method1 = Method("test", ["(at ?t - test)", "(at ?t2 - test)"], ["(at ?c - test)", "(at ?c2 - test)"])
-        method2 = Method("test2", ["(at ?t - test)", "(at ?t2 - test)"], ["(at ?c - test)", "(at ?c2 - test)"])
+        method1 = Method("test", ["(at ?t - test)", "(at ?t2 - test)"], ["(at ?c)", "(at ?c2)"])
+        method2 = Method("test2", ["(at ?t - test)", "(at ?t2 - test)"], ["(at ?c)", "(at ?c2)"])
         test_task = Task("Test", [["test1","test2"],["test3","test4"]],
                             [method1, method2])
 
