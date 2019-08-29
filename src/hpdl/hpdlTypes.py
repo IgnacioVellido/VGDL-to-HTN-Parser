@@ -51,7 +51,7 @@ class Method:
         text = ""
 
         for c in self.preconditions:
-            text += c + " "
+            text += "\n\t\t\t\t\t\t\t\t\t" + c
 
         return text
 
@@ -60,9 +60,9 @@ class Method:
         text = ""
 
         for t in self.task_predicates:
-            text += t + " "
+            text += "\n\t\t\t\t\t\t\t" + t
 
-        return text + ""
+        return text
 
 # -------------------------------------------------------------------------
 # -------------------------------------------------------------------------
