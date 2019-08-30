@@ -169,17 +169,36 @@ class HpdlVgdlListener(VgdlListener):
 
     def assign_actions(self):
         """ ?? """
-        action = Action("action", [["test1","test2"],["test3","test4"]], ["(t ?t - test)", "(t1 ?t2 - test)"], ["(c ?c - test)", "(c1 ?c2 - test)"])
+        # action = Action("action", [["test1","test2"],["test3","test4"]], ["(t ?t - test)", "(t1 ?t2 - test)"], ["(c ?c - test)", "(c1 ?c2 - test)"])
+        # self.actions.append(action)
 
         # Searching the type of avatar
         for sprite in self.sprites:
             if sprite.stype is not None and "avatar" in sprite.stype.lower():
                 avatar = sprite
 
-        avatar_actions = AvatarActionsGenerator(avatar.name, avatar.stype).get_actions()
+        # If it has USE command, search his partner (produced sprite)
+        list_avatar_use = ["FlakAvatar", "AimedAvatar", "ShootAvatar"]
+        if avatar.stype in list_avatar_use:
+            matching = [s for s in avatar.parameters if "stype" in s]
+            partner_name = matching[0].replace("stype=", "")
+
+            # We have the sprite name, now we need the hole object
+            """Probably the entire object is not needed, it must be checked later on"""
+            for sprite in self.sprites:
+                if sprite.name is not None and partner_name in sprite.name:
+                    partner = sprite                
+                    print(partner.name, partner.stype, partner.father)
+            
+            avatar_actions = AvatarActionsGenerator(avatar.name, 
+                                                    avatar.stype).get_actions(partner)
+        else:                  
+            avatar_actions = AvatarActionsGenerator(avatar.name, 
+                                                    avatar.stype).get_actions()
+
+        # Getting specific avatar actions
         self.actions.extend(avatar_actions)
 
-        self.actions.append(action)
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------

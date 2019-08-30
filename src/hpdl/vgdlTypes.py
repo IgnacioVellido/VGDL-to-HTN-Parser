@@ -50,7 +50,7 @@ class Sprite:
         name        The name of the sprite
         stype        Type of sprite
         father      Father of the sprite (can be None)
-        parameters  List of optionals parameters
+        parameters  List of optionals parameters (format: option=value)
     """
     def __init__(self, name, stype, father, parameters):
         self.name = name

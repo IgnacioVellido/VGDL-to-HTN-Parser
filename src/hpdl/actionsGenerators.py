@@ -16,8 +16,11 @@ class AvatarActionsGenerator:
     # ACTION_USE
 
     # Podrían juntarse para no repetir código pero lo haría menos legible
-    def get_actions(self):
-        """ Return a list of actions depending of the avatar """
+    def get_actions(self, partner=None):
+        """ Return a list of actions depending of the avatar 
+        
+        partner:    If USE is available, sprite that is produced
+        """
         actions = []
         actions.append(self.nil()) # Don't do anything
 
@@ -26,7 +29,7 @@ class AvatarActionsGenerator:
             # actions.append(self.turn_down())
             # actions.append(self.turn_left())
             # actions.append(self.turn_right())
-            # actions.append(self.use())
+            # actions.append(self.use(partner))
             pass
 
         # Remove, not information found
@@ -40,8 +43,8 @@ class AvatarActionsGenerator:
         # This avatar should have ammo
         if self.avatar_type == "FlakAvatar":
             actions.append(self.move_left())
-            # actions.append(self.move_right())
-            # actions.append(self.use())
+            actions.append(self.move_right())
+            actions.append(self.use(partner))
 
         if self.avatar_type == "HorizontalAvatar":
             # actions.append(self.move_left())
@@ -99,7 +102,7 @@ class AvatarActionsGenerator:
             # actions.append(self.turn_down())
             # actions.append(self.turn_left())
             # actions.append(self.turn_right())
-            # actions.append(self.use())
+            # actions.append(self.use(partner))
             pass
 
         # Remove, not information found
@@ -161,6 +164,26 @@ class AvatarActionsGenerator:
         effects = ["(increase (coordinate_y ?a) 1)"]
 
         return Action(name, parameters, conditions, effects)
+
+    # -------------------------------------------------------------------------
+
+    # Probably will not work
+    # can-use is a predicate that should not be active in case there is no ammo
+    def use(self, partner):
+        """
+        partner:     Sprite that is generated
+        """
+        if partner == None:
+            raise TypeError('Argument "partner" is not defined')
+
+        name = "AVATAR_USE"
+        parameters = [["a", self.avatar_type], ["p", partner.name]]
+        conditions = ["(can-use ?a ?p)"]
+
+        # ?????????????
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
