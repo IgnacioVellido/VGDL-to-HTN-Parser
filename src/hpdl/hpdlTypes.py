@@ -50,8 +50,10 @@ class Method:
         """ Returns list of preconditions without external brackets """
         text = ""
 
-        for c in self.preconditions:
-            text += "\n\t\t\t\t\t\t\t\t\t" + c
+        # If list not empty
+        if self.preconditions:
+            for c in self.preconditions:
+                text += "\n\t\t\t\t\t\t\t\t\t" + c
 
         return text
 
@@ -59,8 +61,9 @@ class Method:
         """ Returns list of tasks without external brackets """
         text = ""
 
-        for t in self.task_predicates:
-            text += "\n\t\t\t\t\t\t\t" + t
+        if self.task_predicates:
+            for t in self.task_predicates:
+                text += "\n\t\t\t\t\t\t\t" + t
 
         return text
 

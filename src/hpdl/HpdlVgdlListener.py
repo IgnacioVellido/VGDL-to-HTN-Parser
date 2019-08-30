@@ -86,6 +86,8 @@ class HpdlVgdlListener(VgdlListener):
         self.functions  = []
         self.tasks      = []
         self.actions    = []
+        # First only one avatar
+        self.avatar     = None
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
@@ -153,9 +155,18 @@ class HpdlVgdlListener(VgdlListener):
     # -------------------------------------------------------------------------
 
     def assign_tasks(self):
-        """ ?? """
-        # method_avatar = Method("move-avatar", ["(a"])
-        # turn = Task("Turn", [], [method_avatar, method_objects, method_interactions])
+        """ UNFINISHED """
+        turn_method = Method("turn", [], ["(move_avatar)", "(move_objects)", "(check_interactions)"])
+        turn = Task("Turn", [], [turn_method])
+        self.tasks.append(turn)
+
+
+        # method_avatar = Method("move-avatar", ["(?a - " + avatar.type + " "])
+        # One method for each action
+        move_avatar = Task("move-avatar", [["a", self.avatar.stype]], [])
+        self.tasks.append(move_avatar)
+
+        
 
 
         method1 = Method("test", ["(at ?t - test)", "(at ?t2 - test)"], ["(at ?c)", "(at ?c2)"])
@@ -172,15 +183,10 @@ class HpdlVgdlListener(VgdlListener):
         # action = Action("action", [["test1","test2"],["test3","test4"]], ["(t ?t - test)", "(t1 ?t2 - test)"], ["(c ?c - test)", "(c1 ?c2 - test)"])
         # self.actions.append(action)
 
-        # Searching the type of avatar
-        for sprite in self.sprites:
-            if sprite.stype is not None and "avatar" in sprite.stype.lower():
-                avatar = sprite
-
         # If it has USE command, search his partner (produced sprite)
         list_avatar_use = ["FlakAvatar", "AimedAvatar", "ShootAvatar"]
-        if avatar.stype in list_avatar_use:
-            matching = [s for s in avatar.parameters if "stype" in s]
+        if self.avatar.stype in list_avatar_use:
+            matching = [s for s in self.avatar.parameters if "stype" in s]
             partner_name = matching[0].replace("stype=", "")
 
             # We have the sprite name, now we need the hole object
@@ -188,13 +194,12 @@ class HpdlVgdlListener(VgdlListener):
             for sprite in self.sprites:
                 if sprite.name is not None and partner_name in sprite.name:
                     partner = sprite                
-                    print(partner.name, partner.stype, partner.father)
             
-            avatar_actions = AvatarActionsGenerator(avatar.name, 
-                                                    avatar.stype).get_actions(partner)
+            avatar_actions = AvatarActionsGenerator(self.avatar.name, 
+                                                    self.avatar.stype).get_actions(partner)
         else:                  
-            avatar_actions = AvatarActionsGenerator(avatar.name, 
-                                                    avatar.stype).get_actions()
+            avatar_actions = AvatarActionsGenerator(self.avatar.name, 
+                                                    self.vatar.stype).get_actions()
 
         # Getting specific avatar actions
         self.actions.extend(avatar_actions)
@@ -255,6 +260,11 @@ class HpdlVgdlListener(VgdlListener):
 
         sprite = Sprite(ctx.name.text, stype, parent_name,
                         get_rule_parameters(ctx.parameter()))
+
+        # Check if avatar
+        if sprite.stype is not None and "avatar" in sprite.stype.lower():
+            self.avatar = Avatar(sprite)
+            print(self.avatar.name, self.avatar.stype)
 
         self.sprites.append(sprite)        
     

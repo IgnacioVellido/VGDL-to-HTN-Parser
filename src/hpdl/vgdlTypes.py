@@ -57,7 +57,21 @@ class Sprite:
         self.stype = stype
         self.father = father
         self.parameters = parameters
-        
+
+
+class Avatar(Sprite):
+    """ A avatar in the game
+
+    Atributes:
+        name        The name of the sprite
+        stype        Type of sprite
+        father      Father of the sprite (can be None)
+        parameters  List of optionals parameters (format: option=value)
+    """
+
+    def __init__(self, sprite):
+        super().__init__(sprite.name, sprite.stype, 
+                         sprite.father, sprite.parameters)
 
 ###############################################################################
 # -----------------------------------------------------------------------------

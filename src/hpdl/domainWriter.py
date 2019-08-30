@@ -152,7 +152,7 @@ class DomainWriter:
         for t in tasks:
             text_method = ""
 
-            for m in t.methods:                
+            for m in t.methods:                      
                 text_method += ("\n\t\t(:method " + m.name + "\n\t\t\t\t:precondition (and " 
                                + m.get_preconditions() 
                                + "\n\t\t\t\t\t\t\t\t)\n\t\t\t\t:tasks ( " 
@@ -161,7 +161,7 @@ class DomainWriter:
             text_task = ("(:task """ + t.name + "\n\t\t:parameters (" + t.get_parameters()
                         + ")\n" + text_method + "\t)\n")
 
-            text += text_task + "\n"
+            text += text_task + "\n\t"
 
         return start_text + text
 
