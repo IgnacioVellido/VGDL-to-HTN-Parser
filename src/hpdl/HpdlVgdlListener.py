@@ -126,10 +126,13 @@ class HpdlVgdlListener(VgdlListener):
     # -------------------------------------------------------------------------
 
     def assign_predicates(self):
-        """ ?? """
+        """ Avatar (or sprite ?) orientation """
         # Debería haber una clase para esto, por si acaso no lo hago aún
         # Si fuese otro tipo de avatar (por ejemplo OrientatedAvatar) tendría can-move-up y can-move-down
-        mobility = ["(can-move-left ?a FlakAvatar)", "(can-move-right ?a FlakAvatar)"]
+        mobility = ["(can-move-left ?a - FlakAvatar)", "(can-move-right ?a - FlakAvatar)"]
+
+        # Type Orientation también, no ???
+        # orientation = ["(orientation ?a - OrientedAvatar ?o - Orientation)"]
 
         self.predicates.extend(mobility)
 

@@ -8,12 +8,15 @@
 
 from hpdl.hpdlTypes import *
 
+###############################################################################
+# -----------------------------------------------------------------------------
+###############################################################################
+
 class AvatarActionsGenerator:
+    """ Returns different actions depending of the avatar """
     def __init__(self, avatar_name, avatar_type):
         self.avatar_name = avatar_name
         self.avatar_type = avatar_type
-    
-    # ACTION_USE
 
     # Podrían juntarse para no repetir código pero lo haría menos legible
     def get_actions(self, partner=None):
@@ -24,6 +27,7 @@ class AvatarActionsGenerator:
         actions = []
         actions.append(self.nil()) # Don't do anything
 
+        # Can't move but can use object
         if self.avatar_type == "AimedAvatar":
             # actions.append(self.turn_up())
             # actions.append(self.turn_down())
@@ -41,11 +45,13 @@ class AvatarActionsGenerator:
             pass
 
         # This avatar should have ammo
+        # Always same orientation, can move horizontally and use object
         if self.avatar_type == "FlakAvatar":
             actions.append(self.move_left())
             actions.append(self.move_right())
             actions.append(self.use(partner))
 
+        # Always same orientation, can only move left or right
         if self.avatar_type == "HorizontalAvatar":
             # actions.append(self.move_left())
             # actions.append(self.move_right())
@@ -59,6 +65,7 @@ class AvatarActionsGenerator:
         if self.avatar_type == "MissileAvatar":
             pass
 
+        # Always same orientation, can move in any direction
         if self.avatar_type == "MovingAvatar":
             # actions.append(self.move_up())
             # actions.append(self.move_down())
@@ -78,6 +85,7 @@ class AvatarActionsGenerator:
         if self.avatar_type == "OngoingTurningAvatar":
             pass
 
+        # Can move and aim in any direction
         if self.avatar_type == "OrientedAvatar":
             # actions.append(self.move_up())
             # actions.append(self.move_down())
@@ -93,6 +101,7 @@ class AvatarActionsGenerator:
         if self.avatar_type == "PlatformerAvatar":
             pass
         
+        # Can move and aim in any direction, can use object
         if self.avatar_type == "ShootAvatar":
             # actions.append(self.move_up())
             # actions.append(self.move_down())
@@ -113,6 +122,7 @@ class AvatarActionsGenerator:
         if self.avatar_type == "SpaceshipAvatar":
             pass    
 
+        # Always same orientation, can only move up or down
         if self.avatar_type == "VerticalAvatar":
             # actions.append(self.move_up())
             # actions.append(self.move_down())
@@ -170,7 +180,9 @@ class AvatarActionsGenerator:
     # Probably will not work
     # can-use is a predicate that should not be active in case there is no ammo
     def use(self, partner):
-        """
+        """ ???
+
+
         partner:     Sprite that is generated
         """
         if partner == None:
@@ -189,9 +201,112 @@ class AvatarActionsGenerator:
 
     # Probably will not work
     def nil(self):
+        """ Avatar doesn't do anything """
         name = "AVATAR_NIL"
         parameters = [["a", self.avatar_type]]        
         conditions = []
         effects = []
 
         return Action(name, parameters, conditions, effects)        
+
+###############################################################################
+# -----------------------------------------------------------------------------
+###############################################################################
+
+def SpriteActionGenerator():
+    """ Return actions depending of the sprite (not including avatars) 
+    
+    These actions define the movements of the sprite not (directly) related with 
+    interactions
+    """
+
+    def __init__(self, sprite_name, sprite_type):
+        self.sprite_name = sprite_name
+        self.sprite_type = sprite_type
+
+    # -------------------------------------------------------------------------
+
+    def get_actions(self):
+        actions = []
+
+        # Not clear what it does
+        # Missile that produces object at a specific ratio
+        if self.sprite_type == "Bomber":            
+            pass
+
+        # Follows partner (or avatar ?) object
+        if self.sprite_type == "Chaser":            
+            pass
+
+        # Missile that randomly changes direction
+        if self.sprite_type == "ErraticMissile":            
+            pass
+
+        # Try to make the greatest distance with the partner (or avatar) object
+        if self.sprite_type == "Fleeing":            
+            pass
+
+        # Maybe not needed here
+        # Object that dissapear after a moment
+        if self.sprite_type == "Flicker":
+            # actions.append(self.expand())
+            pass
+
+        # Object that moves constantly in one direction
+        if self.sprite_type == "Missile":            
+            pass
+
+        # Remove, no information found
+        if self.sprite_type == "PathAltChaser":            
+            pass
+
+        # Remove, no information found
+        if self.sprite_type == "PathChaser":            
+            pass
+
+        # Oriented object that dissapear after a moment
+        if self.sprite_type == "OrientedFlicker":            
+            # actions.append(self.expand())
+            pass
+
+        # Acts like a Chaser but sometimes it makes a random move
+        if self.sprite_type == "RandomAltChaser":            
+            pass
+        
+        # Acts like a Bomber but randomly change direction
+        if self.sprite_type == "RandomBomber":            
+            pass
+
+        # Acts like a Missile but randomly change direction
+        if self.sprite_type == "RandomMissile":            
+            pass
+
+        # Chooses randomly an action in each iteration
+        if self.sprite_type == "RandomNPC":            
+            pass
+
+        # Remove, no information found
+        if self.sprite_type == "RandomPathAltChaser":            
+            pass
+
+        # Produces objects following a specific ratio
+        if self.sprite_type == "SpawnPoint":            
+            pass
+
+        # Expands in 4 directions if not occupied
+        if self.sprite_type == "Spreader":            
+            pass
+
+        # Missile that if when it collides it change to a random direction
+        if self.sprite_type == "Walker":            
+            pass
+
+        # Not clear what it does
+        if self.sprite_type == "WalkerJumper":            
+            pass
+
+       
+        return actions
+
+    # -------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
