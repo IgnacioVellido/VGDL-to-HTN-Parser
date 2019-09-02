@@ -21,19 +21,6 @@ from hpdl.actionsGenerators import *
 # REMOVE
 # GVGAI available sprites, interactions and termination conditions
 
-# spriteStrings = [
-#     "Conveyor", "Flicker", "Immovable", "OrientedFlicker", "Passive", "Resource", "Spreader",
-#     "ErraticMissile", "Missile", "RandomMissile", "Walker", "WalkerJumper",
-#     "ResourcePack", "Chaser", "PathChaser", "Fleeing", "RandomInertial",
-#     "RandomNPC", "AlternateChaser", "RandomAltChaser","PathAltChaser", "RandomPathAltChaser",
-#     "Bomber", "RandomBomber", "Portal", "SpawnPoint", "SpriteProducer", "Door",
-#     "FlakAvatar", "HorizontalAvatar", "VerticalAvatar", "MovingAvatar","MissileAvatar",
-#     "OrientedAvatar","ShootAvatar", "OngoingAvatar", "OngoingTurningAvatar", "BomberRandomMissile",
-#     "OngoingShootAvatar", "NullAvatar", "AimedAvatar", "PlatformerAvatar", "BirdAvatar",
-#     "SpaceshipAvatar", "CarAvatar", "WizardAvatar", "LanderAvatar", "ShootOnlyAvatar", "SpawnPointMultiSprite",
-#     "LOSChaser"
-# ]
-
 # effectStrings = [
 #     "stepBack", "turnAround", "killSprite", "killBoth", "killAll", "transformTo", "transformToSingleton", "transformIfCount",
 #     "wrapAround", "changeResource", "killIfHasLess", "killIfHasMore", "cloneSprite",
@@ -139,7 +126,8 @@ class HpdlVgdlListener(VgdlListener):
     # -------------------------------------------------------------------------
 
     def assign_functions(self):
-        """ One for each coordinate, one counter for each type of object in the game """
+        """ One for each coordinate; one counter for each type of object in the game 
+        and one counter for each resource """
         self.functions.append("(coordinate_x ?o - Object)")
         self.functions.append("(coordinate_y ?o - Object)")
 
@@ -150,10 +138,16 @@ class HpdlVgdlListener(VgdlListener):
             types_names.append(sprite[0])
             types_names.append(sprite[1])
         
+            # If resource, add an special counter for the avatar
+            if sprite[0] == "Resource":
+                self.functions.append("(resource_" + sprite[1] + " ?a - " 
+                                        + self.avatar.name + ")")
+
         types_names = list(set(types_names))
 
         for t in types_names:
             self.functions.append("(counter ?o - " + t + ")")
+
 
     # -------------------------------------------------------------------------
 
@@ -267,7 +261,6 @@ class HpdlVgdlListener(VgdlListener):
         # Check if avatar
         if sprite.stype is not None and "avatar" in sprite.stype.lower():
             self.avatar = Avatar(sprite)
-            print(self.avatar.name, self.avatar.stype)
 
         self.sprites.append(sprite)        
     
