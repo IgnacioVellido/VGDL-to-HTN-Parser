@@ -3,7 +3,7 @@
 # Ignacio Vellido Expósito
 # 23/08/2019
 # 
-# Produces a HPDL domain
+# Produces a HPDL domain receiving each part separately
 ###############################################################################
 
 class DomainWriter:
@@ -12,9 +12,10 @@ class DomainWriter:
     Arguments:
         types - functions - predicates - tasks - actions
     """
-    def __init__(self, types, functions, predicates, tasks, actions):
+    def __init__(self, types, constants, functions, predicates, tasks, actions):
         self.text_domain = self.get_domain_definition()
         self.text_domain += self.get_types(types)
+        self.text_domain += self.get_constants(constants)
         self.text_domain += self.get_predicates(predicates)
         self.text_domain += self.get_functions(functions)
         self.text_domain += self.get_tasks(tasks)
@@ -49,6 +50,8 @@ class DomainWriter:
 \t\t; For time management
 \t\t:durative-actions
 \t\t:metatags
+
+\t\t:equality
 \t)
 """
         return text    
@@ -81,14 +84,50 @@ class DomainWriter:
         text_content = ""
 
         for t in types:
-            type_class = t[0]
-
             text_content += "\n\t\t"
 
-            for i in range(1, len(t)):
-                text_content += t[i] + " "
+            type_class = t[0]
 
-            text_content += " - " + type_class
+            if t[1] == '':
+                text_content += type_class
+            else:
+                for i in range(1, len(t)):
+                    text_content += t[i] + " "
+
+                text_content += "- " + type_class
+
+        return start_text + text_content + end_text
+
+    # -------------------------------------------------------------------------
+        
+    def get_constants(self, constants):
+        """ Returns a string with the constants definition
+    
+        constants: 2D array, in each line, first value represents the class, the 
+        rest are the name of the constants
+        """
+        start_text = """
+\t; Constants -----------------------------------------------------------------
+
+\t(:constants"""
+
+        end_text = """
+\t)
+"""
+        text_content = ""
+
+        for c in constants:
+            text_content += "\n\t\t"
+
+            type_class = c[0]
+
+            if c[1] == '':
+                text_content += type_class
+            else:
+                for i in range(1, len(c)):
+                    text_content += c[i] + " "
+
+                text_content += "- " + type_class
 
         return start_text + text_content + end_text
 

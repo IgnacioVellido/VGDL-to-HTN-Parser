@@ -3,8 +3,8 @@
 # Ignacio Vellido Expósito
 # 21/08/2019
 # 
-# Probably a class for the avatar will be needed (to know the type and the
-# additional parameter it uses)
+# ANTLR Listener. Reads tokens and store in the corresponding data structure.
+# It also creates the separate parts of HPDL.
 ###############################################################################
 
 import sys
@@ -69,11 +69,13 @@ class HpdlVgdlListener(VgdlListener):
     def __init__(self):
         # String arrays
         self.types      = []
+        self.constants  = []
         self.predicates = []
         self.functions  = []
         self.tasks      = []
         self.actions    = []
-        # First only one avatar
+
+        # Only one avatar for now
         self.avatar     = None
 
     # -------------------------------------------------------------------------
@@ -84,6 +86,7 @@ class HpdlVgdlListener(VgdlListener):
         Generates the multiple parts of a HPDL domain, to be sent to the writer
         """
         self.assign_types()
+        self.assign_constants()
         self.assign_predicates()
         self.assign_functions()
         self.assign_tasks()
@@ -93,6 +96,8 @@ class HpdlVgdlListener(VgdlListener):
 
     def assign_types(self):
         """ Object, the types of each sprite and the sprites in their hierarchy """        
+        self.types.append(['Orientation', ''])
+
         stypes = []
 
         for sprite in self.sprites:
@@ -112,8 +117,15 @@ class HpdlVgdlListener(VgdlListener):
 
     # -------------------------------------------------------------------------
 
+    def assign_constants(self):
+        """ One for each orientation """
+        orientation = ['Orientation', "up", "down", "left", "right"]
+        self.constants.append(orientation)
+
+    # -------------------------------------------------------------------------
+
     def assign_predicates(self):
-        """ Avatar (or sprite ?) orientation """
+        """ Avatar (or sprite ?) orientation. Also what moves can the avatar do """
         # Debería haber una clase para esto, por si acaso no lo hago aún
         # Si fuese otro tipo de avatar (por ejemplo OrientatedAvatar) tendría can-move-up y can-move-down
         mobility = ["(can-move-left ?a - FlakAvatar)", "(can-move-right ?a - FlakAvatar)"]

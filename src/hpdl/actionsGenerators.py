@@ -3,7 +3,7 @@
 # Ignacio Vellido Expósito
 # 26/08/2019
 # 
-# Each class produces actions in a HPDL domain
+# Each class produces actions for a PDDL/HPDL domain
 ###############################################################################
 
 from hpdl.hpdlTypes import *
@@ -103,14 +103,14 @@ class AvatarActionsGenerator:
         
         # Can move and aim in any direction, can use object
         if self.avatar_type == "ShootAvatar":
-            # actions.append(self.move_up())
-            # actions.append(self.move_down())
-            # actions.append(self.move_left())
-            # actions.append(self.move_right())
-            # actions.append(self.turn_up())
-            # actions.append(self.turn_down())
-            # actions.append(self.turn_left())
-            # actions.append(self.turn_right())
+            actions.append(self.move_up())
+            actions.append(self.move_down())
+            actions.append(self.move_left())
+            actions.append(self.move_right())
+            actions.append(self.turn_up())
+            actions.append(self.turn_down())
+            actions.append(self.turn_left())
+            actions.append(self.turn_right())
             # actions.append(self.use(partner))
             pass
 
@@ -140,7 +140,9 @@ class AvatarActionsGenerator:
     def move_up(self):
         name = "AVATAR_MOVE_UP"
         parameters = [["a", self.avatar_type]]        
-        conditions = ["(can-move-up ?a)"]
+        
+        # can-move indicates that te avatar has the ability to move in that direction
+        conditions = ["(can-move-up ?a)", "(orientation ?a up)", "(= (?o up))"]        
         effects = ["(decrease (coordinate_x ?a) 1)"]
 
         return Action(name, parameters, conditions, effects)
@@ -150,7 +152,11 @@ class AvatarActionsGenerator:
     def move_down(self):
         name = "AVATAR_MOVE_DOWN"
         parameters = [["a", self.avatar_type]]        
-        conditions = ["(can-move-down ?a)"]
+        
+        # SOME AVATARS DONT NEED TO BE ORIENTED
+
+        # can-move indicates that te avatar has the ability to move in that direction
+        conditions = ["(can-move-right ?a)", "(orientation ?a down)", "(= (?o down))"]        
         effects = ["(increase (coordinate_x ?a) 1)"]
 
         return Action(name, parameters, conditions, effects)
@@ -160,7 +166,9 @@ class AvatarActionsGenerator:
     def move_left(self):
         name = "AVATAR_MOVE_LEFT"
         parameters = [["a", self.avatar_type]]        
-        conditions = ["(can-move-left ?a)"]
+        
+        # can-move indicates that te avatar has the ability to move in that direction
+        conditions = ["(can-move-left ?a)", "(orientation ?a left)", "(= (?o left))"]        
         effects = ["(decrease (coordinate_y ?a) 1)"]
 
         return Action(name, parameters, conditions, effects)
@@ -170,8 +178,62 @@ class AvatarActionsGenerator:
     def move_right(self):
         name = "AVATAR_MOVE_RIGHT"
         parameters = [["a", self.avatar_type]]        
-        conditions = ["(can-move-right ?a)"]
+
+        # can-move indicates that te avatar has the ability to move in that direction
+        conditions = ["(can-move-right ?a)", "(orientation ?a right)", "(= (?o right))"]        
         effects = ["(increase (coordinate_y ?a) 1)"]
+
+        return Action(name, parameters, conditions, effects)
+
+    # -------------------------------------------------------------------------
+
+    def turn_up(self):
+        name = "AVATAR_TURN_UP"
+        parameters = [["a", self.avatar_type], ["o", 'Orientation']]      
+        
+        # If this predicate is not defined, the avatar can't turn
+        conditions = ["(orientation ?a ?o)"]  
+
+        effects = ["(not (orientation ?a ?o))", "(orientation ?a up)"]
+
+        return Action(name, parameters, conditions, effects)
+
+    # -------------------------------------------------------------------------
+
+    def turn_down(self):
+        name = "AVATAR_TURN_DOWN"
+        parameters = [["a", self.avatar_type], ["o", 'Orientation']]        
+
+        # If this predicate is not defined, the avatar can't turn
+        conditions = ["(orientation ?a ?o)"]  
+
+        effects = ["(not (orientation ?a ?o))", "(orientation ?a down)"]
+
+        return Action(name, parameters, conditions, effects)
+
+    # -------------------------------------------------------------------------
+
+    def turn_left(self):
+        name = "AVATAR_TURN_LEFT"
+        parameters = [["a", self.avatar_type], ["o", 'Orientation']]      
+        
+        # If this predicate is not defined, the avatar can't turn
+        conditions = ["(orientation ?a ?o)"]  
+
+        effects = ["(not (orientation ?a ?o))", "(orientation ?a left)"]
+
+        return Action(name, parameters, conditions, effects)
+
+    # -------------------------------------------------------------------------
+
+    def turn_right(self):
+        name = "AVATAR_TURN_RIGHT"
+        parameters = [["a", self.avatar_type], ["o", 'Orientation']]      
+        
+        # If this predicate is not defined, the avatar can't turn
+        conditions = ["(orientation ?a ?o)"]  
+
+        effects = ["(not (orientation ?a ?o))", "(orientation ?a right)"]
 
         return Action(name, parameters, conditions, effects)
 
@@ -406,3 +468,7 @@ def SpriteActionGenerator():
         effects = []
 
         return Action(name, parameters, conditions, effects)        
+
+
+# class InteractionActionsGenerator():
+    # If resource is collected, increase +1

@@ -3,7 +3,7 @@
 # Ignacio Vellido Expósito
 # 26/08/2019
 # 
-# Multiple classes for a HPDL domain
+# Multiple classes defining parts of a HPDL domain
 ###############################################################################
 
 class Task:

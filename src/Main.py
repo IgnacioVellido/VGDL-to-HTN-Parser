@@ -209,12 +209,13 @@ def main(argv):
     # Getting the domain
 
     types = listener.types
+    constants = listener.constants
     functions = listener.functions
     predicates = listener.predicates
     tasks = listener.tasks
     actions = listener.actions
 
-    writer = DomainWriter(types, functions, predicates, tasks, actions)
+    writer = DomainWriter(types, constants, functions, predicates, tasks, actions)
 
     text_domain = writer.get_domain()
 
