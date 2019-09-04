@@ -119,19 +119,17 @@ class HpdlVgdlListener(VgdlListener):
 
     def assign_constants(self):
         """ One for each orientation """
-        orientation = ['Orientation', "up", "down", "left", "right"]
+
+        # none = Avatar don't have orientation
+        orientation = ['Orientation', "up", "down", "left", "right", "none"]
         self.constants.append(orientation)
 
     # -------------------------------------------------------------------------
 
     def assign_predicates(self):
         """ Avatar (or sprite ?) orientation. Also what moves can the avatar do """
-        # Debería haber una clase para esto, por si acaso no lo hago aún
-        # Si fuese otro tipo de avatar (por ejemplo OrientatedAvatar) tendría can-move-up y can-move-down
-        mobility = ["(can-move-left ?a - FlakAvatar)", "(can-move-right ?a - FlakAvatar)"]
 
-        # Type Orientation también, no ???
-        # orientation = ["(orientation ?a - OrientedAvatar ?o - Orientation)"]
+        mobility = ["(can-move-left ?a - FlakAvatar)", "(can-move-right ?a - FlakAvatar)"]
 
         self.predicates.extend(mobility)
 
@@ -165,25 +163,26 @@ class HpdlVgdlListener(VgdlListener):
 
     def assign_tasks(self):
         """ UNFINISHED """
-        turn_method = Method("turn", [], ["(move_avatar)", "(move_objects)", "(check_interactions)"])
+        turn_method = Method("turn", [], ["(move_avatar)"]) #, "(move_objects)", "(check_interactions)"])
         turn = Task("Turn", [], [turn_method])
         self.tasks.append(turn)
 
 
-        # method_avatar = Method("move-avatar", ["(?a - " + avatar.type + " "])
-        # One method for each action
-        move_avatar = Task("move-avatar", [["a", self.avatar.stype]], [])
+        # One method for each action (depends of the avatar)
+        move_up = Method("move_up", [], ["(AVATAR_MOVE_UP ?a ?o)"])
+        # turn_up = Method("nil", [], ["(AVATAR_TURN_UP ?a ?o)"])
+        # nil = Method("nil", [], ["(AVATAR_NIL ?a)"])
+        # use = Method("use", [], ["(AVATAR_USE ?a)"])
+        move_avatar = Task("move-avatar", [["a", self.avatar.stype], ["o", "Orientation"]], 
+                            [move_up])
         self.tasks.append(move_avatar)
-
         
 
-
-        method1 = Method("test", ["(at ?t - test)", "(at ?t2 - test)"], ["(at ?c)", "(at ?c2)"])
-        method2 = Method("test2", ["(at ?t - test)", "(at ?t2 - test)"], ["(at ?c)", "(at ?c2)"])
-        test_task = Task("Test", [["test1","test2"],["test3","test4"]],
-                            [method1, method2])
-
-        self.tasks.append(test_task)
+        # method1 = Method("test", ["(at ?t - test)", "(at ?t2 - test)"], ["(at ?c)", "(at ?c2)"])
+        # method2 = Method("test2", ["(at ?t - test)", "(at ?t2 - test)"], ["(at ?c)", "(at ?c2)"])
+        # test_task = Task("Test", [["test1","test2"],["test3","test4"]],
+        #                     [method1, method2])
+        # self.tasks.append(test_task)
 
     # -------------------------------------------------------------------------
 

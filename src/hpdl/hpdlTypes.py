@@ -24,7 +24,7 @@ class Task:
         text = ""
 
         for p in self.parameters:
-            text += "?" + p[0] + " - " + p[1] + "\t"
+            text += "?" + p[0] + " - " + p[1] + " "
 
         return text
 

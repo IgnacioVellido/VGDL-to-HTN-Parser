@@ -139,11 +139,11 @@ class AvatarActionsGenerator:
 
     def move_up(self):
         name = "AVATAR_MOVE_UP"
-        parameters = [["a", self.avatar_type]]        
+        parameters = [["a", self.avatar_type], ["o", 'Orientation']]
         
         # can-move indicates that te avatar has the ability to move in that direction
-        conditions = ["(can-move-up ?a)", 
-                      "(or (not (orientation ?a ?)) (and (orientation ?a up) (= (?o up))))"]        
+        conditions = ["(can-move-up ?a)", "(orientation ?a ?o)", "(or (= ?o none) (= ?o up))"]
+                    #   "(or (not (orientation ?a ?)) (and (orientation ?a up) (= (?o up))))"]        
         effects = ["(decrease (coordinate_x ?a) 1)"]
 
         return Action(name, parameters, conditions, effects)
@@ -152,13 +152,13 @@ class AvatarActionsGenerator:
 
     def move_down(self):
         name = "AVATAR_MOVE_DOWN"
-        parameters = [["a", self.avatar_type]]        
+        parameters = [["a", self.avatar_type], ["o", 'Orientation']]
         
         # SOME AVATARS DONT NEED TO BE ORIENTED
 
         # can-move indicates that te avatar has the ability to move in that direction
-        conditions = ["(can-move-down ?a)", 
-                      "(or (not (orientation ?a ?)) (and (orientation ?a down) (= (?o down))))"]        
+        conditions = ["(can-move-down ?a)", "(orientation ?a ?o)", "(or (= ?o none) (= ?o down))"]
+                    #   "(or (not (orientation ?a ?)) (and (orientation ?a down) (= (?o down))))"]        
         effects = ["(increase (coordinate_x ?a) 1)"]
 
         return Action(name, parameters, conditions, effects)
@@ -167,11 +167,11 @@ class AvatarActionsGenerator:
 
     def move_left(self):
         name = "AVATAR_MOVE_LEFT"
-        parameters = [["a", self.avatar_type]]        
+        parameters = [["a", self.avatar_type], ["o", 'Orientation']]
         
         # can-move indicates that te avatar has the ability to move in that direction
-        conditions = ["(can-move-left ?a)", 
-                      "(or (not (orientation ?a ?)) (and (orientation ?a left) (= (?o left))))"]        
+        conditions = ["(can-move-left ?a)", "(orientation ?a ?o)", "(or (= ?o none) (= ?o left))"]
+                    #   "(or (not (orientation ?a ?)) (and (orientation ?a left) (= (?o left))))"]        
         effects = ["(decrease (coordinate_y ?a) 1)"]
 
         return Action(name, parameters, conditions, effects)
@@ -180,20 +180,21 @@ class AvatarActionsGenerator:
 
     def move_right(self):
         name = "AVATAR_MOVE_RIGHT"
-        parameters = [["a", self.avatar_type]]        
+        parameters = [["a", self.avatar_type], ["o", 'Orientation']]
 
         # can-move indicates that te avatar has the ability to move in that direction
-        conditions = ["(can-move-right ?a)", 
-                      "(or (not (orientation ?a ?)) (and (orientation ?a right) (= (?o right))))"]        
+        conditions = ["(can-move-right ?a)", "(orientation ?a ?o)", "(or (= ?o none) (= ?o right))"]
+                    #   "(or (not (orientation ?a ?)) (and (orientation ?a right) (= (?o right))))"]        
         effects = ["(increase (coordinate_y ?a) 1)"]
 
         return Action(name, parameters, conditions, effects)
 
     # -------------------------------------------------------------------------
 
+    # This method should only be called if the avatar can turn
     def turn_up(self):
         name = "AVATAR_TURN_UP"
-        parameters = [["a", self.avatar_type], ["o", 'Orientation']]      
+        parameters = [["a", self.avatar_type], ["o", 'Orientation']]
         
         # If this predicate is not defined, the avatar can't turn
         conditions = ["(orientation ?a ?o)"]  
