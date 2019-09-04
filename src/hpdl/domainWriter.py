@@ -221,7 +221,7 @@ class DomainWriter:
         for a in actions:
             text  += ("\t(:action """ + a.name + "\n\t\t:parameters ("
                      + a.get_parameters()
-                     + ")\n\t\t:condition (and\n\t\t\t\t\t\t" 
+                     + ")\n\t\t:condition (and" 
                      + a.get_conditions()
                      + "\n\t\t\t\t\t)\n\t\t:effect (and" 
                      + a.get_effects() + "\n\t\t\t\t)\n\t)\n\n")

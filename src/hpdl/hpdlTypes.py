@@ -100,7 +100,7 @@ class Action:
         text = ""
 
         for c in self.conditions:
-            text += c + " "
+            text += "\n\t\t\t\t\t" + c
 
         return text
 

@@ -142,7 +142,8 @@ class AvatarActionsGenerator:
         parameters = [["a", self.avatar_type]]        
         
         # can-move indicates that te avatar has the ability to move in that direction
-        conditions = ["(can-move-up ?a)", "(orientation ?a up)", "(= (?o up))"]        
+        conditions = ["(can-move-up ?a)", 
+                      "(or (not (orientation ?a ?)) (and (orientation ?a up) (= (?o up))))"]        
         effects = ["(decrease (coordinate_x ?a) 1)"]
 
         return Action(name, parameters, conditions, effects)
@@ -156,7 +157,8 @@ class AvatarActionsGenerator:
         # SOME AVATARS DONT NEED TO BE ORIENTED
 
         # can-move indicates that te avatar has the ability to move in that direction
-        conditions = ["(can-move-right ?a)", "(orientation ?a down)", "(= (?o down))"]        
+        conditions = ["(can-move-down ?a)", 
+                      "(or (not (orientation ?a ?)) (and (orientation ?a down) (= (?o down))))"]        
         effects = ["(increase (coordinate_x ?a) 1)"]
 
         return Action(name, parameters, conditions, effects)
@@ -168,7 +170,8 @@ class AvatarActionsGenerator:
         parameters = [["a", self.avatar_type]]        
         
         # can-move indicates that te avatar has the ability to move in that direction
-        conditions = ["(can-move-left ?a)", "(orientation ?a left)", "(= (?o left))"]        
+        conditions = ["(can-move-left ?a)", 
+                      "(or (not (orientation ?a ?)) (and (orientation ?a left) (= (?o left))))"]        
         effects = ["(decrease (coordinate_y ?a) 1)"]
 
         return Action(name, parameters, conditions, effects)
@@ -180,7 +183,8 @@ class AvatarActionsGenerator:
         parameters = [["a", self.avatar_type]]        
 
         # can-move indicates that te avatar has the ability to move in that direction
-        conditions = ["(can-move-right ?a)", "(orientation ?a right)", "(= (?o right))"]        
+        conditions = ["(can-move-right ?a)", 
+                      "(or (not (orientation ?a ?)) (and (orientation ?a right) (= (?o right))))"]        
         effects = ["(increase (coordinate_y ?a) 1)"]
 
         return Action(name, parameters, conditions, effects)
