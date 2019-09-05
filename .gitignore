@@ -1,18 +1,23 @@
 .vscode/*
 .settings/*
-/**/.antlr/*
+
+
 *.pyc
+*.pddl
 
 #############
+# From ANTLR
 
+/**/.antlr/*
 *.interp
 *.tokens
 src/VgdlParser.py
 src/VgdlListener.py
 src/VgdlLexer.py
 
-*.pddl
 
 #############
+# For testing
 
 src/test/*
+*.stackdump

@@ -130,7 +130,9 @@ class HpdlVgdlListener(VgdlListener):
     def assign_predicates(self):
         """ Avatar (or sprite ?) orientation. Also what moves can the avatar do """
 
-        mobility = ["(can-move-left ?a - FlakAvatar)", "(can-move-right ?a - FlakAvatar)"]
+        """ Probably another class for this """
+        mobility = ["(can-move-left ?a - FlakAvatar)", "(can-move-right ?a - FlakAvatar)",
+                    "(orientation ?a - FlakAvatar ?o - Orientation)", "(can-use ?a - FlakAvatar)"]
 
         self.predicates.extend(mobility)
 
@@ -156,27 +158,27 @@ class HpdlVgdlListener(VgdlListener):
 
         types_names = list(set(types_names))
 
+        """ ERROR WHEN SPRITE AND CLASS HAVE THE SAME NAME """
+
         for t in types_names:
-            self.functions.append("(counter ?o - " + t + ")")
+            if t is not "":
+                self.functions.append("(counter_" + t + " ?o - " + t + ")")
 
 
     # -------------------------------------------------------------------------
 
     def assign_tasks(self):
         """ UNFINISHED """
-        turn_method = Method("turn", [], ["(move_avatar)"]) #, "(move_objects)", "(check_interactions)"])
-        turn = Task("Turn", [], [turn_method])
+        turn_method = Method("turn", [], ["(turn_avatar ?a ?o)"]) #, "(turn_objects)", "(check_interactions)"])
+        turn = Task("Turn", [["a", "FlakAvatar"], ["o", "Orientation"]], [turn_method])
         self.tasks.append(turn)
 
-        # Avatar movement ----------------
+        # Avatar turn ----------------
         avatar_methods = AvatarMethodsGenerator(self.avatar.name, self.avatar.stype).get_methods()
 
-        # turn_up = Method("nil", [], ["(AVATAR_TURN_UP ?a ?o)"])
-        # nil = Method("nil", [], ["(AVATAR_NIL ?a)"])
-        # use = Method("use", [], ["(AVATAR_USE ?a)"])
-        move_avatar = Task("move-avatar", [["a", self.avatar.stype], ["o", "Orientation"]], 
+        turn_avatar = Task("turn_avatar", [["a", self.avatar.stype], ["o", "Orientation"]], 
                             avatar_methods)
-        self.tasks.append(move_avatar)
+        self.tasks.append(turn_avatar)
         
 
         # method1 = Method("test", ["(at ?t - test)", "(at ?t2 - test)"], ["(at ?c)", "(at ?c2)"])

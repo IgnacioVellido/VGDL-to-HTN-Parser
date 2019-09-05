@@ -77,13 +77,13 @@ class Action:
     Atributes:
         name            String
         parameters      List of pairs <alias, type>
-        conditions      List of predicates, with brackets
+        preconditions   List of predicates, with brackets
         effects         List of effects, with brackets
     """
-    def __init__(self, name, parameters, conditions, effects):
+    def __init__(self, name, parameters, preconditions, effects):
         self.name = name
         self.parameters = parameters
-        self.conditions = conditions
+        self.preconditions = preconditions
         self.effects = effects
 
     def get_parameters(self):
@@ -95,11 +95,11 @@ class Action:
 
         return text
 
-    def get_conditions(self):
+    def get_preconditions(self):
         """ Returns list of conditions without external brackets """
         text = ""
 
-        for c in self.conditions:
+        for c in self.preconditions:
             text += "\n\t\t\t\t\t" + c
 
         return text

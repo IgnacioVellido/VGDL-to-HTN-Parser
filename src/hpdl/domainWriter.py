@@ -48,8 +48,8 @@ class DomainWriter:
 \t\t:htn-expansion
 
 \t\t; For time management
-\t\t:durative-actions
-\t\t:metatags
+\t\t; :durative-actions
+\t\t; :metatags
 
 \t\t:equality
 \t)
@@ -221,8 +221,8 @@ class DomainWriter:
         for a in actions:
             text  += ("\t(:action """ + a.name + "\n\t\t:parameters ("
                      + a.get_parameters()
-                     + ")\n\t\t:condition (and" 
-                     + a.get_conditions()
+                     + ")\n\t\t:precondition (and" 
+                     + a.get_preconditions()
                      + "\n\t\t\t\t\t)\n\t\t:effect (and" 
                      + a.get_effects() + "\n\t\t\t\t)\n\t)\n\n")
 

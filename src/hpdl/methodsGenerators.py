@@ -41,7 +41,7 @@ class AvatarMethodsGenerator:
         if self.avatar_type == "FlakAvatar":
             methods.append(self.move_left())
             methods.append(self.move_right())
-            methods.append(self.use(partner))
+            # methods.append(self.use(partner))
 
         # Always same orientation, can only move left or right
         if self.avatar_type == "HorizontalAvatar":

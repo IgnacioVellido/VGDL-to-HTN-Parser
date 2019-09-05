@@ -21,13 +21,7 @@ IF NOT x%option:run=% == x%option% (
 ) 
 
 IF NOT x%option:test=% == x%option% (  
-  IF "%vgdl-file%" == "" (
-    ECHO Wrong number of arguments
-    ECHO Usage: make.bat test [VGDL file]
-  ) ELSE (
-    ECHO ------- Parsed tree -----------
-    py Main.py %vgdl-file%
-  )
+  test\htnp\htnp.exe -d domain.pddl -p test\problem.pddl
 ) 
 
 IF NOT x%option:help=% == x%option% (  
