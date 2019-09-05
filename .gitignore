@@ -12,3 +12,7 @@ src/VgdlListener.py
 src/VgdlLexer.py
 
 *.pddl
+
+#############
+
+src/test/*

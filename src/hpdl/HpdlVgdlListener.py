@@ -17,6 +17,7 @@ from hpdl.vgdlTypes import *
 from hpdl.hpdlTypes import *
 
 from hpdl.actionsGenerators import *
+from hpdl.methodsGenerators import *
 
 # REMOVE
 # GVGAI available sprites, interactions and termination conditions
@@ -167,14 +168,14 @@ class HpdlVgdlListener(VgdlListener):
         turn = Task("Turn", [], [turn_method])
         self.tasks.append(turn)
 
+        # Avatar movement ----------------
+        avatar_methods = AvatarMethodsGenerator(self.avatar.name, self.avatar.stype).get_methods()
 
-        # One method for each action (depends of the avatar)
-        move_up = Method("move_up", [], ["(AVATAR_MOVE_UP ?a ?o)"])
         # turn_up = Method("nil", [], ["(AVATAR_TURN_UP ?a ?o)"])
         # nil = Method("nil", [], ["(AVATAR_NIL ?a)"])
         # use = Method("use", [], ["(AVATAR_USE ?a)"])
         move_avatar = Task("move-avatar", [["a", self.avatar.stype], ["o", "Orientation"]], 
-                            [move_up])
+                            avatar_methods)
         self.tasks.append(move_avatar)
         
 

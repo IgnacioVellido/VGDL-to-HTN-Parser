@@ -6,7 +6,7 @@
 # Each class produces actions for a PDDL/HPDL domain
 ###############################################################################
 
-from hpdl.hpdlTypes import *
+from hpdl.hpdlTypes import Action
 
 ###############################################################################
 # -----------------------------------------------------------------------------
@@ -22,7 +22,8 @@ class AvatarActionsGenerator:
     def get_actions(self, partner=None):
         """ Return a list of actions depending of the avatar 
         
-        partner:    If USE is available, sprite that is produced
+        partner:    If ACTION_USE is available for the avatar, 'partner' is the 
+                    sprite that is produced
         """
         actions = []
         actions.append(self.nil()) # Don't do anything
@@ -36,14 +37,6 @@ class AvatarActionsGenerator:
             # actions.append(self.use(partner))
             pass
 
-        # Remove, not information found
-        if self.avatar_type == "BirdAvatar":
-            pass
-
-        # Remove, not information found
-        if self.avatar_type == "CarAvatar":
-            pass
-
         # This avatar should have ammo
         # Always same orientation, can move horizontally and use object
         if self.avatar_type == "FlakAvatar":
@@ -55,15 +48,7 @@ class AvatarActionsGenerator:
         if self.avatar_type == "HorizontalAvatar":
             # actions.append(self.move_left())
             # actions.append(self.move_right())
-            pass
-            
-        # Remove, not information found
-        if self.avatar_type == "LanderAvatar":
-            pass
-
-        # Remove, is not an avatar. ONLY GVGAI
-        if self.avatar_type == "MissileAvatar":
-            pass
+            pass            
 
         # Always same orientation, can move in any direction
         if self.avatar_type == "MovingAvatar":
@@ -71,10 +56,6 @@ class AvatarActionsGenerator:
             # actions.append(self.move_down())
             # actions.append(self.move_left())
             # actions.append(self.move_right())
-            pass
-
-        # Remove, not information found
-        if self.avatar_type == "NullAvatar":
             pass       
 
         # ONLY GVGAI
@@ -96,10 +77,6 @@ class AvatarActionsGenerator:
             # actions.append(self.turn_left())
             # actions.append(self.turn_right())
             pass
-
-        # Remove, not information found
-        if self.avatar_type == "PlatformerAvatar":
-            pass
         
         # Can move and aim in any direction, can use object
         if self.avatar_type == "ShootAvatar":
@@ -112,24 +89,11 @@ class AvatarActionsGenerator:
             actions.append(self.turn_left())
             actions.append(self.turn_right())
             # actions.append(self.use(partner))
-            pass
-
-        # Remove, not information found
-        if self.avatar_type == "ShootOnlyAvatar":
-            pass
-
-        # Remove, not information found
-        if self.avatar_type == "SpaceshipAvatar":
-            pass    
 
         # Always same orientation, can only move up or down
         if self.avatar_type == "VerticalAvatar":
             # actions.append(self.move_up())
             # actions.append(self.move_down())
-            pass
-
-        # Remove, not information found
-        if self.avatar_type == "WizardAvatar":
             pass
         
         return actions
