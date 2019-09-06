@@ -244,7 +244,7 @@ class AvatarActionsGenerator:
 # -----------------------------------------------------------------------------
 ###############################################################################
 
-def SpriteActionGenerator():
+def SpriteActionsGenerator():
     """ Return actions depending of the sprite (not including avatars) 
     
     These actions define the movements of the sprite not (directly) related with 
@@ -294,14 +294,6 @@ def SpriteActionGenerator():
             # actions.append(self.move(direction ??))              
             pass
 
-        # Remove, no information found
-        if self.sprite_type == "PathAltChaser":            
-            pass
-
-        # Remove, no information found
-        if self.sprite_type == "PathChaser":            
-            pass
-
         # Maybe not needed here
         # Oriented object that dissapear after a moment
         if self.sprite_type == "OrientedFlicker":            
@@ -327,10 +319,6 @@ def SpriteActionGenerator():
         if self.sprite_type == "RandomNPC":         
             # We can't know wich action will he choose, probably this will be empty  
             # In case we want to add something, we should add each action of the NPC 
-            pass
-
-        # Remove, no information found
-        if self.sprite_type == "RandomPathAltChaser":            
             pass
 
         # Produces objects following a specific ratio
@@ -364,7 +352,7 @@ def SpriteActionGenerator():
         pass
 
         name = self.sprite_name + "_MOVE"
-        parameters = [["a", self.sprite_type]]        
+        parameters = [["s", self.sprite_type]]        
         conditions = []
         effects = []
 
@@ -378,7 +366,7 @@ def SpriteActionGenerator():
         pass
 
         name = self.sprite_name + "_EXPAND"
-        parameters = [["a", self.sprite_type]]        
+        parameters = [["s", self.sprite_type]]        
         conditions = []
         effects = []
 
@@ -391,7 +379,7 @@ def SpriteActionGenerator():
         pass
 
         name = self.sprite_name + "_PRODUCE"
-        parameters = [["a", self.sprite_type], ["p", partner.name]]        
+        parameters = [["s", self.sprite_type], ["p", partner.name]]        
         conditions = []
         effects = []
 
@@ -404,7 +392,7 @@ def SpriteActionGenerator():
         pass
 
         name = self.sprite_name + "_DISSAPEAR"
-        parameters = [["a", self.sprite_type]]        
+        parameters = [["s", self.sprite_type]]        
         conditions = []
         effects = []
 
@@ -418,7 +406,7 @@ def SpriteActionGenerator():
         pass
 
         name = self.sprite_name + "_CHASE"
-        parameters = [["a", self.sprite_type], ["p", partner.name]]        
+        parameters = [["s", self.sprite_type], ["p", partner.name]]        
         conditions = []
         effects = []
 
@@ -432,7 +420,7 @@ def SpriteActionGenerator():
         pass
 
         name = self.sprite_name + "_FLEE"
-        parameters = [["a", self.sprite_type], ["p", partner.name]]        
+        parameters = [["s", self.sprite_type], ["p", partner.name]]        
         conditions = []
         effects = []
 
