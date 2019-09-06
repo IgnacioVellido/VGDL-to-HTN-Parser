@@ -12,6 +12,8 @@ from hpdl.hpdlTypes import Action
 # -----------------------------------------------------------------------------
 ###############################################################################
 
+# RECIEVE partner IN initializer ?
+
 class AvatarActionsGenerator:
     """ Returns different actions depending of the avatar """
     def __init__(self, avatar_name, avatar_type):
@@ -427,5 +429,197 @@ def SpriteActionsGenerator():
         return Action(name, parameters, conditions, effects)        
 
 
-# class InteractionActionsGenerator():
-    # If resource is collected, increase +1
+###############################################################################
+# -----------------------------------------------------------------------------
+###############################################################################
+
+# If resource is collected, increase +1
+
+class InteractionActionsGenerator():
+    """ Returns an action for each interaction """
+    def __init__(self, sprite_name, sprite_stype, 
+                       partner_name, partner_stype,
+                       interaction):
+
+        self.interaction  = interaction
+        self.sprite_name = sprite_name
+        self.sprite_type = sprite_stype
+        self.partner_name = partner_name
+        self.partner_type = partner_stype
+
+    def get_actions(self):
+        """ Return a list of actions depending of the interaction """
+        actions = []
+
+        # [GVGAI] Adds a certain quantity of health points
+        if self.interaction == "addHealthPoints":
+            pass    
+
+        # [GVGAI] Puts health points to max
+        if self.interaction == "addHealthPointsToMax":
+            pass    
+
+        # [GVGAI] Changes position and orientation of sprite to partner
+        if self.interaction == "align":
+            pass    
+
+        # Randomly changesdirection of partner
+        if self.interaction == "attractGaze":
+            pass    
+
+        # Not sure what it does, seems like the center of the object decides the direction
+        if self.interaction == "bounceDirection":
+            pass    
+
+        # Sprite tries to move in the opposite direction of partner
+        if self.interaction == "bounceForward":
+            pass    
+
+        # Change resource (sprite) in the object (partner) to a given
+        if self.interaction == "changeResource":
+            pass
+
+        # Creates a copy
+        if self.interaction == "cloneSprite":
+            pass
+
+        # Increment resource (sprite) in the object (partner)
+        if self.interaction == "collectResource":
+            pass    
+
+        # [GVGAI] Decrease speed of all objects of the type of the sprite
+        if self.interaction == "decreaseSpeedToAll":
+            pass    
+
+        # Changes to a random orientation
+        if self.interaction == "flipDirection":
+            pass
+
+        # [GVGAI] Increase speed of all objects of the sprite type
+        if self.interaction == "increaseSpeedToAll":
+            pass    
+
+        # [GVGAI] Kill all sprite of the same type
+        if self.interaction == "killAll":
+            pass        
+
+        # Sprite and partner dies
+        if self.interaction == "killBoth":
+            pass
+
+        # Kill sprite if partner is not destroyed by the collision
+        if self.interaction == "killIfAlive":
+            pass    
+
+        # Kill sprite if partner is above him
+        if self.interaction == "killIfFromAbove":
+            pass        
+
+        # If sprite has more resource than parameter (limit), kill it
+        if self.interaction == "killIfHasMore":
+            pass    
+
+        # Not found in the GVGAI files
+        # If sprite has less resource than parameter (limit), kill it
+        # if self.interaction == "killIfHasLess":
+            # pass    
+
+        # Kill sprite if speed is higher than the given
+        if self.interaction == "killIfFast":
+            pass    
+
+        # If partner has more resource than parameter (limit), kill sprite
+        if self.interaction == "killIfOtherHasMore":
+            pass
+
+        # If partner has less resource than parameter (limit), kill sprite
+        if self.interaction == "killIfOtherHasLess":
+            pass
+
+        # Kill sprite if speed is lower than the given
+        if self.interaction == "killIfSlow":
+            pass    
+
+        # Sprite dies
+        if self.interaction == "killSprite":
+            pass
+
+        # Movement of partner is added to sprite (same quantity and direction)
+        if self.interaction == "pullWithIt":
+            pass
+
+        # [GVGAI] Changes score of the avatar
+        if self.interaction == "removeScore":
+            pass    
+
+        # Changes orientation 180º
+        if self.interaction == "reverseDirection":
+            pass
+
+        # [GVGAI] Asigns a specific speed to the sprite
+        if self.interaction == "setSpeedToAll":
+            pass    
+
+        # Creates sprite behind partner
+        if self.interaction == "spawnBehind":
+            pass    
+
+        # If sprite has more resource than parameter (limit), create new sprite
+        if self.interaction == "spawnIfHasMore":
+            pass
+
+        # If sprite has less resource than parameter (limit), create new sprite
+        if self.interaction == "spawnIfHasLess":
+            pass
+
+        # Undo last movement
+        if self.interaction == "stepBack":
+            pass
+
+        # [GVGAI] Decrease a certain quantity of health points
+        if self.interaction == "substractHealthPoints":
+            pass    
+
+        # Move sprite to partner position (must be a Portal, if not, destroy sprite)
+        if self.interaction == "teleportToExit":
+            pass    
+
+        # [GVGAI] Changes sprite to stype if there are a certain quantity (stypeCount)
+        if self.interaction == "transformIfCount":
+            pass
+
+        # Seems like it creates a new copy of sprite
+        if self.interaction == "transformTo":
+            pass
+
+        # [GVGAI] Transform sprite to one of his childs
+        if self.interaction == "transformToRandomChild":
+            pass
+
+        # [GVGAI] Transform all sprites of stype to stype_other in the same position
+        if self.interaction == "transformToSingleton":
+            pass
+
+        # Not sure what it does, in VGDL seems to call reverseDirection
+        if self.interaction == "turnAround":
+            pass
+
+        # Undo movement of every object in the game
+        if self.interaction == "undoAll":
+            pass
+
+        # [GVGAI] Changes the "spawn type" to SpawnPoint
+        if self.interaction == "updateSpawnType":
+            pass    
+
+        # Bounce in a perpendicular direction from the wall
+        if self.interaction == "wallBounce":
+            pass        
+
+        # Stops sprite in front of wall
+        if self.interaction == "wallStop":
+            pass
+
+        # Move sprite at the end of the screen in the orientation of sprite
+        if self.interaction == "wrapAround":
+            pass

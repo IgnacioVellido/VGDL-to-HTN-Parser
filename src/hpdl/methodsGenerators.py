@@ -12,6 +12,8 @@ from hpdl.hpdlTypes import Method
 # -----------------------------------------------------------------------------
 ###############################################################################
 
+# RECIEVE partner IN initializer ?
+
 class AvatarMethodsGenerator:
     """ Returns different methods depending of the avatar """
     def __init__(self, avatar_name, avatar_type):

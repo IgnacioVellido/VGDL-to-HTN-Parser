@@ -19,26 +19,6 @@ from hpdl.hpdlTypes import *
 from hpdl.actionsGenerators import *
 from hpdl.methodsGenerators import *
 
-# REMOVE
-# GVGAI available sprites, interactions and termination conditions
-
-# effectStrings = [
-#     "stepBack", "turnAround", "killSprite", "killBoth", "killAll", "transformTo", "transformToSingleton", "transformIfCount",
-#     "wrapAround", "changeResource", "killIfHasLess", "killIfHasMore", "cloneSprite",
-#     "flipDirection", "reverseDirection", "shieldFrom", "undoAll", "spawn", "spawnIfHasMore", "spawnIfHasLess",
-#     "pullWithIt", "wallStop", "collectResource", "collectResourceIfHeld", "killIfOtherHasMore", "killIfFromAbove",
-#     "teleportToExit", "bounceForward", "attractGaze", "align", "subtractHealthPoints", "addHealthPoints",
-#     "transformToAll", "addTimer", "killIfFrontal", "killIfNotFrontal", "spawnBehind",
-#     "updateSpawnType", "removeScore", "increaseSpeedToAll", "decreaseSpeedToAll", "setSpeedForAll", "transformToRandomChild",
-#     "addHealthPointsToMax", "spawnIfCounterSubTypes", "bounceDirection", "wallBounce", "killIfSlow", "killIfAlive",
-#     "waterPhysics", "halfSpeed", "killIfNotUpright", "killIfFast", "wallReverse", "spawnAbove", "spawnLeft", "spawnRight", "spawnBelow"
-# ]
-
-# terminationStrings = [
-#     "MultiSpriteCounter", "SpriteCounter", "SpriteCounterMore", "MultiSpriteCounterSubTypes", "Timeout", "StopCounter"
-# ]
-
-
 ###############################################################################
 # -----------------------------------------------------------------------------
 ###############################################################################
