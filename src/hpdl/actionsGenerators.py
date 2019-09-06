@@ -162,8 +162,8 @@ class AvatarActionsGenerator:
         name = "AVATAR_TURN_UP"
         parameters = [["a", self.avatar_type], ["o", 'Orientation']]
         
-        # If this predicate is not defined, the avatar can't turn
-        conditions = ["(orientation ?a ?o)"]  
+        # If orientation == none, the avatar can change orientation
+        conditions = ["(orientation ?a ?o)", "(not (= ?o none))"]  
 
         effects = ["(not (orientation ?a ?o))", "(orientation ?a up)"]
 
@@ -175,8 +175,8 @@ class AvatarActionsGenerator:
         name = "AVATAR_TURN_DOWN"
         parameters = [["a", self.avatar_type], ["o", 'Orientation']]        
 
-        # If this predicate is not defined, the avatar can't turn
-        conditions = ["(orientation ?a ?o)"]  
+        # If orientation == none, the avatar can change orientation
+        conditions = ["(orientation ?a ?o)", "(not (= ?o none))"]
 
         effects = ["(not (orientation ?a ?o))", "(orientation ?a down)"]
 
@@ -188,8 +188,8 @@ class AvatarActionsGenerator:
         name = "AVATAR_TURN_LEFT"
         parameters = [["a", self.avatar_type], ["o", 'Orientation']]      
         
-        # If this predicate is not defined, the avatar can't turn
-        conditions = ["(orientation ?a ?o)"]  
+        # If orientation == none, the avatar can change orientation
+        conditions = ["(orientation ?a ?o)", "(not (= ?o none))"]
 
         effects = ["(not (orientation ?a ?o))", "(orientation ?a left)"]
 
@@ -201,8 +201,8 @@ class AvatarActionsGenerator:
         name = "AVATAR_TURN_RIGHT"
         parameters = [["a", self.avatar_type], ["o", 'Orientation']]      
         
-        # If this predicate is not defined, the avatar can't turn
-        conditions = ["(orientation ?a ?o)"]  
+        # If orientation == none, the avatar can change orientation
+        conditions = ["(orientation ?a ?o)", "(not (= ?o none))"]
 
         effects = ["(not (orientation ?a ?o))", "(orientation ?a right)"]
 
@@ -214,7 +214,6 @@ class AvatarActionsGenerator:
     # can-use is a predicate that should not be active in case there is no ammo
     def use(self, partner):
         """ ???
-
 
         partner:     Sprite that is generated
         """

@@ -18,6 +18,7 @@ from hpdl.hpdlTypes import *
 
 from hpdl.actionsGenerators import *
 from hpdl.methodsGenerators import *
+from hpdl.predicatesGenerators import *
 
 ###############################################################################
 # -----------------------------------------------------------------------------
@@ -111,10 +112,9 @@ class HpdlVgdlListener(VgdlListener):
         """ Avatar (or sprite ?) orientation. Also what moves can the avatar do """
 
         """ Probably another class for this """
-        mobility = ["(can-move-left ?a - FlakAvatar)", "(can-move-right ?a - FlakAvatar)",
-                    "(orientation ?a - FlakAvatar ?o - Orientation)", "(can-use ?a - FlakAvatar)"]
+        avatar = AvatarPredicatesGenerator(self.avatar.name, self.avatar.stype).get_predicates()
 
-        self.predicates.extend(mobility)
+        self.predicates.extend(avatar)
 
     # -------------------------------------------------------------------------
 
