@@ -109,9 +109,7 @@ class HpdlVgdlListener(VgdlListener):
     # -------------------------------------------------------------------------
 
     def assign_predicates(self):
-        """ Avatar (or sprite ?) orientation. Also what moves can the avatar do """
-
-        """ Probably another class for this """
+        """ Depends of the avatar - Probably more needed to undo operations """
         avatar = AvatarPredicatesGenerator(self.avatar.name, self.avatar.stype).get_predicates()
 
         self.predicates.extend(avatar)
