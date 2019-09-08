@@ -28,7 +28,6 @@ class AvatarActionsGenerator:
                     sprite that is produced
         """
         actions = []
-        actions.append(self.nil()) # Don't do anything
 
         # Can't move but can use object
         if self.avatar_type == "AimedAvatar":
@@ -97,6 +96,9 @@ class AvatarActionsGenerator:
             # actions.append(self.move_up())
             # actions.append(self.move_down())
             pass
+
+
+        actions.append(self.nil()) # As last resource, don't do anything
         
         return actions
 

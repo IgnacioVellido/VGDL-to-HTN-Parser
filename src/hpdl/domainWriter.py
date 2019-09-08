@@ -191,11 +191,14 @@ class DomainWriter:
         for t in tasks:
             text_method = ""
 
-            for m in t.methods:                      
-                text_method += ("\n\t\t(:method " + m.name + "\n\t\t\t\t:precondition (and " 
-                               + m.get_preconditions() 
-                               + "\n\t\t\t\t\t\t\t\t)\n\t\t\t\t:tasks ( " 
-                               + m.get_tasks() + " \n\t\t\t\t\t\t)\n\t\t)\n")
+            for m in t.methods:          
+                preconditions = m.get_preconditions()
+
+                text_method += ("\n\t\t(:method " + m.name + "\n\t\t\t\t:precondition (" 
+                                # If no preconditions are defined, we can't write the 'and' 
+                                + ("" if not preconditions else ("and " + preconditions))   
+                                + "\n\t\t\t\t\t\t\t\t)\n\t\t\t\t:tasks ( " 
+                                + m.get_tasks() + " \n\t\t\t\t\t\t)\n\t\t)\n")
 
             text_task = ("(:task """ + t.name + "\n\t\t:parameters (" + t.get_parameters()
                         + ")\n" + text_method + "\t)\n")
@@ -219,11 +222,15 @@ class DomainWriter:
         text = "\n"
 
         for a in actions:
+            preconditions = a.get_preconditions()
+            effects = a.get_effects()
+
             text  += ("\t(:action """ + a.name + "\n\t\t:parameters ("
                      + a.get_parameters()
-                     + ")\n\t\t:precondition (and" 
-                     + a.get_preconditions()
-                     + "\n\t\t\t\t\t)\n\t\t:effect (and" 
-                     + a.get_effects() + "\n\t\t\t\t)\n\t)\n\n")
+                     + ")\n\t\t:precondition (" 
+                     + ("" if not preconditions else ("and " + preconditions))
+                     + "\n\t\t\t\t\t)\n\t\t:effect (" 
+                     + ("" if not effects else ("and " + effects))
+                     + "\n\t\t\t\t)\n\t)\n\n")
 
         return start_text + text

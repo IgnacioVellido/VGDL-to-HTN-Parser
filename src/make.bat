@@ -24,6 +24,10 @@ IF NOT x%option:test=% == x%option% (
   test\htnp\htnp.exe -d domain.pddl -p test\problem.pddl
 ) 
 
+IF NOT x%option:verbose=% == x%option% (  
+  test\htnp\htnp.exe -d domain.pddl -p test\problem.pddl -v
+) 
+
 IF NOT x%option:help=% == x%option% (  
   ECHO Usage ---------------------------
   ECHO To build: make.bat build 
