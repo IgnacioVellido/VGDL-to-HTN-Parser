@@ -152,7 +152,7 @@ class HpdlVgdlListener(VgdlListener):
 
         for t in types_names:
             if t is not "":
-                self.functions.append("(counter_" + t + " ?o - " + t + ")")
+                self.functions.append("(counter_" + t + ")")
 
 
     # -------------------------------------------------------------------------
