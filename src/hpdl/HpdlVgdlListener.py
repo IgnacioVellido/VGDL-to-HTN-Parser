@@ -16,9 +16,9 @@ from VgdlListener import VgdlListener
 from hpdl.vgdlTypes import *
 from hpdl.hpdlTypes import *
 
-from hpdl.actionsGenerators import *
-from hpdl.methodsGenerators import *
-from hpdl.predicatesGenerators import *
+from hpdl.avatar import *
+from hpdl.object import *
+from hpdl.interaction import *
 
 ###############################################################################
 # -----------------------------------------------------------------------------
@@ -141,7 +141,7 @@ class HpdlVgdlListener(VgdlListener):
 
     def assign_predicates(self):
         """ Depends of the avatar - Probably more needed to undo operations """
-        avatar = AvatarPredicatesGenerator(self.avatar.name, self.avatar.stype).get_predicates()
+        avatar = AvatarPredicates(self.avatar.name, self.avatar.stype).get_predicates()
 
         self.predicates.extend(avatar)
 
@@ -181,7 +181,7 @@ class HpdlVgdlListener(VgdlListener):
         self.tasks.append(turn)
 
         # Avatar turn ----------------
-        avatar_methods = AvatarMethodsGenerator(self.avatar.name, self.avatar.stype).get_methods(self.partner)
+        avatar_methods = AvatarMethods(self.avatar.name, self.avatar.stype).get_methods(self.partner)
 
         """ PROBABLY ANOTHER CLASS FOR TASKS """
         turn_avatar = Task("turn_avatar", [["a", self.avatar.stype], ["o", "Orientation"], ["p", self.partner.name]], 
@@ -195,23 +195,8 @@ class HpdlVgdlListener(VgdlListener):
         """ Stores the partner of the avatar (if exists) and calls the different
         actions generators """
 
-        # If it has USE command, search his partner (produced sprite)
-        # list_avatar_use = ["FlakAvatar", "AimedAvatar", "ShootAvatar"]
-        # if self.avatar.stype in list_avatar_use:
-        #     matching = [s for s in self.avatar.parameters if "stype" in s]
-        #     partner_name = matching[0].replace("stype=", "")
-
-        #     # We have the sprite name, now we need the hole object
-        #     """Probably the entire object is not needed, it must be checked later on"""
-        #     for sprite in self.sprites:
-        #         if sprite.name is not None and partner_name in sprite.name:
-        #             self.partner = sprite                
-        # if self.partner is not None:            
-        avatar_actions = AvatarActionsGenerator(self.avatar.name, 
-                                                self.avatar.stype).get_actions(self.partner)
-        # else:                  
-            # avatar_actions = AvatarActionsGenerator(self.avatar.name, 
-                                                    # self.vatar.stype).get_actions()
+        avatar_actions = AvatarActions(self.avatar.name, 
+                                        self.avatar.stype).get_actions(self.partner)
 
         # Getting specific avatar actions
         self.actions.extend(avatar_actions)
