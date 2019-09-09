@@ -49,7 +49,7 @@ class AvatarActionsGenerator:
         if self.avatar_type == "FlakAvatar":
             actions.append(self.move_left())
             actions.append(self.move_right())
-            # actions.append(self.use(partner))
+            actions.append(self.use(partner))
 
         # Always same orientation, can only move left or right
         if self.avatar_type == "HorizontalAvatar":
@@ -233,7 +233,7 @@ class AvatarActionsGenerator:
         conditions = ["(can-use ?a)"]
         
         # Generate the partner object in a position depending of the orientation of the avatar
-        effects = ["(counter_"]
+        effects = ["(increase (counter_" + partner.name + ") 1)"]
 
         return Action(name, parameters, conditions, effects)        
 

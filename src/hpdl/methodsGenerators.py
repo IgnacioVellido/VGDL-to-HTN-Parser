@@ -42,7 +42,7 @@ class AvatarMethodsGenerator:
         if self.avatar_type == "FlakAvatar":
             methods.append(self.move_left())
             methods.append(self.move_right())
-            # methods.append(self.use(partner))
+            methods.append(self.use(partner))
 
         # Always same orientation, can only move left or right
         if self.avatar_type == "HorizontalAvatar":
@@ -181,9 +181,12 @@ class AvatarMethodsGenerator:
     # can-use is a predicate that should not be active in case there is no ammo
     def use(self, partner):
         """ UNFINISHED """
+        if partner == None:
+            raise TypeError('Argument "partner" is not defined')
+
         name = "use"
         preconditions = []
-        actions = ["(AVATAR_USE ?a ?partner)"]    
+        actions = ["(AVATAR_USE ?a ?p)"]    
 
         return Method(name, preconditions, actions)
 

@@ -59,6 +59,7 @@ class HpdlVgdlListener(VgdlListener):
 
         # Only one avatar for now
         self.avatar     = None
+        self.partner    = None
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
@@ -67,12 +68,30 @@ class HpdlVgdlListener(VgdlListener):
         """ 
         Generates the multiple parts of a HPDL domain, to be sent to the writer
         """
+        self.search_partner()
+
         self.assign_types()
         self.assign_constants()
         self.assign_predicates()
         self.assign_functions()
         self.assign_tasks()
         self.assign_actions()
+
+    # -------------------------------------------------------------------------
+
+    def search_partner(self):
+        """ If it has USE command, search his partner (produced sprite) """
+        
+        list_avatar_use = ["FlakAvatar", "AimedAvatar", "ShootAvatar"]
+        if self.avatar.stype in list_avatar_use:
+            matching = [s for s in self.avatar.parameters if "stype" in s]
+            partner_name = matching[0].replace("stype=", "")
+
+            # We have the sprite name, now we need the hole object
+            """Probably the entire object is not needed, it must be checked later on"""
+            for sprite in self.sprites:
+                if sprite.name is not None and partner_name in sprite.name:
+                    self.partner = sprite                
 
     # -------------------------------------------------------------------------
 
@@ -148,8 +167,6 @@ class HpdlVgdlListener(VgdlListener):
 
         types_names = list(set(types_names))
 
-        """ ERROR WHEN SPRITE AND CLASS HAVE THE SAME NAME """
-
         for t in types_names:
             if t is not "":
                 self.functions.append("(counter_" + t + ")")
@@ -159,48 +176,42 @@ class HpdlVgdlListener(VgdlListener):
 
     def assign_tasks(self):
         """ UNFINISHED """
-        turn_method = Method("turn", [], ["(turn_avatar ?a ?o)"]) #, "(turn_objects)", "(check_interactions)"])
-        turn = Task("Turn", [["a", "FlakAvatar"], ["o", "Orientation"]], [turn_method])
+        turn_method = Method("turn", [], ["(turn_avatar ?a ?o ?p)"]) #, "(turn_objects)", "(check_interactions)"])
+        turn = Task("Turn", [["a", "FlakAvatar"], ["o", "Orientation"], ["p", self.partner.name]], [turn_method])
         self.tasks.append(turn)
 
         # Avatar turn ----------------
-        avatar_methods = AvatarMethodsGenerator(self.avatar.name, self.avatar.stype).get_methods()
+        avatar_methods = AvatarMethodsGenerator(self.avatar.name, self.avatar.stype).get_methods(self.partner)
 
-        turn_avatar = Task("turn_avatar", [["a", self.avatar.stype], ["o", "Orientation"]], 
+        """ PROBABLY ANOTHER CLASS FOR TASKS """
+        turn_avatar = Task("turn_avatar", [["a", self.avatar.stype], ["o", "Orientation"], ["p", self.partner.name]], 
                             avatar_methods)
         self.tasks.append(turn_avatar)
-        
-
-        # method1 = Method("test", ["(at ?t - test)", "(at ?t2 - test)"], ["(at ?c)", "(at ?c2)"])
-        # method2 = Method("test2", ["(at ?t - test)", "(at ?t2 - test)"], ["(at ?c)", "(at ?c2)"])
-        # test_task = Task("Test", [["test1","test2"],["test3","test4"]],
-        #                     [method1, method2])
-        # self.tasks.append(test_task)
+    
 
     # -------------------------------------------------------------------------
 
     def assign_actions(self):
-        """ ?? """
-        # action = Action("action", [["test1","test2"],["test3","test4"]], ["(t ?t - test)", "(t1 ?t2 - test)"], ["(c ?c - test)", "(c1 ?c2 - test)"])
-        # self.actions.append(action)
+        """ Stores the partner of the avatar (if exists) and calls the different
+        actions generators """
 
         # If it has USE command, search his partner (produced sprite)
-        list_avatar_use = ["FlakAvatar", "AimedAvatar", "ShootAvatar"]
-        if self.avatar.stype in list_avatar_use:
-            matching = [s for s in self.avatar.parameters if "stype" in s]
-            partner_name = matching[0].replace("stype=", "")
+        # list_avatar_use = ["FlakAvatar", "AimedAvatar", "ShootAvatar"]
+        # if self.avatar.stype in list_avatar_use:
+        #     matching = [s for s in self.avatar.parameters if "stype" in s]
+        #     partner_name = matching[0].replace("stype=", "")
 
-            # We have the sprite name, now we need the hole object
-            """Probably the entire object is not needed, it must be checked later on"""
-            for sprite in self.sprites:
-                if sprite.name is not None and partner_name in sprite.name:
-                    partner = sprite                
-            
-            avatar_actions = AvatarActionsGenerator(self.avatar.name, 
-                                                    self.avatar.stype).get_actions(partner)
-        else:                  
-            avatar_actions = AvatarActionsGenerator(self.avatar.name, 
-                                                    self.vatar.stype).get_actions()
+        #     # We have the sprite name, now we need the hole object
+        #     """Probably the entire object is not needed, it must be checked later on"""
+        #     for sprite in self.sprites:
+        #         if sprite.name is not None and partner_name in sprite.name:
+        #             self.partner = sprite                
+        # if self.partner is not None:            
+        avatar_actions = AvatarActionsGenerator(self.avatar.name, 
+                                                self.avatar.stype).get_actions(self.partner)
+        # else:                  
+            # avatar_actions = AvatarActionsGenerator(self.avatar.name, 
+                                                    # self.vatar.stype).get_actions()
 
         # Getting specific avatar actions
         self.actions.extend(avatar_actions)
