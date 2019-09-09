@@ -13,54 +13,65 @@ from hpdl.hpdlTypes import *
 ###############################################################################
 
 class AvatarActions:
-    """ Returns different actions depending of the avatar """
+    """ Returns different actions depending of the avatar 
 
+    Atributes:
+        avatar_name
+        avatar_type
+        partner         Sprite object. 
+                        If ACTION_USE is available for the avatar, 'partner' is the 
+                        sprite that is produced
+        actions         List of Action (depends of the avatar)
+    """
     """ 
     Although we can declare same predicates for any kind of avatar, some
     will always be false, so, the reduce space in the domain we don't write 
     them 
     """
-    def __init__(self, avatar_name, avatar_type):
+    def __init__(self, avatar_name, avatar_type, partner=None):
         self.avatar_name = avatar_name
         self.avatar_type = avatar_type
+        self.partner     = partner
+
+        self.actions = []
+        self.get_actions()
 
     # Podrían juntarse para no repetir código pero lo haría menos legible
-    def get_actions(self, partner=None):
+    def get_actions(self):
         """ Return a list of actions depending of the avatar.
         
         partner:    If ACTION_USE is available for the avatar, 'partner' is the 
                     sprite that is produced
         """
-        actions = []
 
         # Can't move but can use object
         if self.avatar_type == "AimedAvatar":
-            # actions.append(self.turn_up())
-            # actions.append(self.turn_down())
-            # actions.append(self.turn_left())
-            # actions.append(self.turn_right())
-            # actions.append(self.use(partner))
+            # self.actions.append(self.turn_up())
+            # self.actions.append(self.turn_down())
+            # self.actions.append(self.turn_left())
+            # self.actions.append(self.turn_right())
+            # self.actions.append(self.use(partner))
             pass
 
         # This avatar should have ammo
         # Always same orientation, can move horizontally and use object
         if self.avatar_type == "FlakAvatar":
-            actions.append(self.move_left())
-            actions.append(self.move_right())
-            actions.append(self.use(partner))
+            self.actions.append(self.move_left())
+            self.actions.append(self.move_right())
+            self.actions.append(self.use(partner))
 
         # Always same orientation, can only move left or right
         if self.avatar_type == "HorizontalAvatar":
-            # actions.append(self.move_left())
-            # actions.append(self.move_right())
+            # self.actions.append(self.move_left())
+            # self.actions.append(self.move_right())
             pass            
 
         # Always same orientation, can move in any direction
         if self.avatar_type == "MovingAvatar":
-            # actions.append(self.move_up())
-            # actions.append(self.move_down())
-            # actions.append(self.move_left())
-            # actions.append(self.move_right())
+            # self.actions.append(self.move_up())
+            # self.actions.append(self.move_down())
+            # self.actions.append(self.move_left())
+            # self.actions.append(self.move_right())
             pass       
 
         # ONLY GVGAI
@@ -73,38 +84,37 @@ class AvatarActions:
 
         # Can move and aim in any direction
         if self.avatar_type == "OrientedAvatar":
-            # actions.append(self.move_up())
-            # actions.append(self.move_down())
-            # actions.append(self.move_left())
-            # actions.append(self.move_right())
-            # actions.append(self.turn_up())
-            # actions.append(self.turn_down())
-            # actions.append(self.turn_left())
-            # actions.append(self.turn_right())
+            # self.actions.append(self.move_up())
+            # self.actions.append(self.move_down())
+            # self.actions.append(self.move_left())
+            # self.actions.append(self.move_right())
+            # self.actions.append(self.turn_up())
+            # self.actions.append(self.turn_down())
+            # self.actions.append(self.turn_left())
+            # self.actions.append(self.turn_right())
             pass
         
         # Can move and aim in any direction, can use object
         if self.avatar_type == "ShootAvatar":
-            actions.append(self.move_up())
-            actions.append(self.move_down())
-            actions.append(self.move_left())
-            actions.append(self.move_right())
-            actions.append(self.turn_up())
-            actions.append(self.turn_down())
-            actions.append(self.turn_left())
-            actions.append(self.turn_right())
-            # actions.append(self.use(partner))
+            self.actions.append(self.move_up())
+            self.actions.append(self.move_down())
+            self.actions.append(self.move_left())
+            self.actions.append(self.move_right())
+            self.actions.append(self.turn_up())
+            self.actions.append(self.turn_down())
+            self.actions.append(self.turn_left())
+            self.actions.append(self.turn_right())
+            # self.actions.append(self.use(partner))
 
         # Always same orientation, can only move up or down
         if self.avatar_type == "VerticalAvatar":
-            # actions.append(self.move_up())
-            # actions.append(self.move_down())
+            # self.actions.append(self.move_up())
+            # self.actions.append(self.move_down())
             pass
 
 
-        actions.append(self.nil()) # As last resource, don't do anything
+        self.actions.append(self.nil()) # As last resource, don't do anything
         
-        return actions
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
@@ -216,22 +226,21 @@ class AvatarActions:
 
     # -------------------------------------------------------------------------
 
-    # Probably will not work
     # can-use is a predicate that should not be active in case there is no ammo
-    def use(self, partner):
+    def use(self):
         """ Generates the partner object in front of the avatar
 
         partner:     Sprite that is generated
         """
-        if partner == None:
+        if self.partner == None:
             raise TypeError('Argument "partner" is not defined')
 
         name = "AVATAR_USE"
-        parameters = [["a", self.avatar_type], ["p", partner.name]]
+        parameters = [["a", self.avatar_type], ["p", self.partner.name]]
         conditions = ["(can-use ?a)"]
         
         # Generate the partner object in a position depending of the orientation of the avatar
-        effects = ["(increase (counter_" + partner.name + ") 1)"]
+        effects = ["(increase (counter_" + self.partner.name + ") 1)"]
 
         return Action(name, parameters, conditions, effects)        
 
@@ -253,47 +262,59 @@ class AvatarActions:
 
 
 class AvatarMethods:
-    """ Returns different methods depending of the avatar """
-    def __init__(self, avatar_name, avatar_type):
+    """ Returns different methods depending of the avatar 
+    
+    Atributes:
+        avatar_name
+        avatar_type
+        partner         Sprite object. 
+                        If ACTION_USE is available for the avatar, 'partner' is the 
+                        sprite that is produced
+        actions         List of Action (depends of the avatar)
+    """
+    def __init__(self, avatar_name, avatar_type, partner=None):
+        # super(avatar_name, avatar_type, partner)
         self.avatar_name = avatar_name
         self.avatar_type = avatar_type
+        self.patner      = partner
 
-    def get_methods(self, partner=None):
+        self.methods = []
+        self.get_methods()
+
+    def get_methods(self):
         """ Return a list of methods depending of the avatar 
         
         partner:    If ACTION_USE is available for the avatar, 'partner' is the 
                     sprite that is produced
         """
-        methods = []
-
         # Can't move but can use object
         if self.avatar_type == "AimedAvatar":
-            # methods.append(self.turn_up())
-            # methods.append(self.turn_down())
-            # methods.append(self.turn_left())
-            # methods.append(self.turn_right())
-            # methods.append(self.use(partner))
+            # self.methods.append(self.turn_up())
+            # self.methods.append(self.turn_down())
+            # self.methods.append(self.turn_left())
+            # self.methods.append(self.turn_right())
+            # self.methods.append(self.use(partner))
             pass
 
         # This avatar should have ammo
         # Always same orientation, can move horizontally and use object
         if self.avatar_type == "FlakAvatar":
-            methods.append(self.move_left())
-            methods.append(self.move_right())
-            methods.append(self.use(partner))
+            self.methods.append(self.move_left())
+            self.methods.append(self.move_right())
+            self.methods.append(self.use(partner))
 
         # Always same orientation, can only move left or right
         if self.avatar_type == "HorizontalAvatar":
-            # methods.append(self.move_left())
-            # methods.append(self.move_right())
+            # self.methods.append(self.move_left())
+            # self.methods.append(self.move_right())
             pass            
 
         # Always same orientation, can move in any direction
         if self.avatar_type == "MovingAvatar":
-            # methods.append(self.move_up())
-            # methods.append(self.move_down())
-            # methods.append(self.move_left())
-            # methods.append(self.move_right())
+            # self.methods.append(self.move_up())
+            # self.methods.append(self.move_down())
+            # self.methods.append(self.move_left())
+            # self.methods.append(self.move_right())
             pass       
 
         # ONLY GVGAI
@@ -306,37 +327,35 @@ class AvatarMethods:
 
         # Can move and aim in any direction
         if self.avatar_type == "OrientedAvatar":
-            # methods.append(self.move_up())
-            # methods.append(self.move_down())
-            # methods.append(self.move_left())
-            # methods.append(self.move_right())
-            # methods.append(self.turn_up())
-            # methods.append(self.turn_down())
-            # methods.append(self.turn_left())
-            # methods.append(self.turn_right())
+            # self.methods.append(self.move_up())
+            # self.methods.append(self.move_down())
+            # self.methods.append(self.move_left())
+            # self.methods.append(self.move_right())
+            # self.methods.append(self.turn_up())
+            # self.methods.append(self.turn_down())
+            # self.methods.append(self.turn_left())
+            # self.methods.append(self.turn_right())
             pass
         
         # Can move and aim in any direction, can use object
         if self.avatar_type == "ShootAvatar":
-            methods.append(self.move_up())
-            methods.append(self.move_down())
-            methods.append(self.move_left())
-            methods.append(self.move_right())
-            methods.append(self.turn_up())
-            methods.append(self.turn_down())
-            methods.append(self.turn_left())
-            methods.append(self.turn_right())
-            # methods.append(self.use(partner))
+            self.methods.append(self.move_up())
+            self.methods.append(self.move_down())
+            self.methods.append(self.move_left())
+            self.methods.append(self.move_right())
+            self.methods.append(self.turn_up())
+            self.methods.append(self.turn_down())
+            self.methods.append(self.turn_left())
+            self.methods.append(self.turn_right())
+            # self.methods.append(self.use(partner))
 
         # Always same orientation, can only move up or down
         if self.avatar_type == "VerticalAvatar":
-            # methods.append(self.move_up())
-            # methods.append(self.move_down())
+            # self.methods.append(self.move_up())
+            # self.methods.append(self.move_down())
             pass
         
-        methods.append(self.nil()) # Don't do anything
-
-        return methods
+        self.methods.append(self.nil()) # Don't do anything
 
 
     # -------------------------------------------------------------------------
@@ -417,9 +436,9 @@ class AvatarMethods:
 
     # Probably will not work
     # can-use is a predicate that should not be active in case there is no ammo
-    def use(self, partner):
+    def use(self):
         """ UNFINISHED """
-        if partner == None:
+        if self.partner == None:
             raise TypeError('Argument "partner" is not defined')
 
         name = "use"

@@ -181,8 +181,9 @@ class HpdlVgdlListener(VgdlListener):
         self.tasks.append(turn)
 
         # Avatar turn ----------------
-        avatar_methods = AvatarMethods(self.avatar.name, self.avatar.stype).get_methods(self.partner)
-
+        avatar_methods = AvatarMethods(self.avatar.name, self.avatar.stype, 
+                                       self.partner).methods
+        # avatar_tasks = AvatarTasks(self.avatar.name, self.avatar.stype).get_tasks(self.partner)
         """ PROBABLY ANOTHER CLASS FOR TASKS """
         turn_avatar = Task("turn_avatar", [["a", self.avatar.stype], ["o", "Orientation"], ["p", self.partner.name]], 
                             avatar_methods)
@@ -195,8 +196,8 @@ class HpdlVgdlListener(VgdlListener):
         """ Stores the partner of the avatar (if exists) and calls the different
         actions generators """
 
-        avatar_actions = AvatarActions(self.avatar.name, 
-                                        self.avatar.stype).get_actions(self.partner)
+        avatar_actions = AvatarActions(self.avatar.name, self.avatar.stype, 
+                                       self.partner).actions
 
         # Getting specific avatar actions
         self.actions.extend(avatar_actions)
