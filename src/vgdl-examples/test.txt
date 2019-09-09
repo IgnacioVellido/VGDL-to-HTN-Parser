@@ -3,7 +3,7 @@ BasicGame square_size=32
 		background > Immovable img=oryx/space1 hidden=True
 		base    > Immovable    color=WHITE img=oryx/planet
 		avatar  > FlakAvatar   stype=sam img=oryx/spaceship1
-		missile > Missile
+		miss > Missile
 			sam  > orientation=UP    color=BLUE singleton=True img=oryx/bullet1
 			bomb > orientation=DOWN  color=RED  speed=0.5 img=oryx/bullet2
 		alien   > Bomber       stype=bomb   prob=0.01  cooldown=3 speed=0.8

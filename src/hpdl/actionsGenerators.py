@@ -231,9 +231,9 @@ class AvatarActionsGenerator:
         name = "AVATAR_USE"
         parameters = [["a", self.avatar_type], ["p", partner.name]]
         conditions = ["(can-use ?a)"]
-
-        # ?????????????
-        effects = []
+        
+        # Generate the partner object in a position depending of the orientation of the avatar
+        effects = ["(counter_"]
 
         return Action(name, parameters, conditions, effects)        
 

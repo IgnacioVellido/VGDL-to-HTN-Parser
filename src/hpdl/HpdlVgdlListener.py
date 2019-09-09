@@ -81,8 +81,11 @@ class HpdlVgdlListener(VgdlListener):
         self.types.append(['Orientation', ''])
 
         stypes = []
+        names = []
 
         for sprite in self.sprites:
+            names.append(sprite.name)
+
             if sprite.stype is not None:
                 stypes.append(sprite.stype)
 
@@ -95,6 +98,16 @@ class HpdlVgdlListener(VgdlListener):
         stypes = list(set(stypes))  # Removing duplicates
         stypes.insert(0, 'Object')  # Inserting at the beginning
         
+        # Search for duplicates in sprites names and stypes
+        names.extend(stypes)
+        lower_names = [x.lower() for x in names]
+        duplicates = set([x for x in lower_names if lower_names.count(x) > 1])
+
+        if len(duplicates) > 0:
+            print("[ERROR] Sprite name can't be the same as the sprite type (case-insensitive)")
+            print("Produced by: ", duplicates)
+            exit()
+
         self.types.append(stypes)        
 
     # -------------------------------------------------------------------------
