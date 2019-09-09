@@ -101,9 +101,8 @@ class HpdlVgdlListener(VgdlListener):
 
     def assign_constants(self):
         """ One for each orientation """
-
-        # none = Avatar don't have orientation
-        orientation = ['Orientation', "up", "down", "left", "right", "none"]
+        
+        orientation = ['Orientation', "up", "down", "left", "right"]
         self.constants.append(orientation)
 
     # -------------------------------------------------------------------------

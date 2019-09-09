@@ -23,6 +23,7 @@ class AvatarPredicatesGenerator:
         # Can't move but can use object
         if self.avatar_type == "AimedAvatar":
             predicates.append("(can-use ?a - " + self.avatar_type + ")")
+            predicates.append("(can-change-orientation ?a - " + self.avatar_type + ")")
 
         # This avatar should have ammo
         # Always same orientation, can move horizontally and use object
@@ -57,6 +58,7 @@ class AvatarPredicatesGenerator:
             predicates.append("(can-move-down ?a - " + self.avatar_type + ")")
             predicates.append("(can-move-left ?a - " + self.avatar_type + ")")
             predicates.append("(can-move-right ?a - " + self.avatar_type + ")")
+            predicates.append("(can-change-orientation ?a - " + self.avatar_type + ")")
         
         # Can move and aim in any direction, can use object
         if self.avatar_type == "ShootAvatar":
@@ -64,6 +66,7 @@ class AvatarPredicatesGenerator:
             predicates.append("(can-move-down ?a - " + self.avatar_type + ")")
             predicates.append("(can-move-left ?a - " + self.avatar_type + ")")
             predicates.append("(can-move-right ?a - " + self.avatar_type + ")")
+            predicates.append("(can-change-orientation ?a - " + self.avatar_type + ")")
             predicates.append("(can-use ?a - " + self.avatar_type + ")")
 
         # Always same orientation, can only move up or down

@@ -27,7 +27,6 @@ class AvatarMethodsGenerator:
                     sprite that is produced
         """
         methods = []
-        methods.append(self.nil()) # Don't do anything
 
         # Can't move but can use object
         if self.avatar_type == "AimedAvatar":
@@ -97,6 +96,8 @@ class AvatarMethodsGenerator:
             # methods.append(self.move_down())
             pass
         
+        methods.append(self.nil()) # Don't do anything
+
         return methods
 
 

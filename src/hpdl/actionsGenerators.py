@@ -16,13 +16,19 @@ from hpdl.hpdlTypes import Action
 
 class AvatarActionsGenerator:
     """ Returns different actions depending of the avatar """
+
+    """ 
+    Although we can declare same predicates for any kind of avatar, some
+    will always be false, so, the reduce space in the domain we don't write 
+    them 
+    """
     def __init__(self, avatar_name, avatar_type):
         self.avatar_name = avatar_name
         self.avatar_type = avatar_type
 
     # Podrían juntarse para no repetir código pero lo haría menos legible
     def get_actions(self, partner=None):
-        """ Return a list of actions depending of the avatar 
+        """ Return a list of actions depending of the avatar.
         
         partner:    If ACTION_USE is available for the avatar, 'partner' is the 
                     sprite that is produced
@@ -110,7 +116,7 @@ class AvatarActionsGenerator:
         parameters = [["a", self.avatar_type], ["o", 'Orientation']]
         
         # can-move indicates that te avatar has the ability to move in that direction
-        conditions = ["(can-move-up ?a)", "(orientation ?a ?o)", "(or (= ?o none) (= ?o up))"]
+        conditions = ["(can-move-up ?a)", "(orientation ?a ?o)", "(= ?o up)"]
                     #   "(or (not (orientation ?a ?)) (and (orientation ?a up) (= (?o up))))"]        
         effects = ["(decrease (coordinate_x ?a) 1)"]
 
@@ -125,7 +131,7 @@ class AvatarActionsGenerator:
         # SOME AVATARS DONT NEED TO BE ORIENTED
 
         # can-move indicates that te avatar has the ability to move in that direction
-        conditions = ["(can-move-down ?a)", "(orientation ?a ?o)", "(or (= ?o none) (= ?o down))"]
+        conditions = ["(can-move-down ?a)", "(orientation ?a ?o)", "(= ?o down)"]
                     #   "(or (not (orientation ?a ?)) (and (orientation ?a down) (= (?o down))))"]        
         effects = ["(increase (coordinate_x ?a) 1)"]
 
@@ -138,7 +144,7 @@ class AvatarActionsGenerator:
         parameters = [["a", self.avatar_type], ["o", 'Orientation']]
         
         # can-move indicates that te avatar has the ability to move in that direction
-        conditions = ["(can-move-left ?a)", "(orientation ?a ?o)", "(or (= ?o none) (= ?o left))"]
+        conditions = ["(can-move-left ?a)", "(orientation ?a ?o)", "(= ?o left)"]
                     #   "(or (not (orientation ?a ?)) (and (orientation ?a left) (= (?o left))))"]        
         effects = ["(decrease (coordinate_y ?a) 1)"]
 
@@ -151,7 +157,7 @@ class AvatarActionsGenerator:
         parameters = [["a", self.avatar_type], ["o", 'Orientation']]
 
         # can-move indicates that te avatar has the ability to move in that direction
-        conditions = ["(can-move-right ?a)", "(orientation ?a ?o)", "(or (= ?o none) (= ?o right))"]
+        conditions = ["(can-move-right ?a)", "(orientation ?a ?o)", "(= ?o right)"]
                     #   "(or (not (orientation ?a ?)) (and (orientation ?a right) (= (?o right))))"]        
         effects = ["(increase (coordinate_y ?a) 1)"]
 
@@ -164,8 +170,8 @@ class AvatarActionsGenerator:
         name = "AVATAR_TURN_UP"
         parameters = [["a", self.avatar_type], ["o", 'Orientation']]
         
-        # If orientation == none, the avatar can change orientation
-        conditions = ["(orientation ?a ?o)", "(not (= ?o none))"]  
+        # If not (can-change-orientation ?a), the avatar cannot use this action
+        conditions = ["(can-change-orientation ?a)","(orientation ?a ?o)"]
 
         effects = ["(not (orientation ?a ?o))", "(orientation ?a up)"]
 
@@ -177,8 +183,8 @@ class AvatarActionsGenerator:
         name = "AVATAR_TURN_DOWN"
         parameters = [["a", self.avatar_type], ["o", 'Orientation']]        
 
-        # If orientation == none, the avatar can change orientation
-        conditions = ["(orientation ?a ?o)", "(not (= ?o none))"]
+        # If not (can-change-orientation ?a), the avatar cannot use this action
+        conditions = ["(can-change-orientation ?a)","(orientation ?a ?o)"]
 
         effects = ["(not (orientation ?a ?o))", "(orientation ?a down)"]
 
@@ -190,8 +196,8 @@ class AvatarActionsGenerator:
         name = "AVATAR_TURN_LEFT"
         parameters = [["a", self.avatar_type], ["o", 'Orientation']]      
         
-        # If orientation == none, the avatar can change orientation
-        conditions = ["(orientation ?a ?o)", "(not (= ?o none))"]
+        # If not (can-change-orientation ?a), the avatar cannot use this action
+        conditions = ["(can-change-orientation ?a)","(orientation ?a ?o)"]
 
         effects = ["(not (orientation ?a ?o))", "(orientation ?a left)"]
 
@@ -203,8 +209,8 @@ class AvatarActionsGenerator:
         name = "AVATAR_TURN_RIGHT"
         parameters = [["a", self.avatar_type], ["o", 'Orientation']]      
         
-        # If orientation == none, the avatar can change orientation
-        conditions = ["(orientation ?a ?o)", "(not (= ?o none))"]
+        # If not (can-change-orientation ?a), the avatar cannot use this action
+        conditions = ["(can-change-orientation ?a)","(orientation ?a ?o)"]
 
         effects = ["(not (orientation ?a ?o))", "(orientation ?a right)"]
 
@@ -215,7 +221,7 @@ class AvatarActionsGenerator:
     # Probably will not work
     # can-use is a predicate that should not be active in case there is no ammo
     def use(self, partner):
-        """ ???
+        """ Generates the partner object in front of the avatar
 
         partner:     Sprite that is generated
         """
@@ -224,7 +230,7 @@ class AvatarActionsGenerator:
 
         name = "AVATAR_USE"
         parameters = [["a", self.avatar_type], ["p", partner.name]]
-        conditions = ["(can-use ?a ?p)"]
+        conditions = ["(can-use ?a)"]
 
         # ?????????????
         effects = []
