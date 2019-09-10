@@ -181,8 +181,8 @@ class HpdlVgdlListener(VgdlListener):
         self.tasks.append(turn)
 
         # Avatar turn ----------------
-        avatar_methods = AvatarMethods(self.avatar.name, self.avatar.stype, 
-                                       self.partner).methods
+        avatar_methods = AvatarHPDL(self.avatar.name, self.avatar.stype, 
+                                self.partner).methods
         # avatar_tasks = AvatarTasks(self.avatar.name, self.avatar.stype).get_tasks(self.partner)
         """ PROBABLY ANOTHER CLASS FOR TASKS """
         turn_avatar = Task("turn_avatar", [["a", self.avatar.stype], ["o", "Orientation"], ["p", self.partner.name]], 

@@ -50,7 +50,7 @@ class AvatarActions:
             # self.actions.append(self.turn_down())
             # self.actions.append(self.turn_left())
             # self.actions.append(self.turn_right())
-            # self.actions.append(self.use(partner))
+            # self.actions.append(self.use())
             pass
 
         # This avatar should have ammo
@@ -58,7 +58,7 @@ class AvatarActions:
         if self.avatar_type == "FlakAvatar":
             self.actions.append(self.move_left())
             self.actions.append(self.move_right())
-            self.actions.append(self.use(partner))
+            self.actions.append(self.use())
 
         # Always same orientation, can only move left or right
         if self.avatar_type == "HorizontalAvatar":
@@ -104,7 +104,7 @@ class AvatarActions:
             self.actions.append(self.turn_down())
             self.actions.append(self.turn_left())
             self.actions.append(self.turn_right())
-            # self.actions.append(self.use(partner))
+            self.actions.append(self.use())
 
         # Always same orientation, can only move up or down
         if self.avatar_type == "VerticalAvatar":
@@ -124,8 +124,7 @@ class AvatarActions:
         parameters = [["a", self.avatar_type], ["o", 'Orientation']]
         
         # can-move indicates that te avatar has the ability to move in that direction
-        conditions = ["(can-move-up ?a)", "(orientation ?a ?o)", "(= ?o up)"]
-                    #   "(or (not (orientation ?a ?)) (and (orientation ?a up) (= (?o up))))"]        
+        conditions = ["(can-move-up ?a)", "(orientation ?a ?o)", "(= ?o up)"]        
         effects = ["(decrease (coordinate_x ?a) 1)"]
 
         return Action(name, parameters, conditions, effects)
@@ -134,13 +133,10 @@ class AvatarActions:
 
     def move_down(self):
         name = "AVATAR_MOVE_DOWN"
-        parameters = [["a", self.avatar_type], ["o", 'Orientation']]
-        
-        # SOME AVATARS DONT NEED TO BE ORIENTED
+        parameters = [["a", self.avatar_type], ["o", 'Orientation']]        
 
         # can-move indicates that te avatar has the ability to move in that direction
         conditions = ["(can-move-down ?a)", "(orientation ?a ?o)", "(= ?o down)"]
-                    #   "(or (not (orientation ?a ?)) (and (orientation ?a down) (= (?o down))))"]        
         effects = ["(increase (coordinate_x ?a) 1)"]
 
         return Action(name, parameters, conditions, effects)
@@ -153,7 +149,6 @@ class AvatarActions:
         
         # can-move indicates that te avatar has the ability to move in that direction
         conditions = ["(can-move-left ?a)", "(orientation ?a ?o)", "(= ?o left)"]
-                    #   "(or (not (orientation ?a ?)) (and (orientation ?a left) (= (?o left))))"]        
         effects = ["(decrease (coordinate_y ?a) 1)"]
 
         return Action(name, parameters, conditions, effects)
@@ -166,7 +161,6 @@ class AvatarActions:
 
         # can-move indicates that te avatar has the ability to move in that direction
         conditions = ["(can-move-right ?a)", "(orientation ?a ?o)", "(= ?o right)"]
-                    #   "(or (not (orientation ?a ?)) (and (orientation ?a right) (= (?o right))))"]        
         effects = ["(increase (coordinate_y ?a) 1)"]
 
         return Action(name, parameters, conditions, effects)
@@ -261,213 +255,14 @@ class AvatarActions:
 ###############################################################################
 
 
-class AvatarMethods:
-    """ Returns different methods depending of the avatar 
-    
-    Atributes:
-        avatar_name
-        avatar_type
-        partner         Sprite object. 
-                        If ACTION_USE is available for the avatar, 'partner' is the 
-                        sprite that is produced
-        actions         List of Action (depends of the avatar)
-    """
-    def __init__(self, avatar_name, avatar_type, partner=None):
-        # super(avatar_name, avatar_type, partner)
-        self.avatar_name = avatar_name
-        self.avatar_type = avatar_type
-        self.patner      = partner
-
-        self.methods = []
-        self.get_methods()
-
-    def get_methods(self):
-        """ Return a list of methods depending of the avatar 
-        
-        partner:    If ACTION_USE is available for the avatar, 'partner' is the 
-                    sprite that is produced
-        """
-        # Can't move but can use object
-        if self.avatar_type == "AimedAvatar":
-            # self.methods.append(self.turn_up())
-            # self.methods.append(self.turn_down())
-            # self.methods.append(self.turn_left())
-            # self.methods.append(self.turn_right())
-            # self.methods.append(self.use(partner))
-            pass
-
-        # This avatar should have ammo
-        # Always same orientation, can move horizontally and use object
-        if self.avatar_type == "FlakAvatar":
-            self.methods.append(self.move_left())
-            self.methods.append(self.move_right())
-            self.methods.append(self.use(partner))
-
-        # Always same orientation, can only move left or right
-        if self.avatar_type == "HorizontalAvatar":
-            # self.methods.append(self.move_left())
-            # self.methods.append(self.move_right())
-            pass            
-
-        # Always same orientation, can move in any direction
-        if self.avatar_type == "MovingAvatar":
-            # self.methods.append(self.move_up())
-            # self.methods.append(self.move_down())
-            # self.methods.append(self.move_left())
-            # self.methods.append(self.move_right())
-            pass       
-
-        # ONLY GVGAI
-        if self.avatar_type == "OngoingShootAvatar":
-            pass
-
-        # ONLY GVGAI
-        if self.avatar_type == "OngoingTurningAvatar":
-            pass
-
-        # Can move and aim in any direction
-        if self.avatar_type == "OrientedAvatar":
-            # self.methods.append(self.move_up())
-            # self.methods.append(self.move_down())
-            # self.methods.append(self.move_left())
-            # self.methods.append(self.move_right())
-            # self.methods.append(self.turn_up())
-            # self.methods.append(self.turn_down())
-            # self.methods.append(self.turn_left())
-            # self.methods.append(self.turn_right())
-            pass
-        
-        # Can move and aim in any direction, can use object
-        if self.avatar_type == "ShootAvatar":
-            self.methods.append(self.move_up())
-            self.methods.append(self.move_down())
-            self.methods.append(self.move_left())
-            self.methods.append(self.move_right())
-            self.methods.append(self.turn_up())
-            self.methods.append(self.turn_down())
-            self.methods.append(self.turn_left())
-            self.methods.append(self.turn_right())
-            # self.methods.append(self.use(partner))
-
-        # Always same orientation, can only move up or down
-        if self.avatar_type == "VerticalAvatar":
-            # self.methods.append(self.move_up())
-            # self.methods.append(self.move_down())
-            pass
-        
-        self.methods.append(self.nil()) # Don't do anything
-
-
-    # -------------------------------------------------------------------------
-    # -------------------------------------------------------------------------
-
-    def move_up(self):
-        name = "move_up"
-        preconditions = []
-        actions = ["(AVATAR_MOVE_UP ?a ?o)"]    
-
-        return Method(name, preconditions, actions)
-
-    # -------------------------------------------------------------------------
-
-    def move_down(self):
-        name = "move_down"
-        preconditions = []
-        actions = ["(AVATAR_MOVE_DOWN ?a ?o)"]    
-
-        return Method(name, preconditions, actions)
-
-    # -------------------------------------------------------------------------
-
-    def move_left(self):
-        name = "move_left"
-        preconditions = []
-        actions = ["(AVATAR_MOVE_LEFT ?a ?o)"]    
-
-        return Method(name, preconditions, actions)
-
-    # -------------------------------------------------------------------------
-
-    def move_right(self):
-        name = "move_right"
-        preconditions = []
-        actions = ["(AVATAR_MOVE_RIGHT ?a ?o)"]    
-
-        return Method(name, preconditions, actions)
-
-    # -------------------------------------------------------------------------
-
-    # This method should only be called if the avatar can turn
-    def turn_up(self):
-        name = "turn_up"
-        preconditions = []
-        actions = ["(AVATAR_TURN_UP ?a ?o)"]    
-
-        return Method(name, preconditions, actions)
-
-    # -------------------------------------------------------------------------
-
-    def turn_down(self):
-        name = "turn_down"
-        preconditions = []
-        actions = ["(AVATAR_TURN_DOWN ?a ?o)"]    
-
-        return Method(name, preconditions, actions)
-
-    # -------------------------------------------------------------------------
-
-    def turn_left(self):
-        name = "turn_left"
-        preconditions = []
-        actions = ["(AVATAR_TURN_LEFT ?a ?o)"]    
-
-        return Method(name, preconditions, actions)
-
-    # -------------------------------------------------------------------------
-
-    def turn_right(self):
-        name = "turn_right"
-        preconditions = []
-        actions = ["(AVATAR_TURN_RIGHT ?a ?o)"]    
-
-        return Method(name, preconditions, actions)
-
-    # -------------------------------------------------------------------------
-
-    # Probably will not work
-    # can-use is a predicate that should not be active in case there is no ammo
-    def use(self):
-        """ UNFINISHED """
-        if self.partner == None:
-            raise TypeError('Argument "partner" is not defined')
-
-        name = "use"
-        preconditions = []
-        actions = ["(AVATAR_USE ?a ?p)"]    
-
-        return Method(name, preconditions, actions)
-
-    # -------------------------------------------------------------------------
-
-    # Probably will not work
-    def nil(self):
-        name = "nil"
-        preconditions = []
-        actions = ["(AVATAR_NIL ?a)"]    
-
-        return Method(name, preconditions, actions)
-
-
-###############################################################################
-# -----------------------------------------------------------------------------
-###############################################################################
-
-
 class AvatarTasks:
     """ Returns a task depending of the avatar """
-    def __init__(self, avatar_name, avatar_type):
+    def __init__(self, avatar_name, avatar_type, partner):
         self.avatar_name = avatar_name
         self.avatar_type = avatar_type
+
+        self.tasks = []
+        self.get_tasks()
 
     def get_tasks(self):
         pass
@@ -545,3 +340,36 @@ class AvatarPredicates:
             predicates.append("(can-move-down ?a - " + self.avatar_type + ")")
         
         return predicates
+
+###############################################################################
+# -----------------------------------------------------------------------------
+###############################################################################
+
+class AvatarHPDL:
+    def __init__(self, avatar_name, avatar_type, partner=None):
+        self.avatar_name = avatar_name
+        self.avatar_type = avatar_type
+        self.patner      = partner
+
+        self.actions    = AvatarActions(avatar_name, avatar_type, partner).actions
+        self.methods    = []
+        self.get_methods()
+        # self.methods    = AvatarMethods(avatar_name, avatar_type, partner).methods
+        # self.tasks      = AvatarTasks(avatar_name, avatar_type, partner).tasks
+        # self.predicates = AvatarPredicates(avatar_name, avatar_type).predicates
+
+    def get_methods(self):
+        for action in self.actions:
+            name = action.name.lower()
+            preconditions = []
+
+            # Getting the parameters (only the name, not the type)
+            parameters = ""
+            for p in action.parameters:
+                parameters += " ?" + p[0]
+
+            m_action = "(" + action.name + parameters + ")"
+
+            m = Method(name, preconditions, [m_action])
+
+            self.methods.append(m)
