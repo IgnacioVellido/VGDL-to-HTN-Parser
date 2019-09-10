@@ -70,6 +70,9 @@ class HpdlVgdlListener(VgdlListener):
         """
         self.search_partner()
 
+        self.avatar_hpdl = AvatarHPDL(self.avatar.name, self.avatar.stype, 
+                                      self.partner)
+
         self.assign_types()
         self.assign_constants()
         self.assign_predicates()
@@ -141,7 +144,7 @@ class HpdlVgdlListener(VgdlListener):
 
     def assign_predicates(self):
         """ Depends of the avatar - Probably more needed to undo operations """
-        avatar = AvatarPredicates(self.avatar.name, self.avatar.stype).get_predicates()
+        avatar = self.avatar_hpdl.predicates
 
         self.predicates.extend(avatar)
 
@@ -181,10 +184,9 @@ class HpdlVgdlListener(VgdlListener):
         self.tasks.append(turn)
 
         # Avatar turn ----------------
-        avatar_methods = AvatarHPDL(self.avatar.name, self.avatar.stype, 
-                                self.partner).methods
-        # avatar_tasks = AvatarTasks(self.avatar.name, self.avatar.stype).get_tasks(self.partner)
-        """ PROBABLY ANOTHER CLASS FOR TASKS """
+        avatar_methods = self.avatar_hpdl.methods
+        
+        # avatar_tasks = self.avatar_hpdl.tasks
         turn_avatar = Task("turn_avatar", [["a", self.avatar.stype], ["o", "Orientation"], ["p", self.partner.name]], 
                             avatar_methods)
         self.tasks.append(turn_avatar)
@@ -196,8 +198,7 @@ class HpdlVgdlListener(VgdlListener):
         """ Stores the partner of the avatar (if exists) and calls the different
         actions generators """
 
-        avatar_actions = AvatarActions(self.avatar.name, self.avatar.stype, 
-                                       self.partner).actions
+        avatar_actions = self.avatar_hpdl.actions
 
         # Getting specific avatar actions
         self.actions.extend(avatar_actions)

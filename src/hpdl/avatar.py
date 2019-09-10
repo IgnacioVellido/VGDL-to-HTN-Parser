@@ -12,6 +12,38 @@ from hpdl.hpdlTypes import *
 # -----------------------------------------------------------------------------
 ###############################################################################
 
+class AvatarHPDL:
+    def __init__(self, avatar_name, avatar_type, partner=None):
+        self.avatar_name = avatar_name
+        self.avatar_type = avatar_type
+        self.patner      = partner
+
+        self.actions    = AvatarActions(avatar_name, avatar_type, partner).actions
+        self.methods    = []
+        self.get_methods()
+        # self.tasks      = AvatarTasks(avatar_name, avatar_type, partner).tasks
+        self.predicates = AvatarPredicates(avatar_name, avatar_type).predicates
+
+    def get_methods(self):
+        for action in self.actions:
+            name = action.name.lower()
+            preconditions = []
+
+            # Getting the parameters (only the name, not the type)
+            parameters = ""
+            for p in action.parameters:
+                parameters += " ?" + p[0]
+
+            m_action = "(" + action.name + parameters + ")"
+
+            m = Method(name, preconditions, [m_action])
+
+            self.methods.append(m)
+
+###############################################################################
+# -----------------------------------------------------------------------------
+###############################################################################
+
 class AvatarActions:
     """ Returns different actions depending of the avatar 
 
@@ -277,37 +309,39 @@ class AvatarPredicates:
         self.avatar_name = avatar_name
         self.avatar_type = avatar_type
 
-    def get_predicates(self, partner=None):
+        self.predicates = []
+        self.get_predicates()
+
+    def get_predicates(self):
         """ Return a list of predicates depending of the avatar """
-        predicates = []
 
         # Although some avatars can change orientation, this predicate is needed for the actions
-        predicates.append("(orientation ?a - " + self.avatar_type 
+        self.predicates.append("(orientation ?a - " + self.avatar_type 
                             + " ?o - Orientation)") 
 
         # Can't move but can use object
         if self.avatar_type == "AimedAvatar":
-            predicates.append("(can-use ?a - " + self.avatar_type + ")")
-            predicates.append("(can-change-orientation ?a - " + self.avatar_type + ")")
+            self.predicates.append("(can-use ?a - " + self.avatar_type + ")")
+            self.predicates.append("(can-change-orientation ?a - " + self.avatar_type + ")")
 
         # This avatar should have ammo
         # Always same orientation, can move horizontally and use object
         if self.avatar_type == "FlakAvatar":
-            predicates.append("(can-move-left ?a - " + self.avatar_type + ")")
-            predicates.append("(can-move-right ?a - " + self.avatar_type + ")")
-            predicates.append("(can-use ?a - " + self.avatar_type + ")")
+            self.predicates.append("(can-move-left ?a - " + self.avatar_type + ")")
+            self.predicates.append("(can-move-right ?a - " + self.avatar_type + ")")
+            self.predicates.append("(can-use ?a - " + self.avatar_type + ")")
 
         # Always same orientation, can only move left or right
         if self.avatar_type == "HorizontalAvatar":
-            predicates.append("(can-move-left ?a - " + self.avatar_type + ")")
-            predicates.append("(can-move-right ?a - " + self.avatar_type + ")")
+            self.predicates.append("(can-move-left ?a - " + self.avatar_type + ")")
+            self.predicates.append("(can-move-right ?a - " + self.avatar_type + ")")
 
         # Always same orientation, can move in any direction
         if self.avatar_type == "MovingAvatar":
-            predicates.append("(can-move-up ?a - " + self.avatar_type + ")")
-            predicates.append("(can-move-down ?a - " + self.avatar_type + ")")
-            predicates.append("(can-move-left ?a - " + self.avatar_type + ")")
-            predicates.append("(can-move-right ?a - " + self.avatar_type + ")")
+            self.predicates.append("(can-move-up ?a - " + self.avatar_type + ")")
+            self.predicates.append("(can-move-down ?a - " + self.avatar_type + ")")
+            self.predicates.append("(can-move-left ?a - " + self.avatar_type + ")")
+            self.predicates.append("(can-move-right ?a - " + self.avatar_type + ")")
 
         # ONLY GVGAI
         if self.avatar_type == "OngoingShootAvatar":
@@ -319,57 +353,22 @@ class AvatarPredicates:
 
         # Can move and aim in any direction
         if self.avatar_type == "OrientedAvatar":
-            predicates.append("(can-move-up ?a - " + self.avatar_type + ")")
-            predicates.append("(can-move-down ?a - " + self.avatar_type + ")")
-            predicates.append("(can-move-left ?a - " + self.avatar_type + ")")
-            predicates.append("(can-move-right ?a - " + self.avatar_type + ")")
-            predicates.append("(can-change-orientation ?a - " + self.avatar_type + ")")
+            self.predicates.append("(can-move-up ?a - " + self.avatar_type + ")")
+            self.predicates.append("(can-move-down ?a - " + self.avatar_type + ")")
+            self.predicates.append("(can-move-left ?a - " + self.avatar_type + ")")
+            self.predicates.append("(can-move-right ?a - " + self.avatar_type + ")")
+            self.predicates.append("(can-change-orientation ?a - " + self.avatar_type + ")")
         
         # Can move and aim in any direction, can use object
         if self.avatar_type == "ShootAvatar":
-            predicates.append("(can-move-up ?a - " + self.avatar_type + ")")
-            predicates.append("(can-move-down ?a - " + self.avatar_type + ")")
-            predicates.append("(can-move-left ?a - " + self.avatar_type + ")")
-            predicates.append("(can-move-right ?a - " + self.avatar_type + ")")
-            predicates.append("(can-change-orientation ?a - " + self.avatar_type + ")")
-            predicates.append("(can-use ?a - " + self.avatar_type + ")")
+            self.predicates.append("(can-move-up ?a - " + self.avatar_type + ")")
+            self.predicates.append("(can-move-down ?a - " + self.avatar_type + ")")
+            self.predicates.append("(can-move-left ?a - " + self.avatar_type + ")")
+            self.predicates.append("(can-move-right ?a - " + self.avatar_type + ")")
+            self.predicates.append("(can-change-orientation ?a - " + self.avatar_type + ")")
+            self.predicates.append("(can-use ?a - " + self.avatar_type + ")")
 
         # Always same orientation, can only move up or down
         if self.avatar_type == "VerticalAvatar":
-            predicates.append("(can-move-up ?a - " + self.avatar_type + ")")
-            predicates.append("(can-move-down ?a - " + self.avatar_type + ")")
-        
-        return predicates
-
-###############################################################################
-# -----------------------------------------------------------------------------
-###############################################################################
-
-class AvatarHPDL:
-    def __init__(self, avatar_name, avatar_type, partner=None):
-        self.avatar_name = avatar_name
-        self.avatar_type = avatar_type
-        self.patner      = partner
-
-        self.actions    = AvatarActions(avatar_name, avatar_type, partner).actions
-        self.methods    = []
-        self.get_methods()
-        # self.methods    = AvatarMethods(avatar_name, avatar_type, partner).methods
-        # self.tasks      = AvatarTasks(avatar_name, avatar_type, partner).tasks
-        # self.predicates = AvatarPredicates(avatar_name, avatar_type).predicates
-
-    def get_methods(self):
-        for action in self.actions:
-            name = action.name.lower()
-            preconditions = []
-
-            # Getting the parameters (only the name, not the type)
-            parameters = ""
-            for p in action.parameters:
-                parameters += " ?" + p[0]
-
-            m_action = "(" + action.name + parameters + ")"
-
-            m = Method(name, preconditions, [m_action])
-
-            self.methods.append(m)
+            self.predicates.append("(can-move-up ?a - " + self.avatar_type + ")")
+            self.predicates.append("(can-move-down ?a - " + self.avatar_type + ")")
