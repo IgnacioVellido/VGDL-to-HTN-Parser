@@ -21,8 +21,12 @@ class AvatarHPDL:
         self.actions    = AvatarActions(avatar_name, avatar_type, partner).actions
         self.methods    = []
         self.get_methods()
-        # self.tasks      = AvatarTasks(avatar_name, avatar_type, partner).tasks
+        self.task       = None
+        self.get_task()
         self.predicates = AvatarPredicates(avatar_name, avatar_type).predicates
+
+    # -------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     def get_methods(self):
         for action in self.actions:
@@ -39,6 +43,26 @@ class AvatarHPDL:
             m = Method(name, preconditions, [m_action])
 
             self.methods.append(m)
+
+    # -------------------------------------------------------------------------
+
+    def get_task(self):
+        """ Only one, read parameters of each action and remove duplicates, then
+        print methods """
+
+        # Getting the parameters from the actions
+        parameters = []       
+        included_parameters = []    # To check for duplicates    
+
+        for action in self.actions:
+            for p in action.parameters:
+                if p[1] not in included_parameters:
+                    included_parameters.append(p[1])
+
+                    parameters.append([p[0], p[1]])
+
+        self.task = Task("turn_avatar", parameters, self.methods)
+
 
 ###############################################################################
 # -----------------------------------------------------------------------------
@@ -281,23 +305,6 @@ class AvatarActions:
         effects = []
 
         return Action(name, parameters, conditions, effects)        
-
-###############################################################################
-# -----------------------------------------------------------------------------
-###############################################################################
-
-
-class AvatarTasks:
-    """ Returns a task depending of the avatar """
-    def __init__(self, avatar_name, avatar_type, partner):
-        self.avatar_name = avatar_name
-        self.avatar_type = avatar_type
-
-        self.tasks = []
-        self.get_tasks()
-
-    def get_tasks(self):
-        pass
 
 ###############################################################################
 # -----------------------------------------------------------------------------

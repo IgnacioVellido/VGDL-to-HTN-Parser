@@ -21,7 +21,7 @@ class Task:
 
     def get_parameters(self):
         """ Returns list of parameters without external brackets """
-        text = ""
+        text = " "
 
         for p in self.parameters:
             text += "?" + p[0] + " - " + p[1] + " "

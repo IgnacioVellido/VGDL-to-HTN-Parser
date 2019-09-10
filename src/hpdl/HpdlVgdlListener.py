@@ -183,13 +183,8 @@ class HpdlVgdlListener(VgdlListener):
         turn = Task("Turn", [["a", "FlakAvatar"], ["o", "Orientation"], ["p", self.partner.name]], [turn_method])
         self.tasks.append(turn)
 
-        # Avatar turn ----------------
-        avatar_methods = self.avatar_hpdl.methods
-        
-        # avatar_tasks = self.avatar_hpdl.tasks
-        turn_avatar = Task("turn_avatar", [["a", self.avatar.stype], ["o", "Orientation"], ["p", self.partner.name]], 
-                            avatar_methods)
-        self.tasks.append(turn_avatar)
+        # Avatar turn ----------------        
+        self.tasks.append(self.avatar_hpdl.task)
     
 
     # -------------------------------------------------------------------------
