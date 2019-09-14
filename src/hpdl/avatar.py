@@ -286,11 +286,42 @@ class AvatarActions:
             raise TypeError('Argument "partner" is not defined')
 
         name = "AVATAR_USE"
-        parameters = [["a", self.avatar_type], ["p", self.partner.name]]
-        conditions = ["(can-use ?a)"]
+        parameters = [["a", self.avatar_type], ["o", 'Orientation'], ["p", self.partner.name]]
+        conditions = ["(can-use ?a)", "(orientation ?a ?o)"]
         
         # Generate the partner object in a position depending of the orientation of the avatar
-        effects = ["(increase (counter_" + self.partner.name + ") 1)"]
+        """ UNFINISHED !!!!!!!!!!!!! """
+        partner_generation = """
+(when
+    (orientation ?a up)
+
+    (= (coordinate_x ?p) (coordinate_x ?a))
+    (= (coordinate_y ?p) (decrease (coordinate_y ?a) 1))
+)
+
+(when
+    (orientation ?a down)
+
+    (= (coordinate_x ?p) (coordinate_x ?a))
+    (= (coordinate_y ?p) (increase (coordinate_y ?a) 1))
+)
+
+(when
+    (orientation ?a left)
+
+    (= (coordinate_x ?p) (decrease (coordinate_x ?a) 1))
+    (= (coordinate_y ?p) (coordinate_y ?a))
+)
+
+(when
+    (orientation ?a right)
+
+    (= (coordinate_x ?p) (increase (coordinate_x ?a) 1))
+    (= (coordinate_y ?p) (coordinate_y ?a))
+)
+"""
+        effects = ["(increase (counter_" + self.partner.name + ") 1)", partner_generation]
+
 
         return Action(name, parameters, conditions, effects)        
 

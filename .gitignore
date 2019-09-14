@@ -3,7 +3,7 @@
 
 
 *.pyc
-*.pddl
+src/*.pddl
 
 #############
 # From ANTLR
@@ -21,3 +21,4 @@ src/VgdlLexer.py
 
 src/test/*
 *.stackdump
+handmadeExample/boulder.pddl
