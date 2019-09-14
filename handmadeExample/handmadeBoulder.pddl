@@ -143,15 +143,20 @@
     
     ; Método principal para representar un turno en el juego
 	(:task Turn
-		:parameters (?a - ShootAvatar ?o - Orientation ?p - sword)
+		:parameters (?a - ShootAvatar ?o - Orientation ?p - sword ; Para el turno del avatar
+					 ?o - Object ; Debería representar todos los objetos posibles, para el turno de estos
+					 ?o1 ?o2 - Object ; Para comprobar interacción, debe representar 
+					 				  ; dos objetos cualesquiera (y debe comprobar 
+									  ; todas las combinaciones posibles)
+					)
 
 		(:method turn
 				:precondition (
 								)
 				:tasks ( 
 							(turn_avatar ?a ?o ?p) 
-                            (turn_objects)
-                            (check-interactions)
+                            (turn_objects ?o)
+                            (check-interactions ?o1 ?o2)
 						)
 		)
 	)
@@ -247,7 +252,25 @@
 		)
 	)
 
+	; Acción recursiva por cada objeto que compruebe si debe moverse y aplicar la
+	; acción que corresponda en cada caso
+	(:task turn_objects
+		:parameters (?o - Object)
+
+		(:method turn
+			:precondition ()
+			:tasks (
+						; Como sabemos que hay una roca, ver si se puede mover
+						(BOULDER_FALL ?o)						
+						(turn_objects ?)
+
+						; Los objetos con movimientos no determinista no tiene
+						; sentido actualizarlos (no sin planifiación probabilística)
+					)
+		)
 	
+	)
+
 	; Actions -------------------------------------------------------------------
 
     ; Acciones para cada movimiento posible del avatar --------------------------
