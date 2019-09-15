@@ -166,7 +166,7 @@ def main(argv):
         if os.path.isfile(output_name):
             print("Correct file")
         else:
-            print("Wrong file")
+            print("File doesn't exist")
 
     else:
         raise ValueError(

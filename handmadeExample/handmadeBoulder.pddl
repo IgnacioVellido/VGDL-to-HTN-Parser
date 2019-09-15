@@ -145,8 +145,8 @@
     ; Método principal para representar un turno en el juego
 	(:task Turn
 		:parameters (?a - ShootAvatar ?o - Orientation ?p - sword ; Para el turno del avatar
-					 ?o - Object ; Debería representar todos los objetos posibles, para el turno de estos
-					 ?o1 ?o2 - Object ; Para comprobar interacción, debe representar 
+					 ?s - Object ?o2 - Orientation ; Debería representar todos los objetos posibles, para el turno de estos
+					 ?s1 ?s2 - Object ; Para comprobar interacción, debe representar 
 					 				  ; dos objetos cualesquiera (y debe comprobar 
 									  ; todas las combinaciones posibles)
 					)
@@ -156,8 +156,8 @@
 								)
 				:tasks ( 
 							(turn_avatar ?a ?o ?p) 
-                            (turn_objects ?o)
-                            (check-interactions ?o1 ?o2)
+                            (turn_objects ?s ?o2)
+                            (check-interactions ?s1 ?s2)
 						)
 		)
 	)
@@ -429,7 +429,7 @@
 							(increase (coordinate_x ?p) 1)						
 						)
                     )
-					
+
 					(increase (counter_sword) 1)
 				)
 	)

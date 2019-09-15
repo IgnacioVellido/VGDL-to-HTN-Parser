@@ -100,8 +100,6 @@ class HpdlVgdlListener(VgdlListener):
 
     def assign_types(self):
         """ Object, the types of each sprite and the sprites in their hierarchy """        
-        self.types.append(['Orientation', ''])
-
         stypes = []
         names = []
 
@@ -135,16 +133,17 @@ class HpdlVgdlListener(VgdlListener):
     # -------------------------------------------------------------------------
 
     def assign_constants(self):
-        """ One for each orientation """
-        
-        orientation = ['Orientation', "up", "down", "left", "right"]
-        self.constants.append(orientation)
+        """ Don't needed right now """
+        pass
 
     # -------------------------------------------------------------------------
 
     def assign_predicates(self):
         """ Depends of the avatar - Probably more needed to undo operations """
-        self.predicates.append("(orientation ?s - Object ?o - Orientation)")
+        self.predicates.append("(orientation-up ?o - Object)")
+        self.predicates.append("(orientation-down ?o - Object)")
+        self.predicates.append("(orientation-left ?o - Object)")
+        self.predicates.append("(orientation-right ?o - Object)")
 
         avatar = self.avatar_hpdl.predicates
         self.predicates.extend(avatar)
@@ -181,8 +180,8 @@ class HpdlVgdlListener(VgdlListener):
 
     def assign_tasks(self):
         """ UNFINISHED """
-        turn_method = Method("turn", [], ["(turn_avatar ?a ?o ?p)"]) #, "(turn_objects)", "(check_interactions)"])
-        turn = Task("Turn", [["a", "FlakAvatar"], ["o", "Orientation"], ["p", self.partner.name]], [turn_method])
+        turn_method = Method("turn", [], ["(turn_avatar ?a ?p)"]) #, "(turn_objects)", "(check_interactions)"])
+        turn = Task("Turn", [["a", "FlakAvatar"], ["p", self.partner.name]], [turn_method])
         self.tasks.append(turn)
 
         # Avatar turn ----------------        
