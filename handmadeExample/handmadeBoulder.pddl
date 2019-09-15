@@ -27,20 +27,20 @@
 (define (domain VGDLGame) 
     ; No todos los requisitos son necesarios por ahora, revisar
 	(:requirements
-		:typing
 		:fluents
 		:derived-predicates
 		:negative-preconditions
 		:universal-preconditions
 		:disjuntive-preconditions
 		:conditional-effects
-		:htn-expansion
 
 		; For time management
 		; :durative-actions
 		; :metatags
 
+		:typing
 		:equality
+		:htn-expansion
 	)
 
 	; Types -----------------------------------------------------------------
@@ -74,8 +74,9 @@
 	; Predicates ----------------------------------------------------------------
 
 	(:predicates
-        ; Uno para la orientación del avatar (ampliable a varios)
-		(orientation ?a - ShootAvatar ?o - Orientation)
+        ; Todos los objetos pueden estar orientados (avatares, misiles, enemigos...)
+		(orientation ?s - Object ?o - Orientation)
+
 
         ; Predicados para cada dirección posible en la que se puede mover (depende
         ; del tipo de avatar)
@@ -261,11 +262,13 @@
 			:precondition ()
 			:tasks (
 						; Como sabemos que hay una roca, ver si se puede mover
-						(BOULDER_FALL ?o)						
+						; (BOULDER_FALL ?o) Creo que se podría generalizar para el tipo de objeto
+						(MISSILE_FALL ?o)
 						(turn_objects ?)
 
-						; Los objetos con movimientos no determinista no tiene
-						; sentido actualizarlos (no sin planifiación probabilística)
+						; Los objetos con movimientos no determinista (ej: enemigos) 
+						; no tiene sentido actualizarlos (no sin planifiación 
+						; probabilística)
 					)
 		)
 	
@@ -376,6 +379,8 @@
 	)
 
     ; Recibe además de la orientación el objeto partner
+	; Esto objeto debería desaparecer en el siguiente turno 
+	; (en base a los parámetros o al hecho de ser Flicker ?)
 	(:action AVATAR_USE
 		:parameters (?a - ShootAvatar ?o - Orientation ?p - sword)
 		:precondition (and 
@@ -388,31 +393,43 @@
                     (when
                         (orientation ?a up)
 
-                        (= (coordinate_x ?p) (coordinate_x ?a))
-                        (= (coordinate_y ?p) (decrease (coordinate_y ?a) 1))
+						(and
+							(assign (coordinate_x ?p) (coordinate_x ?a))
+							(assign (coordinate_y ?p) (coordinate_y ?a))
+							(decrease (coordinate_y ?p) 1)						
+						)
                     )
 
                     (when
                         (orientation ?a down)
 
-                        (= (coordinate_x ?p) (coordinate_x ?a))
-                        (= (coordinate_y ?p) (increase (coordinate_y ?a) 1))
+						(and
+							(assign (coordinate_x ?p) (coordinate_x ?a))
+							(assign (coordinate_y ?p) (coordinate_y ?a))
+							(increase (coordinate_y ?p) 1)						
+						)
                     )
 
                     (when
                         (orientation ?a left)
 
-                        (= (coordinate_x ?p) (decrease (coordinate_x ?a) 1))
-                        (= (coordinate_y ?p) (coordinate_y ?a))
+						(and
+							(assign (coordinate_x ?p) (coordinate_x ?a))
+							(assign (coordinate_y ?p) (coordinate_y ?a))
+							(decrease (coordinate_x ?p) 1)						
+						)
                     )
 
                     (when
                         (orientation ?a right)
 
-                        (= (coordinate_x ?p) (increase (coordinate_x ?a) 1))
-                        (= (coordinate_y ?p) (coordinate_y ?a))
+                        (and
+							(assign (coordinate_x ?p) (coordinate_x ?a))
+							(assign (coordinate_y ?p) (coordinate_y ?a))
+							(increase (coordinate_x ?p) 1)						
+						)
                     )
-
+					
 					(increase (counter_sword) 1)
 				)
 	)
@@ -425,5 +442,18 @@
 				)
 	)
 
+	; Acciones para el resto de objetos ---------------------------------------
 
+	(:action MISSILE_FALL
+		:parameters (?m - Missile ?o - Orientation)
+		:precondition (
+
+		)
+		:effect (
+
+		)
+	)
+
+	
+	; Acciones para las interacciones -----------------------------------------
 )

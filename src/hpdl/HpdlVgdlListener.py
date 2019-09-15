@@ -144,9 +144,11 @@ class HpdlVgdlListener(VgdlListener):
 
     def assign_predicates(self):
         """ Depends of the avatar - Probably more needed to undo operations """
-        avatar = self.avatar_hpdl.predicates
+        self.predicates.append("(orientation ?s - Object ?o - Orientation)")
 
+        avatar = self.avatar_hpdl.predicates
         self.predicates.extend(avatar)
+
 
     # -------------------------------------------------------------------------
 

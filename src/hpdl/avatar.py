@@ -295,29 +295,41 @@ class AvatarActions:
 (when
     (orientation ?a up)
 
-    (= (coordinate_x ?p) (coordinate_x ?a))
-    (= (coordinate_y ?p) (decrease (coordinate_y ?a) 1))
+    (and
+        (assign (coordinate_x ?p) (coordinate_x ?a))
+        (assign (coordinate_y ?p) (coordinate_y ?a))
+        (decrease (coordinate_y ?p) 1)						
+    )
 )
 
 (when
     (orientation ?a down)
 
-    (= (coordinate_x ?p) (coordinate_x ?a))
-    (= (coordinate_y ?p) (increase (coordinate_y ?a) 1))
+    (and
+        (assign (coordinate_x ?p) (coordinate_x ?a))
+        (assign (coordinate_y ?p) (coordinate_y ?a))
+        (increase (coordinate_y ?p) 1)						
+    )
 )
 
 (when
     (orientation ?a left)
 
-    (= (coordinate_x ?p) (decrease (coordinate_x ?a) 1))
-    (= (coordinate_y ?p) (coordinate_y ?a))
+    (and
+        (assign (coordinate_x ?p) (coordinate_x ?a))
+        (assign (coordinate_y ?p) (coordinate_y ?a))
+        (decrease (coordinate_x ?p) 1)						
+    )
 )
 
 (when
     (orientation ?a right)
 
-    (= (coordinate_x ?p) (increase (coordinate_x ?a) 1))
-    (= (coordinate_y ?p) (coordinate_y ?a))
+    (and
+        (assign (coordinate_x ?p) (coordinate_x ?a))
+        (assign (coordinate_y ?p) (coordinate_y ?a))
+        (increase (coordinate_x ?p) 1)						
+    )
 )
 """
         effects = ["(increase (counter_" + self.partner.name + ") 1)", partner_generation]
@@ -354,8 +366,9 @@ class AvatarPredicates:
         """ Return a list of predicates depending of the avatar """
 
         # Although some avatars can change orientation, this predicate is needed for the actions
-        self.predicates.append("(orientation ?a - " + self.avatar_type 
-                            + " ?o - Orientation)") 
+        # REMOVE: All objects have orientation
+        # self.predicates.append("(orientation ?a - " + self.avatar_type 
+        #                     + " ?o - Orientation)") 
 
         # Can't move but can use object
         if self.avatar_type == "AimedAvatar":
