@@ -83,6 +83,10 @@
     ; Un tipo Object (objeto genérico), otro para cada 
     ; sprite definido y otro para cada tipo de sprite declarado
 	(:types
+		; FALTA EN EL PARSER DECLARAR MOVING, AQUELLOS SPRITES INTERMEDIOS EN LA JERARQUÍA
+		ShootAvatar RandomNPC - moving	
+		moving Immovable Flicker Resource Door Missile - Object
+
 		background - Immovable
 		wall - Immovable
 		sword - Flicker
@@ -93,8 +97,8 @@
 		avatar - ShootAvatar
 		enemy - RandomNPC
 		crab - enemy
-		butterfly - enemy
-		ShootAvatar Immovable Flicker Resource Door Missile RandomNPC - Object
+		butterfly - enemy	
+		; ShootAvatar Immovable Flicker Resource Door Missile RandomNPC - Object
 	)
 
 	; Constants -----------------------------------------------------------------
@@ -365,7 +369,21 @@
 				; )
 					(DIRT_AVATAR_KILLSPRITE)
 					(DIRT_SWORD_KILLSPRITE)
-					(DIAMOND_AVATAR_COLLECTRESOURCE)
+					(DIAMOND_AVATAR_COLLECTRESOURCE)					
+					(MOVING_WALL_STEPBACK)
+					(MOVING_BOULDER_STEPBACK)
+					(AVATAR_BOULDER_KILLIFFROMABOVE)
+					(AVATAR_BUTTERFLY_KILLSPRITE)
+					(AVATAR_CRAB_KILLSPRITE)
+					(BOULDER_DIRT_STEPBACK)
+					(BOULDER_WALL_STEPBACK)
+					(BOULDER_DIAMOND_STEPBACK)
+					(BOULDER_BOULDER_STEPBACK)
+					(ENEMY_DIRT_STEPBACK)
+					(ENEMY_DIAMOND_STEPBACK)
+					(CRAB_BUTTERFLY_KILLSPRITE)
+					(BUTTERFLY_CRAB_TRANSFORMTO)
+					(EXITDOOR_AVATAR_KILLIFOTHERHASMORE)
 			)
 		)
 	)
@@ -733,33 +751,79 @@
 		)
 	)
 
+	; SIN COMPROBAR
 	(:action MOVING_WALL_STEPBACK
 		:parameters ( )
 		:precondition (
 
 		)
 		:effect (
+			forall (?m - moving ?w - wall)
+				(when
+					(and
+						(= (coordinate_x ?m) (coordinate_x ?w))
+						(= (coordinate_y ?m) (coordinate_y ?w))
+					)
 
+					(and
+						(assign (coordinate_y ?m) (last_coordinate_x ?m))
+						(assign (coordinate_y ?m) (last_coordinate_y ?m))
+					)
+				)
 		)
 	)
 
+	; SIN COMPROBAR
 	(:action MOVING_BOULDER_STEPBACK
 		:parameters ( )
 		:precondition (
 
 		)
 		:effect (
+			forall (?m - moving ?b - boulder)
+				(when
+					(and
+						(= (coordinate_x ?m) (coordinate_x ?b))
+						(= (coordinate_y ?m) (coordinate_y ?b))
+					)
 
+					(and
+						(assign (coordinate_y ?m) (last_coordinate_x ?m))
+						(assign (coordinate_y ?m) (last_coordinate_y ?m))
+					)
+				)
 		)
 	)
 
+	; SIN COMPROBAR
 	(:action AVATAR_BOULDER_KILLIFFROMABOVE
 		:parameters ( )
 		:precondition (
 
 		)
 		:effect (
+			forall (?m - avatar ?b - boulder)
+				(when
+					(and
+						(= (coordinate_x ?a) (coordinate_x ?b))
+						(= (coordinate_y ?a) (coordinate_y ?b))
 
+						; Si la roca se movió hacia abajo
+						(= (last_coordinate_y ?b) (- (coordinate_y ?b) 1))
+					)
+
+					(and
+						(assign (last_coordinate_y ?a) (coordinate_x ?a))
+						(assign (last_coordinate_y ?a) (coordinate_y ?a))
+						(assign (coordinate_x ?a) -1)
+						(assign (coordinate_y ?a) -1)
+
+						(decrease (counter_avatar) 1)
+						(decrease (counter_ShootAvatar) 1)
+						(decrease (counter_moving) 1)
+						(decrease (counter_Object) 1)
+					)
+				)
 		)
 	)
 
@@ -787,6 +851,7 @@
 
 						(decrease (counter_avatar) 1)
 						(decrease (counter_ShootAvatar) 1)
+						(decrease (counter_moving) 1)
 						(decrease (counter_Object) 1)
 					)			
 				)
@@ -817,6 +882,7 @@
 
 						(decrease (counter_avatar) 1)
 						(decrease (counter_ShootAvatar) 1)
+						(decrease (counter_moving) 1)
 						(decrease (counter_Object) 1)
 					)			
 				)
@@ -986,29 +1052,93 @@
 						(decrease (counter_crab) 1)
 						(decrease (counter_enemy) 1)
 						(decrease (counter_RandomNPC) 1)
+						(decrease (counter_moving) 1)
 						(decrease (counter_Object) 1)
 					)			
 				)
 		)
 	)
 
+	; Debe transformarse en un diamante, ponerlo en el nombre (en el parser)
+	; SIN TERMINAR
 	(:action BUTTERFLY_CRAB_TRANSFORMTO
 		:parameters ( )
 		:precondition (
 
 		)
 		:effect (
+			; Comprobamos interacción, eliminamos ambos sprites y generamos un diamante
+			forall (?b - butterfly ?c - crab)
+				(when
+					(and
+						(= (coordinate_x ?c) (coordinate_x ?b))
+						(= (coordinate_y ?c) (coordinate_y ?b))
+					)
 
+					(and
+						(assign (last_coordinate_y ?b) (coordinate_x ?b))
+						(assign (last_coordinate_y ?b) (coordinate_y ?b))
+						(assign (last_coordinate_y ?c) (coordinate_x ?c))
+						(assign (last_coordinate_y ?c) (coordinate_y ?c))
+						(assign (coordinate_x ?b) -1)
+						(assign (coordinate_y ?b) -1)
+						(assign (coordinate_x ?c) -1)
+						(assign (coordinate_y ?c) -1)
+
+						(decrease (counter_crab) 1)
+						(decrease (counter_enemy) 1)
+						(decrease (counter_RandomNPC) 1)
+						(decrease (counter_moving) 1)
+						(decrease (counter_Object) 1)
+
+						; Simulando al parser repito código
+						(decrease (counter_butterfly) 1)
+						(decrease (counter_enemy) 1)
+						(decrease (counter_RandomNPC) 1)
+						(decrease (counter_moving) 1)
+						(decrease (counter_Object) 1)
+
+						; Cómo genero el diamante ?? ------
+						; (assign (last_coordinate_y ?b) (coordinate_x ?b))
+						; (assign (last_coordinate_y ?b) (coordinate_y ?b))
+						(increase (counter_diamond) 1)
+						(increase (counter_Resource) 1)
+						(increase (counter_Object) 1)
+					)			
+				)
 		)
 	)
 
+	; Poner qué se compara en el nombre y el número necesario
+	; SIN COMPROBAR
 	(:action EXITDOOR_AVATAR_KILLIFOTHERHASMORE
 		:parameters ( )
 		:precondition (
 
 		)
 		:effect (
+			; Comprobamos interacción
+			forall (?e - crab ?a - avatar)
+				(when
+					(and
+						(= (coordinate_x ?e) (coordinate_x ?a))
+						(= (coordinate_y ?e) (coordinate_y ?a))
 
+						; Si avatar tiene más recursos de diamond que el límite (9)
+						(>= (resource_diamond ?a) 9)
+					)
+
+					(and
+						(assign (last_coordinate_y ?e) (coordinate_x ?e))
+						(assign (last_coordinate_y ?e) (coordinate_y ?e))
+						(assign (coordinate_x ?e) -1)
+						(assign (coordinate_y ?e) -1)
+
+						(decrease (counter_exitdoor) 1)
+						(decrease (counter_Door) 1)
+						(decrease (counter_Object) 1)
+					)			
+				)
 		)
 	)
 )
