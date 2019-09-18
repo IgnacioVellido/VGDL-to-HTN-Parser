@@ -2,7 +2,20 @@
 ;; Dominio HPDL hecho a mano para generar las mismas acciones que Vladis
 ;; 
 ;; ----------------------------------------------------------------------------
-;; Posiblemente haga falta almacenar la posición del turno anterior, en functions
+;; Dudas:
+;; - Posiblemente haga falta almacenar la posición del turno anterior, en functions
+;;
+;; - Cómo hacer que se compruebe una tarea para un objeto concreto ?
+;; Por ejemplo, que se compruebe las interacciones con todos los objetos o que
+;; se aplique una acción o todos los objetos del mismo tipo (MISSILE_FALL)
+;;
+;; - ¿Cómo crear un nuevo objeto? ¿Mediante un predicado? 
+;; A Flicker se le puede poner unas coordenadas negativas para indicar que no 
+;; existe, pero no se podrían generar nuevos objetos con esta idea
+;; ¿Quizás un predicado derivado para cuando las coordenadas sean negativas?
+;;
+;; - Documentación HPDL página 12: ¿Qué implica el '!'? -> Corte, hace que se 
+;; olviden el resto de unificaciones. Se puede usar en métodos y precondiciones
 ;; ----------------------------------------------------------------------------
 ;;
 ;; Notas:
@@ -25,14 +38,21 @@
 ;;
 ;; - "get-gem" no se incluye ya que se recoge automáticamente en base a la
 ;; interacción
+;;
+;; ----------------------------
+;;
+;; - No recordaba que el tipo object ya estaba definido en HPDL, creo que no va
+;; a afectar pero en cualquier caso lo anoto por si es necesario cambiarle el 
+;; nombre	
+;;
+;; - Se pueden usar scripts de Python (ver documentación), considerarlo como
+;; último recurso para ciertos problemas. (Solo para functions)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (domain VGDLGame) 
     ; No todos los requisitos son necesarios por ahora, revisar
 	(:requirements
-		:fluents
 		:derived-predicates
-		:negative-preconditions
 		:universal-preconditions
 		:disjuntive-preconditions
 		:conditional-effects
@@ -41,9 +61,12 @@
 		; :durative-actions
 		; :metatags
 
-		:typing
+		; Necesarios
 		:equality
+		:fluents
 		:htn-expansion
+		:negative-preconditions
+		:typing
 	)
 
 	; Types -----------------------------------------------------------------
@@ -156,9 +179,23 @@
 							(turn_avatar ?a ?p) 
                             (turn_objects ?s)
                             ; (check-interactions ?s1 ?s2)
+
+							; (Turn ...) ; Para que el planificador no realice un solo turno
 						)
 		)
+
+		; Cuando no se puedan realizar más movimientos (?)
+		; Quizás lo suyo sería poner en la precondición el objetivo final del
+		; juego, teniendo varios de estos métodos si hay varios criterios de 
+		; terminación definidos
+		(:method finish_game
+				:precondition ()
+				:tasks ()		
+		)
 	)
+
+	; -------------------------------------------------------------------------
+	; -------------------------------------------------------------------------
 
     ; Para representar el turno del avatar, tiene un método por cada acción,
     ; que podrían ser ordenados en base a una heurística, y acabando con un
@@ -251,6 +288,9 @@
 		)
 	)
 
+	; -------------------------------------------------------------------------
+	; -------------------------------------------------------------------------
+
 	; Acción recursiva por cada objeto que compruebe si debe moverse y aplicar la
 	; acción que corresponda en cada caso
 	(:task turn_objects
@@ -268,6 +308,19 @@
 						; no tiene sentido actualizarlos (no sin planifiación 
 						; probabilística)
 					)
+		)
+	)
+
+	; -------------------------------------------------------------------------
+	; -------------------------------------------------------------------------
+
+	(:task check-interactions
+		; Si se puede hacer que se repita esta tarea con todas las combinaciones
+		; posibles de objetos, comprobar la colisión en la precondición del método
+		:parameters (?s1 - Object ?s2 - Object)
+
+		(:method provisional_name
+			:precondition 
 		)
 	)
 
@@ -523,12 +576,14 @@
 	
 	; Acciones para las interacciones -----------------------------------------
 	(:action DIRT_AVATAR_KILLSPRITE
-		:parameters ( )
+		:parameters (?d - dirt ?a - ShootAvatar)
 		:precondition (
-
+			; Mismas coordenadas, son las mismas para todas las interacciones
+			(= (coordinate_x ?d) (coordinate_x ?a))
+			(= (coordinate_y ?d) (coordinate_y ?a))
 		)
 		:effect (
-
+			; Eliminamos objeto dirt
 		)
 	)
 
