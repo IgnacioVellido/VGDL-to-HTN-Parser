@@ -3,6 +3,9 @@
 ;; 
 ;; ----------------------------------------------------------------------------
 ;; Dudas:
+;; - Cómo ver los valores de las funciones al final de la ejecución del 
+;: planificador
+;;
 ;; - Posiblemente haga falta almacenar la posición del turno anterior (para cada
 ;; objeto), en functions
 ;;
@@ -20,6 +23,11 @@
 ;; ----------------------------------------------------------------------------
 ;;
 ;; Notas:
+;; - Puedo producir las mismas acciones que Vladis pero sin heurística no creo
+;; que forme ningún plan eficiente, ya que realizará acciones de forma aleatoria.
+;; Sería necesario poder usar objetivos de PDDL o dirigir el orden de los métodos
+;; en base a una heurística.
+;;
 ;; - Saber qué casillas están conectadas no es necesario, si un movimiento no es 
 ;; posible se indica en una interacción (los muros en general hacen undoAll).
 ;; 
@@ -356,6 +364,8 @@
 				; )
 				; )
 					(DIRT_AVATAR_KILLSPRITE)
+					(DIRT_SWORD_KILLSPRITE)
+					(DIAMOND_AVATAR_COLLECTRESOURCE)
 			)
 		)
 	)
@@ -614,7 +624,7 @@
 
 	
 	; Acciones para las interacciones -----------------------------------------
-	; Por algún motivo no funciona
+	; Por algún motivo NO FUNCIONA, no salta la colisión a pesar de estar en la misma casilla
 	(:action DIRT_AVATAR_KILLSPRITE
 		; :parameters (?d - dirt ?a - ShootAvatar)
 		:parameters ( )
@@ -622,7 +632,8 @@
 					)
 		:effect (and
 			; Comprobamos interacción y eliminamos objeto dirt
-			(forall (?d - dirt ?a - ShootAvatar)
+			(forall (?d - dirt ?a - avatar) ; IMPORTANTE: Debe ser el tipo declarado
+											; en VGDL (no vale porner ShootAvatar)
 				(when
 					(and
 						(= (coordinate_x ?d) (coordinate_x ?a))
@@ -642,23 +653,61 @@
 		)
 	)
 
+	; Modificación de DIRT_AVATAR_KILLSPRITE
+	; NO FUNCIONA
 	(:action DIRT_SWORD_KILLSPRITE
 		:parameters (  )
 		:precondition (
 
 		)
 		:effect (
+			; Comprobamos interacción y eliminamos objeto dirt
+			forall (?d - dirt ?s - sword)
+				(when
+					(and
+						(= (coordinate_x ?d) (coordinate_x ?s))
+						(= (coordinate_y ?d) (coordinate_y ?s))
+					)
 
+					(and
+						(assign (coordinate_x ?d) -1)
+						(assign (coordinate_y ?d) -1)
+
+						(decrease (counter_dirt) 1)
+						(decrease (counter_Immovable) 1)
+						(decrease (counter_Object) 1)
+					)			
+				)			
 		)
 	)
 
+	; Modificación de DIRT_AVATAR_KILLSPRITE
+	; NO FUNCIONA
 	(:action DIAMOND_AVATAR_COLLECTRESOURCE
 		:parameters ( )
 		:precondition (
 
 		)
 		:effect (
+			; Comprobamos interacción, eliminamos diamond e incrementamos recurso
+			forall (?d - diamond ?a - avatar)
+				(when
+					(and
+						(= (coordinate_x ?d) (coordinate_x ?a))
+						(= (coordinate_y ?d) (coordinate_y ?a))
+					)
 
+					(and
+						(assign (coordinate_x ?d) -1)
+						(assign (coordinate_y ?d) -1)
+
+						(decrease (counter_diamond) 1)
+						(decrease (counter_Resource) 1)
+						(decrease (counter_Object) 1)
+
+						(increase (resource_diamond ?a) 1)
+					)			
+				)
 		)
 	)
 
@@ -692,23 +741,61 @@
 		)
 	)
 
+	; Modificación de DIRT_AVATAR_KILLSPRITE
+	; NO FUNCIONA
 	(:action AVATAR_BUTTERFLY_KILLSPRITE
 		:parameters ( )
 		:precondition (
 
 		)
 		:effect (
+			; Comprobamos interacción, eliminamos diamond e incrementamos recurso
+			forall (?d - diamond ?a - avatar)
+				(when
+					(and
+						(= (coordinate_x ?d) (coordinate_x ?a))
+						(= (coordinate_y ?d) (coordinate_y ?a))
+					)
 
+					(and
+						(assign (coordinate_x ?d) -1)
+						(assign (coordinate_y ?d) -1)
+
+						(decrease (counter_diamond) 1)
+						(decrease (counter_Resource) 1)
+						(decrease (counter_Object) 1)
+
+						(increase (resource_diamond ?a) 1)
+					)			
+				)
 		)
 	)
 
+	; Modificación de DIRT_AVATAR_KILLSPRITE
+	; NO FUNCIONA
 	(:action AVATAR_CRAB_KILLSPRITE
 		:parameters ( )
 		:precondition (
 
 		)
 		:effect (
+			; Comprobamos interacción, eliminamos diamond e incrementamos recurso
+			forall (?a - avatar ?c - crab)
+				(when
+					(and
+						(= (coordinate_x ?a) (coordinate_x ?c))
+						(= (coordinate_y ?a) (coordinate_y ?c))
+					)
 
+					(and
+						(assign (coordinate_x ?a) -1)
+						(assign (coordinate_y ?a) -1)
+
+						(decrease (counter_avatar) 1)
+						(decrease (counter_ShootAvatar) 1)
+						(decrease (counter_Object) 1)
+					)			
+				)
 		)
 	)
 
@@ -772,13 +859,32 @@
 		)
 	)
 
+	; Modificación de DIRT_AVATAR_KILLSPRITE
+	; NO FUNCIONA
 	(:action CRAB_BUTTERFLY_KILLSPRITE
 		:parameters ( )
 		:precondition (
 
 		)
 		:effect (
+			; Comprobamos interacción, eliminamos diamond e incrementamos recurso
+			forall (?c - crab ?b - butterfly)
+				(when
+					(and
+						(= (coordinate_x ?c) (coordinate_x ?b))
+						(= (coordinate_y ?c) (coordinate_y ?b))
+					)
 
+					(and
+						(assign (coordinate_x ?c) -1)
+						(assign (coordinate_y ?c) -1)
+
+						(decrease (counter_crab) 1)
+						(decrease (counter_enemy) 1)
+						(decrease (counter_RandomNPC) 1)
+						(decrease (counter_Object) 1)
+					)			
+				)
 		)
 	)
 
