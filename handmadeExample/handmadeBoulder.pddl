@@ -1,7 +1,10 @@
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Dominio HPDL hecho a mano para generar las mismas acciones que Vladis
 ;; 
+;; ----------------------------------------------------------------------------
+;; Posiblemente haga falta almacenar la posición del turno anterior, en functions
+;; ----------------------------------------------------------------------------
+;;
 ;; Notas:
 ;; - Saber qué casillas están conectadas no es necesario, si un movimiento no es 
 ;; posible se indica en una interacción (los muros en general hacen undoAll).
@@ -45,10 +48,9 @@
 
 	; Types -----------------------------------------------------------------
 
-    ; Un tipo orientación y otro Object (objeto genérico), otro para cada 
+    ; Un tipo Object (objeto genérico), otro para cada 
     ; sprite definido y otro para cada tipo de sprite declarado
 	(:types
-		Orientation
 		background - Immovable
 		wall - Immovable
 		sword - Flicker
@@ -65,17 +67,14 @@
 
 	; Constants -----------------------------------------------------------------
 
-    ; Las constantes solo se utilizan para la orientación, se podría tener un
-    ; predicado para esto
-	(:constants
-		up down left right - Orientation
-	)
-
 	; Predicates ----------------------------------------------------------------
 
 	(:predicates
         ; Todos los objetos pueden estar orientados (avatares, misiles, enemigos...)
-		(orientation ?s - Object ?o - Orientation)
+		(orientation-up ?s - Object)
+		(orientation-down ?s - Object)
+		(orientation-left ?s - Object)
+		(orientation-right ?s - Object)
 
 
         ; Predicados para cada dirección posible en la que se puede mover (depende
@@ -121,7 +120,6 @@
 		(counter_dirt)
 		(counter_Object)
 		(counter_sword)
-		(counter_Orientation)
 		(counter_enemy)
 		(counter_ShootAvatar)
 		(counter_Immovable)
@@ -144,9 +142,9 @@
     
     ; Método principal para representar un turno en el juego
 	(:task Turn
-		:parameters (?a - ShootAvatar ?o - Orientation ?p - sword ; Para el turno del avatar
-					 ?s - Object ?o2 - Orientation ; Debería representar todos los objetos posibles, para el turno de estos
-					 ?s1 ?s2 - Object ; Para comprobar interacción, debe representar 
+		:parameters (?a - ShootAvatar ?p - sword ; Para el turno del avatar
+					 ?s - Object ; Debería representar todos los objetos posibles, para el turno de estos
+					;  ?s1 ?s2 - Object ; Para comprobar interacción, debe representar 
 					 				  ; dos objetos cualesquiera (y debe comprobar 
 									  ; todas las combinaciones posibles)
 					)
@@ -155,9 +153,9 @@
 				:precondition (
 								)
 				:tasks ( 
-							(turn_avatar ?a ?o ?p) 
-                            (turn_objects ?s ?o2)
-                            (check-interactions ?s1 ?s2)
+							(turn_avatar ?a ?p) 
+                            (turn_objects ?s)
+                            ; (check-interactions ?s1 ?s2)
 						)
 		)
 	)
@@ -168,7 +166,7 @@
 	(:task turn_avatar
         ; Recibe al avatar, su orientación, y en el caso de que pueda usar
         ; ACTION_USE, el sprite que genera
-		:parameters (?a - ShootAvatar ?o - Orientation ?p - sword)
+		:parameters (?a - ShootAvatar ?p - sword)
 
         ; Los métodos no tienen precondiciones, la posibilidad de realizarlos
         ; se comprueba dentro de la acción
@@ -176,7 +174,7 @@
 				:precondition (
 								)
 				:tasks ( 
-							(AVATAR_MOVE_UP ?a ?o) 
+							(AVATAR_MOVE_UP ?a) 
 						)
 		)
 
@@ -184,7 +182,7 @@
 				:precondition (
 								)
 				:tasks ( 
-							(AVATAR_MOVE_DOWN ?a ?o) 
+							(AVATAR_MOVE_DOWN ?a) 
 						)
 		)
 
@@ -192,7 +190,7 @@
 				:precondition (
 								)
 				:tasks ( 
-							(AVATAR_MOVE_LEFT ?a ?o) 
+							(AVATAR_MOVE_LEFT ?a) 
 						)
 		)
 
@@ -200,7 +198,7 @@
 				:precondition (
 								)
 				:tasks ( 
-							(AVATAR_MOVE_RIGHT ?a ?o) 
+							(AVATAR_MOVE_RIGHT ?a) 
 						)
 		)
 
@@ -208,7 +206,7 @@
 				:precondition (
 								)
 				:tasks ( 
-							(AVATAR_TURN_UP ?a ?o) 
+							(AVATAR_TURN_UP ?a) 
 						)
 		)
 
@@ -216,7 +214,7 @@
 				:precondition (
 								)
 				:tasks ( 
-							(AVATAR_TURN_DOWN ?a ?o) 
+							(AVATAR_TURN_DOWN ?a) 
 						)
 		)
 
@@ -224,7 +222,7 @@
 				:precondition (
 								)
 				:tasks ( 
-							(AVATAR_TURN_LEFT ?a ?o) 
+							(AVATAR_TURN_LEFT ?a) 
 						)
 		)
 
@@ -232,7 +230,7 @@
 				:precondition (
 								)
 				:tasks ( 
-							(AVATAR_TURN_RIGHT ?a ?o) 
+							(AVATAR_TURN_RIGHT ?a) 
 						)
 		)
 
@@ -240,7 +238,7 @@
 				:precondition (
 								)
 				:tasks ( 
-							(AVATAR_USE ?a ?o ?p) 
+							(AVATAR_USE ?a ?p) 
 						)
 		)
 
@@ -256,37 +254,35 @@
 	; Acción recursiva por cada objeto que compruebe si debe moverse y aplicar la
 	; acción que corresponda en cada caso
 	(:task turn_objects
-		:parameters (?o - Object)
+		:parameters (?s - Object)
 
 		(:method turn
 			:precondition ()
 			:tasks (
 						; Como sabemos que hay una roca, ver si se puede mover
-						; (BOULDER_FALL ?o) Creo que se podría generalizar para el tipo de objeto
-						(MISSILE_FALL ?o)
-						(turn_objects ?)
+						; (BOULDER_FALL ?s) Creo que se podría generalizar para el tipo de objeto
+						(MISSILE_FALL ?s)
+						; (turn_objects ?s)
 
 						; Los objetos con movimientos no determinista (ej: enemigos) 
 						; no tiene sentido actualizarlos (no sin planifiación 
 						; probabilística)
 					)
 		)
-	
 	)
 
 	; Actions -------------------------------------------------------------------
 
     ; Acciones para cada movimiento posible del avatar --------------------------
 	(:action AVATAR_MOVE_UP
-		:parameters (?a - ShootAvatar ?o - Orientation)
+		:parameters (?a - ShootAvatar)
 		:precondition (and 
                         ; Comprobación adicional para asegurarse de que puede
                         ; realizarse el movimiento, como en el caso de can-use
 						(can-move-up ?a)    
 
                         ; Comprobación de que está orientado en esa dirección
-						(orientation ?a ?o)
-						(= ?o up)
+						(orientation-up ?a)
 					)
 		:effect (and 
                     ; Se cambia la coordenada en función de la acción
@@ -295,11 +291,10 @@
 	)
 
 	(:action AVATAR_MOVE_DOWN
-		:parameters (?a - ShootAvatar ?o - Orientation )
+		:parameters (?a - ShootAvatar)
 		:precondition (and 
 						(can-move-down ?a)
-						(orientation ?a ?o)
-						(= ?o down)
+						(orientation-down ?a)
 					)
 		:effect (and 
 					(increase (coordinate_x ?a) 1)
@@ -307,11 +302,10 @@
 	)
 
 	(:action AVATAR_MOVE_LEFT
-		:parameters (?a - ShootAvatar ?o - Orientation )
+		:parameters (?a - ShootAvatar)
 		:precondition (and 
 						(can-move-left ?a)
-						(orientation ?a ?o)
-						(= ?o left)
+						(orientation-left ?a)
 					)
 		:effect (and 
 					(decrease (coordinate_y ?a) 1)
@@ -319,11 +313,10 @@
 	)
 
 	(:action AVATAR_MOVE_RIGHT
-		:parameters (?a - ShootAvatar ?o - Orientation )
+		:parameters (?a - ShootAvatar)
 		:precondition (and 
 						(can-move-right ?a)
-						(orientation ?a ?o)
-						(= ?o right)
+						(orientation-right ?a)
 					)
 		:effect (and 
 					(increase (coordinate_y ?a) 1)
@@ -331,50 +324,98 @@
 	)
 
 	(:action AVATAR_TURN_UP
-		:parameters (?a - ShootAvatar ?o - Orientation )
+		:parameters (?a - ShootAvatar)
 		:precondition (and 
 						(can-change-orientation ?a)
-						(orientation ?a ?o)
+						(not (orientation-up ?a))
 					)
 		:effect (and 
-					(not (orientation ?a ?o))
-					(orientation ?a up)
+					(when
+						(orientation-down ?a )
+						(not (orientation-down ?a))
+					)
+					(when
+						(orientation-right ?a)
+						(not (orientation-right ?a))
+					)
+					(when
+						(orientation-left ?a)
+						(not (orientation-left ?a))
+					)
+
+					(orientation-up ?a)
 				)
 	)
 
 	(:action AVATAR_TURN_DOWN
-		:parameters (?a - ShootAvatar ?o - Orientation )
+		:parameters (?a - ShootAvatar)
 		:precondition (and 
 						(can-change-orientation ?a)
-						(orientation ?a ?o)
+						(not (orientation-down ?a))
 					)
 		:effect (and 
-					(not (orientation ?a ?o))
-					(orientation ?a down)
+					(when
+						(orientation-up ?a )
+						(not (orientation-up ?a))
+					)
+					(when
+						(orientation-right ?a)
+						(not (orientation-right ?a))
+					)
+					(when
+						(orientation-left ?a)
+						(not (orientation-left ?a))
+					)
+
+					(orientation-down ?a)
 				)
 	)
 
 	(:action AVATAR_TURN_LEFT
-		:parameters (?a - ShootAvatar ?o - Orientation )
+		:parameters (?a - ShootAvatar)
 		:precondition (and 
 						(can-change-orientation ?a)
-						(orientation ?a ?o)
+						(not (orientation-left ?a))
 					)
 		:effect (and 
-					(not (orientation ?a ?o))
-					(orientation ?a left)
+					(when
+						(orientation-down ?a )
+						(not (orientation-down ?a))
+					)
+					(when
+						(orientation-right ?a)
+						(not (orientation-right ?a))
+					)
+					(when
+						(orientation-up ?a)
+						(not (orientation-up ?a))
+					)
+
+					(orientation-left ?a)
 				)
 	)
 
 	(:action AVATAR_TURN_RIGHT
-		:parameters (?a - ShootAvatar ?o - Orientation )
+		:parameters (?a - ShootAvatar)
 		:precondition (and 
 						(can-change-orientation ?a)
-						(orientation ?a ?o)
+						(not (orientation-right ?a))
 					)
 		:effect (and 
-					(not (orientation ?a ?o))
-					(orientation ?a right)
+					(when
+						(orientation-down ?a )
+						(not (orientation-down ?a))
+					)
+					(when
+						(orientation-up ?a)
+						(not (orientation-up ?a))
+					)
+					(when
+						(orientation-left ?a)
+						(not (orientation-left ?a))
+					)
+
+					(orientation-right ?a)
 				)
 	)
 
@@ -382,16 +423,15 @@
 	; Esto objeto debería desaparecer en el siguiente turno 
 	; (en base a los parámetros o al hecho de ser Flicker ?)
 	(:action AVATAR_USE
-		:parameters (?a - ShootAvatar ?o - Orientation ?p - sword)
+		:parameters (?a - ShootAvatar ?p - sword)
 		:precondition (and 
 						(can-use ?a)
-                        (orientation ?a ?o)
 					)
 		:effect (and 
                     ; Por ahora supongo que se genera delante, 
                     ; debo comprobar si depende del avatar
                     (when
-                        (orientation ?a up)
+                        (orientation-up ?a)
 
 						(and
 							(assign (coordinate_x ?p) (coordinate_x ?a))
@@ -401,7 +441,7 @@
                     )
 
                     (when
-                        (orientation ?a down)
+                        (orientation-down ?a)
 
 						(and
 							(assign (coordinate_x ?p) (coordinate_x ?a))
@@ -411,7 +451,7 @@
                     )
 
                     (when
-                        (orientation ?a left)
+                        (orientation-left ?a)
 
 						(and
 							(assign (coordinate_x ?p) (coordinate_x ?a))
@@ -421,7 +461,7 @@
                     )
 
                     (when
-                        (orientation ?a right)
+                        (orientation-right ?a)
 
                         (and
 							(assign (coordinate_x ?p) (coordinate_x ?a))
@@ -429,7 +469,7 @@
 							(increase (coordinate_x ?p) 1)						
 						)
                     )
-
+					
 					(increase (counter_sword) 1)
 				)
 	)
@@ -444,8 +484,46 @@
 
 	; Acciones para el resto de objetos ---------------------------------------
 
+	; Debe recorrer todos los misiles del juego
 	(:action MISSILE_FALL
-		:parameters (?m - Missile ?o - Orientation)
+		:parameters (?m - Missile)
+		:precondition (
+
+		)
+		:effect (
+					forall (?m2 - Missile)
+					(and
+						(when
+							(orientation-up ?m2)
+
+							(decrease (coordinate_y ?m2) 1)						
+						)
+
+						(when
+							(orientation-down ?a)
+
+							(increase (coordinate_y ?m2) 1)						
+						)
+
+						(when
+							(orientation-left ?a)
+
+							(decrease (coordinate_x ?m2) 1)						
+						)
+
+						(when
+							(orientation-right ?a)
+
+							(increase (coordinate_x ?m2) 1)						
+						)
+					)
+		)
+	)
+
+	
+	; Acciones para las interacciones -----------------------------------------
+	(:action DIRT_AVATAR_KILLSPRITE
+		:parameters ( )
 		:precondition (
 
 		)
@@ -454,6 +532,163 @@
 		)
 	)
 
-	
-	; Acciones para las interacciones -----------------------------------------
+	(:action DIRT_SWORD_KILLSPRITE
+		:parameters (  )
+		:precondition (
+
+		)
+		:effect (
+
+		)
+	)
+
+	(:action DIAMOND_AVATAR_COLLECTRESOURCE
+		:parameters ( )
+		:precondition (
+
+		)
+		:effect (
+
+		)
+	)
+
+	(:action MOVING_WALL_STEPBACK
+		:parameters ( )
+		:precondition (
+
+		)
+		:effect (
+
+		)
+	)
+
+	(:action MOVING_BOULDER_STEPBACK
+		:parameters ( )
+		:precondition (
+
+		)
+		:effect (
+
+		)
+	)
+
+	(:action AVATAR_BOULDER_KILLIFFROMABOVE
+		:parameters ( )
+		:precondition (
+
+		)
+		:effect (
+
+		)
+	)
+
+	(:action AVATAR_BUTTERFLY_KILLSPRITE
+		:parameters ( )
+		:precondition (
+
+		)
+		:effect (
+
+		)
+	)
+
+	(:action AVATAR_CRAB_KILLSPRITE
+		:parameters ( )
+		:precondition (
+
+		)
+		:effect (
+
+		)
+	)
+
+	(:action BOULDER_DIRT_STEPBACK
+		:parameters ( )
+		:precondition (
+
+		)
+		:effect (
+
+		)
+	)
+
+	(:action BOULDER_WALL_STEPBACK
+		:parameters ( )
+		:precondition (
+
+		)
+		:effect (
+
+		)
+	)
+
+	(:action BOULDER_DIAMOND_STEPBACK
+		:parameters ( )
+		:precondition (
+
+		)
+		:effect (
+
+		)
+	)
+
+	(:action BOULDER_BOULDER_STEPBACK
+		:parameters ( )
+		:precondition (
+
+		)
+		:effect (
+
+		)
+	)
+
+	(:action ENEMY_DIRT_STEPBACK
+		:parameters ( )
+		:precondition (
+
+		)
+		:effect (
+
+		)
+	)
+
+	(:action ENEMY_DIAMOND_STEPBACK
+		:parameters ( )
+		:precondition (
+
+		)
+		:effect (
+
+		)
+	)
+
+	(:action CRAB_BUTTERFLY_KILLSPRITE
+		:parameters ( )
+		:precondition (
+
+		)
+		:effect (
+
+		)
+	)
+
+	(:action BUTTERFLY_CRAB_TRANSFORMTO
+		:parameters ( )
+		:precondition (
+
+		)
+		:effect (
+
+		)
+	)
+
+	(:action EXITDOOR_AVATAR_KILLIFOTHERHASMORE
+		:parameters ( )
+		:precondition (
+
+		)
+		:effect (
+
+		)
+	)
 )
