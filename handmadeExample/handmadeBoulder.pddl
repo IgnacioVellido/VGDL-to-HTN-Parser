@@ -602,25 +602,37 @@
 						(when
 							(orientation-up ?m)
 
-							(decrease (coordinate_y ?m) 1)						
+							(and
+								(assign (last_coordinate_y ?m) (coordinate_y ?m))
+								(decrease (coordinate_y ?m) 1)						
+							)
 						)
 
 						(when
 							(orientation-down ?m)
 
-							(increase (coordinate_y ?m) 1)						
+							(and
+								(assign (last_coordinate_y ?m) (coordinate_y ?m))
+								(increase (coordinate_y ?m) 1)						
+							)
 						)
 
 						(when
 							(orientation-left ?m)
 
-							(decrease (coordinate_x ?m) 1)						
+							(and
+								(assign (last_coordinate_x ?m) (coordinate_x ?m))
+								(decrease (coordinate_x ?m) 1)						
+							)
 						)
 
 						(when
 							(orientation-right ?m)
 
-							(increase (coordinate_x ?m) 1)			
+							(and
+								(assign (last_coordinate_x ?m) (coordinate_x ?m))
+								(increase (coordinate_x ?m) 1)			
+							)
 						)
 					)
 		)
@@ -759,7 +771,7 @@
 
 		)
 		:effect (
-			; Comprobamos interacción, eliminamos diamond e incrementamos recurso
+			; Comprobamos interacción
 			forall (?a - avatar ?b - butterfly)
 				(when
 					(and
@@ -789,7 +801,7 @@
 
 		)
 		:effect (
-			; Comprobamos interacción, eliminamos diamond e incrementamos recurso
+			; Comprobamos interacción
 			forall (?a - avatar ?c - crab)
 				(when
 					(and
@@ -811,63 +823,141 @@
 		)
 	)
 
+	; SIN COMPROBAR
 	(:action BOULDER_DIRT_STEPBACK
 		:parameters ( )
 		:precondition (
 
 		)
-		:effect (
+		:effect (			
+			; Se asigna la coordenada que tuviera anteriormente (solo es boulder, dirt no se mueve)
+			forall (?b - boulder ?d - dirt)
+				(when
+					(and
+						(= (coordinate_x ?b) (coordinate_x ?d))
+						(= (coordinate_y ?b) (coordinate_y ?d))
+					)
 
+					(and
+						(assign (coordinate_y ?b) (last_coordinate_x ?b))
+						(assign (coordinate_y ?b) (last_coordinate_y ?b))
+					)
+				)
 		)
 	)
 
+	; SIN COMPROBAR
 	(:action BOULDER_WALL_STEPBACK
 		:parameters ( )
 		:precondition (
 
 		)
 		:effect (
+			; Se asigna la coordenada que tuviera anteriormente
+			forall (?b - boulder ?w - wall)
+				(when
+					(and
+						(= (coordinate_x ?b) (coordinate_x ?w))
+						(= (coordinate_y ?b) (coordinate_y ?w))
+					)
 
+					(and
+						(assign (coordinate_y ?b) (last_coordinate_x ?b))
+						(assign (coordinate_y ?b) (last_coordinate_y ?b))
+					)
+				)
 		)
 	)
 
+	; SIN COMPROBAR
 	(:action BOULDER_DIAMOND_STEPBACK
 		:parameters ( )
 		:precondition (
 
 		)
 		:effect (
+			; Se asigna la coordenada que tuviera anteriormente
+			forall (?b - boulder ?d - diamond)
+				(when
+					(and
+						(= (coordinate_x ?b) (coordinate_x ?d))
+						(= (coordinate_y ?b) (coordinate_y ?d))
+					)
 
+					(and
+						(assign (coordinate_y ?b) (last_coordinate_x ?b))
+						(assign (coordinate_y ?b) (last_coordinate_y ?b))
+					)
+				)
 		)
 	)
 
+	; SIN COMPROBAR
 	(:action BOULDER_BOULDER_STEPBACK
 		:parameters ( )
 		:precondition (
 
 		)
 		:effect (
+			; Se asigna la coordenada que tuviera anteriormente
+			forall (?b ?b2 - boulder)
+				(when
+					(and
+						(= (coordinate_x ?b) (coordinate_x ?b2))
+						(= (coordinate_y ?b) (coordinate_y ?b2))
+					)
 
+					(and
+						(assign (coordinate_y ?b) (last_coordinate_x ?b))
+						(assign (coordinate_y ?b) (last_coordinate_y ?b))
+					)
+				)
 		)
 	)
 
+	; SIN COMPROBAR
 	(:action ENEMY_DIRT_STEPBACK
 		:parameters ( )
 		:precondition (
 
 		)
 		:effect (
+			; Se asigna la coordenada que tuviera anteriormente
+			forall (?e - enemy ?d - dirt)
+				(when
+					(and
+						(= (coordinate_x ?e) (coordinate_x ?d))
+						(= (coordinate_y ?e) (coordinate_y ?d))
+					)
 
+					(and
+						(assign (coordinate_y ?e) (last_coordinate_x ?e))
+						(assign (coordinate_y ?e) (last_coordinate_y ?e))
+					)
+				)
 		)
 	)
 
+	; SIN COMPROBAR
 	(:action ENEMY_DIAMOND_STEPBACK
 		:parameters ( )
 		:precondition (
 
 		)
 		:effect (
+			; Se asigna la coordenada que tuviera anteriormente
+			forall (?e - enemy ?d - diamond)
+				(when
+					(and
+						(= (coordinate_x ?e) (coordinate_x ?d))
+						(= (coordinate_y ?e) (coordinate_y ?d))
+					)
 
+					(and
+						(assign (coordinate_y ?e) (last_coordinate_x ?e))
+						(assign (coordinate_y ?e) (last_coordinate_y ?e))
+					)
+				)		
 		)
 	)
 
@@ -879,7 +969,7 @@
 
 		)
 		:effect (
-			; Comprobamos interacción, eliminamos diamond e incrementamos recurso
+			; Comprobamos interacción
 			forall (?c - crab ?b - butterfly)
 				(when
 					(and
