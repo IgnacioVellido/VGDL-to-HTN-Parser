@@ -173,6 +173,14 @@
 									  ; todas las combinaciones posibles)
 					)
 
+		; Lo suyo sería poner en la precondición el objetivo final del
+		; juego, teniendo varios de estos métodos si hay varios criterios de 
+		; terminación definidos
+		; (:method finish_game
+		; 		:precondition ()
+		; 		:tasks ()		
+		; )
+
 		(:method turn
 				:precondition (
 								)
@@ -186,13 +194,16 @@
 						)
 		)
 
-		; Cuando no se puedan realizar más movimientos (?)
-		; Quizás lo suyo sería poner en la precondición el objetivo final del
-		; juego, teniendo varios de estos métodos si hay varios criterios de 
-		; terminación definidos
-		(:method finish_game
-				:precondition ()
-				:tasks ()		
+
+		; Si el turno no se ha podido completar (al 100%%), pasamos al siguiente
+		; Ahora mismo se quedaría atascado ya que no habría ningún cambio, el
+		; objetivo es que turn aplique algún efecto (ya sea el avatar o algún
+		; otro movimiento) que haga que el juego continue
+		(:method turn_undone
+			:precondition ()
+			:tasks (
+				(Turn ?a ?p)
+			)
 		)
 	)
 
@@ -318,16 +329,28 @@
 	; -------------------------------------------------------------------------
 	; -------------------------------------------------------------------------
 
-	; (:task check-interactions
-	; 	; Si se puede hacer que se repita esta tarea con todas las combinaciones
-	; 	; posibles de objetos, comprobar la colisión en la precondición del método
-	; 	:parameters (?s1 - Object ?s2 - Object)
+	; Se puede hacer que el UNDOALL sea obligatorio y las de STEPBACK a secas no,
+	; por tanto si la primera falla check-interactions no se completa y el 
+	; movimiento del avatar y de los objetos tampoco, y si falla la segunda el 
+	; juego sigue pero esa interacción no se hace (REALMENTE SE DEBERÍA TENER 
+	; ALMACENADA LA POSICIÓN DEL OBJETO ANTERIOR Y COMO EFECTO DEJARLO DONDE ESTABA,
+	; ESTO DEBERÍA VOLVER A COMPROBAR SI HAY INTERACCIONES EN SU CASILLA ANTERIOR)
+	(:task check-interactions
+		; Si se puede hacer que se repita esta tarea con todas las combinaciones
+		; posibles de objetos, comprobar la colisión en la precondición del método
+		; :parameters (?s1 - Object ?s2 - Object)
+		:parameters ()
 
-	; 	(:method provisional_name
-	; 		:precondition ()
-	; 		:tasks ()
-	; 	)
-	; )
+		(:method provisional_name
+			:precondition ()
+			:tasks (
+				forall (?o1 ?o2 - Object)
+				(and
+					(DIRT_AVATAR_KILLSPRITE ?o1 ?o2)
+				)
+			)
+		)
+	)
 
 	; Actions -------------------------------------------------------------------
 
@@ -586,8 +609,9 @@
 		:parameters (?d - dirt ?a - ShootAvatar)
 		:precondition (and
 			; Mismas coordenadas, son las mismas para todas las interacciones
-			(= (coordinate_x ?d) (coordinate_x ?a))
-			(= (coordinate_y ?d) (coordinate_y ?a))
+			(:print "En DIRT_AVATAR_KILLSPRITE\n")
+			; (= (coordinate_x ?d) (coordinate_x ?a))
+			; (= (coordinate_y ?d) (coordinate_y ?a))
 		)
 		:effect (
 			; Eliminamos objeto dirt
@@ -610,7 +634,7 @@
 
 		)
 		:effect (
-
+			; (increase (resource_diamond ?a) 1)
 		)
 	)
 
