@@ -3,7 +3,8 @@
 ;; 
 ;; ----------------------------------------------------------------------------
 ;; Dudas:
-;; - Posiblemente haga falta almacenar la posición del turno anterior, en functions
+;; - Posiblemente haga falta almacenar la posición del turno anterior (para cada
+;; objeto), en functions
 ;;
 ;; - Cómo hacer que se compruebe una tarea para un objeto concreto ?
 ;; Por ejemplo, que se compruebe las interacciones con todos los objetos o que
@@ -166,7 +167,7 @@
     ; Método principal para representar un turno en el juego
 	(:task Turn
 		:parameters (?a - ShootAvatar ?p - sword ; Para el turno del avatar
-					 ?s - Object ; Debería representar todos los objetos posibles, para el turno de estos
+					;  ?s - Object ; Debería representar todos los objetos posibles, para el turno de estos
 					;  ?s1 ?s2 - Object ; Para comprobar interacción, debe representar 
 					 				  ; dos objetos cualesquiera (y debe comprobar 
 									  ; todas las combinaciones posibles)
@@ -177,7 +178,8 @@
 								)
 				:tasks ( 
 							(turn_avatar ?a ?p) 
-                            (turn_objects ?s)
+                            ; (turn_objects ?s)
+							(turn_objects)
                             ; (check-interactions ?s1 ?s2)
 
 							; (Turn ...) ; Para que el planificador no realice un solo turno
@@ -294,14 +296,16 @@
 	; Acción recursiva por cada objeto que compruebe si debe moverse y aplicar la
 	; acción que corresponda en cada caso
 	(:task turn_objects
-		:parameters (?s - Object)
+		; :parameters (?s - Object)
+		:parameters () ; Probando sin objetos, a ver si itera por todos
 
 		(:method turn
 			:precondition ()
 			:tasks (
 						; Como sabemos que hay una roca, ver si se puede mover
 						; (BOULDER_FALL ?s) Creo que se podría generalizar para el tipo de objeto
-						(MISSILE_FALL ?s)
+						; (MISSILE_FALL ?s)
+						(MISSILE_FALL)
 						; (turn_objects ?s)
 
 						; Los objetos con movimientos no determinista (ej: enemigos) 
@@ -314,15 +318,16 @@
 	; -------------------------------------------------------------------------
 	; -------------------------------------------------------------------------
 
-	(:task check-interactions
-		; Si se puede hacer que se repita esta tarea con todas las combinaciones
-		; posibles de objetos, comprobar la colisión en la precondición del método
-		:parameters (?s1 - Object ?s2 - Object)
+	; (:task check-interactions
+	; 	; Si se puede hacer que se repita esta tarea con todas las combinaciones
+	; 	; posibles de objetos, comprobar la colisión en la precondición del método
+	; 	:parameters (?s1 - Object ?s2 - Object)
 
-		(:method provisional_name
-			:precondition 
-		)
-	)
+	; 	(:method provisional_name
+	; 		:precondition ()
+	; 		:tasks ()
+	; 	)
+	; )
 
 	; Actions -------------------------------------------------------------------
 
@@ -538,36 +543,38 @@
 	; Acciones para el resto de objetos ---------------------------------------
 
 	; Debe recorrer todos los misiles del juego
+	; FUNCIONA
 	(:action MISSILE_FALL
-		:parameters (?m - Missile)
-		:precondition (
-
+		; :parameters (?m - Missile)
+		:parameters ()		
+		:precondition (and
+			(:print "En MISSILE_FALL\n")
 		)
 		:effect (
-					forall (?m2 - Missile)
+					forall (?m - Missile)
 					(and
 						(when
-							(orientation-up ?m2)
+							(orientation-up ?m)
 
-							(decrease (coordinate_y ?m2) 1)						
+							(decrease (coordinate_y ?m) 1)						
 						)
 
 						(when
-							(orientation-down ?a)
+							(orientation-down ?m)
 
-							(increase (coordinate_y ?m2) 1)						
+							(increase (coordinate_y ?m) 1)						
 						)
 
 						(when
-							(orientation-left ?a)
+							(orientation-left ?m)
 
-							(decrease (coordinate_x ?m2) 1)						
+							(decrease (coordinate_x ?m) 1)						
 						)
 
 						(when
-							(orientation-right ?a)
+							(orientation-right ?m)
 
-							(increase (coordinate_x ?m2) 1)						
+							(increase (coordinate_x ?m) 1)			
 						)
 					)
 		)
@@ -577,7 +584,7 @@
 	; Acciones para las interacciones -----------------------------------------
 	(:action DIRT_AVATAR_KILLSPRITE
 		:parameters (?d - dirt ?a - ShootAvatar)
-		:precondition (
+		:precondition (and
 			; Mismas coordenadas, son las mismas para todas las interacciones
 			(= (coordinate_x ?d) (coordinate_x ?a))
 			(= (coordinate_y ?d) (coordinate_y ?a))
