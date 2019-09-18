@@ -143,8 +143,8 @@
         ; temprano)
 		(coordinate_x ?o - Object)
 		(coordinate_y ?o - Object)
-		; (last_coordinate_x ?o - Object)
-		; (last_coordinate_y ?o - Object)
+		(last_coordinate_x ?o - Object)
+		(last_coordinate_y ?o - Object)
 
         ; Debe haber un contador por cada recurso (en este caso uno)
 		(resource_diamond ?a - avatar)
@@ -385,6 +385,7 @@
 					)
 		:effect (and 
                     ; Se cambia la coordenada en función de la acción
+					(assign (last_coordinate_y ?a) (coordinate_y ?a))
 					(decrease (coordinate_y ?a) 1)
 				)
 	)
@@ -396,6 +397,7 @@
 						(orientation-down ?a)
 					)
 		:effect (and 
+					(assign (last_coordinate_y ?a) (coordinate_y ?a))
 					(increase (coordinate_y ?a) 1)
 				)
 	)
@@ -406,7 +408,8 @@
 						(can-move-left ?a)
 						(orientation-left ?a)
 					)
-		:effect (and 
+		:effect (and
+					(assign (last_coordinate_x ?a) (coordinate_x ?a)) 
 					(decrease (coordinate_x ?a) 1)
 				)
 	)
@@ -418,6 +421,7 @@
 						(orientation-right ?a)
 					)
 		:effect (and 
+					(assign (last_coordinate_y ?a) (coordinate_x ?a))
 					(increase (coordinate_x ?a) 1)
 				)
 	)
@@ -641,6 +645,8 @@
 					)
 
 					(and
+						(assign (last_coordinate_y ?d) (coordinate_x ?d))
+						(assign (last_coordinate_y ?d) (coordinate_y ?d))
 						(assign (coordinate_x ?d) -1)
 						(assign (coordinate_y ?d) -1)
 
@@ -670,6 +676,8 @@
 					)
 
 					(and
+						(assign (last_coordinate_y ?d) (coordinate_x ?d))
+						(assign (last_coordinate_y ?d) (coordinate_y ?d))
 						(assign (coordinate_x ?d) -1)
 						(assign (coordinate_y ?d) -1)
 
@@ -698,6 +706,8 @@
 					)
 
 					(and
+						(assign (last_coordinate_y ?d) (coordinate_x ?d))
+						(assign (last_coordinate_y ?d) (coordinate_y ?d))
 						(assign (coordinate_x ?d) -1)
 						(assign (coordinate_y ?d) -1)
 
@@ -750,22 +760,22 @@
 		)
 		:effect (
 			; Comprobamos interacción, eliminamos diamond e incrementamos recurso
-			forall (?d - diamond ?a - avatar)
+			forall (?a - avatar ?b - butterfly)
 				(when
 					(and
-						(= (coordinate_x ?d) (coordinate_x ?a))
-						(= (coordinate_y ?d) (coordinate_y ?a))
+						(= (coordinate_x ?a) (coordinate_x ?b))
+						(= (coordinate_y ?a) (coordinate_y ?b))
 					)
 
 					(and
-						(assign (coordinate_x ?d) -1)
-						(assign (coordinate_y ?d) -1)
+						(assign (last_coordinate_y ?a) (coordinate_x ?a))
+						(assign (last_coordinate_y ?a) (coordinate_y ?a))
+						(assign (coordinate_x ?a) -1)
+						(assign (coordinate_y ?a) -1)
 
-						(decrease (counter_diamond) 1)
-						(decrease (counter_Resource) 1)
+						(decrease (counter_avatar) 1)
+						(decrease (counter_ShootAvatar) 1)
 						(decrease (counter_Object) 1)
-
-						(increase (resource_diamond ?a) 1)
 					)			
 				)
 		)
@@ -788,6 +798,8 @@
 					)
 
 					(and
+						(assign (last_coordinate_y ?a) (coordinate_x ?a))
+						(assign (last_coordinate_y ?a) (coordinate_y ?a))
 						(assign (coordinate_x ?a) -1)
 						(assign (coordinate_y ?a) -1)
 
@@ -876,6 +888,8 @@
 					)
 
 					(and
+						(assign (last_coordinate_y ?c) (coordinate_x ?c))
+						(assign (last_coordinate_y ?c) (coordinate_y ?c))
 						(assign (coordinate_x ?c) -1)
 						(assign (coordinate_y ?c) -1)
 
