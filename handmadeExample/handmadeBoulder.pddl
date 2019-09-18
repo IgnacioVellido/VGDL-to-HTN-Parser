@@ -3,7 +3,8 @@
 ;; 
 ;; ----------------------------------------------------------------------------
 ;; Dudas:
-;; - Posiblemente haga falta almacenar la posición del turno anterior, en functions
+;; - Posiblemente haga falta almacenar la posición del turno anterior (para cada
+;; objeto), en functions
 ;;
 ;; - Cómo hacer que se compruebe una tarea para un objeto concreto ?
 ;; Por ejemplo, que se compruebe las interacciones con todos los objetos o que
@@ -294,14 +295,16 @@
 	; Acción recursiva por cada objeto que compruebe si debe moverse y aplicar la
 	; acción que corresponda en cada caso
 	(:task turn_objects
-		:parameters (?s - Object)
+		; :parameters (?s - Object)
+		:parameters () ; Probando sin objetos, a ver si itera por todos
 
 		(:method turn
 			:precondition ()
 			:tasks (
 						; Como sabemos que hay una roca, ver si se puede mover
 						; (BOULDER_FALL ?s) Creo que se podría generalizar para el tipo de objeto
-						(MISSILE_FALL ?s)
+						; (MISSILE_FALL ?s)
+						(MISSILE_FALL)
 						; (turn_objects ?s)
 
 						; Los objetos con movimientos no determinista (ej: enemigos) 
@@ -539,9 +542,10 @@
 
 	; Debe recorrer todos los misiles del juego
 	(:action MISSILE_FALL
-		:parameters (?m - Missile)
+		; :parameters (?m - Missile)
+		:parameters ()		
 		:precondition (
-
+			(:print "En MISSILE_FALL\n")
 		)
 		:effect (
 					forall (?m2 - Missile)
