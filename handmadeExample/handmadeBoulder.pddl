@@ -56,13 +56,13 @@
 		:derived-predicates
 		:universal-preconditions
 		:disjuntive-preconditions
-		:conditional-effects
 
 		; For time management
 		; :durative-actions
 		; :metatags
 
 		; Necesarios
+		:conditional-effects
 		:equality
 		:fluents
 		:htn-expansion
@@ -135,12 +135,18 @@
         ; temprano)
 		(coordinate_x ?o - Object)
 		(coordinate_y ?o - Object)
+		; (last_coordinate_x ?o - Object)
+		; (last_coordinate_y ?o - Object)
 
         ; Debe haber un contador por cada recurso (en este caso uno)
 		(resource_diamond ?a - avatar)
 
         ; Esto no es necesario por ahora, ya que serviría para representar objetivos
         ; finales como los declarados por VGDL
+
+		; ¿Que los básicos se calculen aquí y el resto sean derived?
+		; Habría problemas si se actualiza uno de los deried en alguna acción,
+		; mejor tenerlos todos en cuenta en cada acción (la jerarquía hacia arriba)
 		(counter_dirt)
 		(counter_Object)
 		(counter_sword)
@@ -188,7 +194,7 @@
 							(turn_avatar ?a ?p) 
                             ; (turn_objects ?s)
 							(turn_objects)
-                            ; (check-interactions ?s1 ?s2)
+                            (check-interactions)
 
 							; (Turn ...) ; Para que el planificador no realice un solo turno
 						)
@@ -344,10 +350,12 @@
 		(:method provisional_name
 			:precondition ()
 			:tasks (
-				forall (?o1 ?o2 - Object)
-				(and
-					(DIRT_AVATAR_KILLSPRITE ?o1 ?o2)
-				)
+				; (forall (?o1 ?o2 - Object)
+				; (and
+					; (DIRT_AVATAR_KILLSPRITE ?o1 ?o2)
+				; )
+				; )
+					(DIRT_AVATAR_KILLSPRITE)
 			)
 		)
 	)
@@ -367,7 +375,7 @@
 					)
 		:effect (and 
                     ; Se cambia la coordenada en función de la acción
-					(decrease (coordinate_x ?a) 1)
+					(decrease (coordinate_y ?a) 1)
 				)
 	)
 
@@ -378,7 +386,7 @@
 						(orientation-down ?a)
 					)
 		:effect (and 
-					(increase (coordinate_x ?a) 1)
+					(increase (coordinate_y ?a) 1)
 				)
 	)
 
@@ -389,7 +397,7 @@
 						(orientation-left ?a)
 					)
 		:effect (and 
-					(decrease (coordinate_y ?a) 1)
+					(decrease (coordinate_x ?a) 1)
 				)
 	)
 
@@ -400,7 +408,7 @@
 						(orientation-right ?a)
 					)
 		:effect (and 
-					(increase (coordinate_y ?a) 1)
+					(increase (coordinate_x ?a) 1)
 				)
 	)
 
@@ -552,6 +560,8 @@
                     )
 					
 					(increase (counter_sword) 1)
+					(increase (counter_Flicker) 1)
+					(increase (counter_Object) 1)
 				)
 	)
 
@@ -570,9 +580,8 @@
 	(:action MISSILE_FALL
 		; :parameters (?m - Missile)
 		:parameters ()		
-		:precondition (and
-			(:print "En MISSILE_FALL\n")
-		)
+		:precondition (
+					)
 		:effect (
 					forall (?m - Missile)
 					(and
@@ -605,16 +614,31 @@
 
 	
 	; Acciones para las interacciones -----------------------------------------
+	; Por algún motivo no funciona
 	(:action DIRT_AVATAR_KILLSPRITE
-		:parameters (?d - dirt ?a - ShootAvatar)
-		:precondition (and
-			; Mismas coordenadas, son las mismas para todas las interacciones
-			(:print "En DIRT_AVATAR_KILLSPRITE\n")
-			; (= (coordinate_x ?d) (coordinate_x ?a))
-			; (= (coordinate_y ?d) (coordinate_y ?a))
-		)
-		:effect (
-			; Eliminamos objeto dirt
+		; :parameters (?d - dirt ?a - ShootAvatar)
+		:parameters ( )
+		:precondition (
+					)
+		:effect (and
+			; Comprobamos interacción y eliminamos objeto dirt
+			(forall (?d - dirt ?a - ShootAvatar)
+				(when
+					(and
+						(= (coordinate_x ?d) (coordinate_x ?a))
+						(= (coordinate_y ?d) (coordinate_y ?a))
+					)
+
+					(and
+						(assign (coordinate_x ?d) -1)
+						(assign (coordinate_y ?d) -1)
+
+						(decrease (counter_dirt) 1)
+						(decrease (counter_Immovable) 1)
+						(decrease (counter_Object) 1)
+					)			
+				)
+			)
 		)
 	)
 
@@ -634,7 +658,7 @@
 
 		)
 		:effect (
-			; (increase (resource_diamond ?a) 1)
+
 		)
 	)
 
