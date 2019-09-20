@@ -42,8 +42,7 @@
 ;; - Las acciones de "dig-..." se corresponderían con ACTION_USE en la casilla 
 ;; hacia la que está orientado
 ;;
-;; - "exit-level" solo indica que el avatar está sobre la casilla de salida (y 
-;; debería comprobar que tiene antes 9 gemas, cosa que se le olvida)
+;; - "exit-level" solo indica que el avatar está sobre la casilla de salida
 ;;
 ;; - "get-gem" no se incluye ya que se recoge automáticamente en base a la
 ;; interacción
@@ -87,18 +86,17 @@
 		ShootAvatar RandomNPC - moving	
 		moving Immovable Flicker Resource Door Missile - Object
 
-		background - Immovable
-		wall - Immovable
-		sword - Flicker
-		dirt - Immovable
-		exitdoor - Door
-		diamond - Resource
-		boulder - Missile
 		avatar - ShootAvatar
-		enemy - RandomNPC
-		crab - enemy
+		background - Immovable
+		boulder - Missile
 		butterfly - enemy	
-		; ShootAvatar Immovable Flicker Resource Door Missile RandomNPC - Object
+		crab - enemy
+		diamond - Resource
+		dirt - Immovable
+		enemy - RandomNPC
+		exitdoor - Door
+		sword - Flicker
+		wall - Immovable
 	)
 
 	; Constants -----------------------------------------------------------------
@@ -132,6 +130,11 @@
         ; juego (a la hora de generalizar) el avatar no pueda utilizar este comando
         ; y la comprobación que añade no es grande
 		(can-use ?a - ShootAvatar)
+
+		; Para comprobar una interacción
+		; Habrá una por cada par de objetos definidos en el problema, y duplicadas
+		; (intercambiando el sujeto del predicado)
+		(evaluate-interaction ?o1 ?o2 - Object)
 	)
   
 	; Functions -----------------------------------------------------------------
@@ -178,6 +181,7 @@
 		(counter_Resource)
 		(counter_Missile)
 		(counter_RandomNPC)
+		(counter_moving)
 	)
 
 	; Tasks ---------------------------------------------------------------------
@@ -203,9 +207,9 @@
 				:precondition (
 								)
 				:tasks ( 
-							(turn_avatar ?a ?p) 
+							; (turn_avatar ?a ?p) 
                             ; (turn_objects ?s)
-							(turn_objects)
+							; (turn_objects)
                             (check-interactions)
 
 							; (Turn ...) ; Para que el planificador no realice un solo turno
@@ -353,38 +357,189 @@
 	; juego sigue pero esa interacción no se hace (REALMENTE SE DEBERÍA TENER 
 	; ALMACENADA LA POSICIÓN DEL OBJETO ANTERIOR Y COMO EFECTO DEJARLO DONDE ESTABA,
 	; ESTO DEBERÍA VOLVER A COMPROBAR SI HAY INTERACCIONES EN SU CASILLA ANTERIOR)
-	(:task check-interactions
-		; Si se puede hacer que se repita esta tarea con todas las combinaciones
-		; posibles de objetos, comprobar la colisión en la precondición del método
-		; :parameters (?s1 - Object ?s2 - Object)
-		:parameters ()
+	; (:task check-interactions
+	; 	; Si se puede hacer que se repita esta tarea con todas las combinaciones
+	; 	; posibles de objetos, comprobar la colisión en la precondición del método
+	; 	; :parameters (?s1 - Object ?s2 - Object)
+	; 	:parameters ()
 
-		(:method provisional_name
-			:precondition ()
+	; 	(:method provisional_name
+	; 		:precondition ()
+	; 		:tasks (
+	; 				(DIRT_AVATAR_KILLSPRITE)
+	; 				(DIRT_SWORD_KILLSPRITE)
+	; 				(DIAMOND_AVATAR_COLLECTRESOURCE)					
+	; 				(MOVING_WALL_STEPBACK)
+	; 				(MOVING_BOULDER_STEPBACK)
+	; 				(AVATAR_BOULDER_KILLIFFROMABOVE)
+	; 				(AVATAR_BUTTERFLY_KILLSPRITE)
+	; 				(AVATAR_CRAB_KILLSPRITE)
+	; 				(BOULDER_DIRT_STEPBACK)
+	; 				(BOULDER_WALL_STEPBACK)
+	; 				(BOULDER_DIAMOND_STEPBACK)
+	; 				(BOULDER_BOULDER_STEPBACK)
+	; 				(ENEMY_DIRT_STEPBACK)
+	; 				(ENEMY_DIAMOND_STEPBACK)
+	; 				(CRAB_BUTTERFLY_KILLSPRITE)
+	; 				(BUTTERFLY_CRAB_TRANSFORMTO)
+	; 				(EXITDOOR_AVATAR_KILLIFOTHERHASMORE)
+	; 		)
+	; 	)
+	; )
+
+	; TAREA RECURSIVA QUE GENERE PREDICADOS DE EVALUACIÓN DE INTERACCIONES
+
+	; TAREA RECURSIVA QUE COMPRUEBE INTERACCIONES
+	(:task check-interactions
+		; :parameters ( ?avat - avatar
+		; 			  ?back - background
+		; 			  ?boul - boulder
+		; 			  ?but  - butterfly
+		; 			  ?crab - crab
+		; 			  ?diam - diamond
+		; 			  ?dirt - dirt
+		; 			  ?enem - enemy
+		; 			  ?exit - exitdoor
+		; 			  ?swor - sword						
+		; 			  ?wall - wall
+
+		; 			  ?shoo - ShootAvatar
+		; 			  ?rand - RandomNPC
+
+		; 			  ?movi - moving
+		; 			  ?immo - Immovable
+		; 			  ?flic - Flicker
+		; 			  ?reso - Resource
+		; 			  ?door - Door
+		; 			  ?miss - Missile
+		; 			  ?objc - Object
+		; )
+		:parameters ( )
+
+		(:method dirt_avatar_killsprite
+			:precondition (evaluate-interaction ?dirt - dirt ?shoo - ShootAvatar)
 			:tasks (
-				; (forall (?o1 ?o2 - Object)
-				; (and
-					; (DIRT_AVATAR_KILLSPRITE ?o1 ?o2)
-				; )
-				; )
-					(DIRT_AVATAR_KILLSPRITE)
-					(DIRT_SWORD_KILLSPRITE)
-					(DIAMOND_AVATAR_COLLECTRESOURCE)					
-					(MOVING_WALL_STEPBACK)
-					(MOVING_BOULDER_STEPBACK)
-					(AVATAR_BOULDER_KILLIFFROMABOVE)
-					(AVATAR_BUTTERFLY_KILLSPRITE)
-					(AVATAR_CRAB_KILLSPRITE)
-					(BOULDER_DIRT_STEPBACK)
-					(BOULDER_WALL_STEPBACK)
-					(BOULDER_DIAMOND_STEPBACK)
-					(BOULDER_BOULDER_STEPBACK)
-					(ENEMY_DIRT_STEPBACK)
-					(ENEMY_DIAMOND_STEPBACK)
-					(CRAB_BUTTERFLY_KILLSPRITE)
-					(BUTTERFLY_CRAB_TRANSFORMTO)
-					(EXITDOOR_AVATAR_KILLIFOTHERHASMORE)
+				(DIRT_AVATAR_KILLSPRITE ?dirt ?shoo)
+				(:inline () (not (evaluate-interaction ?dirt ?shoo)))
+				(check-interactions)
 			)
+		)
+
+		; (:method dirt_sword_killsprite
+		; 	:precondition (   )
+		; 	:tasks (
+
+		; 	)
+		; )
+
+		; (:method diamond_avatar_collectresource
+		; 	:precondition (   )
+		; 	:tasks (
+
+		; 	)
+		; )
+
+		; (:method moving_wall_stepback
+		; 	:precondition (   )
+		; 	:tasks (
+
+		; 	)
+		; )
+
+		; (:method moving_boulder_stepback
+		; 	:precondition (   )
+		; 	:tasks (
+
+		; 	)
+		; )
+
+		; (:method avatar_boulder_killiffromabove
+		; 	:precondition (   )
+		; 	:tasks (
+
+		; 	)
+		; )
+
+		; (:method avatar_butterfly_killsprite
+		; 	:precondition (   )
+		; 	:tasks (
+
+		; 	)
+		; )
+
+		; (:method avatar_crab_killsprite
+		; 	:precondition (   )
+		; 	:tasks (
+
+		; 	)
+		; )
+
+		; (:method boulder_dirt_stepback
+		; 	:precondition (   )
+		; 	:tasks (
+
+		; 	)
+		; )
+
+		; (:method boulder_wall_stepback
+		; 	:precondition (   )
+		; 	:tasks (
+
+		; 	)
+		; )
+
+		; (:method boulder_diamond_stepback
+		; 	:precondition (   )
+		; 	:tasks (
+
+		; 	)
+		; )
+
+		; (:method boulder_boulder_stepback
+		; 	:precondition (   )
+		; 	:tasks (
+
+		; 	)
+		; )
+
+		; (:method enemy_dirt_stepback
+		; 	:precondition (   )
+		; 	:tasks (
+
+		; 	)
+		; )
+
+		; (:method enemy_diamond_stepback
+		; 	:precondition (   )
+		; 	:tasks (
+
+		; 	)
+		; )
+
+		; (:method crab_butterfly_killsprite
+		; 	:precondition (   )
+		; 	:tasks (
+
+		; 	)
+		; )
+
+		; (:method butterfly_crab_transformto
+		; 	:precondition (   )
+		; 	:tasks (
+
+		; 	)
+		; )
+
+		; (:method exitdoor_avatar_killifotherhasmore
+		; 	:precondition (   )
+		; 	:tasks (
+
+		; 	)
+		; )
+
+		(:method caso_base 
+			:precondition ()
+			:tasks ()
 		)
 	)
 
@@ -658,34 +813,22 @@
 
 	
 	; Acciones para las interacciones -----------------------------------------
-	; Por algún motivo NO FUNCIONA, no salta la colisión a pesar de estar en la misma casilla
+	
 	(:action DIRT_AVATAR_KILLSPRITE
-		; :parameters (?d - dirt ?a - ShootAvatar)
-		:parameters ( )
-		:precondition (
-					)
-		:effect (and
-			; Comprobamos interacción y eliminamos objeto dirt
-			(forall (?d - dirt ?a - avatar) ; IMPORTANTE: Debe ser el tipo declarado
-											; en VGDL (no vale porner ShootAvatar)
-				(when
-					(and
+		:parameters (?d - dirt ?a - ShootAvatar)
+		:precondition (and
 						(= (coordinate_x ?d) (coordinate_x ?a))
 						(= (coordinate_y ?d) (coordinate_y ?a))
 					)
+		:effect (and
+					(assign (last_coordinate_y ?d) (coordinate_x ?d))
+					(assign (last_coordinate_y ?d) (coordinate_y ?d))
+					(assign (coordinate_x ?d) -1)
+					(assign (coordinate_y ?d) -1)
 
-					(and
-						(assign (last_coordinate_y ?d) (coordinate_x ?d))
-						(assign (last_coordinate_y ?d) (coordinate_y ?d))
-						(assign (coordinate_x ?d) -1)
-						(assign (coordinate_y ?d) -1)
-
-						(decrease (counter_dirt) 1)
-						(decrease (counter_Immovable) 1)
-						(decrease (counter_Object) 1)
-					)			
-				)
-			)
+					(decrease (counter_dirt) 1)
+					(decrease (counter_Immovable) 1)
+					(decrease (counter_Object) 1)
 		)
 	)
 
