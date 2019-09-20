@@ -6,18 +6,6 @@
 ;; - Cómo ver los valores de las funciones al final de la ejecución del 
 ;: planificador
 ;;
-;; - Posiblemente haga falta almacenar la posición del turno anterior (para cada
-;; objeto), en functions
-;;
-;; - Cómo hacer que se compruebe una tarea para un objeto concreto ?
-;; Por ejemplo, que se compruebe las interacciones con todos los objetos o que
-;; se aplique una acción o todos los objetos del mismo tipo (MISSILE_FALL)
-;;
-;; - ¿Cómo crear un nuevo objeto? ¿Mediante un predicado? 
-;; A Flicker se le puede poner unas coordenadas negativas para indicar que no 
-;; existe, pero no se podrían generar nuevos objetos con esta idea
-;; ¿Quizás un predicado derivado para cuando las coordenadas sean negativas?
-;;
 ;; - Documentación HPDL página 12: ¿Qué implica el '!'? -> Corte, hace que se 
 ;; olviden el resto de unificaciones. Se puede usar en métodos y precondiciones
 ;; ----------------------------------------------------------------------------
@@ -50,7 +38,7 @@
 ;; ----------------------------
 ;;
 ;; - No recordaba que el tipo object ya estaba definido en HPDL, creo que no va
-;; a afectar pero en cualquier caso lo anoto por si es necesario cambiarle el 
+;; a afectar, pero en cualquier caso lo anoto por si es necesario cambiarle el 
 ;; nombre	
 ;;
 ;; - Se pueden usar scripts de Python (ver documentación), considerarlo como
@@ -63,10 +51,6 @@
 		:derived-predicates
 		:universal-preconditions
 		:disjuntive-preconditions
-
-		; For time management
-		; :durative-actions
-		; :metatags
 
 		; Necesarios
 		:conditional-effects
@@ -189,10 +173,8 @@
     ; Método principal para representar un turno en el juego
 	(:task Turn
 		:parameters (?a - ShootAvatar ?p - sword ; Para el turno del avatar
-					;  ?s - Object ; Debería representar todos los objetos posibles, para el turno de estos
-					;  ?s1 ?s2 - Object ; Para comprobar interacción, debe representar 
-					 				  ; dos objetos cualesquiera (y debe comprobar 
-									  ; todas las combinaciones posibles)
+					; Se podría hacer igual que los objetos y las interacciones y
+					; quitarlo de los parámetros
 					)
 
 		; Lo suyo sería poner en la precondición el objetivo final del
@@ -207,9 +189,8 @@
 				:precondition (
 								)
 				:tasks ( 
-							; (turn_avatar ?a ?p) 
-                            ; (turn_objects ?s)
-							; (turn_objects)
+							(turn_avatar ?a ?p) 
+							(turn_objects)
                             (check-interactions)
 
 							; (Turn ...) ; Para que el planificador no realice un solo turno
@@ -326,20 +307,17 @@
 	; -------------------------------------------------------------------------
 	; -------------------------------------------------------------------------
 
-	; Acción recursiva por cada objeto que compruebe si debe moverse y aplicar la
-	; acción que corresponda en cada caso
+	; Llama a cada acción posible de un objeto que comprueba si se puede realizar
+	; En caso de que no funcione seguir la implementación de check-interactions
 	(:task turn_objects
-		; :parameters (?s - Object)
-		:parameters () ; Probando sin objetos, a ver si itera por todos
+		:parameters ()
 
 		(:method turn
 			:precondition ()
 			:tasks (
 						; Como sabemos que hay una roca, ver si se puede mover
 						; (BOULDER_FALL ?s) Creo que se podría generalizar para el tipo de objeto
-						; (MISSILE_FALL ?s)
 						(MISSILE_FALL)
-						; (turn_objects ?s)
 
 						; Los objetos con movimientos no determinista (ej: enemigos) 
 						; no tiene sentido actualizarlos (no sin planifiación 
@@ -351,69 +329,17 @@
 	; -------------------------------------------------------------------------
 	; -------------------------------------------------------------------------
 
+
+	; TAREA RECURSIVA QUE GENERE PREDICADOS DE EVALUACIÓN DE INTERACCIONES
+
 	; Se puede hacer que el UNDOALL sea obligatorio y las de STEPBACK a secas no,
 	; por tanto si la primera falla check-interactions no se completa y el 
 	; movimiento del avatar y de los objetos tampoco, y si falla la segunda el 
 	; juego sigue pero esa interacción no se hace (REALMENTE SE DEBERÍA TENER 
 	; ALMACENADA LA POSICIÓN DEL OBJETO ANTERIOR Y COMO EFECTO DEJARLO DONDE ESTABA,
 	; ESTO DEBERÍA VOLVER A COMPROBAR SI HAY INTERACCIONES EN SU CASILLA ANTERIOR)
-	; (:task check-interactions
-	; 	; Si se puede hacer que se repita esta tarea con todas las combinaciones
-	; 	; posibles de objetos, comprobar la colisión en la precondición del método
-	; 	; :parameters (?s1 - Object ?s2 - Object)
-	; 	:parameters ()
-
-	; 	(:method provisional_name
-	; 		:precondition ()
-	; 		:tasks (
-	; 				(DIRT_AVATAR_KILLSPRITE)
-	; 				(DIRT_SWORD_KILLSPRITE)
-	; 				(DIAMOND_AVATAR_COLLECTRESOURCE)					
-	; 				(MOVING_WALL_STEPBACK)
-	; 				(MOVING_BOULDER_STEPBACK)
-	; 				(AVATAR_BOULDER_KILLIFFROMABOVE)
-	; 				(AVATAR_BUTTERFLY_KILLSPRITE)
-	; 				(AVATAR_CRAB_KILLSPRITE)
-	; 				(BOULDER_DIRT_STEPBACK)
-	; 				(BOULDER_WALL_STEPBACK)
-	; 				(BOULDER_DIAMOND_STEPBACK)
-	; 				(BOULDER_BOULDER_STEPBACK)
-	; 				(ENEMY_DIRT_STEPBACK)
-	; 				(ENEMY_DIAMOND_STEPBACK)
-	; 				(CRAB_BUTTERFLY_KILLSPRITE)
-	; 				(BUTTERFLY_CRAB_TRANSFORMTO)
-	; 				(EXITDOOR_AVATAR_KILLIFOTHERHASMORE)
-	; 		)
-	; 	)
-	; )
-
-	; TAREA RECURSIVA QUE GENERE PREDICADOS DE EVALUACIÓN DE INTERACCIONES
-
 	; TAREA RECURSIVA QUE COMPRUEBE INTERACCIONES
 	(:task check-interactions
-		; :parameters ( ?avat - avatar
-		; 			  ?back - background
-		; 			  ?boul - boulder
-		; 			  ?but  - butterfly
-		; 			  ?crab - crab
-		; 			  ?diam - diamond
-		; 			  ?dirt - dirt
-		; 			  ?enem - enemy
-		; 			  ?exit - exitdoor
-		; 			  ?swor - sword						
-		; 			  ?wall - wall
-
-		; 			  ?shoo - ShootAvatar
-		; 			  ?rand - RandomNPC
-
-		; 			  ?movi - moving
-		; 			  ?immo - Immovable
-		; 			  ?flic - Flicker
-		; 			  ?reso - Resource
-		; 			  ?door - Door
-		; 			  ?miss - Missile
-		; 			  ?objc - Object
-		; )
 		:parameters ( )
 
 		(:method dirt_avatar_killsprite
@@ -425,117 +351,150 @@
 			)
 		)
 
-		; (:method dirt_sword_killsprite
-		; 	:precondition (   )
-		; 	:tasks (
+		(:method dirt_sword_killsprite
+			:precondition (evaluate-interaction ?dirt - dirt ?sword - sword)
+			:tasks (
+				(DIRT_SWORD_KILLSPRITE ?dirt ?sword)
+				(:inline () (not (evaluate-interaction ?dirt ?sword)))
+				(check-interactions)
+			)
+		)
 
-		; 	)
-		; )
+		(:method diamond_avatar_collectresource
+			:precondition (evaluate-interaction ?diam - diamond ?avatar - avatar)
+			:tasks (
+				(DIAMOND_AVATAR_COLLECTRESOURCE ?diam ?avat)
+				(:inline () (not (evaluate-interaction ?diam ?avat)))
+				(check-interactions)
+			)
+		)
 
-		; (:method diamond_avatar_collectresource
-		; 	:precondition (   )
-		; 	:tasks (
+		(:method moving_wall_stepback
+			:precondition (evaluate-interaction ?movi - moving ?wall - wall)
+			:tasks (
+				(MOVING_WALL_STEPBACK ?movi ?wall)
+				(:inline () (not (evaluate-interaction ?movi ?wall)))
+				(check-interactions)
+			)
+		)
 
-		; 	)
-		; )
+		(:method moving_boulder_stepback
+			:precondition (evaluate-interaction ?movi - moving ?boul - boulder)
+			:tasks (
+				(MOVING_BOULDER_STEPBACK ?movi ?boul)
+				(:inline () (not (evaluate-interaction ?movi ?boul)))
+				(check-interactions)
+			)
+		)
 
-		; (:method moving_wall_stepback
-		; 	:precondition (   )
-		; 	:tasks (
+		(:method avatar_boulder_killiffromabove
+			:precondition (evaluate-interaction ?avat - avatar ?boul - boulder)
+			:tasks (
+				(AVATAR_BOULDER_KILLIFFROMABOVE ?avat ?boul)
+				(:inline () (not (evaluate-interaction ?avat ?boul)))
+				(check-interactions)
+			)
+		)
 
-		; 	)
-		; )
+		(:method avatar_butterfly_killsprite
+			:precondition (evaluate-interaction ?avat - avatar ?b - butterfly)
+			:tasks (
+				(AVATAR_BUTTERFLY_KILLSPRITE ?avat ?b)
+				(:inline () (not (evaluate-interaction ?avat ?b)))
+				(check-interactions)
+			)
+		)
 
-		; (:method moving_boulder_stepback
-		; 	:precondition (   )
-		; 	:tasks (
+		(:method avatar_crab_killsprite
+			:precondition (evaluate-interaction ?avat - avatar ?crab - crab)
+			:tasks (
+				(AVATAR_CRAB_KILLSPRITE ?avat ?crab)
+				(:inline () (not (evaluate-interaction ?avat ?crab)))
+				(check-interactions)
+			)
+		)
 
-		; 	)
-		; )
+		(:method boulder_dirt_stepback
+			:precondition (evaluate-interaction ?boul - boulder ?dirt - dirt)
+			:tasks (
+				(BOULDER_DIRT_STEPBACK ?boul ?dirt)
+				(:inline () (not (evaluate-interaction ?boul ?dirt)))
+				(check-interactions)
+			)
+		)
 
-		; (:method avatar_boulder_killiffromabove
-		; 	:precondition (   )
-		; 	:tasks (
+		(:method boulder_wall_stepback
+			:precondition (evaluate-interaction ?boul - boulder ?wall - wall)
+			:tasks (
+				(BOULDER_WALL_STEPBACK ?boul ?wall)
+				(:inline () (not (evaluate-interaction ?boul ?wall)))
+				(check-interactions)
+			)
+		)
 
-		; 	)
-		; )
+		(:method boulder_diamond_stepback
+			:precondition (evaluate-interaction ?boul - boulder ?diam - diamond)
+			:tasks (
+				(BOULDER_DIAMOND_STEPBACK ?boul ?diam)
+				(:inline () (not (evaluate-interaction ?boul ?diam)))
+				(check-interactions)
+			)
+		)
 
-		; (:method avatar_butterfly_killsprite
-		; 	:precondition (   )
-		; 	:tasks (
+		(:method boulder_boulder_stepback
+			; IMPORTANTE COMPROBAR QUE NO SE REPITAN PARÁMETROS
+			:precondition (evaluate-interaction ?boul - boulder ?boul2 - boulder)
+			:tasks (
+				(BOULDER_BOULDER_STEPBACK ?boul ?boul2)
+				(:inline () (not (evaluate-interaction ?boul ?boul2)))
+				(check-interactions)
+			)
+		)
 
-		; 	)
-		; )
+		(:method enemy_dirt_stepback
+			:precondition (evaluate-interaction ?enem - enemy ?diam - dirt)
+			:tasks (
+				(ENEMY_DIRT_STEPBACK ?enem ?dirt)
+				(:inline () (not (evaluate-interaction ?enem ?dirt)))
+				(check-interactions)
+			)
+		)
 
-		; (:method avatar_crab_killsprite
-		; 	:precondition (   )
-		; 	:tasks (
+		(:method enemy_diamond_stepback
+			:precondition (evaluate-interaction ?enem - enemy ?diam - diamond)
+			:tasks (
+				(ENEMY_DIAMOND_STEPBACK ?enem ?diam)
+				(:inline () (not (evaluate-interaction ?enem ?diam)))
+				(check-interactions)
+			)
+		)
 
-		; 	)
-		; )
+		(:method crab_butterfly_killsprite
+			:precondition (evaluate-interaction ?crab - crab ?b - butterfly)
+			:tasks (
+				(CRAB_BUTTERFLY_KILLSPRITE ?crab ?b)
+				(:inline () (not (evaluate-interaction ?crab ?b)))
+				(check-interactions)
+			)
+		)
 
-		; (:method boulder_dirt_stepback
-		; 	:precondition (   )
-		; 	:tasks (
+		(:method butterfly_crab_transformto
+			:precondition (evaluate-interaction ?b - butterfly ?crab - crab)
+			:tasks (
+				(BUTTERFLY_CRAB_TRANSFORMTO ?b ?crab)
+				(:inline () (not (evaluate-interaction ?b ?crab)))
+				(check-interactions)
+			)
+		)
 
-		; 	)
-		; )
-
-		; (:method boulder_wall_stepback
-		; 	:precondition (   )
-		; 	:tasks (
-
-		; 	)
-		; )
-
-		; (:method boulder_diamond_stepback
-		; 	:precondition (   )
-		; 	:tasks (
-
-		; 	)
-		; )
-
-		; (:method boulder_boulder_stepback
-		; 	:precondition (   )
-		; 	:tasks (
-
-		; 	)
-		; )
-
-		; (:method enemy_dirt_stepback
-		; 	:precondition (   )
-		; 	:tasks (
-
-		; 	)
-		; )
-
-		; (:method enemy_diamond_stepback
-		; 	:precondition (   )
-		; 	:tasks (
-
-		; 	)
-		; )
-
-		; (:method crab_butterfly_killsprite
-		; 	:precondition (   )
-		; 	:tasks (
-
-		; 	)
-		; )
-
-		; (:method butterfly_crab_transformto
-		; 	:precondition (   )
-		; 	:tasks (
-
-		; 	)
-		; )
-
-		; (:method exitdoor_avatar_killifotherhasmore
-		; 	:precondition (   )
-		; 	:tasks (
-
-		; 	)
-		; )
+		(:method exitdoor_avatar_killifotherhasmore
+			:precondition (evaluate-interaction ?exit - exitdoor ?avat - avatar)
+			:tasks (
+				(EXITDOOR_AVATAR_KILLIFOTHERHASMORE ?exit ?avat)
+				(:inline () (not (evaluate-interaction ?exit ?avat)))
+				(check-interactions)
+			)
+		)
 
 		(:method caso_base 
 			:precondition ()
@@ -833,455 +792,297 @@
 	)
 
 	; Modificación de DIRT_AVATAR_KILLSPRITE
-	; NO FUNCIONA
+	
 	(:action DIRT_SWORD_KILLSPRITE
-		:parameters (  )
-		:precondition (
-
-		)
-		:effect (
-			; Comprobamos interacción y eliminamos objeto dirt
-			forall (?d - dirt ?s - sword)
-				(when
-					(and
+		:parameters (?d - dirt ?s - sword)
+		:precondition (and
 						(= (coordinate_x ?d) (coordinate_x ?s))
 						(= (coordinate_y ?d) (coordinate_y ?s))
-					)
+		)
+		:effect (and
+					(assign (last_coordinate_y ?d) (coordinate_x ?d))
+					(assign (last_coordinate_y ?d) (coordinate_y ?d))
+					(assign (coordinate_x ?d) -1)
+					(assign (coordinate_y ?d) -1)
 
-					(and
-						(assign (last_coordinate_y ?d) (coordinate_x ?d))
-						(assign (last_coordinate_y ?d) (coordinate_y ?d))
-						(assign (coordinate_x ?d) -1)
-						(assign (coordinate_y ?d) -1)
-
-						(decrease (counter_dirt) 1)
-						(decrease (counter_Immovable) 1)
-						(decrease (counter_Object) 1)
-					)			
-				)			
+					(decrease (counter_dirt) 1)
+					(decrease (counter_Immovable) 1)
+					(decrease (counter_Object) 1)
 		)
 	)
 
 	; Modificación de DIRT_AVATAR_KILLSPRITE
-	; NO FUNCIONA
+	
 	(:action DIAMOND_AVATAR_COLLECTRESOURCE
-		:parameters ( )
-		:precondition (
-
-		)
-		:effect (
-			; Comprobamos interacción, eliminamos diamond e incrementamos recurso
-			forall (?d - diamond ?a - avatar)
-				(when
-					(and
+		:parameters (?d - diamond ?a - avatar)
+		:precondition (and
 						(= (coordinate_x ?d) (coordinate_x ?a))
 						(= (coordinate_y ?d) (coordinate_y ?a))
-					)
+		)
+		:effect (and
+					(assign (last_coordinate_y ?d) (coordinate_x ?d))
+					(assign (last_coordinate_y ?d) (coordinate_y ?d))
+					(assign (coordinate_x ?d) -1)
+					(assign (coordinate_y ?d) -1)
 
-					(and
-						(assign (last_coordinate_y ?d) (coordinate_x ?d))
-						(assign (last_coordinate_y ?d) (coordinate_y ?d))
-						(assign (coordinate_x ?d) -1)
-						(assign (coordinate_y ?d) -1)
+					(decrease (counter_diamond) 1)
+					(decrease (counter_Resource) 1)
+					(decrease (counter_Object) 1)
 
-						(decrease (counter_diamond) 1)
-						(decrease (counter_Resource) 1)
-						(decrease (counter_Object) 1)
-
-						(increase (resource_diamond ?a) 1)
-					)			
-				)
+					(increase (resource_diamond ?a) 1)
 		)
 	)
 
-	; SIN COMPROBAR
+	
 	(:action MOVING_WALL_STEPBACK
-		:parameters ( )
-		:precondition (
-
-		)
-		:effect (
-			forall (?m - moving ?w - wall)
-				(when
-					(and
+		:parameters (?m - moving ?w - wall)
+		:precondition (and
 						(= (coordinate_x ?m) (coordinate_x ?w))
 						(= (coordinate_y ?m) (coordinate_y ?w))
-					)
-
-					(and
-						(assign (coordinate_y ?m) (last_coordinate_x ?m))
-						(assign (coordinate_y ?m) (last_coordinate_y ?m))
-					)
-				)
+		)
+		:effect (and
+					(assign (coordinate_y ?m) (last_coordinate_x ?m))
+					(assign (coordinate_y ?m) (last_coordinate_y ?m))				
 		)
 	)
 
-	; SIN COMPROBAR
+	
 	(:action MOVING_BOULDER_STEPBACK
-		:parameters ( )
-		:precondition (
-
-		)
-		:effect (
-			forall (?m - moving ?b - boulder)
-				(when
-					(and
+		:parameters (?m - moving ?b - boulder)
+		:precondition (and
 						(= (coordinate_x ?m) (coordinate_x ?b))
 						(= (coordinate_y ?m) (coordinate_y ?b))
-					)
-
-					(and
-						(assign (coordinate_y ?m) (last_coordinate_x ?m))
-						(assign (coordinate_y ?m) (last_coordinate_y ?m))
-					)
-				)
+		)
+		:effect (and
+					(assign (coordinate_y ?m) (last_coordinate_x ?m))
+					(assign (coordinate_y ?m) (last_coordinate_y ?m))
 		)
 	)
 
-	; SIN COMPROBAR
+	
 	(:action AVATAR_BOULDER_KILLIFFROMABOVE
-		:parameters ( )
-		:precondition (
-
-		)
-		:effect (
-			forall (?m - avatar ?b - boulder)
-				(when
-					(and
+		:parameters (?m - avatar ?b - boulder)
+		:precondition (and
 						(= (coordinate_x ?a) (coordinate_x ?b))
 						(= (coordinate_y ?a) (coordinate_y ?b))
 
 						; Si la roca se movió hacia abajo
 						(= (last_coordinate_y ?b) (- (coordinate_y ?b) 1))
-					)
+		)
+		:effect (and
+					(assign (last_coordinate_y ?a) (coordinate_x ?a))
+					(assign (last_coordinate_y ?a) (coordinate_y ?a))
+					(assign (coordinate_x ?a) -1)
+					(assign (coordinate_y ?a) -1)
 
-					(and
-						(assign (last_coordinate_y ?a) (coordinate_x ?a))
-						(assign (last_coordinate_y ?a) (coordinate_y ?a))
-						(assign (coordinate_x ?a) -1)
-						(assign (coordinate_y ?a) -1)
-
-						(decrease (counter_avatar) 1)
-						(decrease (counter_ShootAvatar) 1)
-						(decrease (counter_moving) 1)
-						(decrease (counter_Object) 1)
-					)
-				)
+					(decrease (counter_avatar) 1)
+					(decrease (counter_ShootAvatar) 1)
+					(decrease (counter_moving) 1)
+					(decrease (counter_Object) 1)
 		)
 	)
 
 	; Modificación de DIRT_AVATAR_KILLSPRITE
-	; NO FUNCIONA
+	
 	(:action AVATAR_BUTTERFLY_KILLSPRITE
-		:parameters ( )
-		:precondition (
-
-		)
-		:effect (
-			; Comprobamos interacción
-			forall (?a - avatar ?b - butterfly)
-				(when
-					(and
+		:parameters (?a - avatar ?b - butterfly)
+		:precondition (and
 						(= (coordinate_x ?a) (coordinate_x ?b))
 						(= (coordinate_y ?a) (coordinate_y ?b))
-					)
+		)
+		:effect (and
+					(assign (last_coordinate_y ?a) (coordinate_x ?a))
+					(assign (last_coordinate_y ?a) (coordinate_y ?a))
+					(assign (coordinate_x ?a) -1)
+					(assign (coordinate_y ?a) -1)
 
-					(and
-						(assign (last_coordinate_y ?a) (coordinate_x ?a))
-						(assign (last_coordinate_y ?a) (coordinate_y ?a))
-						(assign (coordinate_x ?a) -1)
-						(assign (coordinate_y ?a) -1)
-
-						(decrease (counter_avatar) 1)
-						(decrease (counter_ShootAvatar) 1)
-						(decrease (counter_moving) 1)
-						(decrease (counter_Object) 1)
-					)			
-				)
+					(decrease (counter_avatar) 1)
+					(decrease (counter_ShootAvatar) 1)
+					(decrease (counter_moving) 1)
+					(decrease (counter_Object) 1)
 		)
 	)
 
 	; Modificación de DIRT_AVATAR_KILLSPRITE
-	; NO FUNCIONA
+	
 	(:action AVATAR_CRAB_KILLSPRITE
-		:parameters ( )
-		:precondition (
-
-		)
-		:effect (
-			; Comprobamos interacción
-			forall (?a - avatar ?c - crab)
-				(when
-					(and
+		:parameters (?a - avatar ?c - crab)
+		:precondition (and
 						(= (coordinate_x ?a) (coordinate_x ?c))
 						(= (coordinate_y ?a) (coordinate_y ?c))
-					)
+		)
+		:effect (and
+					(assign (last_coordinate_y ?a) (coordinate_x ?a))
+					(assign (last_coordinate_y ?a) (coordinate_y ?a))
+					(assign (coordinate_x ?a) -1)
+					(assign (coordinate_y ?a) -1)
 
-					(and
-						(assign (last_coordinate_y ?a) (coordinate_x ?a))
-						(assign (last_coordinate_y ?a) (coordinate_y ?a))
-						(assign (coordinate_x ?a) -1)
-						(assign (coordinate_y ?a) -1)
-
-						(decrease (counter_avatar) 1)
-						(decrease (counter_ShootAvatar) 1)
-						(decrease (counter_moving) 1)
-						(decrease (counter_Object) 1)
-					)			
-				)
+					(decrease (counter_avatar) 1)
+					(decrease (counter_ShootAvatar) 1)
+					(decrease (counter_moving) 1)
+					(decrease (counter_Object) 1)
 		)
 	)
 
-	; SIN COMPROBAR
+	
 	(:action BOULDER_DIRT_STEPBACK
-		:parameters ( )
-		:precondition (
-
-		)
-		:effect (			
-			; Se asigna la coordenada que tuviera anteriormente (solo es boulder, dirt no se mueve)
-			forall (?b - boulder ?d - dirt)
-				(when
-					(and
+		:parameters (?b - boulder ?d - dirt)
+		:precondition (and
 						(= (coordinate_x ?b) (coordinate_x ?d))
 						(= (coordinate_y ?b) (coordinate_y ?d))
-					)
-
-					(and
-						(assign (coordinate_y ?b) (last_coordinate_x ?b))
-						(assign (coordinate_y ?b) (last_coordinate_y ?b))
-					)
-				)
+		)
+		:effect (and
+					(assign (coordinate_y ?b) (last_coordinate_x ?b))
+					(assign (coordinate_y ?b) (last_coordinate_y ?b))
 		)
 	)
 
-	; SIN COMPROBAR
+	
 	(:action BOULDER_WALL_STEPBACK
-		:parameters ( )
-		:precondition (
-
-		)
-		:effect (
-			; Se asigna la coordenada que tuviera anteriormente
-			forall (?b - boulder ?w - wall)
-				(when
-					(and
+		:parameters (?b - boulder ?w - wall)
+		:precondition (and
 						(= (coordinate_x ?b) (coordinate_x ?w))
 						(= (coordinate_y ?b) (coordinate_y ?w))
-					)
-
-					(and
-						(assign (coordinate_y ?b) (last_coordinate_x ?b))
-						(assign (coordinate_y ?b) (last_coordinate_y ?b))
-					)
-				)
+		)
+		:effect (and
+				(assign (coordinate_y ?b) (last_coordinate_x ?b))
+				(assign (coordinate_y ?b) (last_coordinate_y ?b))
 		)
 	)
 
-	; SIN COMPROBAR
+	
 	(:action BOULDER_DIAMOND_STEPBACK
-		:parameters ( )
-		:precondition (
-
-		)
-		:effect (
-			; Se asigna la coordenada que tuviera anteriormente
-			forall (?b - boulder ?d - diamond)
-				(when
-					(and
+		:parameters (?b - boulder ?d - diamond)
+		:precondition (and
 						(= (coordinate_x ?b) (coordinate_x ?d))
 						(= (coordinate_y ?b) (coordinate_y ?d))
-					)
-
-					(and
-						(assign (coordinate_y ?b) (last_coordinate_x ?b))
-						(assign (coordinate_y ?b) (last_coordinate_y ?b))
-					)
-				)
+		)
+		:effect (and				
+					(assign (coordinate_y ?b) (last_coordinate_x ?b))
+					(assign (coordinate_y ?b) (last_coordinate_y ?b))
 		)
 	)
-
-	; SIN COMPROBAR
+	
 	(:action BOULDER_BOULDER_STEPBACK
-		:parameters ( )
-		:precondition (
-
-		)
-		:effect (
-			; Se asigna la coordenada que tuviera anteriormente
-			forall (?b ?b2 - boulder)
-				(when
-					(and
+		:parameters (?b ?b2 - boulder)
+		:precondition (and
 						(= (coordinate_x ?b) (coordinate_x ?b2))
 						(= (coordinate_y ?b) (coordinate_y ?b2))
-					)
-
-					(and
-						(assign (coordinate_y ?b) (last_coordinate_x ?b))
-						(assign (coordinate_y ?b) (last_coordinate_y ?b))
-					)
-				)
+		)
+		:effect (and
+					(assign (coordinate_y ?b) (last_coordinate_x ?b))
+					(assign (coordinate_y ?b) (last_coordinate_y ?b))
 		)
 	)
-
-	; SIN COMPROBAR
+	
 	(:action ENEMY_DIRT_STEPBACK
-		:parameters ( )
-		:precondition (
-
-		)
-		:effect (
-			; Se asigna la coordenada que tuviera anteriormente
-			forall (?e - enemy ?d - dirt)
-				(when
-					(and
+		:parameters (?e - enemy ?d - dirt)
+		:precondition (and
 						(= (coordinate_x ?e) (coordinate_x ?d))
 						(= (coordinate_y ?e) (coordinate_y ?d))
-					)
-
-					(and
-						(assign (coordinate_y ?e) (last_coordinate_x ?e))
-						(assign (coordinate_y ?e) (last_coordinate_y ?e))
-					)
-				)
+		)
+		:effect (and
+					(assign (coordinate_y ?e) (last_coordinate_x ?e))
+					(assign (coordinate_y ?e) (last_coordinate_y ?e))
 		)
 	)
-
-	; SIN COMPROBAR
+	
+	; Se asigna la coordenada que tuviera anteriormente
 	(:action ENEMY_DIAMOND_STEPBACK
-		:parameters ( )
-		:precondition (
-
-		)
-		:effect (
-			; Se asigna la coordenada que tuviera anteriormente
-			forall (?e - enemy ?d - diamond)
-				(when
-					(and
+		:parameters (?e - enemy ?d - diamond)
+		:precondition (and
 						(= (coordinate_x ?e) (coordinate_x ?d))
 						(= (coordinate_y ?e) (coordinate_y ?d))
-					)
-
-					(and
-						(assign (coordinate_y ?e) (last_coordinate_x ?e))
-						(assign (coordinate_y ?e) (last_coordinate_y ?e))
-					)
-				)		
+		)
+		:effect (and
+					(assign (coordinate_y ?e) (last_coordinate_x ?e))
+					(assign (coordinate_y ?e) (last_coordinate_y ?e))
 		)
 	)
 
 	; Modificación de DIRT_AVATAR_KILLSPRITE
-	; NO FUNCIONA
+	
 	(:action CRAB_BUTTERFLY_KILLSPRITE
-		:parameters ( )
-		:precondition (
-
-		)
-		:effect (
-			; Comprobamos interacción
-			forall (?c - crab ?b - butterfly)
-				(when
-					(and
+		:parameters (?c - crab ?b - butterfly)
+		:precondition (and
 						(= (coordinate_x ?c) (coordinate_x ?b))
 						(= (coordinate_y ?c) (coordinate_y ?b))
-					)
+		)
+		:effect (and					
+					(assign (last_coordinate_y ?c) (coordinate_x ?c))
+					(assign (last_coordinate_y ?c) (coordinate_y ?c))
+					(assign (coordinate_x ?c) -1)
+					(assign (coordinate_y ?c) -1)
 
-					(and
-						(assign (last_coordinate_y ?c) (coordinate_x ?c))
-						(assign (last_coordinate_y ?c) (coordinate_y ?c))
-						(assign (coordinate_x ?c) -1)
-						(assign (coordinate_y ?c) -1)
-
-						(decrease (counter_crab) 1)
-						(decrease (counter_enemy) 1)
-						(decrease (counter_RandomNPC) 1)
-						(decrease (counter_moving) 1)
-						(decrease (counter_Object) 1)
-					)			
-				)
+					(decrease (counter_crab) 1)
+					(decrease (counter_enemy) 1)
+					(decrease (counter_RandomNPC) 1)
+					(decrease (counter_moving) 1)
+					(decrease (counter_Object) 1)
 		)
 	)
 
 	; Debe transformarse en un diamante, ponerlo en el nombre (en el parser)
-	; SIN TERMINAR
 	(:action BUTTERFLY_CRAB_TRANSFORMTO
-		:parameters ( )
-		:precondition (
-
-		)
-		:effect (
-			; Comprobamos interacción, eliminamos ambos sprites y generamos un diamante
-			forall (?b - butterfly ?c - crab)
-				(when
-					(and
+		:parameters (?b - butterfly ?c - crab)
+		:precondition (and
 						(= (coordinate_x ?c) (coordinate_x ?b))
 						(= (coordinate_y ?c) (coordinate_y ?b))
-					)
+		)
+		:effect (and
+					(assign (last_coordinate_y ?b) (coordinate_x ?b))
+					(assign (last_coordinate_y ?b) (coordinate_y ?b))
+					(assign (last_coordinate_y ?c) (coordinate_x ?c))
+					(assign (last_coordinate_y ?c) (coordinate_y ?c))
+					(assign (coordinate_x ?b) -1)
+					(assign (coordinate_y ?b) -1)
+					(assign (coordinate_x ?c) -1)
+					(assign (coordinate_y ?c) -1)
 
-					(and
-						(assign (last_coordinate_y ?b) (coordinate_x ?b))
-						(assign (last_coordinate_y ?b) (coordinate_y ?b))
-						(assign (last_coordinate_y ?c) (coordinate_x ?c))
-						(assign (last_coordinate_y ?c) (coordinate_y ?c))
-						(assign (coordinate_x ?b) -1)
-						(assign (coordinate_y ?b) -1)
-						(assign (coordinate_x ?c) -1)
-						(assign (coordinate_y ?c) -1)
+					(decrease (counter_crab) 1)
+					(decrease (counter_enemy) 1)
+					(decrease (counter_RandomNPC) 1)
+					(decrease (counter_moving) 1)
+					(decrease (counter_Object) 1)
 
-						(decrease (counter_crab) 1)
-						(decrease (counter_enemy) 1)
-						(decrease (counter_RandomNPC) 1)
-						(decrease (counter_moving) 1)
-						(decrease (counter_Object) 1)
+					; Simulando al parser repito código
+					(decrease (counter_butterfly) 1)
+					(decrease (counter_enemy) 1)
+					(decrease (counter_RandomNPC) 1)
+					(decrease (counter_moving) 1)
+					(decrease (counter_Object) 1)
 
-						; Simulando al parser repito código
-						(decrease (counter_butterfly) 1)
-						(decrease (counter_enemy) 1)
-						(decrease (counter_RandomNPC) 1)
-						(decrease (counter_moving) 1)
-						(decrease (counter_Object) 1)
-
-						; Cómo genero el diamante ?? ------
-						; (assign (last_coordinate_y ?b) (coordinate_x ?b))
-						; (assign (last_coordinate_y ?b) (coordinate_y ?b))
-						(increase (counter_diamond) 1)
-						(increase (counter_Resource) 1)
-						(increase (counter_Object) 1)
-					)			
-				)
+					; Cómo genero el diamante ??
+					; No se puede generar, asignar a uno que no se esté utilizando
+					; una posición en el juego
+					; (assign (last_coordinate_y ?b) (coordinate_x ?b))
+					; (assign (last_coordinate_y ?b) (coordinate_y ?b))
+					(increase (counter_diamond) 1)
+					(increase (counter_Resource) 1)
+					(increase (counter_Object) 1)
 		)
 	)
 
 	; Poner qué se compara en el nombre y el número necesario
-	; SIN COMPROBAR
+	
 	(:action EXITDOOR_AVATAR_KILLIFOTHERHASMORE
-		:parameters ( )
-		:precondition (
-
-		)
-		:effect (
-			; Comprobamos interacción
-			forall (?e - crab ?a - avatar)
-				(when
-					(and
+		:parameters (?e - crab ?a - avatar)
+		:precondition (and
 						(= (coordinate_x ?e) (coordinate_x ?a))
 						(= (coordinate_y ?e) (coordinate_y ?a))
 
 						; Si avatar tiene más recursos de diamond que el límite (9)
 						(>= (resource_diamond ?a) 9)
-					)
+		)
+		:effect (and
+					(assign (last_coordinate_y ?e) (coordinate_x ?e))
+					(assign (last_coordinate_y ?e) (coordinate_y ?e))
+					(assign (coordinate_x ?e) -1)
+					(assign (coordinate_y ?e) -1)
 
-					(and
-						(assign (last_coordinate_y ?e) (coordinate_x ?e))
-						(assign (last_coordinate_y ?e) (coordinate_y ?e))
-						(assign (coordinate_x ?e) -1)
-						(assign (coordinate_y ?e) -1)
-
-						(decrease (counter_exitdoor) 1)
-						(decrease (counter_Door) 1)
-						(decrease (counter_Object) 1)
-					)			
-				)
+					(decrease (counter_exitdoor) 1)
+					(decrease (counter_Door) 1)
+					(decrease (counter_Object) 1)
 		)
 	)
 )
