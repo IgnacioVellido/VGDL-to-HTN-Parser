@@ -4,7 +4,7 @@
 ;; ----------------------------------------------------------------------------
 ;; Dudas:
 ;; - Cómo ver los valores de las funciones al final de la ejecución del 
-;: planificador
+;: planificador. Ahora mismo estoy usando print para ver las acciones
 ;;
 ;; - Documentación HPDL página 12: ¿Qué implica el '!'? -> Corte, hace que se 
 ;; olviden el resto de unificaciones. Se puede usar en métodos y precondiciones
@@ -172,10 +172,7 @@
     
     ; Método principal para representar un turno en el juego
 	(:task Turn
-		:parameters (?a - ShootAvatar ?p - sword ; Para el turno del avatar
-					; Se podría hacer igual que los objetos y las interacciones y
-					; quitarlo de los parámetros
-					)
+		:parameters (?a - ShootAvatar ?p - sword)
 
 		; Lo suyo sería poner en la precondición el objetivo final del
 		; juego, teniendo varios de estos métodos si hay varios criterios de 
@@ -198,10 +195,10 @@
 		)
 
 
-		; Si el turno no se ha podido completar (al 100%%), pasamos al siguiente
+		; Si el turno no se ha podido completar (al 100%%), pasamos al siguiente.
 		; Ahora mismo se quedaría atascado ya que no habría ningún cambio, el
 		; objetivo es que turn aplique algún efecto (ya sea el avatar o algún
-		; otro movimiento) que haga que el juego continue
+		; otro movimiento) que haga que el juego no cicle
 		(:method turn_undone
 			:precondition ()
 			:tasks (
@@ -316,7 +313,6 @@
 			:precondition ()
 			:tasks (
 						; Como sabemos que hay una roca, ver si se puede mover
-						; (BOULDER_FALL ?s) Creo que se podría generalizar para el tipo de objeto
 						(MISSILE_FALL)
 
 						; Los objetos con movimientos no determinista (ej: enemigos) 
@@ -345,8 +341,13 @@
 		(:method dirt_avatar_killsprite
 			:precondition (evaluate-interaction ?dirt - dirt ?shoo - ShootAvatar)
 			:tasks (
-				(DIRT_AVATAR_KILLSPRITE ?dirt ?shoo)
+				; (:inline (:print "Probando DIRT_AVATAR_KILLSPRITE\n") ())
+
+				(DIRT_AVATAR_KILLSPRITE ?dirt ?shoo)				
 				(:inline () (not (evaluate-interaction ?dirt ?shoo)))
+
+				; (:inline (:print "DIRT_AVATAR_KILLSPRITE funciona\n") ())
+				
 				(check-interactions)
 			)
 		)
@@ -372,8 +373,13 @@
 		(:method moving_wall_stepback
 			:precondition (evaluate-interaction ?movi - moving ?wall - wall)
 			:tasks (
+				; (:inline (:print "Probando MOVING_WALL_STEPBACK\n") ())
+
 				(MOVING_WALL_STEPBACK ?movi ?wall)
 				(:inline () (not (evaluate-interaction ?movi ?wall)))
+
+				; (:inline (:print "MOVING_WALL_STEPBACK funciona\n") ())
+
 				(check-interactions)
 			)
 		)
@@ -442,7 +448,7 @@
 		)
 
 		(:method boulder_boulder_stepback
-			; IMPORTANTE COMPROBAR QUE NO SE REPITAN PARÁMETROS
+			; IMPORTANTE COMPROBAR QUE NO SE REPITAN PARÁMETROS (EN LISTENER)
 			:precondition (evaluate-interaction ?boul - boulder ?boul2 - boulder)
 			:tasks (
 				(BOULDER_BOULDER_STEPBACK ?boul ?boul2)
@@ -722,9 +728,7 @@
 	; Acciones para el resto de objetos ---------------------------------------
 
 	; Debe recorrer todos los misiles del juego
-	; FUNCIONA
 	(:action MISSILE_FALL
-		; :parameters (?m - Missile)
 		:parameters ()		
 		:precondition (
 					)
@@ -790,8 +794,6 @@
 					(decrease (counter_Object) 1)
 		)
 	)
-
-	; Modificación de DIRT_AVATAR_KILLSPRITE
 	
 	(:action DIRT_SWORD_KILLSPRITE
 		:parameters (?d - dirt ?s - sword)
@@ -810,8 +812,6 @@
 					(decrease (counter_Object) 1)
 		)
 	)
-
-	; Modificación de DIRT_AVATAR_KILLSPRITE
 	
 	(:action DIAMOND_AVATAR_COLLECTRESOURCE
 		:parameters (?d - diamond ?a - avatar)
@@ -881,8 +881,6 @@
 					(decrease (counter_Object) 1)
 		)
 	)
-
-	; Modificación de DIRT_AVATAR_KILLSPRITE
 	
 	(:action AVATAR_BUTTERFLY_KILLSPRITE
 		:parameters (?a - avatar ?b - butterfly)
@@ -902,8 +900,6 @@
 					(decrease (counter_Object) 1)
 		)
 	)
-
-	; Modificación de DIRT_AVATAR_KILLSPRITE
 	
 	(:action AVATAR_CRAB_KILLSPRITE
 		:parameters (?a - avatar ?c - crab)
@@ -998,9 +994,7 @@
 					(assign (coordinate_y ?e) (last_coordinate_x ?e))
 					(assign (coordinate_y ?e) (last_coordinate_y ?e))
 		)
-	)
-
-	; Modificación de DIRT_AVATAR_KILLSPRITE
+	)	
 	
 	(:action CRAB_BUTTERFLY_KILLSPRITE
 		:parameters (?c - crab ?b - butterfly)
@@ -1023,11 +1017,16 @@
 	)
 
 	; Debe transformarse en un diamante, ponerlo en el nombre (en el parser)
+	; POR PROBAR
 	(:action BUTTERFLY_CRAB_TRANSFORMTO
 		:parameters (?b - butterfly ?c - crab)
 		:precondition (and
 						(= (coordinate_x ?c) (coordinate_x ?b))
 						(= (coordinate_y ?c) (coordinate_y ?b))
+
+						; Para coger un diamante que no se esté usando
+						; (= (coordinate_x ?d) -1)
+						; (= (coordinate_y ?d) -1)
 		)
 		:effect (and
 					(assign (last_coordinate_y ?b) (coordinate_x ?b))
@@ -1055,18 +1054,19 @@
 					; Cómo genero el diamante ??
 					; No se puede generar, asignar a uno que no se esté utilizando
 					; una posición en el juego
-					; (assign (last_coordinate_y ?b) (coordinate_x ?b))
-					; (assign (last_coordinate_y ?b) (coordinate_y ?b))
+					; (assign (last_coordinate_y ?d) -1)
+					; (assign (last_coordinate_y ?d) -1)
+					; (assign (coordinate_x ?d) (last_coordinate_x ?b))
+					; (assign (coordinate_y ?d) (last_coordinate_y ?b))
 					(increase (counter_diamond) 1)
 					(increase (counter_Resource) 1)
 					(increase (counter_Object) 1)
 		)
 	)
 
-	; Poner qué se compara en el nombre y el número necesario
-	
+	; Poner qué se compara en el nombre y el número necesario (listener)
 	(:action EXITDOOR_AVATAR_KILLIFOTHERHASMORE
-		:parameters (?e - crab ?a - avatar)
+		:parameters (?e - exitdoor ?a - avatar)
 		:precondition (and
 						(= (coordinate_x ?e) (coordinate_x ?a))
 						(= (coordinate_y ?e) (coordinate_y ?a))
