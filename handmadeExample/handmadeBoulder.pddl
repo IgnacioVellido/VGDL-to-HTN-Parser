@@ -189,6 +189,7 @@
 							(turn_avatar ?a ?p) 
 							(turn_objects)
                             (check-interactions)
+							; (create-interactions)
 
 							; (Turn ...) ; Para que el planificador no realice un solo turno
 						)
@@ -324,6 +325,23 @@
 
 	; -------------------------------------------------------------------------
 	; -------------------------------------------------------------------------
+
+	; Por probar
+	(:task create-interactions
+		:parameters ()
+
+		(:method create
+			:precondition (not (evaluate-interaction ?o1 - Object ?o2 - Object))
+			:taks (
+				(:inline () (evaluate-interaction ?o1 ?o2))
+			)
+		)
+
+		(:method caso_base
+			:precondition ()
+			:tasks ()
+		)
+	)
 
 
 	; TAREA RECURSIVA QUE GENERE PREDICADOS DE EVALUACIÓN DE INTERACCIONES
@@ -484,19 +502,23 @@
 			)
 		)
 
-		(:method butterfly_crab_transformto
-			:precondition (evaluate-interaction ?b - butterfly ?crab - crab)
+		; Por probar
+		(:method butterfly_crab_transformto_diamond
+			:precondition (and (evaluate-interaction ?b - butterfly ?crab - crab)
+								(= (coordinate_x ?diam - diamond) -1)
+								(= (coordinate_y ?diam - diamond) -1)
+			)
 			:tasks (
-				(BUTTERFLY_CRAB_TRANSFORMTO ?b ?crab)
+				(BUTTERFLY_CRAB_TRANSFORMTO_DIAMOND ?b ?crab ?diam)
 				(:inline () (not (evaluate-interaction ?b ?crab)))
 				(check-interactions)
 			)
 		)
 
-		(:method exitdoor_avatar_killifotherhasmore
+		(:method exitdoor_avatar_killifotherhasmore_diamond_9
 			:precondition (evaluate-interaction ?exit - exitdoor ?avat - avatar)
 			:tasks (
-				(EXITDOOR_AVATAR_KILLIFOTHERHASMORE ?exit ?avat)
+				(EXITDOOR_AVATAR_KILLIFOTHERHASMORE_DIAMOND_9 ?exit ?avat)
 				(:inline () (not (evaluate-interaction ?exit ?avat)))
 				(check-interactions)
 			)
@@ -982,8 +1004,7 @@
 					(assign (coordinate_y ?e) (last_coordinate_y ?e))
 		)
 	)
-	
-	; Se asigna la coordenada que tuviera anteriormente
+		
 	(:action ENEMY_DIAMOND_STEPBACK
 		:parameters (?e - enemy ?d - diamond)
 		:precondition (and
@@ -1018,15 +1039,15 @@
 
 	; Debe transformarse en un diamante, ponerlo en el nombre (en el parser)
 	; POR PROBAR
-	(:action BUTTERFLY_CRAB_TRANSFORMTO
-		:parameters (?b - butterfly ?c - crab)
+	(:action BUTTERFLY_CRAB_TRANSFORMTO_DIAMOND
+		:parameters (?b - butterfly ?c - crab ?d - diamond)
 		:precondition (and
 						(= (coordinate_x ?c) (coordinate_x ?b))
 						(= (coordinate_y ?c) (coordinate_y ?b))
 
 						; Para coger un diamante que no se esté usando
-						; (= (coordinate_x ?d) -1)
-						; (= (coordinate_y ?d) -1)
+						(= (coordinate_x ?d) -1)
+						(= (coordinate_y ?d) -1)
 		)
 		:effect (and
 					(assign (last_coordinate_y ?b) (coordinate_x ?b))
@@ -1054,18 +1075,18 @@
 					; Cómo genero el diamante ??
 					; No se puede generar, asignar a uno que no se esté utilizando
 					; una posición en el juego
-					; (assign (last_coordinate_y ?d) -1)
-					; (assign (last_coordinate_y ?d) -1)
-					; (assign (coordinate_x ?d) (last_coordinate_x ?b))
-					; (assign (coordinate_y ?d) (last_coordinate_y ?b))
+					(assign (last_coordinate_y ?d) -1)
+					(assign (last_coordinate_y ?d) -1)
+					(assign (coordinate_x ?d) (last_coordinate_x ?b))
+					(assign (coordinate_y ?d) (last_coordinate_y ?b))
 					(increase (counter_diamond) 1)
 					(increase (counter_Resource) 1)
 					(increase (counter_Object) 1)
 		)
 	)
 
-	; Poner qué se compara en el nombre y el número necesario (listener)
-	(:action EXITDOOR_AVATAR_KILLIFOTHERHASMORE
+	; Poner el con qué se compara en el nombre y el número necesario (listener)
+	(:action EXITDOOR_AVATAR_KILLIFOTHERHASMORE_DIAMOND_9
 		:parameters (?e - exitdoor ?a - avatar)
 		:precondition (and
 						(= (coordinate_x ?e) (coordinate_x ?a))
