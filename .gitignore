@@ -22,3 +22,4 @@ src/VgdlLexer.py
 src/test/*
 *.stackdump
 handmadeExample/boulder.pddl
+src/verbose

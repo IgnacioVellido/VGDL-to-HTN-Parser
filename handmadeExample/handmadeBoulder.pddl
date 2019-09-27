@@ -332,7 +332,7 @@
 
 		(:method create
 			:precondition (not (evaluate-interaction ?o1 - Object ?o2 - Object))
-			:taks (
+			:tasks (
 				(:inline () (evaluate-interaction ?o1 ?o2))
 			)
 		)
@@ -380,7 +380,7 @@
 		)
 
 		(:method diamond_avatar_collectresource
-			:precondition (evaluate-interaction ?diam - diamond ?avatar - avatar)
+			:precondition (evaluate-interaction ?diam - diamond ?avat - avatar)
 			:tasks (
 				(DIAMOND_AVATAR_COLLECTRESOURCE ?diam ?avat)
 				(:inline () (not (evaluate-interaction ?diam ?avat)))
@@ -402,6 +402,15 @@
 			)
 		)
 
+		(:method avatar_boulder_killiffromabove
+			:precondition (evaluate-interaction ?avat - avatar ?boul - boulder)
+			:tasks (
+				(AVATAR_BOULDER_KILLIFFROMABOVE ?avat ?boul)
+				(:inline () (not (evaluate-interaction ?avat ?boul)))
+				(check-interactions)
+			)
+		)
+		
 		(:method moving_boulder_stepback
 			:precondition (evaluate-interaction ?movi - moving ?boul - boulder)
 			:tasks (
@@ -411,14 +420,6 @@
 			)
 		)
 
-		(:method avatar_boulder_killiffromabove
-			:precondition (evaluate-interaction ?avat - avatar ?boul - boulder)
-			:tasks (
-				(AVATAR_BOULDER_KILLIFFROMABOVE ?avat ?boul)
-				(:inline () (not (evaluate-interaction ?avat ?boul)))
-				(check-interactions)
-			)
-		)
 
 		(:method avatar_butterfly_killsprite
 			:precondition (evaluate-interaction ?avat - avatar ?b - butterfly)
@@ -476,7 +477,7 @@
 		)
 
 		(:method enemy_dirt_stepback
-			:precondition (evaluate-interaction ?enem - enemy ?diam - dirt)
+			:precondition (evaluate-interaction ?enem - enemy ?dirt - dirt)
 			:tasks (
 				(ENEMY_DIRT_STEPBACK ?enem ?dirt)
 				(:inline () (not (evaluate-interaction ?enem ?dirt)))
@@ -883,7 +884,7 @@
 
 	
 	(:action AVATAR_BOULDER_KILLIFFROMABOVE
-		:parameters (?m - avatar ?b - boulder)
+		:parameters (?a - avatar ?b - boulder)
 		:precondition (and
 						(= (coordinate_x ?a) (coordinate_x ?b))
 						(= (coordinate_y ?a) (coordinate_y ?b))
