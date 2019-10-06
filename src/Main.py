@@ -125,6 +125,131 @@ def write_output(path, text):
         print("Cannot open file " + path)
         print(str(e))
 
+# -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+
+class LevelObject:
+    def __init__(self, name, row, col, stype):
+        self.name = name
+        self.row  = row
+        self.col  = col
+        self.stype = stype
+
+# Parses level file
+""" 
+Debería:
+- Abrir archivo (eso en otra función/archivo)
+- Asignar a cada objeto un nombre y guardar en una estructura la posición.
+(Empezar en 0,0 e ir sumando col mientras se leen caracteres, al encontrar 
+retorno de carro volver a 0 y sumar fila)
+- Comprobar con el lexer que tipo de objeto es cada uno, asociarlo en la 
+estructura
+- Escribir el problema
+  - Es estático: La cabecera y el objetivo, la definición de cada apartado
+  - Dinámico: La definición de tipos, los predicados del avatar, las coordenadas
+  de los objetos, sus contadores y los pares "evaluate-interaction"
+
+- Añadir el resto de objetos hasta completar el espacio (los que no están 
+definidos pero se pueden utilizar más adelante)
+"""
+def read_level(path, text):  
+    try:
+        with open(path, "wb") as file:
+          file.parse_level(text.encode('utf-8'))
+    except Exception as e:
+        print("Cannot open file " + path)
+        print(str(e))
+
+""" Recibe el archivo y la lista de objetos posibles (su versión acortada), 
+para generar un contador para cada uno de ellos. 
+
+A LO MEJOR ES NECESARIO OTRA LISTA CON LOS TIPOS PARA AÑADIRLAS AL CONSTRUCTOR
+"""
+def parse_level(file, short_types, long_types):
+    """ Returns a list of LevelObjects with the objects defined 
+    
+    short_types and long_types must have same length, defines the stype of the
+    object and the char used in the level to represent it
+    """
+    
+    lines = [line.rstrip("\n") for line in file]
+
+    row = col = 0
+    objects = []
+
+    # To keep track of each object defined and assign differents names
+    # A list of the size of types with zeros
+    name_counters = [0] * len(short_types)
+
+    # To calculate the maximum number of objects in the game
+    max_size = 0
+
+    # Creating the LevelObjects
+    for line in lines:
+        for char in line:
+            if char is not ' ' or char is not '\t':                
+                indx = short_types.index(char)
+                
+                obj = LevelObject(char + str(name_counters[indx]), row, col,
+                                    long_types[indx])
+                objects.append(obj)
+
+                name_counters[indx] += 1
+
+                max_size += 1
+                col += 1
+        
+        col = 0
+        row += 1    
+
+    # Completing the definition of objects
+    for (lt, st, c) in zip(long_types, short_types, name_counters):
+        while c < max_size:
+            obj = LevelObject(st + str(c), -1, -1, lt)
+            objects.append(obj)
+
+            c += 1
+
+    return objects
+
+""" Mejor que vengan agrupados por tipos ??? """
+def get_problem(objects):
+    problem = ""
+
+    problem += """
+(define (problem VGDLProblem) (:domain VGDLGame)
+(:objects
+
+"""
+    # Defining objects
+    for obj in objects:
+        pass
+
+    # Init part
+    problem += """
+)
+
+(:init
+"""
+    # Writing the coordinates of the objects
+
+    # Writing the counters
+
+    # Writing the evaluate-interaction predicates
+
+    # Writing goal
+    problem += """
+)
+
+(:tasks-goal
+    :tasks(
+        (Turn nombre-de-avatar nombre-de-partner) MEJOR QUE NO RECIBA PARÁMETRO
+    )
+)
+
+)
+"""
+    return problem
 
 ###############################################################################
 # -----------------------------------------------------------------------------
