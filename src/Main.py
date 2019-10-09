@@ -152,10 +152,10 @@ estructura
 - Añadir el resto de objetos hasta completar el espacio (los que no están 
 definidos pero se pueden utilizar más adelante)
 """
-def read_level(path, text):  
+def read_level(path):  
     try:
-        with open(path, "wb") as file:
-          file.parse_level(text.encode('utf-8'))
+        with open(path, "r") as file:
+            return file.read()            
     except Exception as e:
         print("Cannot open file " + path)
         print(str(e))
@@ -165,14 +165,14 @@ para generar un contador para cada uno de ellos.
 
 A LO MEJOR ES NECESARIO OTRA LISTA CON LOS TIPOS PARA AÑADIRLAS AL CONSTRUCTOR
 """
-def parse_level(file, short_types, long_types):
+def parse_level(level, short_types, long_types):
     """ Returns a list of LevelObjects with the objects defined 
     
     short_types and long_types must have same length, defines the stype of the
     object and the char used in the level to represent it
     """
     
-    lines = [line.rstrip("\n") for line in file]
+    lines = [line.rstrip("\n") for line in level]
 
     row = col = 0
     objects = []
@@ -188,7 +188,10 @@ def parse_level(file, short_types, long_types):
     for line in lines:
         for char in line:
             if char is not ' ' or char is not '\t':                
-                indx = short_types.index(char)
+                try:
+                    indx = short_types.index(char)
+                except Exception as e:
+                    print("Wrong level definition: " + str(e))
                 
                 obj = LevelObject(char + str(name_counters[indx]), row, col,
                                     long_types[indx])
@@ -347,15 +350,37 @@ def main(argv):
     # -----------------------------------------------------------------------------
     # Opening and printing HPDL domain file
 
-    try:
-        write_output(output_name, text_domain)
-    except Exception as e:
-        print("I shouldn't be here " + str(e))
+    # try:
+    #     write_output(output_name, text_domain)
+    # except Exception as e:
+    #     print("I shouldn't be here " + str(e))
 
     # -------------------------------------------------------------------------
     # Exiting script
 
     print("Conversion made without errors.")
+
+    # -------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
+    # Getting the level conversion from the LevelMapping
+    # w -> wall    (w = short_type, wall = long_type)
+    short_types = listener.short_types
+    long_types = listener.long_types
+
+    # Parsing level
+    level_path = "./vgdl-examples/boulderdash_lvl0.txt"
+
+    level = read_level(level_path)
+    objects = parse_level(level, short_types, long_types)
+    problem = get_problem(objects)
+
+    try:
+        write_output("./problem.pddl", problem)
+    except Exception as e:
+        print("I shouldn't be here " + str(e))
+
+    print("Problem defined without errors.")
 
 ###############################################################################
 # -----------------------------------------------------------------------------

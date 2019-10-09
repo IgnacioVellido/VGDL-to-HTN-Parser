@@ -23,6 +23,7 @@ BasicGame
     c > background crab
     b > background butterfly
     A > background avatar
+    w > wall
 
   InteractionSet
     dirt avatar sword > killSprite

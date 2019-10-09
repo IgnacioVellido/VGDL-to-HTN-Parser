@@ -17,7 +17,7 @@ IF NOT x%option:run=% == x%option% (
     ECHO Usage: make.bat run [VGDL file]
   ) ELSE (
     ECHO ------- Parsed tree -----------
-    py Main.py %vgdl-file% %output%
+    python Main.py %vgdl-file% %output%
   )
 ) 
 

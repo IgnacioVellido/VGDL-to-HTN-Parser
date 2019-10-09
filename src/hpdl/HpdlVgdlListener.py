@@ -61,6 +61,11 @@ class HpdlVgdlListener(VgdlListener):
         self.avatar     = None
         self.partner    = None
 
+        # For the level parser
+        self.mappings    = []   # An array of LevelMapping        
+        self.short_types = []   # The char part of a LevelMapping
+        self.long_types  = []   # The sprites part of a LevelMapping
+
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
 
@@ -79,6 +84,8 @@ class HpdlVgdlListener(VgdlListener):
         self.assign_functions()
         self.assign_tasks()
         self.assign_actions()
+
+        self.assign_short_long_types()
 
     # -------------------------------------------------------------------------
 
@@ -179,7 +186,7 @@ class HpdlVgdlListener(VgdlListener):
     # -------------------------------------------------------------------------
 
     def assign_tasks(self):
-        """ UNFINISHED """
+        """ UNFINISHED - CHANGE TO DON'T RECIEVE PARAMETERS (the Turn task)"""
         turn_method = Method("turn", [], ["(turn_avatar ?a ?p)"]) #, "(turn_objects)", "(check_interactions)"])
         turn = Task("Turn", [["a", "FlakAvatar"], ["p", self.partner.name]], [turn_method])
         self.tasks.append(turn)
@@ -198,7 +205,13 @@ class HpdlVgdlListener(VgdlListener):
 
         # Getting specific avatar actions
         self.actions.extend(avatar_actions)
+    
+    # -------------------------------------------------------------------------
 
+    def assign_short_long_types(self):
+        for m in self.mappings:
+            self.short_types.append(m.char)
+            self.long_types.append(m.sprites)
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
@@ -270,11 +283,13 @@ class HpdlVgdlListener(VgdlListener):
     # -------------------------------------------------------------------------
 
     def enterLevelMapping(self, ctx:VgdlParser.LevelMappingContext):
-        self.mappings = []
-
         for level in ctx.LEVELDEFINITION():            
             char, sprites = level.getText().split(">", 1)
-            l = LevelMap(char, sprites)
+
+            # We only want the single character in char, no spaces 
+            char = char.strip()
+
+            l = LevelMap(char, sprites)  
             self.mappings.append(l)            
 
     def exitLevelMapping(self, ctx:VgdlParser.LevelMappingContext):
