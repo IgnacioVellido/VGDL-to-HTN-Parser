@@ -212,10 +212,8 @@ def parse_level(level, short_types, long_types):
             number += 1
 
         if m not in valid_used_char:
-            print("changing: " + m)
             old_char = m
             m = valid_char.pop()  
-            print("now char: " + m)
 
             # Replacing
             changed_char.append([old_char, m])
@@ -262,16 +260,15 @@ def parse_level(level, short_types, long_types):
 
             c += 1
 
-    return objects
+    return objects, name_counters
 
 """ Mejor que vengan agrupados por tipos ??? """
-def get_problem(objects):
+def get_problem(objects, counters):
     problem = ""
 
     problem += """
 (define (problem VGDLProblem) (:domain VGDLGame)
-    (:objects
-"""
+    (:objects"""
     # Defining objects
     for obj in objects:
         # First writing each one separately, but a better aproach would be to get 
@@ -283,13 +280,33 @@ def get_problem(objects):
     problem += """
     )
 
-    (:init
-"""
-    # Writing the coordinates of the objects
+    (:init"""
+    for obj in objects:
+        # Writing predicates, if any
+        # Que reciba por parámetro
+        # Si es avatar, misil, recurso
+        predicates = ""
+        if "Avatar" in obj.stype:
+            print("Avatar!")
+            predicates += "\n\t\t(can-move-up)"
+
+        # Writing the coordinates of the objects
+        coordinates = "\n\t\t(= (coordinate_x " + obj.name + ") " + str(obj.row) + ")"
+        coordinates += "\n\t\t(= (coordinate_y " + obj.name + ") " + str(obj.col) + ")"
+        coordinates += "\n\t\t(= (last_coordinate_x " + obj.name + ") -1)"
+        coordinates += "\n\t\t(= (last_coordinate_y " + obj.name + ") -1)"
+
+        # Writing the evaluate-interaction predicates
+        # TARDA UNA BARBARIDAD, PERO ES LÓGICO
+        evaluate = ""
+        for obj2 in objects:
+            if obj is not obj2:
+                evaluate += "\n\t\t(evaluate-interaction " + obj.name + " " + obj2.name + ")"
+
+        problem += predicates + coordinates + evaluate + "\n"
 
     # Writing the counters
-
-    # Writing the evaluate-interaction predicates
+    counters = ""
 
     # Writing goal
     problem += """
@@ -422,8 +439,8 @@ def main(argv):
     level_path = "./vgdl-examples/boulderdash_lvl0.txt"
 
     level = read_level(level_path)
-    objects = parse_level(level, short_types, long_types)
-    problem = get_problem(objects)
+    objects, counters = parse_level(level, short_types, long_types)
+    problem = get_problem(objects, counters)
 
     try:
         write_output("./problem.pddl", problem)
