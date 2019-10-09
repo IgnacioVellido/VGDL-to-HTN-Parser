@@ -7,6 +7,7 @@
 ###############################################################################
 
 import sys
+import string
 import os.path
 from antlr4 import *
 
@@ -135,6 +136,9 @@ class LevelObject:
         self.col  = col
         self.stype = stype
 
+    def toStr(self):
+        return self.name + "-" + str(self.row) + "," + str(self.col) + "-" + self.stype
+
 # Parses level file
 """ 
 Debería:
@@ -172,7 +176,7 @@ def parse_level(level, short_types, long_types):
     object and the char used in the level to represent it
     """
     
-    lines = [line.rstrip("\n") for line in level]
+    lines = level.splitlines()
 
     row = col = 0
     objects = []
@@ -184,17 +188,62 @@ def parse_level(level, short_types, long_types):
     # To calculate the maximum number of objects in the game
     max_size = 0
 
+    # --------------------------------------------------------------------------
+    # Some characters can create problems on the domain, it is necessary
+    # to change them            
+    valid_char = list(string.ascii_lowercase) + list(string.ascii_uppercase)
+    valid_used_char = valid_char.copy()
+    changed_char = []
+    number = 1
+
+    # Removing the used chars        
+    for m in short_types:
+        try:
+            valid_char.remove(m)
+        except Exception as e:
+            pass
+
+    for m in short_types:
+        # Because there can be mora tan 26 objects on the game, we add a 
+        # counter at the end of the char if needed
+        if not valid_char:
+            print("valid_char empty")
+            valid_char = list(string.ascii_lowercase) + list(string.ascii_uppercase)
+            number += 1
+
+        if m not in valid_used_char:
+            print("changing: " + m)
+            old_char = m
+            m = valid_char.pop()  
+            print("now char: " + m)
+
+            # Replacing
+            changed_char.append([old_char, m])
+            short_types = [m if x == old_char else x for x in short_types]
+
+    # --------------------------------------------------------------------------
+
     # Creating the LevelObjects
     for line in lines:
         for char in line:
+            # Not considering spaces
             if char is not ' ' or char is not '\t':                
-                try:
-                    indx = short_types.index(char)
-                except Exception as e:
-                    print("Wrong level definition: " + str(e))
-                
+                # Checking for wrong characters
+                if char not in valid_used_char:
+                    for change in changed_char:
+                        if char == change[0]:
+                            char = change[1]
+                            changed = True
+
+                    # If char not found
+                    if not changed:
+                        raise ValueError (
+                            "Wrong level definition: " + char + " not defined"
+                        )
+
+                indx = short_types.index(char)
                 obj = LevelObject(char + str(name_counters[indx]), row, col,
-                                    long_types[indx])
+                                    long_types[indx])                
                 objects.append(obj)
 
                 name_counters[indx] += 1
@@ -221,18 +270,20 @@ def get_problem(objects):
 
     problem += """
 (define (problem VGDLProblem) (:domain VGDLGame)
-(:objects
-
+    (:objects
 """
     # Defining objects
     for obj in objects:
-        pass
+        # First writing each one separately, but a better aproach would be to get 
+        # all objects of the same type written in the same line        
+        # CAREFUL, SOME OBJECT HAVE 2 PARENTS - NOT CONSIDERED YET
+        problem += "\n\t\t" + obj.name + " - " + obj.stype
 
     # Init part
     problem += """
-)
+    )
 
-(:init
+    (:init
 """
     # Writing the coordinates of the objects
 
@@ -242,14 +293,13 @@ def get_problem(objects):
 
     # Writing goal
     problem += """
-)
-
-(:tasks-goal
-    :tasks(
-        (Turn nombre-de-avatar nombre-de-partner) MEJOR QUE NO RECIBA PARÁMETRO
     )
-)
 
+    (:tasks-goal
+        :tasks(
+            (Turn nombre-de-avatar nombre-de-partner) MEJOR QUE NO RECIBA PARÁMETRO
+        )
+    )
 )
 """
     return problem

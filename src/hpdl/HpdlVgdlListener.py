@@ -288,6 +288,7 @@ class HpdlVgdlListener(VgdlListener):
 
             # We only want the single character in char, no spaces 
             char = char.strip()
+            sprites = sprites.strip()
 
             l = LevelMap(char, sprites)  
             self.mappings.append(l)            

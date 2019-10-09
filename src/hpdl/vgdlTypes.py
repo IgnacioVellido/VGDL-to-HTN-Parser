@@ -82,7 +82,7 @@ class LevelMap:
 
     Atributes:
         char        The character in the level definition file
-        sprites     The list of objects the char is associated to
+        sprites     A string with the list of objects the char is associated to
     """
     def __init__(self, char, sprites):
         self.char = char
