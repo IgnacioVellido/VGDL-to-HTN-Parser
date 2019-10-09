@@ -25,6 +25,10 @@ IF NOT x%option:test=% == x%option% (
   test\htnp\htnp.exe -d domain.pddl -p test\problem.pddl
 ) 
 
+IF NOT x%option:test2=% == x%option% (  
+  test\htnp\htnp.exe -d domain.pddl -p problem.pddl
+) 
+
 IF NOT x%option:verbose=% == x%option% (  
   test\htnp\htnp.exe -d domain.pddl -p test\problem.pddl -v
 ) 
