@@ -254,16 +254,16 @@ def parse_level(level, short_types, long_types):
 
     # Completing the definition of objects
     for (lt, st, c) in zip(long_types, short_types, name_counters):
-        while c < max_size:
-            obj = LevelObject(st + str(c), -1, -1, lt)
-            objects.append(obj)
+        if "avatar" not in lt.lower():
+            while c < max_size:
+                obj = LevelObject(st + str(c), -1, -1, lt)
+                objects.append(obj)
 
-            c += 1
+                c += 1
 
-    return objects, name_counters
+    return objects, name_counters, max_size, short_types
 
-""" Mejor que vengan agrupados por tipos ??? """
-def get_problem(objects, counters, long_types):
+def get_problem(objects, counters, short_types, long_types, max_size):
     problem = ""
 
     problem += """
@@ -283,19 +283,32 @@ def get_problem(objects, counters, long_types):
     (:init"""
     for obj in objects:
         # Writing predicates, if any
-        # Que reciba por parámetro
+        # Que reciba por parámetro los predicados ?s
         # Si es avatar, misil, recurso
         predicates = ""
-        if "Avatar" in obj.stype:
-            print("Avatar!")
-            predicates += "\n\t\t(can-move-up)"
+        # Only for boulderdash
+        if "avatar" in obj.stype.lower():      
+            avatar = obj.name
+            predicates += "\n\t\t(can-move-up " + avatar + ")"
+            predicates += "\n\t\t(can-move-down " + avatar + ")"
+            predicates += "\n\t\t(can-move-left " + avatar + ")"
+            predicates += "\n\t\t(can-move-right " + avatar + ")"
+            predicates += "\n\t\t(can-use " + avatar + ")"
+            predicates += "\n\t\t(can-change-orientation " + avatar + ")"
+            predicates += "\n\t\t(orientation-up " + avatar + ")"
+            predicates += "\n\t\t(= (resource_diamond " + avatar + ") 0)"
 
+        if "boulder" in obj.stype.lower():      
+            predicates += "\n\t\t(orientation-down " + obj.name + ")"
+
+        #-----------------------------------------------------------------------
         # Writing the coordinates of the objects
         coordinates = "\n\t\t(= (coordinate_x " + obj.name + ") " + str(obj.row) + ")"
         coordinates += "\n\t\t(= (coordinate_y " + obj.name + ") " + str(obj.col) + ")"
         coordinates += "\n\t\t(= (last_coordinate_x " + obj.name + ") -1)"
         coordinates += "\n\t\t(= (last_coordinate_y " + obj.name + ") -1)"
 
+        #-----------------------------------------------------------------------
         # Writing the evaluate-interaction predicates
         # TARDA UNA BARBARIDAD, PERO ES LÓGICO
         evaluate = ""
@@ -304,6 +317,14 @@ def get_problem(objects, counters, long_types):
                 evaluate += "\n\t\t(evaluate-interaction " + obj.name + " " + obj2.name + ")"
 
         problem += predicates + coordinates + evaluate + "\n"
+
+    # Usar itertools ?
+    # for t1 in short_types:
+    #     for t2 in short_types:
+    #         for i in range(0, max_size):
+    #             for j in range(0, max_size):
+    #                 if (t1 != t2 or i != j):
+    #                     problem += "\n\t\t(evaluate-interaction " + t1 + str(i) + " " + t2 + str(j) + ")"
 
     # Writing the counters
     # Debería ir ascendiendo por la jerarquía e ir sumando
@@ -317,7 +338,7 @@ def get_problem(objects, counters, long_types):
 
     (:tasks-goal
         :tasks(
-            (Turn nombre-de-avatar nombre-de-partner) MEJOR QUE NO RECIBA PARÁMETRO
+            (Turn)
         )
     )
 )
@@ -442,8 +463,8 @@ def main(argv):
     level_path = "./vgdl-examples/boulderdash_lvl0.txt"
 
     level = read_level(level_path)
-    objects, counters = parse_level(level, short_types, long_types)
-    problem = get_problem(objects, counters, long_types)
+    objects, counters, max_size, short_types = parse_level(level, short_types, long_types)
+    problem = get_problem(objects, counters, short_types, long_types, max_size)
 
     try:
         write_output("./problem.pddl", problem)

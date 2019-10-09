@@ -172,7 +172,7 @@
     
     ; Método principal para representar un turno en el juego
 	(:task Turn
-		:parameters (?a - ShootAvatar ?p - sword)
+		:parameters ()
 
 		; Lo suyo sería poner en la precondición el objetivo final del
 		; juego, teniendo varios de estos métodos si hay varios criterios de 
@@ -186,7 +186,7 @@
 				:precondition (
 								)
 				:tasks ( 
-							(turn_avatar ?a ?p) 
+							(turn_avatar ?a - ShootAvatar ?p - sword) 
 							(turn_objects)
                             (check-interactions)
 							; (create-interactions)
@@ -203,7 +203,7 @@
 		(:method turn_undone
 			:precondition ()
 			:tasks (
-				(Turn ?a ?p)
+				(Turn)
 			)
 		)
 	)
@@ -507,7 +507,7 @@
 		(:method butterfly_crab_transformto_diamond
 			:precondition (and (evaluate-interaction ?b - butterfly ?crab - crab)
 								(= (coordinate_x ?diam - diamond) -1)
-								(= (coordinate_y ?diam - diamond) -1)
+								(= (coordinate_y ?diam - diamond) -1)								
 			)
 			:tasks (
 				(BUTTERFLY_CRAB_TRANSFORMTO_DIAMOND ?b ?crab ?diam)
