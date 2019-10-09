@@ -263,7 +263,7 @@ def parse_level(level, short_types, long_types):
     return objects, name_counters
 
 """ Mejor que vengan agrupados por tipos ??? """
-def get_problem(objects, counters):
+def get_problem(objects, counters, long_types):
     problem = ""
 
     problem += """
@@ -306,7 +306,10 @@ def get_problem(objects, counters):
         problem += predicates + coordinates + evaluate + "\n"
 
     # Writing the counters
-    counters = ""
+    # Debería ir ascendiendo por la jerarquía e ir sumando
+    # Problema al tener varios tipos
+    for c, name in zip(counters, long_types):
+        problem += "\n\t\t" + "(= (counter_" + name + ") " + str(c) + ")"
 
     # Writing goal
     problem += """
@@ -440,7 +443,7 @@ def main(argv):
 
     level = read_level(level_path)
     objects, counters = parse_level(level, short_types, long_types)
-    problem = get_problem(objects, counters)
+    problem = get_problem(objects, counters, long_types)
 
     try:
         write_output("./problem.pddl", problem)
