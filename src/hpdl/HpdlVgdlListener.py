@@ -65,7 +65,7 @@ class HpdlVgdlListener(VgdlListener):
         self.mappings    = []   # An array of LevelMapping        
         self.short_types = []   # The char part of a LevelMapping
         self.long_types  = []   # The sprites part of a LevelMapping
-        self.hierarchy   = []   # Dictionary (in the end) with the parents of each long_type
+        self.hierarchy   = {}   # Dictionary with the parents of each long_type
         self.stypes      = set()   # All types in the game (bigger than long_types)
 
     # -------------------------------------------------------------------------
@@ -213,6 +213,7 @@ class HpdlVgdlListener(VgdlListener):
     # -------------------------------------------------------------------------
 
     def assign_short_long_types(self):
+        """ From the LevelMap, stores short and the long name """
         for m in self.mappings:
             self.short_types.append(m.char)
             self.long_types.append(m.sprites)
@@ -221,31 +222,21 @@ class HpdlVgdlListener(VgdlListener):
     # -------------------------------------------------------------------------
 
     def assign_hierarchy(self):
-        true_hierarchy = {}     # A dictionary
-
-        for pair in self.hierarchy:
-            if pair[0] in true_hierarchy:
-                true_hierarchy[pair[0]].append(pair[1])
-            else:
-                true_hierarchy[pair[0]] = [pair[1]]
-
-        for obj in true_hierarchy:
-            true_hierarchy[obj].append("Object")
-            true_hierarchy[obj] = list(set(true_hierarchy[obj]))  # Removing duplicates
+        """ Stores a hierarchy of the objects """
+        for obj in self.hierarchy:
+            self.hierarchy[obj].append("Object")
+            self.hierarchy[obj] = list(set(self.hierarchy[obj]))  # Removing duplicates
 
         # Adding Object with no father
-        true_hierarchy["Object"] = []
-
-        self.hierarchy = true_hierarchy
+        self.hierarchy["Object"] = []
 
     # -------------------------------------------------------------------------
 
     def assign_stypes(self):
         for key in self.hierarchy:
             self.stypes.add(key)
-            self.stypes.update(self.hierarchy[key])
+            self.stypes.update(self.hierarchy[key])        
 
-        print("\n", self.hierarchy, "\n")
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
@@ -272,12 +263,22 @@ class HpdlVgdlListener(VgdlListener):
         # If it has a type, include it (if not, father must have one)
         if hasattr(ctx, 'spriteType') and hasattr(ctx.spriteType, 'text'):
             stype = ctx.spriteType.text
+            self.hierarchy.setdefault(stype, []).append("Object")
         else:
             stype = None
 
-        # Keeping the hierarchy on a structure
-        self.hierarchy.append([ctx.name.text, stype])
-        self.hierarchy.append([stype, "Object"])
+        parentCtx = ctx.parentCtx
+        if hasattr(parentCtx, 'name'):
+            parent_name = parentCtx.name.text
+
+            # Keeping the hierarchy on a structure (if key not defined, initialize it)
+            # In this case, the father
+            self.hierarchy.setdefault(ctx.name.text, []).append(parent_name)
+            self.hierarchy.setdefault(ctx.name.text, []).extend(self.hierarchy[parent_name])
+
+
+        # The stype
+        self.hierarchy.setdefault(ctx.name.text, []).append(stype)
 
         sprite = Sprite(ctx.name.text, stype, None,
                 get_rule_parameters(ctx.parameter()))
@@ -293,11 +294,13 @@ class HpdlVgdlListener(VgdlListener):
     def enterNonRecursiveSprite(self, ctx:VgdlParser.NonRecursiveSpriteContext):
         # If it has parent, include it
         parentCtx = ctx.parentCtx        
+
         if hasattr(parentCtx, 'name'):
             parent_name = parentCtx.name.text
 
-            # Keeping the hierarchy on a structure
-            self.hierarchy.append([ctx.name.text, parent_name])
+            # The father and his hierarchy
+            self.hierarchy.setdefault(ctx.name.text, []).append(parent_name)
+            self.hierarchy.setdefault(ctx.name.text, []).extend(self.hierarchy[parent_name])
         else:
             parent_name = None
 
@@ -305,9 +308,9 @@ class HpdlVgdlListener(VgdlListener):
         if hasattr(ctx, 'spriteType') and hasattr(ctx.spriteType, 'text'):
             stype = ctx.spriteType.text
 
-            # Keeping the hierarchy on a structure
-            self.hierarchy.append([ctx.name.text, stype])
-            self.hierarchy.append([stype, "Object"])
+            # The stype
+            self.hierarchy.setdefault(ctx.name.text, []).append(stype)
+            self.hierarchy.setdefault(stype, []).append("Object")
         else:
             stype = None
 

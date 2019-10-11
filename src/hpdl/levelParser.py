@@ -190,31 +190,17 @@ def get_problem(objects, counters, short_types, long_types,
         problem += predicates + coordinates + evaluate + "\n"
 
 
-    # Writing the counters
-    # Debería ir ascendiendo por la jerarquía e ir sumando 
-    # all_counters = addCounters(all_counters, hierarchy)
-
-    # def addCounters(all_counters, stypes, hierarchy):
-    #     for s in stypes:
-    #         all_counters[s] += 
-    # return all_counters
-
+    # Writing the counters    
     all_counters = dict.fromkeys(stypes, 0)
     for c, name in zip(counters, long_types):
         all_counters[name] = c
 
         for parent in hierarchy[name]:
-            all_counters[parent] += c
-        
-    # for name in stypes:
-        # for parent in hierarchy[name]:
-            # if all_counters[parent] not in long_types:
-                # all_counters[parent] += c
-    
-    print(all_counters)
+            all_counters[parent] += c        
 
-    # for obj in all_counters:
-        # problem += "\n\t\t" + "(= (counter_" + obj + ") " + str(all_counters[obj]) + ")"
+    for obj in all_counters:
+        if obj:     # Hay un objeto None que no debería estar
+            problem += "\n\t\t" + "(= (counter_" + obj + ") " + str(all_counters[obj]) + ")"
         
 
     # Writing goal
