@@ -238,14 +238,18 @@ def main(argv):
     # w -> wall    (w = short_type, wall = long_type)
     short_types = listener.short_types
     long_types = listener.long_types
+    hierarchy = listener.hierarchy
+    stypes = listener.stypes
 
     # Parsing level
     level_path = "./vgdl-examples/test_level.txt"
     # level_path = "./vgdl-examples/boulderdash_lvl1.txt"
 
     level = read_level(level_path)
-    objects, counters, max_size, short_types = parse_level(level, short_types, long_types)
-    problem = get_problem(objects, counters, short_types, long_types, max_size)
+    objects, max_size, short_types, counters = parse_level(level, short_types, 
+                                                            long_types)
+    problem = get_problem(objects, counters, short_types, 
+                            long_types, max_size, hierarchy, stypes)
 
     try:
         write_output("./problem.pddl", problem)

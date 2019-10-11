@@ -128,11 +128,12 @@ def parse_level(level, short_types, long_types):
 
                 c += 1
 
-    return objects, name_counters, max_size, short_types
+    return objects, max_size, short_types, name_counters
 
 # -----------------------------------------------------------------------------
 
-def get_problem(objects, counters, short_types, long_types, max_size):
+def get_problem(objects, counters, short_types, long_types, 
+                    max_size, hierarchy, stypes):
     problem = ""
 
     problem += """
@@ -190,9 +191,31 @@ def get_problem(objects, counters, short_types, long_types, max_size):
 
 
     # Writing the counters
-    # Debería ir ascendiendo por la jerarquía e ir sumando
+    # Debería ir ascendiendo por la jerarquía e ir sumando 
+    # all_counters = addCounters(all_counters, hierarchy)
+
+    # def addCounters(all_counters, stypes, hierarchy):
+    #     for s in stypes:
+    #         all_counters[s] += 
+    # return all_counters
+
+    all_counters = dict.fromkeys(stypes, 0)
     for c, name in zip(counters, long_types):
-        problem += "\n\t\t" + "(= (counter_" + name + ") " + str(c) + ")"
+        all_counters[name] = c
+
+        for parent in hierarchy[name]:
+            all_counters[parent] += c
+        
+    # for name in stypes:
+        # for parent in hierarchy[name]:
+            # if all_counters[parent] not in long_types:
+                # all_counters[parent] += c
+    
+    print(all_counters)
+
+    # for obj in all_counters:
+        # problem += "\n\t\t" + "(= (counter_" + obj + ") " + str(all_counters[obj]) + ")"
+        
 
     # Writing goal
     problem += """
