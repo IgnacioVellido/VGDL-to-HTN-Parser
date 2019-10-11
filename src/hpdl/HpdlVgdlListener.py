@@ -291,7 +291,7 @@ class HpdlVgdlListener(VgdlListener):
 
             # There can't be two stypes defined, only one
             sprites = sprites.split()            
-            sprites = sprites[-1].strip()
+            sprites = sprites[-1].strip()   # Getting the last one defined
 
             l = LevelMap(char, sprites)  
             self.mappings.append(l)            
