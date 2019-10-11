@@ -357,7 +357,10 @@
 		:parameters ( )
 
 		(:method dirt_avatar_killsprite
-			:precondition (evaluate-interaction ?dirt - dirt ?shoo - ShootAvatar)
+			:precondition (and (evaluate-interaction ?dirt - dirt ?shoo - ShootAvatar)
+								(not (= (coordinate_x ?dirt) -1))	; Comprobando que los objetos estén en el juego
+								(not (= (coordinate_x ?shoo) -1))
+							)
 			:tasks (
 				; (:inline (:print "Probando DIRT_AVATAR_KILLSPRITE\n") ())
 
@@ -371,7 +374,10 @@
 		)
 
 		(:method dirt_sword_killsprite
-			:precondition (evaluate-interaction ?dirt - dirt ?sword - sword)
+			:precondition (and (evaluate-interaction ?dirt - dirt ?sword - sword)
+								(not (= (coordinate_x ?dirt) -1))
+								(not (= (coordinate_x ?sword) -1))
+							)
 			:tasks (
 				(DIRT_SWORD_KILLSPRITE ?dirt ?sword)
 				(:inline () (not (evaluate-interaction ?dirt ?sword)))
@@ -380,7 +386,10 @@
 		)
 
 		(:method diamond_avatar_collectresource
-			:precondition (evaluate-interaction ?diam - diamond ?avat - avatar)
+			:precondition (and (evaluate-interaction ?diam - diamond ?avat - avatar)
+								(not (= (coordinate_x ?diam) -1))
+								(not (= (coordinate_x ?avat) -1))
+							)
 			:tasks (
 				(DIAMOND_AVATAR_COLLECTRESOURCE ?diam ?avat)
 				(:inline () (not (evaluate-interaction ?diam ?avat)))
@@ -389,7 +398,10 @@
 		)
 
 		(:method moving_wall_stepback
-			:precondition (evaluate-interaction ?movi - moving ?wall - wall)
+			:precondition (and (evaluate-interaction ?movi - moving ?wall - wall)
+								(not (= (coordinate_x ?movi) -1))
+								(not (= (coordinate_x ?wall) -1))
+							)
 			:tasks (
 				; (:inline (:print "Probando MOVING_WALL_STEPBACK\n") ())
 
@@ -403,7 +415,10 @@
 		)
 
 		(:method avatar_boulder_killiffromabove
-			:precondition (evaluate-interaction ?avat - avatar ?boul - boulder)
+			:precondition (and (evaluate-interaction ?avat - avatar ?boul - boulder)
+								(not (= (coordinate_x ?avat) -1))
+								(not (= (coordinate_x ?boul) -1))
+							)
 			:tasks (
 				(AVATAR_BOULDER_KILLIFFROMABOVE ?avat ?boul)
 				(:inline () (not (evaluate-interaction ?avat ?boul)))
@@ -412,7 +427,10 @@
 		)
 		
 		(:method moving_boulder_stepback
-			:precondition (evaluate-interaction ?movi - moving ?boul - boulder)
+			:precondition (and (evaluate-interaction ?movi - moving ?boul - boulder)
+								(not (= (coordinate_x ?movi) -1))
+								(not (= (coordinate_x ?boul) -1))
+							)
 			:tasks (
 				(MOVING_BOULDER_STEPBACK ?movi ?boul)
 				(:inline () (not (evaluate-interaction ?movi ?boul)))
@@ -422,7 +440,10 @@
 
 
 		(:method avatar_butterfly_killsprite
-			:precondition (evaluate-interaction ?avat - avatar ?b - butterfly)
+			:precondition (and (evaluate-interaction ?avat - avatar ?b - butterfly)
+								(not (= (coordinate_x ?avat) -1))
+								(not (= (coordinate_x ?b) -1))
+							)
 			:tasks (
 				(AVATAR_BUTTERFLY_KILLSPRITE ?avat ?b)
 				(:inline () (not (evaluate-interaction ?avat ?b)))
@@ -431,7 +452,10 @@
 		)
 
 		(:method avatar_crab_killsprite
-			:precondition (evaluate-interaction ?avat - avatar ?crab - crab)
+			:precondition (and (evaluate-interaction ?avat - avatar ?crab - crab)
+								(not (= (coordinate_x ?avat) -1))
+								(not (= (coordinate_x ?crab) -1))
+							)
 			:tasks (
 				(AVATAR_CRAB_KILLSPRITE ?avat ?crab)
 				(:inline () (not (evaluate-interaction ?avat ?crab)))
@@ -440,7 +464,10 @@
 		)
 
 		(:method boulder_dirt_stepback
-			:precondition (evaluate-interaction ?boul - boulder ?dirt - dirt)
+			:precondition (and (evaluate-interaction ?boul - boulder ?dirt - dirt)
+								(not (= (coordinate_x ?boul) -1))
+								(not (= (coordinate_x ?dirt) -1))
+							)
 			:tasks (
 				(BOULDER_DIRT_STEPBACK ?boul ?dirt)
 				(:inline () (not (evaluate-interaction ?boul ?dirt)))
@@ -449,7 +476,10 @@
 		)
 
 		(:method boulder_wall_stepback
-			:precondition (evaluate-interaction ?boul - boulder ?wall - wall)
+			:precondition (and (evaluate-interaction ?boul - boulder ?wall - wall)
+								(not (= (coordinate_x ?boul) -1))
+								(not (= (coordinate_x ?wall) -1))
+							)
 			:tasks (
 				(BOULDER_WALL_STEPBACK ?boul ?wall)
 				(:inline () (not (evaluate-interaction ?boul ?wall)))
@@ -458,7 +488,10 @@
 		)
 
 		(:method boulder_diamond_stepback
-			:precondition (evaluate-interaction ?boul - boulder ?diam - diamond)
+			:precondition (and (evaluate-interaction ?boul - boulder ?diam - diamond)
+								(not (= (coordinate_x ?boul) -1))
+								(not (= (coordinate_x ?diam) -1))
+							)
 			:tasks (
 				(BOULDER_DIAMOND_STEPBACK ?boul ?diam)
 				(:inline () (not (evaluate-interaction ?boul ?diam)))
@@ -468,7 +501,10 @@
 
 		(:method boulder_boulder_stepback
 			; IMPORTANTE COMPROBAR QUE NO SE REPITAN PARÁMETROS (EN LISTENER)
-			:precondition (evaluate-interaction ?boul - boulder ?boul2 - boulder)
+			:precondition (and (evaluate-interaction ?boul - boulder ?boul2 - boulder)
+								(not (= (coordinate_x ?boul) -1))
+								(not (= (coordinate_x ?boul2) -1))
+							)
 			:tasks (
 				(BOULDER_BOULDER_STEPBACK ?boul ?boul2)
 				(:inline () (not (evaluate-interaction ?boul ?boul2)))
@@ -477,7 +513,10 @@
 		)
 
 		(:method enemy_dirt_stepback
-			:precondition (evaluate-interaction ?enem - enemy ?dirt - dirt)
+			:precondition (and (evaluate-interaction ?enem - enemy ?dirt - dirt)
+								(not (= (coordinate_x ?enem) -1))
+								(not (= (coordinate_x ?dirt) -1))
+							)
 			:tasks (
 				(ENEMY_DIRT_STEPBACK ?enem ?dirt)
 				(:inline () (not (evaluate-interaction ?enem ?dirt)))
@@ -486,7 +525,10 @@
 		)
 
 		(:method enemy_diamond_stepback
-			:precondition (evaluate-interaction ?enem - enemy ?diam - diamond)
+			:precondition (and (evaluate-interaction ?enem - enemy ?diam - diamond)
+								(not (= (coordinate_x ?enem) -1))
+								(not (= (coordinate_x ?diam) -1))
+							)
 			:tasks (
 				(ENEMY_DIAMOND_STEPBACK ?enem ?diam)
 				(:inline () (not (evaluate-interaction ?enem ?diam)))
@@ -495,7 +537,10 @@
 		)
 
 		(:method crab_butterfly_killsprite
-			:precondition (evaluate-interaction ?crab - crab ?b - butterfly)
+			:precondition (and (evaluate-interaction ?crab - crab ?b - butterfly)
+								(not (= (coordinate_x ?crab) -1))
+								(not (= (coordinate_x ?b) -1))
+							)
 			:tasks (
 				(CRAB_BUTTERFLY_KILLSPRITE ?crab ?b)
 				(:inline () (not (evaluate-interaction ?crab ?b)))
@@ -506,6 +551,9 @@
 		; Por probar
 		(:method butterfly_crab_transformto_diamond
 			:precondition (and (evaluate-interaction ?b - butterfly ?crab - crab)
+								(not (= (coordinate_x ?b) -1))
+								(not (= (coordinate_x ?crab) -1))
+
 								(= (coordinate_x ?diam - diamond) -1)
 								(= (coordinate_y ?diam - diamond) -1)								
 			)
@@ -517,7 +565,10 @@
 		)
 
 		(:method exitdoor_avatar_killifotherhasmore_diamond_9
-			:precondition (evaluate-interaction ?exit - exitdoor ?avat - avatar)
+			:precondition (and (evaluate-interaction ?exit - exitdoor ?avat - avatar)
+								(not (= (coordinate_x ?exit) -1))
+								(not (= (coordinate_x ?avat) -1))
+							)
 			:tasks (
 				(EXITDOOR_AVATAR_KILLIFOTHERHASMORE_DIAMOND_9 ?exit ?avat)
 				(:inline () (not (evaluate-interaction ?exit ?avat)))
