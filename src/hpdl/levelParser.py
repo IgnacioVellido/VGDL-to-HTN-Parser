@@ -7,6 +7,7 @@
 ###############################################################################
 
 import string
+from itertools import permutations
 
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
@@ -179,7 +180,7 @@ def get_problem(objects, counters, short_types, long_types, max_size):
 
         #---------------------------------------------
         # Writing the evaluate-interaction predicates
-        # TARDA UNA BARBARIDAD, PERO ES LÓGICO
+        # Fastest way tested, even comparing with itertools (20 times worse)
         evaluate = ""
         for obj2 in objects:
             if obj is not obj2:
@@ -187,17 +188,9 @@ def get_problem(objects, counters, short_types, long_types, max_size):
 
         problem += predicates + coordinates + evaluate + "\n"
 
-    # Usar itertools ?
-    # for t1 in short_types:
-    #     for t2 in short_types:
-    #         for i in range(0, max_size):
-    #             for j in range(0, max_size):
-    #                 if (t1 != t2 or i != j):
-    #                     problem += "\n\t\t(evaluate-interaction " + t1 + str(i) + " " + t2 + str(j) + ")"
 
     # Writing the counters
     # Debería ir ascendiendo por la jerarquía e ir sumando
-    # Problema al tener varios tipos
     for c, name in zip(counters, long_types):
         problem += "\n\t\t" + "(= (counter_" + name + ") " + str(c) + ")"
 

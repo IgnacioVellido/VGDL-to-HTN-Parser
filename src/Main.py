@@ -3,7 +3,7 @@
 # Ignacio Vellido Expósito
 # 20/08/2019
 # 
-# Parse a VGDL file into a HPDL domain, using Vgdl.g4 grammar
+# Parses a VGDL file into a HPDL domain, using Vgdl.g4 grammar
 ###############################################################################
 
 import sys
@@ -241,6 +241,7 @@ def main(argv):
 
     # Parsing level
     level_path = "./vgdl-examples/test_level.txt"
+    # level_path = "./vgdl-examples/boulderdash_lvl1.txt"
 
     level = read_level(level_path)
     objects, counters, max_size, short_types = parse_level(level, short_types, long_types)

@@ -65,6 +65,7 @@ class HpdlVgdlListener(VgdlListener):
         self.mappings    = []   # An array of LevelMapping        
         self.short_types = []   # The char part of a LevelMapping
         self.long_types  = []   # The sprites part of a LevelMapping
+        self.hierarchy   = []   # 2D array with the parents of each long_type
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
@@ -86,6 +87,7 @@ class HpdlVgdlListener(VgdlListener):
         self.assign_actions()
 
         self.assign_short_long_types()
+        self.assign_hierarchy()
 
     # -------------------------------------------------------------------------
 
@@ -213,6 +215,24 @@ class HpdlVgdlListener(VgdlListener):
             self.short_types.append(m.char)
             self.long_types.append(m.sprites)
 
+
+    # -------------------------------------------------------------------------
+
+    def assign_hierarchy(self):
+        true_hierarchy = {}     # A dictionary
+
+        for pair in self.hierarchy:
+            if pair[0] in true_hierarchy:
+                true_hierarchy[pair[0]].append(pair[1])
+            else:
+                true_hierarchy[pair[0]] = [pair[1]]
+
+        for obj in true_hierarchy:
+            true_hierarchy[obj].append("Object")
+
+        self.hierarchy = true_hierarchy
+        print(true_hierarchy)
+
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
 
@@ -241,6 +261,9 @@ class HpdlVgdlListener(VgdlListener):
         else:
             stype = None
 
+        # Keeping the hierarchy on a structure
+        self.hierarchy.append([ctx.name.text, stype])
+
         sprite = Sprite(ctx.name.text, stype, None,
                 get_rule_parameters(ctx.parameter()))
 
@@ -257,12 +280,18 @@ class HpdlVgdlListener(VgdlListener):
         parentCtx = ctx.parentCtx        
         if hasattr(parentCtx, 'name'):
             parent_name = parentCtx.name.text
+
+            # Keeping the hierarchy on a structure
+            self.hierarchy.append([ctx.name.text, parent_name])
         else:
             parent_name = None
 
         # If it has a type, include it (if not, father must have one)
         if hasattr(ctx, 'spriteType') and hasattr(ctx.spriteType, 'text'):
             stype = ctx.spriteType.text
+
+            # Keeping the hierarchy on a structure
+            self.hierarchy.append([ctx.name.text, stype])
         else:
             stype = None
 
