@@ -3,7 +3,7 @@
 # Ignacio Vellido Expósito
 # 20/08/2019
 # 
-# Parse a VGDL file into a HPDL domain, using Vgdl.g4 grammar
+# Parses a VGDL file into a HPDL domain, using Vgdl.g4 grammar
 ###############################################################################
 
 import sys
@@ -21,6 +21,9 @@ from antlr4.tree.Trees import Trees
 
 # HPDL domain generator
 from hpdl.domainWriter import DomainWriter
+
+# Level parser
+from hpdl.levelParser import *
 
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
@@ -125,7 +128,6 @@ def write_output(path, text):
         print("Cannot open file " + path)
         print(str(e))
 
-
 ###############################################################################
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
@@ -219,18 +221,42 @@ def main(argv):
 
     text_domain = writer.get_domain()
 
-    # -----------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Opening and printing HPDL domain file
 
+    # try:
+    #     write_output(output_name, text_domain)
+    # except Exception as e:
+    #     print("I shouldn't be here " + str(e))
+
+    print("Conversion made without errors.")
+
+    # -------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
+    # Getting the level conversion from the LevelMapping
+    # w -> wall    (w = short_type, wall = long_type)
+    short_types = listener.short_types
+    long_types = listener.long_types
+    hierarchy = listener.hierarchy
+    stypes = listener.stypes
+
+    # Parsing level
+    level_path = "./vgdl-examples/test_level.txt"
+    # level_path = "./vgdl-examples/boulderdash_lvl1.txt"
+
+    level = read_level(level_path)
+    objects, max_size, short_types, counters = parse_level(level, short_types, 
+                                                            long_types)
+    problem = get_problem(objects, counters, short_types, 
+                            long_types, max_size, hierarchy, stypes)
+
     try:
-        write_output(output_name, text_domain)
+        write_output("./problem.pddl", problem)
     except Exception as e:
         print("I shouldn't be here " + str(e))
 
-    # -------------------------------------------------------------------------
-    # Exiting script
-
-    print("Conversion made without errors.")
+    print("Problem defined without errors.")
 
 ###############################################################################
 # -----------------------------------------------------------------------------

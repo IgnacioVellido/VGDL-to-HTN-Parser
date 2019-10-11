@@ -17,12 +17,16 @@ IF NOT x%option:run=% == x%option% (
     ECHO Usage: make.bat run [VGDL file]
   ) ELSE (
     ECHO ------- Parsed tree -----------
-    py Main.py %vgdl-file% %output%
+    python Main.py %vgdl-file% %output%
   )
 ) 
 
 IF NOT x%option:test=% == x%option% (  
   test\htnp\htnp.exe -d domain.pddl -p test\problem.pddl
+) 
+
+IF NOT x%option:test2=% == x%option% (  
+  test\htnp\htnp.exe -d domain.pddl -p problem.pddl
 ) 
 
 IF NOT x%option:verbose=% == x%option% (  
