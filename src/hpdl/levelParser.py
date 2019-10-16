@@ -149,7 +149,8 @@ def get_problem(objects, counters, short_types, long_types,
     problem += """
     )
 
-    (:init"""
+    (:init
+        (= (turn) 0)"""
     for obj in objects:
         # --------------------------------------------
         # Writing predicates, if any

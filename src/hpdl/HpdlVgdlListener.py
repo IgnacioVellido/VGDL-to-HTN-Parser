@@ -159,6 +159,8 @@ class HpdlVgdlListener(VgdlListener):
         avatar = self.avatar_hpdl.predicates
         self.predicates.extend(avatar)
 
+        self.predicates.append("(evaluate-interaction ?o1 ?o2 - Object)")
+
 
     # -------------------------------------------------------------------------
 
@@ -167,6 +169,8 @@ class HpdlVgdlListener(VgdlListener):
         and one counter for each resource """
         self.functions.append("(coordinate_x ?o - Object)")
         self.functions.append("(coordinate_y ?o - Object)")
+        self.functions.append("(last_coordinate_x ?o - Object)")
+        self.functions.append("(last_coordinate_y ?o - Object)")
 
         # Getting each type of object removing duplicates
         types_names = []
@@ -186,29 +190,74 @@ class HpdlVgdlListener(VgdlListener):
             if t is not "":
                 self.functions.append("(counter_" + t + ")")
 
+        self.functions.append("(turn)")
+
 
     # -------------------------------------------------------------------------
 
     def assign_tasks(self):
-        """ UNFINISHED - CHANGE TO DON'T RECIEVE PARAMETERS (the Turn task)"""
-        turn_method = Method("turn", [], ["(turn_avatar ?a ?p)"]) #, "(turn_objects)", "(check_interactions)"])
-        turn = Task("Turn", [["a", "FlakAvatar"], ["p", self.partner.name]], [turn_method])
-        self.tasks.append(turn)
+        # Main task ------------------
+        finish = Method("finish_game", ["(= (turn) 3)"], [])    # UNFINISHED PRECONDITION
+        turn   = Method("turn",
+                        [],
+                        ["(turn_avatar ?a - " + self.avatar.name + " ?p - " + self.partner.name + ")",
+                         "(turn_objects)",
+                         "(check-interactions)"
+                         "(create-interactions)"
+                         "\n(:inline () (increase (turn) 1))"
+                         "(Turn)"
+                        ])
+        undone = Method("turn_undone", [], ["(Turn)"])  # UNFINISHED TASKS
+
+        turn_task = Task("Turn", [], [finish, turn, undone])
+        self.tasks.append(turn_task)
 
         # Avatar turn ----------------        
         self.tasks.append(self.avatar_hpdl.task)
+
+        # Rest of objects turn ------- UNFINISHED
+        object_tasks = []
+        turn = Method("turn", [], object_tasks)
+        task_object = Task("turn_objects", [], [turn])
+
+        self.tasks.append(task_object)
+
+        # Create interactions -------- UNFINISHED
+        create = Method("create", ["(not (evaluate-interaction ?o1 - Object ?o2 - Object))"],
+                        ["(:inline () (evaluate-interaction ?o1 ?o2))"])
+        base = Method("base_case", [], [])
+        create_interac = Task("create-interactions", [], [create, base])
+
+        self.tasks.append(create_interac)
+
+        # Check interactions --------- UNFINISHED
+        object_interac = []
+        object_methods = []
+        turn = Method("turn", [], object_interac)
+
+        base = Method("base_case", [], [])
+        object_methods.append(base)
+
+        check_interac = Task("check-interactions", [], object_methods)
+
+        self.tasks.append(check_interac)
+
     
 
     # -------------------------------------------------------------------------
 
     def assign_actions(self):
-        """ Stores the partner of the avatar (if exists) and calls the different
-        actions generators """
-
-        avatar_actions = self.avatar_hpdl.actions
+        """ Calls the different actions generators """
 
         # Getting specific avatar actions
+        avatar_actions = self.avatar_hpdl.actions
         self.actions.extend(avatar_actions)
+
+        # And one for each deterministic movable object 
+        # ...
+
+        # And one for each interaction movable object 
+        # ...
     
     # -------------------------------------------------------------------------
 
