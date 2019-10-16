@@ -89,9 +89,10 @@ class ObjectActions:
             pass
 
         # Object that moves constantly in one direction
-        if self.object_type == "Missile":          
-            # actions.append(self.move(direction ??))              
+        if self.object_type == "Missile":    
+            # actions.append(self.move(direction ??))
             pass
+            # actions.append(self.move())
 
         # Maybe not needed here
         # Oriented object that dissapear after a moment
@@ -146,13 +147,55 @@ class ObjectActions:
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
 
-    def move(self, direction):
+    # def move(self, direction):
+    def move(self):
         """ Move the object one position in the specified direction """
         pass
 
         name = self.object_name + "_MOVE"
-        parameters = [["s", self.object_type]]        
+        # parameters = [["s", self.object_type]]        
+        parameters = []
         conditions = []
+        e = """
+                    forall (?m - """ + self.object_type + """)
+					(and
+						(when
+							(orientation-up ?m)
+
+							(and
+								(assign (last_coordinate_y ?m) (coordinate_y ?m))
+								(decrease (coordinate_y ?m) 1)						
+							)
+						)
+
+						(when
+							(orientation-down ?m)
+
+							(and
+								(assign (last_coordinate_y ?m) (coordinate_y ?m))
+								(increase (coordinate_y ?m) 1)						
+							)
+						)
+
+						(when
+							(orientation-left ?m)
+
+							(and
+								(assign (last_coordinate_x ?m) (coordinate_x ?m))
+								(decrease (coordinate_x ?m) 1)						
+							)
+						)
+
+						(when
+							(orientation-right ?m)
+
+							(and
+								(assign (last_coordinate_x ?m) (coordinate_x ?m))
+								(increase (coordinate_x ?m) 1)			
+							)
+						)
+					)
+"""
         effects = []
 
         return Action(name, parameters, conditions, effects)        
@@ -230,6 +273,7 @@ class ObjectActions:
 # -----------------------------------------------------------------------------
 ###############################################################################
 
+# PROBABLY THE DOMAIN WILL ONLY NEED THE NAME OF THE ACTION, SO NO METHODS NEEDED
 # class ObjectMethods:
 #     """ Return methods depending of the sprite (not including avatars) """
 
@@ -329,12 +373,12 @@ class ObjectActions:
 #     # -------------------------------------------------------------------------
 #     # -------------------------------------------------------------------------
 
-#     def move(self, direction):
-#         name = self.object_name + "_MOVE"
-#         preconditions = []
-#         actions = ["(" + self.object_name + "_MOVE ?s ?p)"]    
+    # def move(self, direction):
+    #     name = self.object_name + "_MOVE"
+    #     preconditions = []
+    #     actions = ["(" + self.object_name + "_MOVE ?s ?p)"]    
         
-#         return Method(name, preconditions, actions)
+    #     return Method(name, preconditions, actions)
 
 #     # -------------------------------------------------------------------------
 

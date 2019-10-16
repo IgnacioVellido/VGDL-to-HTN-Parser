@@ -18,7 +18,7 @@ class InteractionActions:
     """ Returns an action for each interaction """
     def __init__(self, sprite_name, sprite_stype, 
                        partner_name, partner_stype,
-                       interaction):
+                       interaction, parameters):
 
         self.interaction  = interaction
         self.sprite_name = sprite_name
@@ -202,17 +202,17 @@ class InteractionActions:
 
         # Seems like it creates a new copy of sprite
         if self.interaction == "transformTo":
-            self.tranformTo
+            self.transformTo()
             pass
 
         # [GVGAI] Transform sprite to one of his childs
         if self.interaction == "transformToRandomChild":
-            self.tranformToRandomChild()
+            self.transformToRandomChild()
             pass
 
         # [GVGAI] Transform all sprites of stype to stype_other in the same position
         if self.interaction == "transformToSingleton":
-            self.tranformToSingleton()
+            self.transformToSingleton()
             pass
 
         # Not sure what it does, in VGDL seems to call reverseDirection
@@ -248,210 +248,574 @@ class InteractionActions:
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
 
-    def addHealthPoints():
+    def addHealthPoints(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_ADDHEALTHPOINTS"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def addHealthPointsToMax():
+    def addHealthPointsToMax(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_ADDHEALTHPOINTSTOMAX"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def align():
+    def align(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_ALIGN"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def attractGaze():
+    def attractGaze(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_ATTRACTGAZE"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def bounceDirection():
+    def bounceDirection(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_BOUNCEDIRECTION"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def bounceForward():
+    def bounceForward(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_BOUNCEFORWARD"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def changeResource():
+    def changeResource(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_CHANGERESOURCE"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def cloneSprite():
+    def cloneSprite(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_CLONESPRITE"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def collectResource():
+    def collectResource(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_COLLECTRESOURCE"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = [["(assign (last_coordinate_y ?x) (coordinate_x ?x))"],
+					["(assign (last_coordinate_y ?x) (coordinate_y ?x))"],
+					["(assign (coordinate_x ?x) -1)"],
+					["(assign (coordinate_y ?x) -1)"],
+
+					["(decrease (counter_" + self.sprite_type + ") 1)"],
+					["(decrease (counter_Resource) 1)"],
+					["(decrease (counter_Object) 1)"],
+
+					["(increase (resource_" + self.sprite_type + "diamond ?a) 1)"]]
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def decreaseSpeedToAll():
+    def decreaseSpeedToAll(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_INCREASESPEEDTOALL"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def flipDirection():
+    def flipDirection(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_FLIPDIRECTION"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def increaseSpeedToAll():
+    def increaseSpeedToAll(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_INCREASESPEEDTOALL"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def killAll():
+    def killAll(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_KILLALL"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def killBoth():
+    def killBoth(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_KILLBOTH"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def killIfAlive():
+    def killIfAlive(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_KILLIFALIVE"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def killIfFromAbove():
+    def killIfFromAbove(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_KILLIFFROMABOVE"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"],
+                      ["(= (last_coordinate_y ?y) (- (coordinate_y ?y) 1))"]]
+        effects = [["(assign (last_coordinate_y ?a) (coordinate_x ?a))"],
+					["(assign (last_coordinate_y ?a) (coordinate_y ?a))"],
+					["(assign (coordinate_x ?a) -1)"],
+					["(assign (coordinate_y ?a) -1)"],
+
+					["(decrease (counter_" + self.sprite_type + ") 1)"],
+					# ["(decrease (counter_ShootAvatar) 1)"], RECORRER LOS PADRES
+					# ["(decrease (counter_moving) 1)"],
+					["(decrease (counter_Object) 1)"]]
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def killIfHasMore():
+    def killIfHasMore(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_KILLIFHASMORE"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def killIfFast():
+    def killIfFast(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_KILLIFFAST"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def killIfOtherHasLess():
+    def killIfOtherHasLess(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_KILLIFOTHERHASLESS"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def killIfOtherHasMore():
+    def killIfOtherHasMore(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_KILLIFOTHERHASMORE"
+        # + self.third_sprite_type.upper() FIND TYPE IN PARAMETERS OF ACTION
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def killIfSlow():
+    def killIfSlow(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_KILLIFSLOW"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def killSprite():
+    def killSprite(self):
         pass
+        
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_KILLSPRITE"        
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = [ ["(assign (last_coordinate_y ?x) (coordinate_x ?x))"]
+					["(assign (last_coordinate_y ?x) (coordinate_y ?x))"],
+					["(assign (coordinate_x ?x) -1)"],
+					["(assign (coordinate_y ?x) -1)"],
+
+					["(decrease (counter_" + self.sprite_type + ") 1)"],
+					# ["(decrease (counter_Immovable) 1)"], RECORRER POR TODOS LOS PADRES
+					["(decrease (counter_Object) 1)"]]
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def pullWithIt():
+    def pullWithIt(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_PULLWITHIT"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def removeScore():
+    def removeScore(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_REMOVESCORE"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def reverseDirection():
+    def reverseDirection(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_REVERSEDIRECTION"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def setSpeedToAll():
+    def setSpeedToAll(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_SETSPEEDTOALL"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def spawnBehind():
+    def spawnBehind(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_SPAWNBEHING"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def spawnIfHasLess():
+    def spawnIfHasLess(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_SPAWNIFHASLESS"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def spawnIfHasMore():
+    def spawnIfHasMore(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_SPAWNIFHASMORE"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def stepBack():
+    def stepBack(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_STEPBACK"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = [["(assign (coordinate_y ?x) (last_coordinate_x ?x))"],
+					["(assign (coordinate_y ?x) (last_coordinate_y ?x))"]]
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def subsctractHealthPoints():
+    def subsctractHealthPoints(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_SUBSCTRACTHEALTHPOINTS"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def teleportToExit():
+    def teleportToExit(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_TELEPORTTOEXIT"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def transformIfCount():
+    def transformIfCount(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_TRANSFORMIFCOUNT"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def transformTo():
+    def transformTo(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_TRANSFORMTO"
+                # + self.third_sprite_type.upper() FIND TYPE IN PARAMETERS OF ACTION
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def tranformToRandomChild():
+    def transformToRandomChild(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_TRANSFORMTORANDOMCHILD"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def tranformToSingleton():
+    def transformToSingleton(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_TRANSFORMTOSINGLETON"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def turnAround():
+    def turnAround(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_TURNAROUND"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def undoAll():
+    def undoAll(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_UNDOALL"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def updateSpawnType():
+    def updateSpawnType(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_UPDATESPAWNTYPE"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def wallBounce():
+    def wallBounce(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_WALLBOUNCE"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def wallStop():
+    def wallStop(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_WALLSTOP"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
-    def wrapAround():
+    def wrapAround(self):
         pass
+
+        name = self.sprite_name.upper() +"_" + self.partner_name.upper() + "_WRAPAROUND"
+        parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
+        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
+                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        effects = []
+
+        return Action(name, parameters, conditions, effects)        

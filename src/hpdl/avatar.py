@@ -437,11 +437,6 @@ class AvatarPredicates:
     def get_predicates(self):
         """ Return a list of predicates depending of the avatar """
 
-        # Although some avatars can change orientation, this predicate is needed for the actions
-        # REMOVE: All objects have orientation
-        # self.predicates.append("(orientation ?a - " + self.avatar_type 
-        #                     + " ?o - Orientation)") 
-
         # Can't move but can use object
         if self.avatar_type == "AimedAvatar":
             self.predicates.append("(can-use ?a - " + self.avatar_type + ")")
