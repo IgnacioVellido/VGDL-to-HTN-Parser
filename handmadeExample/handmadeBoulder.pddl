@@ -66,7 +66,7 @@
     ; Un tipo Object (objeto genérico), otro para cada 
     ; sprite definido y otro para cada tipo de sprite declarado
 	(:types
-		; FALTA EN EL PARSER DECLARAR MOVING, AQUELLOS SPRITES INTERMEDIOS EN LA JERARQUÍA
+		; FALTA EN EL PARSER DECLARAR MOVING, AQUELLOS SPRITES INTERMEDIOS EN LA JERARQUÍA		
 		ShootAvatar RandomNPC - moving	
 		moving Immovable Flicker Resource Door Missile - Object
 
@@ -166,6 +166,9 @@
 		(counter_Missile)
 		(counter_RandomNPC)
 		(counter_moving)
+
+		; Para llevar la cuenta de los turnos
+		(turn)
 	)
 
 	; Tasks ---------------------------------------------------------------------
@@ -177,10 +180,12 @@
 		; Lo suyo sería poner en la precondición el objetivo final del
 		; juego, teniendo varios de estos métodos si hay varios criterios de 
 		; terminación definidos
-		; (:method finish_game
-		; 		:precondition ()
-		; 		:tasks ()		
-		; )
+		(:method finish_game
+			; :precondition (= (resource_diamond ?a - avatar) 1)
+			; :precondition (= (coordinate_y ?a - avatar) 1)
+			:precondition (= (turn) 3)
+			:tasks ()		
+		)
 
 		(:method turn
 				:precondition (
@@ -189,9 +194,10 @@
 							(turn_avatar ?a - ShootAvatar ?p - sword) 
 							(turn_objects)
                             (check-interactions)
-							; (create-interactions)
+							(create-interactions)
 
-							; (Turn ...) ; Para que el planificador no realice un solo turno
+							(:inline () (increase (turn) 1))
+							(Turn) ; Para que el planificador no realice un solo turno
 						)
 		)
 
@@ -200,12 +206,14 @@
 		; Ahora mismo se quedaría atascado ya que no habría ningún cambio, el
 		; objetivo es que turn aplique algún efecto (ya sea el avatar o algún
 		; otro movimiento) que haga que el juego no cicle
-		(:method turn_undone
-			:precondition ()
-			:tasks (
-				(Turn)
-			)
-		)
+
+		; Esta implementación no haría nada
+		; (:method turn_undone
+		; 	:precondition ()
+		; 	:tasks (
+		; 		; (Turn)
+		; 	)
+		; )
 	)
 
 	; -------------------------------------------------------------------------
