@@ -119,6 +119,7 @@
 		; Habrá una por cada par de objetos definidos en el problema, y duplicadas
 		; (intercambiando el sujeto del predicado)
 		(evaluate-interaction ?o1 ?o2 - Object)
+		(regenerate-interaction ?o1 ?o2 - Object)
 	)
   
 	; Functions -----------------------------------------------------------------
@@ -334,13 +335,13 @@
 	; -------------------------------------------------------------------------
 	; -------------------------------------------------------------------------
 
-	; Por probar
 	(:task create-interactions
 		:parameters ()
 
 		(:method create
-			:precondition (not (evaluate-interaction ?o1 - Object ?o2 - Object))
+			:precondition (regenerate-interaction ?o1 ?o2)
 			:tasks (
+				(:inline () (not (regenerate-interaction ?o1 ?o2)))
 				(:inline () (evaluate-interaction ?o1 ?o2))
 			)
 		)
@@ -351,9 +352,6 @@
 		)
 	)
 
-
-	; TAREA RECURSIVA QUE GENERE PREDICADOS DE EVALUACIÓN DE INTERACCIONES
-
 	; Se puede hacer que el UNDOALL sea obligatorio y las de STEPBACK a secas no,
 	; por tanto si la primera falla check-interactions no se completa y el 
 	; movimiento del avatar y de los objetos tampoco, y si falla la segunda el 
@@ -361,6 +359,8 @@
 	; ALMACENADA LA POSICIÓN DEL OBJETO ANTERIOR Y COMO EFECTO DEJARLO DONDE ESTABA,
 	; ESTO DEBERÍA VOLVER A COMPROBAR SI HAY INTERACCIONES EN SU CASILLA ANTERIOR)
 	; TAREA RECURSIVA QUE COMPRUEBE INTERACCIONES
+
+	; CONSIDERAR UNDOALL
 	(:task check-interactions
 		:parameters ( )
 
@@ -370,13 +370,9 @@
 								(not (= (coordinate_x ?shoo) -1))
 							)
 			:tasks (
-				; (:inline (:print "Probando DIRT_AVATAR_KILLSPRITE\n") ())
-
 				(DIRT_AVATAR_KILLSPRITE ?dirt ?shoo)				
 				(:inline () (not (evaluate-interaction ?dirt ?shoo)))
-
-				; (:inline (:print "DIRT_AVATAR_KILLSPRITE funciona\n") ())
-				
+				(:inline () (regenerate-interaction ?dirt ?shoo))
 				(check-interactions)
 			)
 		)
@@ -389,6 +385,7 @@
 			:tasks (
 				(DIRT_SWORD_KILLSPRITE ?dirt ?sword)
 				(:inline () (not (evaluate-interaction ?dirt ?sword)))
+				(:inline () (regenerate-interaction ?dirt ?sword))
 				(check-interactions)
 			)
 		)
@@ -401,6 +398,7 @@
 			:tasks (
 				(DIAMOND_AVATAR_COLLECTRESOURCE ?diam ?avat)
 				(:inline () (not (evaluate-interaction ?diam ?avat)))
+				(:inline () (regenerate-interaction ?diam ?avat))
 				(check-interactions)
 			)
 		)
@@ -411,13 +409,9 @@
 								(not (= (coordinate_x ?wall) -1))
 							)
 			:tasks (
-				; (:inline (:print "Probando MOVING_WALL_STEPBACK\n") ())
-
 				(MOVING_WALL_STEPBACK ?movi ?wall)
 				(:inline () (not (evaluate-interaction ?movi ?wall)))
-
-				; (:inline (:print "MOVING_WALL_STEPBACK funciona\n") ())
-
+				(:inline () (regenerate-interaction ?movi ?wall))
 				(check-interactions)
 			)
 		)
@@ -430,6 +424,7 @@
 			:tasks (
 				(AVATAR_BOULDER_KILLIFFROMABOVE ?avat ?boul)
 				(:inline () (not (evaluate-interaction ?avat ?boul)))
+				(:inline () (regenerate-interaction ?avat ?boul))
 				(check-interactions)
 			)
 		)
@@ -442,6 +437,7 @@
 			:tasks (
 				(MOVING_BOULDER_STEPBACK ?movi ?boul)
 				(:inline () (not (evaluate-interaction ?movi ?boul)))
+				(:inline () (regenerate-interaction ?movi ?boul))
 				(check-interactions)
 			)
 		)
@@ -455,6 +451,7 @@
 			:tasks (
 				(AVATAR_BUTTERFLY_KILLSPRITE ?avat ?b)
 				(:inline () (not (evaluate-interaction ?avat ?b)))
+				(:inline () (regenerate-interaction ?avat ?b))
 				(check-interactions)
 			)
 		)
@@ -467,6 +464,7 @@
 			:tasks (
 				(AVATAR_CRAB_KILLSPRITE ?avat ?crab)
 				(:inline () (not (evaluate-interaction ?avat ?crab)))
+				(:inline () (regenerate-interaction ?avat ?crab))
 				(check-interactions)
 			)
 		)
@@ -479,6 +477,7 @@
 			:tasks (
 				(BOULDER_DIRT_STEPBACK ?boul ?dirt)
 				(:inline () (not (evaluate-interaction ?boul ?dirt)))
+				(:inline () (regenerate-interaction ?boul ?dirt))
 				(check-interactions)
 			)
 		)
@@ -491,6 +490,7 @@
 			:tasks (
 				(BOULDER_WALL_STEPBACK ?boul ?wall)
 				(:inline () (not (evaluate-interaction ?boul ?wall)))
+				(:inline () (regenerate-interaction ?boul ?wall))
 				(check-interactions)
 			)
 		)
@@ -503,12 +503,12 @@
 			:tasks (
 				(BOULDER_DIAMOND_STEPBACK ?boul ?diam)
 				(:inline () (not (evaluate-interaction ?boul ?diam)))
+				(:inline () (regenerate-interaction ?boul ?diam))
 				(check-interactions)
 			)
 		)
 
 		(:method boulder_boulder_stepback
-			; IMPORTANTE COMPROBAR QUE NO SE REPITAN PARÁMETROS (EN LISTENER)
 			:precondition (and (evaluate-interaction ?boul - boulder ?boul2 - boulder)
 								(not (= (coordinate_x ?boul) -1))
 								(not (= (coordinate_x ?boul2) -1))
@@ -516,6 +516,7 @@
 			:tasks (
 				(BOULDER_BOULDER_STEPBACK ?boul ?boul2)
 				(:inline () (not (evaluate-interaction ?boul ?boul2)))
+				(:inline () (regenerate-interaction ?boul ?boul2))
 				(check-interactions)
 			)
 		)
@@ -528,6 +529,7 @@
 			:tasks (
 				(ENEMY_DIRT_STEPBACK ?enem ?dirt)
 				(:inline () (not (evaluate-interaction ?enem ?dirt)))
+				(:inline () (regenerate-interaction ?enem ?dirt))
 				(check-interactions)
 			)
 		)
@@ -540,6 +542,7 @@
 			:tasks (
 				(ENEMY_DIAMOND_STEPBACK ?enem ?diam)
 				(:inline () (not (evaluate-interaction ?enem ?diam)))
+				(:inline () (regenerate-interaction ?enem ?diam))
 				(check-interactions)
 			)
 		)
@@ -552,11 +555,11 @@
 			:tasks (
 				(CRAB_BUTTERFLY_KILLSPRITE ?crab ?b)
 				(:inline () (not (evaluate-interaction ?crab ?b)))
+				(:inline () (regenerate-interaction ?crab ?b))
 				(check-interactions)
 			)
 		)
 
-		; Por probar
 		(:method butterfly_crab_transformto_diamond
 			:precondition (and (evaluate-interaction ?b - butterfly ?crab - crab)
 								(not (= (coordinate_x ?b) -1))
@@ -568,6 +571,7 @@
 			:tasks (
 				(BUTTERFLY_CRAB_TRANSFORMTO_DIAMOND ?b ?crab ?diam)
 				(:inline () (not (evaluate-interaction ?b ?crab)))
+				(:inline () (regenerate-interaction ?b ?crab))
 				(check-interactions)
 			)
 		)
@@ -580,6 +584,7 @@
 			:tasks (
 				(EXITDOOR_AVATAR_KILLIFOTHERHASMORE_DIAMOND_9 ?exit ?avat)
 				(:inline () (not (evaluate-interaction ?exit ?avat)))
+				(:inline () (regenerate-interaction ?exit ?avat))
 				(check-interactions)
 			)
 		)
@@ -924,7 +929,7 @@
 		)
 		:effect (and
 					(assign (coordinate_y ?m) (last_coordinate_x ?m))
-					(assign (coordinate_y ?m) (last_coordinate_y ?m))				
+					(assign (coordinate_y ?m) (last_coordinate_y ?m))		
 		)
 	)
 
