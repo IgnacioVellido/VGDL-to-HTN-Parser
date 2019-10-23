@@ -240,14 +240,15 @@ def main(argv):
     long_types = listener.long_types
     hierarchy = listener.hierarchy
     stypes = listener.stypes
+    transformTo = listener.transformTo
 
     # Parsing level
-    level_path = "./vgdl-examples/test_level.txt"
-    # level_path = "./vgdl-examples/boulderdash_lvl1.txt"
+    # level_path = "./vgdl-examples/test_level.txt"
+    level_path = "./vgdl-examples/boulderdash_lvl1.txt"
 
     level = read_level(level_path)
     objects, max_size, short_types, counters = parse_level(level, short_types, 
-                                                            long_types)
+                                                            long_types, transformTo)
     problem = get_problem(objects, counters, short_types, 
                             long_types, max_size, hierarchy, stypes)
 

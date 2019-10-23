@@ -37,7 +37,7 @@ def read_level(path):
 
 # -----------------------------------------------------------------------------
 
-def parse_level(level, short_types, long_types):
+def parse_level(level, short_types, long_types, transformTo):
     """ Returns a list of LevelObjects with the objects defined 
     
     short_types and long_types must have same length, defines the stype of the
@@ -119,14 +119,18 @@ def parse_level(level, short_types, long_types):
         col = 0
         row += 1    
 
+    # --------------------------------------------------
     # Completing the definition of objects
-    for (lt, st, c) in zip(long_types, short_types, name_counters):
-        if "avatar" not in lt.lower():
-            while c < max_size:
-                obj = LevelObject(st + str(c), -1, -1, lt)
-                objects.append(obj)
 
-                c += 1
+    # Finding his associated short_type (There should be a better way)
+    for tt in transformTo:
+        for (lt, st, c) in zip(long_types, short_types, name_counters):
+            if tt == lt:
+                while c < max_size:
+                    obj = LevelObject(st + str(c), -1, -1, lt)
+                    objects.append(obj)
+
+                    c += 1
 
     return objects, max_size, short_types, name_counters
 

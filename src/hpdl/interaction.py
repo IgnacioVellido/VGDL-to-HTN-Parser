@@ -20,11 +20,12 @@ class InteractionActions:
                        partner_name, partner_stype,
                        interaction, parameters):
 
-        self.interaction  = interaction
-        self.sprite_name = sprite_name
-        self.sprite_type = sprite_stype
+        self.sprite_name  = sprite_name
+        self.sprite_type  = sprite_stype
         self.partner_name = partner_name
         self.partner_type = partner_stype    
+        self.interaction  = interaction
+        self.parameters   = parameters
 
     def get_actions(self):
         """ Return a list of actions depending of the interaction """

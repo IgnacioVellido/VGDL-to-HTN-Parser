@@ -26,9 +26,9 @@ from hpdl.interaction import *
 # Auxiliar functions
 
 # Returns a list with each parameter in the token
-def get_rule_parameters(list):
+def get_rule_parameters(list_par):
     parameters = []
-    for p in list:
+    for p in list_par:
         parameters.append(p.getText())
 
     return parameters
@@ -67,6 +67,8 @@ class HpdlVgdlListener(VgdlListener):
         self.long_types  = []   # The sprites part of a LevelMapping
         self.hierarchy   = {}   # Dictionary with the parents of each long_type
         self.stypes      = set()   # All types in the game (bigger than long_types)
+        self.transformTo = []   # Objects that can be created 
+                                # ADD LATER THE SPAWNPOINTS TOO
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
@@ -416,6 +418,12 @@ class HpdlVgdlListener(VgdlListener):
                                 get_rule_parameters(ctx.parameter()))
 
                 self.interactions.append(interaction)
+
+                # Check if an object can be produced with the interaction                                
+                if "transformto" in interaction.type.lower():
+                    for par in interaction.parameters:                        
+                        if "stype" in par:
+                            self.transformTo.append(par.split('=')[1])
 
     def exitInteraction(self, ctx:VgdlParser.InteractionContext):
         pass
