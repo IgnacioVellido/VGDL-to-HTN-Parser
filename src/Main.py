@@ -243,8 +243,8 @@ def main(argv):
     transformTo = listener.transformTo
 
     # Parsing level
-    # level_path = "./vgdl-examples/test_level.txt"
-    level_path = "./vgdl-examples/boulderdash_lvl1.txt"
+    level_path = "./vgdl-examples/test_level.txt"
+    # level_path = "./vgdl-examples/boulderdash_lvl1.txt"
 
     level = read_level(level_path)
     objects, max_size, short_types, counters = parse_level(level, short_types, 

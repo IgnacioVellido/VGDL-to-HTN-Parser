@@ -59,7 +59,8 @@
 		:htn-expansion
 		:negative-preconditions
 		:typing
-	)
+		:existential-preconditions
+	)	
 
 	; Types -----------------------------------------------------------------
 
@@ -123,7 +124,7 @@
 
 		; For the avatar movement (expert knowledge)
 		(diamond_selected ?d - diamond)
-		(is_diamond_selected)
+		(is_diamond_selected ?a - ShootAvatar)
 	)
   
 	; Functions -----------------------------------------------------------------
@@ -233,10 +234,25 @@
 	(:task select_diamond
 		:parameters (?a - ShootAvatar)
 
+		; (:method end_loop
+		; 	:precondition(and (is_diamond_selected ?a) 
+		; 				(not (evaluate-interaction ?a - ShootAvatar ?d - diamond))
+		; 				(not (= (coordinate_x ?diam) -1))
+		; 	)
+		; 	:tasks ()
+		; )
+
 		(:method loop
 			:precondition (and
-				(is_diamond_selected)
-				(not (= (coordinate_x ?diam - diamond) -1))
+				(is_diamond_selected ?a)
+				
+				; Trick to get an instance of a diamond without
+				; creating additional predicates
+				(evaluate-interaction ?a - ShootAvatar ?diam - diamond)
+				(not (= (coordinate_x ?diam) -1))
+
+				(diamond_selected ?original - diamond)
+				; (regenerate-interaction ?a - ShootAvatar ?original - diamond)
 			)
 			:tasks (
 				; Calculate distance
@@ -245,13 +261,42 @@
 					(assign (auxiliar_distance) 0)
 				)
 
+				; (:inline 
+				; 	()
+				; 	(forall (?diam - diamond)
+				; 		(when
+				; 			(not (= (coordinate_x ?diam) -1))
+				; 			(and 
+				; 				(when 
+				; 					(<= (coordinate_x ?a ) (coordinate_x ?diam))
+				; 					(increase (auxiliar_distance)
+				; 							(- (coordinate_x ?diam) (coordinate_x ?a))									  
+				; 					)
+				; 				)
+				; 				(when 
+				; 					(> (coordinate_x ?a ) (coordinate_x ?diam))
+				; 					(increase (auxiliar_distance) (- (coordinate_x ?a) (coordinate_x ?diam)))
+				; 				)
+				; 				(when 
+				; 					(<= (coordinate_y ?a ) (coordinate_y ?diam))
+				; 					(increase (auxiliar_distance) (- (coordinate_y ?diam) (coordinate_y ?a)))
+				; 				)
+				; 				(when 
+				; 					(> (coordinate_y ?a ) (coordinate_y ?diam))
+				; 					(increase (auxiliar_distance) (- (coordinate_y ?a) (coordinate_y ?diam)))
+				; 				)					
+				; 			)
+				; 		)
+				; 	)
+				; )
+
 				(:inline 
-					()
+					()					
 					(and 
 						(when 
 							(<= (coordinate_x ?a ) (coordinate_x ?diam))
 							(increase (auxiliar_distance)
-									  (- (coordinate_x ?diam) (coordinate_x ?a))									  
+									(- (coordinate_x ?diam) (coordinate_x ?a))									  
 							)
 						)
 						(when 
@@ -276,26 +321,34 @@
 						(< (auxiliar_distance) (diamond_selected_distance))
 						(and
 							(not (diamond_selected ?original))
-							(diamond_selected ?d)
-							(assign (diamond_selected_distance) (auxiliar_distance))
+							(diamond_selected ?diam)
+							(assign (diamond_selected_distance) (auxiliar_distance))							
 						)
 					)
 				)
 
 				; Iterate
-				(select_diamond ?a)
+				(:inline () (not (evaluate-interaction ?a ?diam)))
+				(:inline () (regenerate-interaction ?a ?diam))
+				(select_diamond ?a)				
 			)
 		)
 
 		; No diamond selected yet, or it has been picked (CHANGE ACTION TOO)
 		(:method choose_anyone
 			:precondition (and 
-								(not (is_diamond_selected))
-								(not (= (coordinate_x ?diam - diamond) -1))
+								(not (is_diamond_selected ?a))
+
+								; Trick to get an instance of a diamond without
+								; creating additional predicates
+								(evaluate-interaction ?a - ShootAvatar ?diam - diamond)
+
+								(not (= (coordinate_x ?diam) -1))
 			)
 			:tasks (
 				; Calculate distance - MAYBE IN DERIVED ?
-				(:inline (:print "No hay ningundo definido aun\n") ())
+				; (:inline (:print "No hay ningundo definido aun\n") ())
+				; (:inline (:print (coordinate_x ?diam)) ())
 				(:inline
 					()
 					(assign (auxiliar_distance) 0)
@@ -329,12 +382,15 @@
 				(:inline
 					()
 					(and					
-						(is_diamond_selected)
+						(is_diamond_selected ?a)
 						(diamond_selected ?diam)
 						(assign (diamond_selected_distance) (auxiliar_distance))
+
+						(not (evaluate-interaction ?a ?diam))
+						(regenerate-interaction ?a ?diam)
 					)
 				)
-				(:inline (:print "Hecho\n") ())
+				; (:inline (:print "Hecho\n") ())
 
 				; Loop
 				(select_diamond ?a)
@@ -378,7 +434,132 @@
 
 	; -------------------------------------------------------------------------
 
+	(:task move_torward_no_turn
+		:parameters (?a - ShootAvatar)
+
+		(:method move_up
+			:precondition(and 
+				(orientation-up ?a)
+				(not (and
+						(= (coordinate_x ?a) (coordinate_x ?w - wall))
+						(= (- (coordinate_y ?a) 1) (coordinate_y ?w - wall))
+				))
+			)
+			:tasks (
+				(AVATAR_MOVE_UP ?a)
+			)
+		)
+
+		(:method move_down
+			:precondition(and 
+				(orientation-down ?a)
+				(not (and
+						(= (coordinate_x ?a) (coordinate_x ?w - wall))
+						(= (+ (coordinate_y ?a) 1) (coordinate_y ?w - wall))
+				))
+			)
+			:tasks (
+				(AVATAR_MOVE_DOWN ?a)
+			)
+		)
+
+		(:method move_left
+			:precondition(and 
+				(orientation-left ?a)
+				(not (and
+						(= (- (coordinate_x ?a) 1) (coordinate_x ?w - wall))
+						(= (coordinate_y ?a) (coordinate_y ?w - wall))
+				))
+			)
+			:tasks (
+				(AVATAR_MOVE_LEFT ?a)
+			)
+		)
+
+		(:method move_right
+			:precondition(and 
+				(orientation-right ?a)
+				(not (and
+						(= (+ (coordinate_x ?a) 1) (coordinate_x ?w - wall))
+						(= (coordinate_y ?a) (coordinate_y ?w - wall))
+				))
+			)
+			:tasks (
+				(AVATAR_MOVE_RIGHT ?a)
+			)
+		)
+	)
+
 	; -------------------------------------------------------------------------
+
+	(:task move_torward_diamond
+		:parameters (?a - ShootAvatar)
+		
+		(:method no_need_to_turn
+			:precondition ()
+			:tasks (
+				(move_torward_no_turn ?a)
+			)
+		)
+
+		; The diamond is going up and no wall directly above 
+		; (no need to check for enemies or boulder)
+		(:method need_turn_up
+			:precondition (and
+				(diamond_selected ?d)
+				(> (coordinate_y ?a) (coordinate_y ?d))
+				(not (and
+						(= (coordinate_x ?a) (coordinate_x ?w - wall))
+						(= (- (coordinate_y ?a) 1) (coordinate_y ?w - wall))
+				))
+			)
+			:tasks (
+				(AVATAR_TURN_UP ?a)
+			)
+		)
+
+		(:method need_turn_down
+			:precondition (and
+				(diamond_selected ?d)
+				(< (coordinate_y ?a) (coordinate_y ?d))
+				(not (and
+						(= (coordinate_x ?a) (coordinate_x ?w - wall))
+						(= (+ (coordinate_y ?a) 1) (coordinate_y ?w - wall))
+				))
+			)
+			:tasks (
+				(AVATAR_TURN_DOWN ?a)
+			)
+		)
+
+		(:method need_turn_left
+			:precondition (and
+				(diamond_selected ?d)
+				(> (coordinate_x ?a) (coordinate_x ?d))
+				(not (and
+						(= (- (coordinate_x ?a) 1) (coordinate_x ?w - wall))
+						(= (coordinate_y ?a) (coordinate_y ?w - wall))
+				))
+			)
+			:tasks (
+				(AVATAR_TURN_LEFT ?a)
+			)
+		)
+
+		(:method need_turn_right
+			:precondition (and
+				(diamond_selected ?d - diamond)
+				(< (coordinate_x ?a) (coordinate_x ?d))
+				; (not (and
+				; 		(= (+ (coordinate_x ?a) 1) (coordinate_x ?w - wall))
+				; 		(= (coordinate_y ?a) (coordinate_y ?w - wall))
+				; ))
+			)
+			:tasks (
+				(AVATAR_TURN_RIGHT ?a)
+			)
+		)
+	)
 
 	; -------------------------------------------------------------------------
 
@@ -388,13 +569,25 @@
 		; If no diamond is selected, do it
 		(:method select_objective
 			; :precondition(not (diamond_selected ?d - diamond))
-			:precondition(not (is_diamond_selected))
+			:precondition(not (is_diamond_selected ?a))
 			:tasks(				
 				(select_diamond ?a)
-				(turn_avatar ?a ?p)
+				; (:inline (:print (diamond_selected ?d - diamond)) ())
+				(choose_action ?a ?p)
+				(create-interactions)
 			)
 		)
 
+		(:method objective_selected
+			:precondition(is_diamond_selected ?a)
+			:tasks(				
+				(choose_action ?a ?p)
+			)
+		)
+	)
+
+	(:task choose_action
+		:parameters (?a - ShootAvatar ?p - sword)
 		(:method boulder_up
 			; There is a boulder over the avatar
 			:precondition(and
@@ -420,12 +613,12 @@
 		; 	)
 		; )
 
-		; (:method move_forward_diamond
-		; 	:precondition ()
-		; 	:tasks (
-		; 		(move_forward_diamond)
-		; 	)
-		; )
+		(:method move_torward_diamond
+			:precondition ()
+			:tasks (
+				(move_torward_diamond ?a)
+			)
+		)
 
 		; WHEN TO USE FLICKER ??
 
