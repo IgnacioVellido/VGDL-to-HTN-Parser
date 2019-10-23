@@ -120,11 +120,20 @@
 		; (intercambiando el sujeto del predicado)
 		(evaluate-interaction ?o1 ?o2 - Object)
 		(regenerate-interaction ?o1 ?o2 - Object)
+
+		; For the avatar movement (expert knowledge)
+		(diamond_selected ?d - diamond)
+		(is_diamond_selected)
 	)
   
 	; Functions -----------------------------------------------------------------
 
 	(:functions
+		; For the avatar movement (expert knowledge)
+		(diamond_selected_distance)
+		(auxiliar_distance)
+
+
         ; Coordenadas: Esta función tiene sentido si se puede comprobar que dos
         ; objetos tengan el mismo valor de función, en otro caso se debería utilizar
         ; el predicado (at ...).
@@ -184,7 +193,7 @@
 		(:method finish_game
 			; :precondition (= (resource_diamond ?a - avatar) 1)
 			; :precondition (= (coordinate_y ?a - avatar) 1)
-			:precondition (= (turn) 3)
+			:precondition (= (turn) 2)
 			:tasks ()		
 		)
 
@@ -220,96 +229,305 @@
 	; -------------------------------------------------------------------------
 	; -------------------------------------------------------------------------
 
-    ; Para representar el turno del avatar, tiene un método por cada acción,
-    ; que podrían ser ordenados en base a una heurística, y acabando con un
-    ; método para ACTION_NIL, en caso de que no se pueda realizar ningún otro
-	(:task turn_avatar
-        ; Recibe al avatar, su orientación, y en el caso de que pueda usar
-        ; ACTION_USE, el sprite que genera
-		:parameters (?a - ShootAvatar ?p - sword)
+	; Choose the diamond at the shortest distance
+	(:task select_diamond
+		:parameters (?a - ShootAvatar)
 
-        ; Los métodos no tienen precondiciones, la posibilidad de realizarlos
-        ; se comprueba dentro de la acción
-		(:method avatar_move_up
-				:precondition (
-								)
-				:tasks ( 
-							(AVATAR_MOVE_UP ?a) 
+		(:method loop
+			:precondition (and
+				(is_diamond_selected)
+				(not (= (coordinate_x ?diam - diamond) -1))
+			)
+			:tasks (
+				; Calculate distance
+				(:inline
+					()
+					(assign (auxiliar_distance) 0)
+				)
+
+				(:inline 
+					()
+					(and 
+						(when 
+							(<= (coordinate_x ?a ) (coordinate_x ?diam))
+							(increase (auxiliar_distance)
+									  (- (coordinate_x ?diam) (coordinate_x ?a))									  
+							)
 						)
+						(when 
+							(> (coordinate_x ?a ) (coordinate_x ?diam))
+							(increase (auxiliar_distance) (- (coordinate_x ?a) (coordinate_x ?diam)))
+						)
+						(when 
+							(<= (coordinate_y ?a ) (coordinate_y ?diam))
+							(increase (auxiliar_distance) (- (coordinate_y ?diam) (coordinate_y ?a)))
+						)
+						(when 
+							(> (coordinate_y ?a ) (coordinate_y ?diam))
+							(increase (auxiliar_distance) (- (coordinate_y ?a) (coordinate_y ?diam)))
+						)					
+					)
+				)
+
+				; Check if distance is lower than selected one
+				(:inline
+					()
+					(when
+						(< (auxiliar_distance) (diamond_selected_distance))
+						(and
+							(not (diamond_selected ?original))
+							(diamond_selected ?d)
+							(assign (diamond_selected_distance) (auxiliar_distance))
+						)
+					)
+				)
+
+				; Iterate
+				(select_diamond ?a)
+			)
+		)
+
+		; No diamond selected yet, or it has been picked (CHANGE ACTION TOO)
+		(:method choose_anyone
+			:precondition (and 
+								(not (is_diamond_selected))
+								(not (= (coordinate_x ?diam - diamond) -1))
+			)
+			:tasks (
+				; Calculate distance - MAYBE IN DERIVED ?
+				(:inline (:print "No hay ningundo definido aun\n") ())
+				(:inline
+					()
+					(assign (auxiliar_distance) 0)
+				)
+
+				(:inline 
+					()
+					(and 
+						(when 
+							(<= (coordinate_x ?a ) (coordinate_x ?diam))
+							(increase (auxiliar_distance)
+									  (- (coordinate_x ?diam) (coordinate_x ?a))									  
+							)
+						)
+						(when 
+							(> (coordinate_x ?a ) (coordinate_x ?diam))
+							(increase (auxiliar_distance) (- (coordinate_x ?a) (coordinate_x ?diam)))
+						)
+						(when 
+							(<= (coordinate_y ?a ) (coordinate_y ?diam))
+							(increase (auxiliar_distance) (- (coordinate_y ?diam) (coordinate_y ?a)))
+						)
+						(when 
+							(> (coordinate_y ?a ) (coordinate_y ?diam))
+							(increase (auxiliar_distance) (- (coordinate_y ?a) (coordinate_y ?diam)))
+						)					
+					)
+				)
+
+				; Assign diamond
+				(:inline
+					()
+					(and					
+						(is_diamond_selected)
+						(diamond_selected ?diam)
+						(assign (diamond_selected_distance) (auxiliar_distance))
+					)
+				)
+				(:inline (:print "Hecho\n") ())
+
+				; Loop
+				(select_diamond ?a)
+			)
+		)
+
+		(:method base_case
+			:precondition()
+			:tasks ()
+		)
+	)
+
+	; -------------------------------------------------------------------------
+
+	; Move no matter what
+	(:task avatar_force_move
+		:parameters (?a - ShootAvatar)
+
+		(:method avatar_move_up
+				:precondition (orientation-up ?a)
+				:tasks ((AVATAR_MOVE_UP ?a))
 		)
 
 		(:method avatar_move_down
-				:precondition (
-								)
-				:tasks ( 
-							(AVATAR_MOVE_DOWN ?a) 
-						)
+				:precondition (orientation-down ?a)
+				:tasks ((AVATAR_MOVE_DOWN ?a))
 		)
 
 		(:method avatar_move_left
-				:precondition (
-								)
-				:tasks ( 
-							(AVATAR_MOVE_LEFT ?a) 
-						)
+				:precondition (orientation-left ?a)
+				:tasks ((AVATAR_MOVE_LEFT ?a))
 		)
 
 		(:method avatar_move_right
-				:precondition (
-								)
-				:tasks ( 
-							(AVATAR_MOVE_RIGHT ?a) 
-						)
-		)
-
-		(:method avatar_turn_up
-				:precondition (
-								)
-				:tasks ( 
-							(AVATAR_TURN_UP ?a) 
-						)
-		)
-
-		(:method avatar_turn_down
-				:precondition (
-								)
-				:tasks ( 
-							(AVATAR_TURN_DOWN ?a) 
-						)
-		)
-
-		(:method avatar_turn_left
-				:precondition (
-								)
-				:tasks ( 
-							(AVATAR_TURN_LEFT ?a) 
-						)
-		)
-
-		(:method avatar_turn_right
-				:precondition (
-								)
-				:tasks ( 
-							(AVATAR_TURN_RIGHT ?a) 
-						)
-		)
-
-		(:method avatar_use
-				:precondition (
-								)
-				:tasks ( 
-							(AVATAR_USE ?a ?p) 
-						)
-		)
-
-		(:method avatar_nil
-				:precondition (
-								)
-				:tasks ( 
-							(AVATAR_NIL ?a) 
-						)
+				:precondition (orientation-right ?a)
+				:tasks ((AVATAR_MOVE_RIGHT ?a))
 		)
 	)
+
+	; -------------------------------------------------------------------------
+
+	; -------------------------------------------------------------------------
+
+	; -------------------------------------------------------------------------
+
+	; -------------------------------------------------------------------------
+
+	(:task turn_avatar
+		:parameters (?a - ShootAvatar ?p - sword)
+
+		; If no diamond is selected, do it
+		(:method select_objective
+			; :precondition(not (diamond_selected ?d - diamond))
+			:precondition(not (is_diamond_selected))
+			:tasks(				
+				(select_diamond ?a)
+				(turn_avatar ?a ?p)
+			)
+		)
+
+		(:method boulder_up
+			; There is a boulder over the avatar
+			:precondition(and
+				(= (coordinate_x ?d - boulder) (coordinate_x ?a))
+				(= (coordinate_y ?d - boulder) (- (coordinate_y ?a) 1))
+			)
+			:tasks (
+				(avatar_force_move ?a)
+			)
+		)
+		
+		; (:method enemy_at_1
+		; 	:precondition ()
+		; 	:tasks (
+		; 		(evade_enemy_at_1)
+		; 	)
+		; )
+
+		; (:method enemy_at_2
+		; 	:precondition ()
+		; 	:tasks (
+		; 		(evade_enemy_at_2)
+		; 	)
+		; )
+
+		; (:method move_forward_diamond
+		; 	:precondition ()
+		; 	:tasks (
+		; 		(move_forward_diamond)
+		; 	)
+		; )
+
+		; WHEN TO USE FLICKER ??
+
+		(:method avatar_nil
+				:precondition ()
+				:tasks ((AVATAR_NIL ?a))
+		)
+	)
+
+	; -------------------------------------------------------------------------
+	; -------------------------------------------------------------------------
+
+    ; ; Para representar el turno del avatar, tiene un método por cada acción,
+    ; ; que podrían ser ordenados en base a una heurística, y acabando con un
+    ; ; método para ACTION_NIL, en caso de que no se pueda realizar ningún otro
+	; (:task turn_avatar
+    ;     ; Recibe al avatar, y en el caso de que pueda usar
+    ;     ; ACTION_USE, el sprite que genera
+	; 	:parameters (?a - ShootAvatar ?p - sword)
+
+    ;     ; Los métodos no tienen precondiciones, la posibilidad de realizarlos
+    ;     ; se comprueba dentro de la acción
+	; 	(:method avatar_move_up
+	; 			:precondition (
+	; 							)
+	; 			:tasks ( 
+	; 						(AVATAR_MOVE_UP ?a) 
+	; 					)
+	; 	)
+
+	; 	(:method avatar_move_down
+	; 			:precondition (
+	; 							)
+	; 			:tasks ( 
+	; 						(AVATAR_MOVE_DOWN ?a) 
+	; 					)
+	; 	)
+
+	; 	(:method avatar_move_left
+	; 			:precondition (
+	; 							)
+	; 			:tasks ( 
+	; 						(AVATAR_MOVE_LEFT ?a) 
+	; 					)
+	; 	)
+
+	; 	(:method avatar_move_right
+	; 			:precondition (
+	; 							)
+	; 			:tasks ( 
+	; 						(AVATAR_MOVE_RIGHT ?a) 
+	; 					)
+	; 	)
+
+	; 	(:method avatar_turn_up
+	; 			:precondition (
+	; 							)
+	; 			:tasks ( 
+	; 						(AVATAR_TURN_UP ?a) 
+	; 					)
+	; 	)
+
+	; 	(:method avatar_turn_down
+	; 			:precondition (
+	; 							)
+	; 			:tasks ( 
+	; 						(AVATAR_TURN_DOWN ?a) 
+	; 					)
+	; 	)
+
+	; 	(:method avatar_turn_left
+	; 			:precondition (
+	; 							)
+	; 			:tasks ( 
+	; 						(AVATAR_TURN_LEFT ?a) 
+	; 					)
+	; 	)
+
+	; 	(:method avatar_turn_right
+	; 			:precondition (
+	; 							)
+	; 			:tasks ( 
+	; 						(AVATAR_TURN_RIGHT ?a) 
+	; 					)
+	; 	)
+
+	; 	(:method avatar_use
+	; 			:precondition (
+	; 							)
+	; 			:tasks ( 
+	; 						(AVATAR_USE ?a ?p) 
+	; 					)
+	; 	)
+
+	; 	(:method avatar_nil
+	; 			:precondition (
+	; 							)
+	; 			:tasks ( 
+	; 						(AVATAR_NIL ?a) 
+	; 					)
+	; 	)
+	; )
 
 	; -------------------------------------------------------------------------
 	; -------------------------------------------------------------------------
