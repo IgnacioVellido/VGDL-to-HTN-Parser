@@ -192,9 +192,9 @@
 		; juego, teniendo varios de estos métodos si hay varios criterios de 
 		; terminación definidos
 		(:method finish_game
-			; :precondition (= (resource_diamond ?a - avatar) 1)
+			:precondition (= (resource_diamond ?a - avatar) 1)
 			; :precondition (= (coordinate_y ?a - avatar) 1)
-			:precondition (= (turn) 2)
+			; :precondition (= (turn) 2)
 			:tasks ()		
 		)
 
@@ -508,10 +508,11 @@
 			:precondition (and
 				(diamond_selected ?d)
 				(> (coordinate_y ?a) (coordinate_y ?d))
-				(not (and
-						(= (coordinate_x ?a) (coordinate_x ?w - wall))
-						(= (- (coordinate_y ?a) 1) (coordinate_y ?w - wall))
-				))
+				; ESTO FALLA
+				; (not (and
+				; 		(= (coordinate_x ?a) (coordinate_x ?w - wall))
+				; 		(= (- (coordinate_y ?a) 1) (coordinate_y ?w - wall))
+				; ))
 			)
 			:tasks (
 				(AVATAR_TURN_UP ?a)
@@ -522,10 +523,10 @@
 			:precondition (and
 				(diamond_selected ?d)
 				(< (coordinate_y ?a) (coordinate_y ?d))
-				(not (and
-						(= (coordinate_x ?a) (coordinate_x ?w - wall))
-						(= (+ (coordinate_y ?a) 1) (coordinate_y ?w - wall))
-				))
+				; (not (and
+				; 		(= (coordinate_x ?a) (coordinate_x ?w - wall))
+				; 		(= (+ (coordinate_y ?a) 1) (coordinate_y ?w))
+				; ))
 			)
 			:tasks (
 				(AVATAR_TURN_DOWN ?a)
@@ -536,10 +537,10 @@
 			:precondition (and
 				(diamond_selected ?d)
 				(> (coordinate_x ?a) (coordinate_x ?d))
-				(not (and
-						(= (- (coordinate_x ?a) 1) (coordinate_x ?w - wall))
-						(= (coordinate_y ?a) (coordinate_y ?w - wall))
-				))
+				; (not (and
+				; 		(= (- (coordinate_x ?a) 1) (coordinate_x ?w - wall))
+				; 		(= (coordinate_y ?a) (coordinate_y ?w - wall))
+				; ))
 			)
 			:tasks (
 				(AVATAR_TURN_LEFT ?a)
