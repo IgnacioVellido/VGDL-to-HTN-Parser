@@ -180,6 +180,8 @@
 
 		; Para llevar la cuenta de los turnos
 		(turn)
+
+		(is_wall ?w - wall)
 	)
 
 	; Tasks ---------------------------------------------------------------------
@@ -192,9 +194,9 @@
 		; juego, teniendo varios de estos métodos si hay varios criterios de 
 		; terminación definidos
 		(:method finish_game
-			:precondition (= (resource_diamond ?a - avatar) 1)
+			; :precondition (= (resource_diamond ?a - avatar) 1)
 			; :precondition (= (coordinate_y ?a - avatar) 1)
-			; :precondition (= (turn) 2)
+			:precondition (= (turn) 2)
 			:tasks ()		
 		)
 
@@ -439,11 +441,15 @@
 
 		(:method move_up
 			:precondition(and 
-				(orientation-up ?a)
-				(not (and
-						(= (coordinate_x ?a) (coordinate_x ?w - wall))
-						(= (- (coordinate_y ?a) 1) (coordinate_y ?w - wall))
-				))
+				(can-move-up ?a)
+				; (orientation-up ?a)
+				; (is_wall ?w - wall)
+				; (not (and
+				; 		(= (coordinate_x ?a) (coordinate_x ?w - wall))
+				; 		(= (- (coordinate_y ?a) 1) (coordinate_y ?w - wall))
+				; ))
+				; (not (= (coordinate_x ?a) (coordinate_x ?w - wall)))
+				; (not (= (- (coordinate_y ?a) 1) (coordinate_y ?w)))
 			)
 			:tasks (
 				(AVATAR_MOVE_UP ?a)
@@ -452,11 +458,14 @@
 
 		(:method move_down
 			:precondition(and 
-				(orientation-down ?a)
-				(not (and
-						(= (coordinate_x ?a) (coordinate_x ?w - wall))
-						(= (+ (coordinate_y ?a) 1) (coordinate_y ?w - wall))
-				))
+				(can-move-down ?a)
+				; (orientation-down ?a)
+				; (not (and
+				; 		(= (coordinate_x ?a) (coordinate_x ?w - wall))
+				; 		(= (+ (coordinate_y ?a) 1) (coordinate_y ?w - wall))
+				; ))
+				; (not (= (coordinate_x ?a) (coordinate_x ?w - wall)))
+				; (not (= (+ (coordinate_y ?a) 1) (coordinate_y ?w)))
 			)
 			:tasks (
 				(AVATAR_MOVE_DOWN ?a)
@@ -465,11 +474,14 @@
 
 		(:method move_left
 			:precondition(and 
-				(orientation-left ?a)
-				(not (and
-						(= (- (coordinate_x ?a) 1) (coordinate_x ?w - wall))
-						(= (coordinate_y ?a) (coordinate_y ?w - wall))
-				))
+				(can-move-left ?a)
+				; (orientation-left ?a)
+				; (not (and
+				; 		(= (- (coordinate_x ?a) 1) (coordinate_x ?w - wall))
+				; 		(= (coordinate_y ?a) (coordinate_y ?w - wall))
+				; ))
+				; (not (= (- (coordinate_x ?a) 1) (coordinate_x ?w - wall)))
+				; (not (= (coordinate_y ?a) (coordinate_y ?w)))
 			)
 			:tasks (
 				(AVATAR_MOVE_LEFT ?a)
@@ -478,16 +490,25 @@
 
 		(:method move_right
 			:precondition(and 
-				(orientation-right ?a)
-				(not (and
-						(= (+ (coordinate_x ?a) 1) (coordinate_x ?w - wall))
-						(= (coordinate_y ?a) (coordinate_y ?w - wall))
-				))
+				(can-move-right ?a)
+				; (orientation-right ?a)
+				; (not (and
+				; 		(= (+ (coordinate_x ?a) 1) (coordinate_x ?w - wall))
+				; 		(= (coordinate_y ?a) (coordinate_y ?w - wall))
+				; ))
+				; (not (= (+ (coordinate_x ?a) 1) (coordinate_x ?w - wall)))
+				; (not (= (coordinate_y ?a) (coordinate_y ?w)))
 			)
 			:tasks (
 				(AVATAR_MOVE_RIGHT ?a)
 			)
 		)
+
+		; (:method prueba
+		; 	:precondition ()
+		; 	:tasks (
+		; 	)
+		; )
 	)
 
 	; -------------------------------------------------------------------------
@@ -495,12 +516,66 @@
 	(:task move_torward_diamond
 		:parameters (?a - ShootAvatar)
 		
-		(:method no_need_to_turn
-			:precondition ()
-			:tasks (
+		(:method prueba
+			:precondition()
+			:tasks(
+				; Checking in which directions the avatar can move
+				(:inline ()
+					(forall (?w - wall) 
+					(and
+						(when 
+							(and
+								; (orientation-up ?a)
+								(= (coordinate_x ?a) (coordinate_x ?w))
+								(= (- (coordinate_y ?a) 1) (coordinate_y ?w))								
+							)
+
+							(not (can-move-up ?a))
+						)
+
+						(when 
+							(and
+								; (orientation-down ?a)
+								(= (coordinate_x ?a) (coordinate_x ?w))
+								(= (+ (coordinate_y ?a) 1) (coordinate_y ?w))								
+							)
+
+							(not (can-move-down ?a))
+						)
+
+						(when 
+							(and
+								; (orientation-left ?a)
+								(= (- (coordinate_x ?a) 1) (coordinate_x ?w))
+								(= (coordinate_y ?a) (coordinate_y ?w))
+							)
+
+							(not (can-move-left ?a))
+						)
+
+						(when 
+							(and
+								; (orientation-right ?a)
+								(= (+ (coordinate_x ?a) 1) (coordinate_x ?w))
+								(= (coordinate_y ?a) (coordinate_y ?w))
+							)
+
+							(not (can-move-right ?a))
+						)
+					)
+					)
+				)
+
 				(move_torward_no_turn ?a)
 			)
 		)
+
+		; (:method no_need_to_turn
+		; 	:precondition ()
+		; 	:tasks (
+		; 		(move_torward_no_turn ?a)
+		; 	)
+		; )
 
 		; The diamond is going up and no wall directly above 
 		; (no need to check for enemies or boulder)
@@ -513,6 +588,9 @@
 				; 		(= (coordinate_x ?a) (coordinate_x ?w - wall))
 				; 		(= (- (coordinate_y ?a) 1) (coordinate_y ?w - wall))
 				; ))
+				; (not (= (coordinate_x ?a) (coordinate_x ?w - wall)))
+				; (not (= (- (coordinate_y ?a) 1) (coordinate_y ?w)))
+				(can-move-up ?a)
 			)
 			:tasks (
 				(AVATAR_TURN_UP ?a)
@@ -523,10 +601,30 @@
 			:precondition (and
 				(diamond_selected ?d)
 				(< (coordinate_y ?a) (coordinate_y ?d))
+				; (is_wall ?w - wall)
 				; (not (and
 				; 		(= (coordinate_x ?a) (coordinate_x ?w - wall))
 				; 		(= (+ (coordinate_y ?a) 1) (coordinate_y ?w))
 				; ))
+				(can-move-down ?a)
+				; (not (= (coordinate_x ?a) (coordinate_x ?w - wall)))
+				; (not (= (+ (coordinate_y ?a) 1) (coordinate_y ?w)))
+
+				; (not (exists (?w - wall) (and
+				; 		(= (coordinate_x ?a) (coordinate_x ?w))
+				; 		(= (+ (coordinate_y ?a) 1) (coordinate_y ?w))
+				; )))				
+
+				; (forall (?w - wall) 
+				; 	; (or
+				; 	; 	(not (= (coordinate_x ?a) (coordinate_x ?w - wall)))
+				; 	; 	(not (= (+ (coordinate_y ?a) 1) (coordinate_y ?w)))
+				; 	; )
+				; 	(not (and
+				; 		(= (coordinate_x ?a) (coordinate_x ?w - wall))
+				; 		(= (+ (coordinate_y ?a) 1) (coordinate_y ?w))
+				; 	))
+				; )
 			)
 			:tasks (
 				(AVATAR_TURN_DOWN ?a)
@@ -541,6 +639,9 @@
 				; 		(= (- (coordinate_x ?a) 1) (coordinate_x ?w - wall))
 				; 		(= (coordinate_y ?a) (coordinate_y ?w - wall))
 				; ))
+				; (not (= (- (coordinate_x ?a) 1) (coordinate_x ?w - wall)))
+				; (not (= (coordinate_y ?a) (coordinate_y ?w)))
+				(can-move-left ?a)
 			)
 			:tasks (
 				(AVATAR_TURN_LEFT ?a)
@@ -555,6 +656,9 @@
 				; 		(= (+ (coordinate_x ?a) 1) (coordinate_x ?w - wall))
 				; 		(= (coordinate_y ?a) (coordinate_y ?w - wall))
 				; ))
+				; (not (= (+ (coordinate_x ?a) 1) (coordinate_x ?w - wall)))
+				; (not (= (coordinate_y ?a) (coordinate_y ?w)))
+				(can-move-right ?a)
 			)
 			:tasks (
 				(AVATAR_TURN_RIGHT ?a)
@@ -618,6 +722,15 @@
 			:precondition ()
 			:tasks (
 				(move_torward_diamond ?a)
+				(:inline
+					()
+					(and
+						(can-move-up ?a)
+						(can-move-down ?a)
+						(can-move-left ?a)
+						(can-move-right ?a)
+					)
+				)
 			)
 		)
 
@@ -1020,10 +1133,10 @@
                         ; Comprobación de que está orientado en esa dirección
 						(orientation-up ?a)
 					)
-		:effect (and 
-                    ; Se cambia la coordenada en función de la acción
+		:effect (and				
+					; Se cambia la coordenada en función de la acción
 					(assign (last_coordinate_y ?a) (coordinate_y ?a))
-					(decrease (coordinate_y ?a) 1)
+					(decrease (coordinate_y ?a) 1)				
 				)
 	)
 
