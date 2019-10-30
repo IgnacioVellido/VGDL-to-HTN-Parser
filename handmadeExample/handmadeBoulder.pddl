@@ -192,9 +192,9 @@
 		; terminación definidos
 		(:method finish_game
 			; :precondition (>= (resource_diamond ?a - avatar) 1)
-			:precondition (<= (counter_diamond) 0)
+			; :precondition (<= (counter_diamond) 0)
 			; :precondition (= (coordinate_y ?a - avatar) 1)
-			; :precondition (= (turn) 2)
+			:precondition (= (turn) 6)
 			:tasks ()		
 		)
 
@@ -449,8 +449,53 @@
 			:precondition()
 			:tasks(
 				; Checking in which directions the avatar can move
+				; If there is a wall
 				(:inline ()
 					(forall (?w - wall) (and
+						(when 
+							(and
+								; (orientation-up ?a)
+								(= (coordinate_x ?a) (coordinate_x ?w))
+								(= (- (coordinate_y ?a) 1) (coordinate_y ?w))								
+							)
+
+							(not (can-move-up ?a))
+						)
+
+						(when 
+							(and
+								; (orientation-down ?a)
+								(= (coordinate_x ?a) (coordinate_x ?w))
+								(= (+ (coordinate_y ?a) 1) (coordinate_y ?w))								
+							)
+
+							(not (can-move-down ?a))
+						)
+
+						(when 
+							(and
+								; (orientation-left ?a)
+								(= (- (coordinate_x ?a) 1) (coordinate_x ?w))
+								(= (coordinate_y ?a) (coordinate_y ?w))
+							)
+
+							(not (can-move-left ?a))
+						)
+
+						(when 
+							(and
+								; (orientation-right ?a)
+								(= (+ (coordinate_x ?a) 1) (coordinate_x ?w))
+								(= (coordinate_y ?a) (coordinate_y ?w))
+							)
+
+							(not (can-move-right ?a))
+						)
+					))					
+				)
+				; If there is a wall
+				(:inline ()
+					(forall (?w - boulder) (and
 						(when 
 							(and
 								; (orientation-up ?a)
@@ -581,22 +626,28 @@
 		(:method boulder_up
 			; There is a boulder over the avatar
 			:precondition(and
-				(= (coordinate_x ?d - boulder) (coordinate_x ?a))
-				(= (coordinate_y ?d - boulder) (- (coordinate_y ?a) 1))
+				(= (coordinate_x ?b - boulder) (coordinate_x ?a))
+				(= (coordinate_y ?b - boulder) (- (coordinate_y ?a) 1))
 			)
 			:tasks (
+				; Move in any direction
+				(:inline (:print "Roca arriba\n") ())
 				(avatar_force_move ?a)
 			)
 		)
 		
 		; (:method enemy_at_1
+			; Enemy next to the avatar
 		; 	:precondition ()
 		; 	:tasks (
 		; 		(evade_enemy_at_1)
+				; Move in any direction
+		; 		(avatar_force_move ?a)
 		; 	)
 		; )
 
 		; (:method enemy_at_2
+			; Enemy at a Manhattan distance of 2
 		; 	:precondition ()
 		; 	:tasks (
 		; 		(evade_enemy_at_2)
@@ -1188,7 +1239,7 @@
 						(= (coordinate_y ?d) (coordinate_y ?a))
 					)
 		:effect (and
-					(assign (last_coordinate_y ?d) (coordinate_x ?d))
+					(assign (last_coordinate_x ?d) (coordinate_x ?d))
 					(assign (last_coordinate_y ?d) (coordinate_y ?d))
 					(assign (coordinate_x ?d) -1)
 					(assign (coordinate_y ?d) -1)
@@ -1206,7 +1257,7 @@
 						(= (coordinate_y ?d) (coordinate_y ?s))
 		)
 		:effect (and
-					(assign (last_coordinate_y ?d) (coordinate_x ?d))
+					(assign (last_coordinate_x ?d) (coordinate_x ?d))
 					(assign (last_coordinate_y ?d) (coordinate_y ?d))
 					(assign (coordinate_x ?d) -1)
 					(assign (coordinate_y ?d) -1)
@@ -1224,7 +1275,7 @@
 						(= (coordinate_y ?d) (coordinate_y ?a))
 		)
 		:effect (and
-					(assign (last_coordinate_y ?d) (coordinate_x ?d))
+					(assign (last_coordinate_x ?d) (coordinate_x ?d))
 					(assign (last_coordinate_y ?d) (coordinate_y ?d))
 					(assign (coordinate_x ?d) -1)
 					(assign (coordinate_y ?d) -1)
@@ -1245,7 +1296,7 @@
 						(= (coordinate_y ?m) (coordinate_y ?w))
 		)
 		:effect (and
-					(assign (coordinate_y ?m) (last_coordinate_x ?m))
+					(assign (coordinate_x ?m) (last_coordinate_x ?m))
 					(assign (coordinate_y ?m) (last_coordinate_y ?m))		
 		)
 	)
@@ -1258,7 +1309,7 @@
 						(= (coordinate_y ?m) (coordinate_y ?b))
 		)
 		:effect (and
-					(assign (coordinate_y ?m) (last_coordinate_x ?m))
+					(assign (coordinate_x ?m) (last_coordinate_x ?m))
 					(assign (coordinate_y ?m) (last_coordinate_y ?m))
 		)
 	)
@@ -1274,7 +1325,7 @@
 						(= (last_coordinate_y ?b) (- (coordinate_y ?b) 1))
 		)
 		:effect (and
-					(assign (last_coordinate_y ?a) (coordinate_x ?a))
+					(assign (last_coordinate_x ?a) (coordinate_x ?a))
 					(assign (last_coordinate_y ?a) (coordinate_y ?a))
 					(assign (coordinate_x ?a) -1)
 					(assign (coordinate_y ?a) -1)
@@ -1293,7 +1344,7 @@
 						(= (coordinate_y ?a) (coordinate_y ?b))
 		)
 		:effect (and
-					(assign (last_coordinate_y ?a) (coordinate_x ?a))
+					(assign (last_coordinate_x ?a) (coordinate_x ?a))
 					(assign (last_coordinate_y ?a) (coordinate_y ?a))
 					(assign (coordinate_x ?a) -1)
 					(assign (coordinate_y ?a) -1)
@@ -1312,7 +1363,7 @@
 						(= (coordinate_y ?a) (coordinate_y ?c))
 		)
 		:effect (and
-					(assign (last_coordinate_y ?a) (coordinate_x ?a))
+					(assign (last_coordinate_x ?a) (coordinate_x ?a))
 					(assign (last_coordinate_y ?a) (coordinate_y ?a))
 					(assign (coordinate_x ?a) -1)
 					(assign (coordinate_y ?a) -1)
@@ -1332,7 +1383,7 @@
 						(= (coordinate_y ?b) (coordinate_y ?d))
 		)
 		:effect (and
-					(assign (coordinate_y ?b) (last_coordinate_x ?b))
+					(assign (coordinate_x ?b) (last_coordinate_x ?b))
 					(assign (coordinate_y ?b) (last_coordinate_y ?b))
 		)
 	)
@@ -1345,7 +1396,7 @@
 						(= (coordinate_y ?b) (coordinate_y ?w))
 		)
 		:effect (and
-				(assign (coordinate_y ?b) (last_coordinate_x ?b))
+				(assign (coordinate_x ?b) (last_coordinate_x ?b))
 				(assign (coordinate_y ?b) (last_coordinate_y ?b))
 		)
 	)
@@ -1358,7 +1409,7 @@
 						(= (coordinate_y ?b) (coordinate_y ?d))
 		)
 		:effect (and				
-					(assign (coordinate_y ?b) (last_coordinate_x ?b))
+					(assign (coordinate_x ?b) (last_coordinate_x ?b))
 					(assign (coordinate_y ?b) (last_coordinate_y ?b))
 		)
 	)
@@ -1370,7 +1421,7 @@
 						(= (coordinate_y ?b) (coordinate_y ?b2))
 		)
 		:effect (and
-					(assign (coordinate_y ?b) (last_coordinate_x ?b))
+					(assign (coordinate_x ?b) (last_coordinate_x ?b))
 					(assign (coordinate_y ?b) (last_coordinate_y ?b))
 		)
 	)
@@ -1382,7 +1433,7 @@
 						(= (coordinate_y ?e) (coordinate_y ?d))
 		)
 		:effect (and
-					(assign (coordinate_y ?e) (last_coordinate_x ?e))
+					(assign (coordinate_x ?e) (last_coordinate_x ?e))
 					(assign (coordinate_y ?e) (last_coordinate_y ?e))
 		)
 	)
@@ -1394,7 +1445,7 @@
 						(= (coordinate_y ?e) (coordinate_y ?d))
 		)
 		:effect (and
-					(assign (coordinate_y ?e) (last_coordinate_x ?e))
+					(assign (coordinate_x ?e) (last_coordinate_x ?e))
 					(assign (coordinate_y ?e) (last_coordinate_y ?e))
 		)
 	)	
@@ -1406,7 +1457,7 @@
 						(= (coordinate_y ?c) (coordinate_y ?b))
 		)
 		:effect (and					
-					(assign (last_coordinate_y ?c) (coordinate_x ?c))
+					(assign (last_coordinate_x ?c) (coordinate_x ?c))
 					(assign (last_coordinate_y ?c) (coordinate_y ?c))
 					(assign (coordinate_x ?c) -1)
 					(assign (coordinate_y ?c) -1)
@@ -1432,9 +1483,9 @@
 						(= (coordinate_y ?d) -1)
 		)
 		:effect (and
-					(assign (last_coordinate_y ?b) (coordinate_x ?b))
+					(assign (last_coordinate_x ?b) (coordinate_x ?b))
 					(assign (last_coordinate_y ?b) (coordinate_y ?b))
-					(assign (last_coordinate_y ?c) (coordinate_x ?c))
+					(assign (last_coordinate_x ?c) (coordinate_x ?c))
 					(assign (last_coordinate_y ?c) (coordinate_y ?c))
 					(assign (coordinate_x ?b) -1)
 					(assign (coordinate_y ?b) -1)
@@ -1457,7 +1508,7 @@
 					; Cómo genero el diamante ??
 					; No se puede generar, asignar a uno que no se esté utilizando
 					; una posición en el juego
-					(assign (last_coordinate_y ?d) -1)
+					(assign (last_coordinate_x ?d) -1)
 					(assign (last_coordinate_y ?d) -1)
 					(assign (coordinate_x ?d) (last_coordinate_x ?b))
 					(assign (coordinate_y ?d) (last_coordinate_y ?b))
@@ -1478,7 +1529,7 @@
 						(>= (resource_diamond ?a) 9)
 		)
 		:effect (and
-					(assign (last_coordinate_y ?e) (coordinate_x ?e))
+					(assign (last_coordinate_x ?e) (coordinate_x ?e))
 					(assign (last_coordinate_y ?e) (coordinate_y ?e))
 					(assign (coordinate_x ?e) -1)
 					(assign (coordinate_y ?e) -1)

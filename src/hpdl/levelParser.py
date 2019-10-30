@@ -181,8 +181,8 @@ def get_problem(objects, counters, short_types, long_types,
         # Writing the coordinates of the objects
         coordinates = "\n\t\t(= (coordinate_x " + obj.name + ") " + str(obj.col) + ")"
         coordinates += "\n\t\t(= (coordinate_y " + obj.name + ") " + str(obj.row) + ")"
-        coordinates += "\n\t\t(= (last_coordinate_x " + obj.name + ") -1)"
-        coordinates += "\n\t\t(= (last_coordinate_y " + obj.name + ") -1)"
+        coordinates += "\n\t\t(= (last_coordinate_x " + obj.name + ") " + str(obj.col) + ")"
+        coordinates += "\n\t\t(= (last_coordinate_y " + obj.name + ") " + str(obj.row) + ")"
 
         #---------------------------------------------
         # Writing the evaluate-interaction predicates
