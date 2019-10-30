@@ -179,6 +179,12 @@
 
 		; Para llevar la cuenta de los turnos
 		(turn)
+
+		; Si hay una roca encima
+		(boulder_above)
+
+		; Para saber si hay un enemigo a distancia 1
+		(enemy_at_1)
 	)
 
 	; Tasks ---------------------------------------------------------------------
@@ -194,7 +200,10 @@
 			; :precondition (>= (resource_diamond ?a - avatar) 1)
 			; :precondition (<= (counter_diamond) 0)
 			; :precondition (= (coordinate_y ?a - avatar) 1)
-			:precondition (= (turn) 6)
+			:precondition (or 
+								(= (turn) 3)
+								(= (counter_avatar) 0)
+			)
 			:tasks ()		
 		)
 
@@ -395,6 +404,15 @@
 				:precondition (orientation-right ?a)
 				:tasks ((AVATAR_MOVE_RIGHT ?a))
 		)
+
+		; If there isn't another way, turn in any direction
+		(:method try_turning
+			:precondition()
+			:tasks (
+				; Debería elegir un giro de forma más racional
+				(move_torward_diamond ?a)
+			)
+		)
 	)
 
 	; -------------------------------------------------------------------------
@@ -493,7 +511,8 @@
 						)
 					))					
 				)
-				; If there is a wall
+
+				; If there is a boulder
 				(:inline ()
 					(forall (?w - boulder) (and
 						(when 
@@ -503,7 +522,10 @@
 								(= (- (coordinate_y ?a) 1) (coordinate_y ?w))								
 							)
 
-							(not (can-move-up ?a))
+							(and 
+								(not (can-move-up ?a))
+								(boulder_above)
+							)
 						)
 
 						(when 
@@ -534,6 +556,120 @@
 							)
 
 							(not (can-move-right ?a))
+						)
+					))
+				)
+
+				; If there is a crab
+				(:inline ()
+					(forall (?w - crab) (and
+						(when 
+							(and
+								; (orientation-up ?a)
+								(= (coordinate_x ?a) (coordinate_x ?w))
+								(= (- (coordinate_y ?a) 1) (coordinate_y ?w))								
+							)
+
+							(and 
+								(not (can-move-up ?a))
+								(enemy_at_1)
+							)
+						)
+
+						(when 
+							(and
+								; (orientation-down ?a)
+								(= (coordinate_x ?a) (coordinate_x ?w))
+								(= (+ (coordinate_y ?a) 1) (coordinate_y ?w))								
+							)
+
+							(and 
+								(not (can-move-down ?a))
+								(enemy_at_1)
+							)
+						)
+
+						(when 
+							(and
+								; (orientation-left ?a)
+								(= (- (coordinate_x ?a) 1) (coordinate_x ?w))
+								(= (coordinate_y ?a) (coordinate_y ?w))
+							)
+
+							(and 
+								(not (can-move-left ?a))
+								(enemy_at_1)
+							)
+						)
+
+						(when 
+							(and
+								; (orientation-right ?a)
+								(= (+ (coordinate_x ?a) 1) (coordinate_x ?w))
+								(= (coordinate_y ?a) (coordinate_y ?w))
+							)
+
+							(and 
+								(not (can-move-right ?a))
+								(enemy_at_1)
+							)
+						)
+					))
+				)
+
+				; If there is a butterfly
+				(:inline ()
+					(forall (?w - butterfly) (and
+						(when 
+							(and
+								; (orientation-up ?a)
+								(= (coordinate_x ?a) (coordinate_x ?w))
+								(= (- (coordinate_y ?a) 1) (coordinate_y ?w))								
+							)
+
+							(and 
+								(not (can-move-up ?a))
+								(enemy_at_1)
+							)
+						)
+
+						(when 
+							(and
+								; (orientation-down ?a)
+								(= (coordinate_x ?a) (coordinate_x ?w))
+								(= (+ (coordinate_y ?a) 1) (coordinate_y ?w))								
+							)
+
+							(and 
+								(not (can-move-down ?a))
+								(enemy_at_1)
+							)
+						)
+
+						(when 
+							(and
+								; (orientation-left ?a)
+								(= (- (coordinate_x ?a) 1) (coordinate_x ?w))
+								(= (coordinate_y ?a) (coordinate_y ?w))
+							)
+
+							(and 
+								(not (can-move-left ?a))
+								(enemy_at_1)
+							)
+						)
+
+						(when 
+							(and
+								; (orientation-right ?a)
+								(= (+ (coordinate_x ?a) 1) (coordinate_x ?w))
+								(= (coordinate_y ?a) (coordinate_y ?w))
+							)
+
+							(and 
+								(not (can-move-right ?a))
+								(enemy_at_1)
+							)
 						)
 					))
 				)
@@ -608,14 +744,16 @@
 			:precondition(not (is_diamond_selected ?a))
 			:tasks(				
 				(select_diamond ?a)				
+				(remove_non_valid_movements ?a)
 				(choose_action ?a ?p)
-				(create-interactions)
+				(create-interactions)	; Por haber usado un truco para no necesitar más predicados
 			)
 		)
 
 		(:method objective_selected
 			:precondition(is_diamond_selected ?a)
 			:tasks(				
+				(remove_non_valid_movements ?a)
 				(choose_action ?a ?p)
 			)
 		)
@@ -625,26 +763,25 @@
 		:parameters (?a - ShootAvatar ?p - sword)
 		(:method boulder_up
 			; There is a boulder over the avatar
-			:precondition(and
-				(= (coordinate_x ?b - boulder) (coordinate_x ?a))
-				(= (coordinate_y ?b - boulder) (- (coordinate_y ?a) 1))
-			)
+			:precondition(boulder_above)
 			:tasks (
 				; Move in any direction
-				(:inline (:print "Roca arriba\n") ())
+				; (:inline (:print "Roca arriba\n") ())
 				(avatar_force_move ?a)
+				(:inline () (not (boulder_above)))
 			)
 		)
 		
-		; (:method enemy_at_1
+		(:method enemy_at_1
 			; Enemy next to the avatar
-		; 	:precondition ()
-		; 	:tasks (
-		; 		(evade_enemy_at_1)
+			:precondition (enemy_at_1)
+			:tasks (
+				; (evade_enemy_at_1)
+				(:inline (:print "Enemigo a 1\n") ())
 				; Move in any direction
-		; 		(avatar_force_move ?a)
-		; 	)
-		; )
+				(avatar_force_move ?a)
+			)
+		)
 
 		; (:method enemy_at_2
 			; Enemy at a Manhattan distance of 2
@@ -657,7 +794,7 @@
 		(:method move_torward_diamond
 			:precondition ()
 			:tasks (
-				(remove_non_valid_movements ?a)
+				; (remove_non_valid_movements ?a)
 				(move_torward_diamond ?a)
 				(:inline
 					()
