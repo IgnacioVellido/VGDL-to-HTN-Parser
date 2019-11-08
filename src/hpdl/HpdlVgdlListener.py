@@ -225,11 +225,15 @@ class HpdlVgdlListener(VgdlListener):
         self.tasks.append(task_object)
 
         # Create interactions -------- UNFINISHED
-        create = Method("create", ["(not (evaluate-interaction ?o1 - Object ?o2 - Object))"],
-                        ["(:inline () (evaluate-interaction ?o1 ?o2))"])
-        base = Method("base_case", [], [])
-        create_interac = Task("create-interactions", [], [create, base])
+        interaction_methods = []
 
+        for interaction in self.interactions:
+            create = Method("create", ["(not (evaluate-interaction ?o1 - Object ?o2 - Object))"],
+                            ["(:inline () (evaluate-interaction ?o1 ?o2))"])
+
+        interaction_methods.add(Method("base_case", [], [])) # Base case
+        create_interac = Task("create-interactions", [], interaction_methods)
+        
         self.tasks.append(create_interac)
 
         # Check interactions --------- UNFINISHED
