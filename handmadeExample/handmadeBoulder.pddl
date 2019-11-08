@@ -564,9 +564,24 @@
 			:precondition (and
 				(can-move-up ?a)
 				(diamond_selected ?d)
+
+				; RESPECTO A LO REFERENCIADO EN AVATAR_MOVE_UP, DEBERÍA IR AQUÍ
+				; Añadiendo estrategia, no repetir casilla anterior
+				; (or 
+				; 	(not (= (last_position_x ?a) (coordinate_x ?a)))
+				; 	(not (= (last_position_y ?a) (- (coordinate_y ?a) 1)))
+				; )
 			)
 			:tasks (
 				(AVATAR_TURN_UP ?a)
+				
+				; Añadiendo estrategia, guardando casilla
+				; (:inline () 
+				; 	(and
+				; 		(assign (last_position_x ?a) (coordinate_x ?a))
+				; 		(assign (last_position_y ?a) (coordinate_y ?a))
+				; 	)
+				; )
 			)
 		)
 
@@ -626,11 +641,6 @@
 		)
 	)
 
-
-
-
-
-
 	(:task choose_action
 		:parameters (?a - ShootAvatar ?p - sword)
 		(:method boulder_up
@@ -644,17 +654,17 @@
 			)
 		)
 		
-		(:method enemy_at_1
-			; Enemy next to the avatar
-			:precondition (enemy_at_1)
-			:tasks (
-				; (evade_enemy_at_1)
-				; (:inline (:print "Enemigo a 1\n") ())
-				; Move in any direction
-				(avatar_force_move ?a)
-				(:inline () (not (enemy_at_1)))
-			)
-		)
+		; (:method enemy_at_1
+		; 	; Enemy next to the avatar
+		; 	:precondition (enemy_at_1)
+		; 	:tasks (
+		; 		; (evade_enemy_at_1)
+		; 		; (:inline (:print "Enemigo a 1\n") ())
+		; 		; Move in any direction
+		; 		(avatar_force_move ?a)
+		; 		(:inline () (not (enemy_at_1)))
+		; 	)
+		; )
 
 		; (:method enemy_at_2
 			; Enemy at a Manhattan distance of 2
@@ -667,7 +677,6 @@
 		(:method move_torward_diamond
 			:precondition ()
 			:tasks (
-				; (remove_non_valid_movements ?a)
 				(move_torward_diamond ?a)
 				(:inline
 					()
@@ -986,6 +995,8 @@
                         ; Comprobación de que está orientado en esa dirección
 						(orientation-up ?a)
 
+						; ESTO NO DEBERÍA ESTAR AQUÍ, DEBERÍA COMPROBARSE Y ASIGNARSE
+						; EN UNA TAREA, ESTA ACCIÓN SE GENERA AUTOMÁTICAMENTE
 						; Añadiendo estrategia, no repetir casilla anterior
 						(or 
 							(not (= (last_position_x ?a) (coordinate_x ?a)))
