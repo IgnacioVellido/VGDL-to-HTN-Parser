@@ -21,19 +21,11 @@ IF NOT x%option:level=% == x%option% (
   python Main.py -gi vgdl-examples\boulderdash.txt -li vgdl-examples\test_level.txt
 ) 
 
-IF NOT x%option:test1=% == x%option% (  
-  test\htnp\htnp.exe -d domain.pddl -p test\problem.pddl
-) 
-
-IF NOT x%option:test2=% == x%option% (  
+IF NOT x%option:test=% == x%option% (  
   test\htnp\htnp.exe -d domain.pddl -p problem.pddl
-) 
+)
 
-IF NOT x%option:verbose1=% == x%option% (  
-  test\htnp\htnp.exe -d domain.pddl -p test\problem.pddl -v
-) 
-
-IF NOT x%option:verbose2=% == x%option% (  
+IF NOT x%option:verbose=% == x%option% (  
   test\htnp\htnp.exe -d domain.pddl -p problem.pddl -v
 ) 
 

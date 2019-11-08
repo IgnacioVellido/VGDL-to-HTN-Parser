@@ -124,7 +124,7 @@
 
 		; For the avatar movement (expert knowledge)
 		(diamond_selected ?d - diamond)
-		(is_diamond_selected ?a - ShootAvatar)
+		(is_diamond_selected ?a - ShootAvatar)		
 	)
   
 	; Functions -----------------------------------------------------------------
@@ -185,6 +185,10 @@
 
 		; Para saber si hay un enemigo a distancia 1
 		(enemy_at_1)
+
+		; To don't repeat movements
+		(last_position_x ?o - Object)
+		(last_position_y ?o - Object)
 	)
 
 	; Tasks ---------------------------------------------------------------------
@@ -201,8 +205,9 @@
 			; :precondition (<= (counter_diamond) 0)
 			; :precondition (= (coordinate_y ?a - avatar) 1)
 			:precondition (or 
-								(= (turn) 3)
+								(= (turn) 20)
 								(= (counter_avatar) 0)
+								(= (counter_diamond) 0)
 			)
 			:tasks ()		
 		)
@@ -242,14 +247,6 @@
 	; Choose the diamond at the shortest distance
 	(:task select_diamond
 		:parameters (?a - ShootAvatar)
-
-		; (:method end_loop
-		; 	:precondition(and (is_diamond_selected ?a) 
-		; 				(not (evaluate-interaction ?a - ShootAvatar ?d - diamond))
-		; 				(not (= (coordinate_x ?diam) -1))
-		; 	)
-		; 	:tasks ()
-		; )
 
 		(:method loop
 			:precondition (and
@@ -355,7 +352,7 @@
 					)
 				)
 
-				; Assign diamond
+				; Assigning diamond
 				(:inline
 					()
 					(and					
@@ -465,214 +462,44 @@
 		:parameters (?a - ShootAvatar)
 		(:method remove
 			:precondition()
-			:tasks(
+			:tasks(				
 				; Checking in which directions the avatar can move
-				; If there is a wall
-				(:inline ()
-					(forall (?w - wall) (and
+				; Objects that we don't want to interact with go here
+				(:inline (evaluate-interaction ?a - ShootAvatar ?o - object)
+					(forall (?w - (either wall boulder crab butterfly)) (and
 						(when 
 							(and
-								; (orientation-up ?a)
 								(= (coordinate_x ?a) (coordinate_x ?w))
 								(= (- (coordinate_y ?a) 1) (coordinate_y ?w))								
 							)
-
 							(not (can-move-up ?a))
 						)
 
 						(when 
 							(and
-								; (orientation-down ?a)
 								(= (coordinate_x ?a) (coordinate_x ?w))
 								(= (+ (coordinate_y ?a) 1) (coordinate_y ?w))								
 							)
-
 							(not (can-move-down ?a))
 						)
 
 						(when 
 							(and
-								; (orientation-left ?a)
 								(= (- (coordinate_x ?a) 1) (coordinate_x ?w))
 								(= (coordinate_y ?a) (coordinate_y ?w))
 							)
-
 							(not (can-move-left ?a))
 						)
 
 						(when 
 							(and
-								; (orientation-right ?a)
 								(= (+ (coordinate_x ?a) 1) (coordinate_x ?w))
 								(= (coordinate_y ?a) (coordinate_y ?w))
 							)
-
 							(not (can-move-right ?a))
 						)
 					))					
-				)
-
-				; If there is a boulder
-				(:inline ()
-					(forall (?w - boulder) (and
-						(when 
-							(and
-								; (orientation-up ?a)
-								(= (coordinate_x ?a) (coordinate_x ?w))
-								(= (- (coordinate_y ?a) 1) (coordinate_y ?w))								
-							)
-
-							(and 
-								(not (can-move-up ?a))
-								(boulder_above)
-							)
-						)
-
-						(when 
-							(and
-								; (orientation-down ?a)
-								(= (coordinate_x ?a) (coordinate_x ?w))
-								(= (+ (coordinate_y ?a) 1) (coordinate_y ?w))								
-							)
-
-							(not (can-move-down ?a))
-						)
-
-						(when 
-							(and
-								; (orientation-left ?a)
-								(= (- (coordinate_x ?a) 1) (coordinate_x ?w))
-								(= (coordinate_y ?a) (coordinate_y ?w))
-							)
-
-							(not (can-move-left ?a))
-						)
-
-						(when 
-							(and
-								; (orientation-right ?a)
-								(= (+ (coordinate_x ?a) 1) (coordinate_x ?w))
-								(= (coordinate_y ?a) (coordinate_y ?w))
-							)
-
-							(not (can-move-right ?a))
-						)
-					))
-				)
-
-				; If there is a crab
-				(:inline ()
-					(forall (?w - crab) (and
-						(when 
-							(and
-								; (orientation-up ?a)
-								(= (coordinate_x ?a) (coordinate_x ?w))
-								(= (- (coordinate_y ?a) 1) (coordinate_y ?w))								
-							)
-
-							(and 
-								(not (can-move-up ?a))
-								(enemy_at_1)
-							)
-						)
-
-						(when 
-							(and
-								; (orientation-down ?a)
-								(= (coordinate_x ?a) (coordinate_x ?w))
-								(= (+ (coordinate_y ?a) 1) (coordinate_y ?w))								
-							)
-
-							(and 
-								(not (can-move-down ?a))
-								(enemy_at_1)
-							)
-						)
-
-						(when 
-							(and
-								; (orientation-left ?a)
-								(= (- (coordinate_x ?a) 1) (coordinate_x ?w))
-								(= (coordinate_y ?a) (coordinate_y ?w))
-							)
-
-							(and 
-								(not (can-move-left ?a))
-								(enemy_at_1)
-							)
-						)
-
-						(when 
-							(and
-								; (orientation-right ?a)
-								(= (+ (coordinate_x ?a) 1) (coordinate_x ?w))
-								(= (coordinate_y ?a) (coordinate_y ?w))
-							)
-
-							(and 
-								(not (can-move-right ?a))
-								(enemy_at_1)
-							)
-						)
-					))
-				)
-
-				; If there is a butterfly
-				(:inline ()
-					(forall (?w - butterfly) (and
-						(when 
-							(and
-								; (orientation-up ?a)
-								(= (coordinate_x ?a) (coordinate_x ?w))
-								(= (- (coordinate_y ?a) 1) (coordinate_y ?w))								
-							)
-
-							(and 
-								(not (can-move-up ?a))
-								(enemy_at_1)
-							)
-						)
-
-						(when 
-							(and
-								; (orientation-down ?a)
-								(= (coordinate_x ?a) (coordinate_x ?w))
-								(= (+ (coordinate_y ?a) 1) (coordinate_y ?w))								
-							)
-
-							(and 
-								(not (can-move-down ?a))
-								(enemy_at_1)
-							)
-						)
-
-						(when 
-							(and
-								; (orientation-left ?a)
-								(= (- (coordinate_x ?a) 1) (coordinate_x ?w))
-								(= (coordinate_y ?a) (coordinate_y ?w))
-							)
-
-							(and 
-								(not (can-move-left ?a))
-								(enemy_at_1)
-							)
-						)
-
-						(when 
-							(and
-								; (orientation-right ?a)
-								(= (+ (coordinate_x ?a) 1) (coordinate_x ?w))
-								(= (coordinate_y ?a) (coordinate_y ?w))
-							)
-
-							(and 
-								(not (can-move-right ?a))
-								(enemy_at_1)
-							)
-						)
-					))
-				)
+				)				
 			)
 		)
 	)
@@ -687,8 +514,7 @@
 			)
 		)
 
-		; The diamond is going up and no wall directly above 
-		; (no need to check for enemies or boulders)
+		; The diamond is going up and no wall directly above 		
 		(:method need_turn_up
 			:precondition (and
 				(can-move-up ?a)
@@ -713,9 +539,9 @@
 
 		(:method need_turn_left
 			:precondition (and
+				(can-move-left ?a)
 				(diamond_selected ?d)
 				(> (coordinate_x ?a) (coordinate_x ?d))
-				(can-move-left ?a)
 			)
 			:tasks (
 				(AVATAR_TURN_LEFT ?a)
@@ -724,9 +550,50 @@
 
 		(:method need_turn_right
 			:precondition (and
+				(can-move-right ?a)
 				(diamond_selected ?d - diamond)
 				(< (coordinate_x ?a) (coordinate_x ?d))
+			)
+			:tasks (
+				(AVATAR_TURN_RIGHT ?a)
+			)
+		)
+
+		; There is a wall between the avatar and the diamond
+		(:method need_turn_up2
+			:precondition (and
+				(can-move-up ?a)
+				(diamond_selected ?d)
+			)
+			:tasks (
+				(AVATAR_TURN_UP ?a)
+			)
+		)
+
+		(:method need_turn_down2
+			:precondition (and
+				(can-move-down ?a)
+				(diamond_selected ?d)
+			)
+			:tasks (
+				(AVATAR_TURN_DOWN ?a)
+			)
+		)
+
+		(:method need_turn_left2
+			:precondition (and
+				(can-move-left ?a)
+				(diamond_selected ?d)			
+			)
+			:tasks (
+				(AVATAR_TURN_LEFT ?a)
+			)
+		)
+
+		(:method need_turn_right2
+			:precondition (and
 				(can-move-right ?a)
+				(diamond_selected ?d - diamond)
 			)
 			:tasks (
 				(AVATAR_TURN_RIGHT ?a)
@@ -759,6 +626,11 @@
 		)
 	)
 
+
+
+
+
+
 	(:task choose_action
 		:parameters (?a - ShootAvatar ?p - sword)
 		(:method boulder_up
@@ -777,9 +649,10 @@
 			:precondition (enemy_at_1)
 			:tasks (
 				; (evade_enemy_at_1)
-				(:inline (:print "Enemigo a 1\n") ())
+				; (:inline (:print "Enemigo a 1\n") ())
 				; Move in any direction
 				(avatar_force_move ?a)
+				(:inline () (not (enemy_at_1)))
 			)
 		)
 
@@ -1112,8 +985,18 @@
 
                         ; Comprobación de que está orientado en esa dirección
 						(orientation-up ?a)
+
+						; Añadiendo estrategia, no repetir casilla anterior
+						(or 
+							(not (= (last_position_x ?a) (coordinate_x ?a)))
+							(not (= (last_position_y ?a) (- (coordinate_y ?a) 1)))
+						)
 					)
 		:effect (and				
+					; Añadiendo estrategia, guardando casilla
+					(assign (last_position_x ?a) (coordinate_x ?a))
+					(assign (last_position_y ?a) (coordinate_y ?a))
+
 					; Se cambia la coordenada en función de la acción
 					(assign (last_coordinate_y ?a) (coordinate_y ?a))
 					(decrease (coordinate_y ?a) 1)				
@@ -1125,8 +1008,18 @@
 		:precondition (and 
 						(can-move-down ?a)
 						(orientation-down ?a)
+
+						; Añadiendo estrategia, no repetir casilla anterior
+						(or 
+							(not (= (last_position_x ?a) (coordinate_x ?a)))
+							(not (= (last_position_y ?a) (+ (coordinate_y ?a) 1)))
+						)
 					)
 		:effect (and 
+					; Añadiendo estrategia, guardando casilla
+					(assign (last_position_x ?a) (coordinate_x ?a))
+					(assign (last_position_y ?a) (coordinate_y ?a))
+
 					(assign (last_coordinate_y ?a) (coordinate_y ?a))
 					(increase (coordinate_y ?a) 1)
 				)
