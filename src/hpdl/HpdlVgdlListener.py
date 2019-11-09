@@ -78,8 +78,8 @@ class HpdlVgdlListener(VgdlListener):
         Generates the multiple parts of a HPDL domain, to be sent to the writer
         """
         self.search_partner()
-
-        self.avatar_hpdl = AvatarHPDL(self.avatar.name, self.avatar.stype, 
+        self.avatar_hpdl = AvatarHPDL(self.avatar.name, 
+                                      self.avatar.stype, 
                                       self.partner)
 
         self.assign_types()

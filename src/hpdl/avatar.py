@@ -13,6 +13,8 @@ from hpdl.hpdlTypes import *
 ###############################################################################
 
 class AvatarHPDL:
+    """ Class that encapsulate the generation of HPDL domain structures 
+    for the avatar """
     def __init__(self, avatar_name, avatar_type, partner=None):
         self.avatar_name = avatar_name
         self.avatar_type = avatar_type
@@ -47,8 +49,8 @@ class AvatarHPDL:
     # -------------------------------------------------------------------------
 
     def get_task(self):
-        """ Only one, read parameters of each action and remove duplicates, then
-        print methods """
+        """ Read parameters of each action and remove duplicates, produce task 
+        (only one) including previous methods """
 
         # Getting the parameters from the actions
         parameters = []       

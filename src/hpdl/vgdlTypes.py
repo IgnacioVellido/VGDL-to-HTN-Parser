@@ -10,16 +10,16 @@ class Interaction:
     """ An effect produced by the collision of two objects
 
     Atributes:
-        main_sprite     The sprite who suffers the interaction
-        second_sprite   The sprite who collisioned the main_sprite
-        type            Type of interaction
-        parameters      List of optionals parameters
+        main_sprite         The sprite who suffers the interaction
+        second_sprite       The sprite who collisioned the main_sprite
+        interaction_type    Type of interaction
+        parameters          List of optionals parameters
     """
-    def __init__(self, main_sprite, second_sprite, type, parameters):
-        self.main_sprite = main_sprite
-        self.second_sprite = second_sprite
-        self.type = type
-        self.parameters = parameters
+    def __init__(self, main_sprite, second_sprite, interaction_type, parameters):
+        self.main_sprite    = main_sprite
+        self.second_sprite  = second_sprite
+        self.type           = interaction_type
+        self.parameters     = parameters
 
 ###############################################################################
 # -----------------------------------------------------------------------------
@@ -29,12 +29,12 @@ class Termination:
     """ A condition to end the game
 
     Atributes:
-        type        Type of condition
-        win         True or False, depending if the avatar wins or loses
-        parameters  List of optionals parameters
+        termination_type    Type of condition
+        win                 True or False, depending if the avatar wins or loses
+        parameters          List of optionals parameters
     """
-    def __init__(self, type, win, parameters):
-        self.type = type
+    def __init__(self, termination_type, win, parameters):
+        self.type = termination_type
         self.win = win
         self.parameters = parameters
         
