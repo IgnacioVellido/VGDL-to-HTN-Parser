@@ -2,8 +2,8 @@
 @ECHO OFF
 
 set option=%1
-set vgdl-file=%2
-set output=%3
+REM set vgdl-file=%2
+REM set output=%3
 
 IF NOT x%option:build=% == x%option% (
   ECHO Compiling the grammar...

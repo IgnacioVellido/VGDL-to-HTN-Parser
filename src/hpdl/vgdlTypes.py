@@ -10,14 +10,14 @@ class Interaction:
     """ An effect produced by the collision of two objects
 
     Atributes:
-        main_sprite         The sprite who suffers the interaction
-        second_sprite       The sprite who collisioned the main_sprite
+        sprite_name         The sprite who suffers the interaction
+        partner_name        The sprite who collisioned with the main_sprite
         interaction_type    Type of interaction
         parameters          List of optionals parameters
     """
-    def __init__(self, main_sprite, second_sprite, interaction_type, parameters):
-        self.main_sprite    = main_sprite
-        self.second_sprite  = second_sprite
+    def __init__(self, sprite_name, partner_name, interaction_type, parameters):
+        self.sprite_name    = sprite_name
+        self.partner_name   = partner_name
         self.type           = interaction_type
         self.parameters     = parameters
 

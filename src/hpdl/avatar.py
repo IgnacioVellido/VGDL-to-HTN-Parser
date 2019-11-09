@@ -32,8 +32,7 @@ class AvatarHPDL:
 
     def get_methods(self):
         for action in self.actions:
-            name = action.name.lower()
-            preconditions = []
+            name = action.name.lower()            
 
             # Getting the parameters (only the name, not the type)
             parameters = ""
@@ -42,7 +41,7 @@ class AvatarHPDL:
 
             m_action = "(" + action.name + parameters + ")"
 
-            m = Method(name, preconditions, [m_action])
+            m = Method(name, [], [m_action])
 
             self.methods.append(m)
 
@@ -234,23 +233,20 @@ class AvatarActions:
         conditions = ["(can-change-orientation ?a)","(not (orientation-up ?a))"]
 
         effect_down = """
-(when
-    (orientation-down ?a )
-    (not (orientation-down ?a))
-)
-"""        
+                    (when
+                        (orientation-down ?a )
+                        (not (orientation-down ?a))
+                    )"""        
         effect_left = """
-(when
-    (orientation-left ?a )
-    (not (orientation-left ?a))
-)
-"""
+                    (when
+                        (orientation-left ?a )
+                        (not (orientation-left ?a))
+                    )"""
         effect_right = """
-(when
-    (orientation-right ?a )
-    (not (orientation-right ?a))
-)
-"""
+                    (when
+                        (orientation-right ?a )
+                        (not (orientation-right ?a))
+                    )"""
         effects = [effect_down, effect_right, effect_left, "(orientation-up ?a)"]
 
         return Action(name, parameters, conditions, effects)
@@ -265,23 +261,20 @@ class AvatarActions:
         conditions = ["(can-change-orientation ?a)","(not (orientation-down ?a))"]
         
         effect_up = """
-(when
-    (orientation-up ?a )
-    (not (orientation-up ?a))
-)
-"""
+                    (when
+                        (orientation-up ?a )
+                        (not (orientation-up ?a))
+                    )"""
         effect_left = """
-(when
-    (orientation-left ?a )
-    (not (orientation-left ?a))
-)
-"""
+                    (when
+                        (orientation-left ?a )
+                        (not (orientation-left ?a))
+                    )"""
         effect_right = """
-(when
-    (orientation-right ?a )
-    (not (orientation-right ?a))
-)
-"""
+                    (when
+                        (orientation-right ?a )
+                        (not (orientation-right ?a))
+                    )"""
         effects = [effect_left, effect_right, effect_up, "(orientation-down ?a)"]
 
         return Action(name, parameters, conditions, effects)
@@ -296,23 +289,20 @@ class AvatarActions:
         conditions = ["(can-change-orientation ?a)","(not (orientation-left ?a))"]
 
         effect_down = """
-(when
-    (orientation-down ?a )
-    (not (orientation-down ?a))
-)
-"""
+                    (when
+                        (orientation-down ?a )
+                        (not (orientation-down ?a))
+                    )"""
         effect_up = """
-(when
-    (orientation-up ?a )
-    (not (orientation-up ?a))
-)
-"""
+                    (when
+                        (orientation-up ?a )
+                        (not (orientation-up ?a))
+                    )"""
         effect_right = """
-(when
-    (orientation-right ?a )
-    (not (orientation-right ?a))
-)
-"""
+                    (when
+                        (orientation-right ?a )
+                        (not (orientation-right ?a))
+                    )"""
 
         effects = [effect_down, effect_right, effect_up, "(orientation-left ?a)"]
 
@@ -328,23 +318,20 @@ class AvatarActions:
         conditions = ["(can-change-orientation ?a)","(not (orientation-right ?a))"]
 
         effect_down = """
-(when
-    (orientation-down ?a )
-    (not (orientation-down ?a))
-)
-"""
+                    (when
+                        (orientation-down ?a )
+                        (not (orientation-down ?a))
+                    )"""
         effect_up = """
-(when
-    (orientation-up ?a )
-    (not (orientation-up ?a))
-)
-"""
+                    (when
+                        (orientation-up ?a )
+                        (not (orientation-up ?a))
+                    )"""
         effect_left = """
-(when
-    (orientation-left ?a )
-    (not (orientation-left ?a))
-)
-"""
+                    (when
+                        (orientation-left ?a )
+                        (not (orientation-left ?a))
+                    )"""
         effects = [effect_down, effect_left, effect_up, "(orientation-right ?a)"]
 
         return Action(name, parameters, conditions, effects)
@@ -366,46 +353,45 @@ class AvatarActions:
         
         # Generate the partner object in a position depending of the orientation of the avatar
         partner_generation = """
-(when
-    (orientation-up ?a)
+                    (when
+                        (orientation-up ?a)
 
-    (and
-        (assign (coordinate_x ?p) (coordinate_x ?a))
-        (assign (coordinate_y ?p) (coordinate_y ?a))
-        (decrease (coordinate_y ?p) 1)						
-    )
-)
+                        (and
+                            (assign (coordinate_x ?p) (coordinate_x ?a))
+                            (assign (coordinate_y ?p) (coordinate_y ?a))
+                            (decrease (coordinate_y ?p) 1)						
+                        )
+                    )
 
-(when
-    (orientation-down ?a)
+                    (when
+                        (orientation-down ?a)
 
-    (and
-        (assign (coordinate_x ?p) (coordinate_x ?a))
-        (assign (coordinate_y ?p) (coordinate_y ?a))
-        (increase (coordinate_y ?p) 1)						
-    )
-)
+                        (and
+                            (assign (coordinate_x ?p) (coordinate_x ?a))
+                            (assign (coordinate_y ?p) (coordinate_y ?a))
+                            (increase (coordinate_y ?p) 1)						
+                        )
+                    )
 
-(when
-    (orientation-left ?a)
+                    (when
+                        (orientation-left ?a)
 
-    (and
-        (assign (coordinate_x ?p) (coordinate_x ?a))
-        (assign (coordinate_y ?p) (coordinate_y ?a))
-        (decrease (coordinate_x ?p) 1)						
-    )
-)
+                        (and
+                            (assign (coordinate_x ?p) (coordinate_x ?a))
+                            (assign (coordinate_y ?p) (coordinate_y ?a))
+                            (decrease (coordinate_x ?p) 1)						
+                        )
+                    )
 
-(when
-    (orientation-right ?a)
+                    (when
+                        (orientation-right ?a)
 
-    (and
-        (assign (coordinate_x ?p) (coordinate_x ?a))
-        (assign (coordinate_y ?p) (coordinate_y ?a))
-        (increase (coordinate_x ?p) 1)						
-    )
-)
-"""
+                        (and
+                            (assign (coordinate_x ?p) (coordinate_x ?a))
+                            (assign (coordinate_y ?p) (coordinate_y ?a))
+                            (increase (coordinate_x ?p) 1)						
+                        )
+                    )"""
         effects = ["(increase (counter_" + self.partner.name + ") 1)", partner_generation]
 
 

@@ -190,16 +190,16 @@ def main(argv):
 
     # ----------------------------------------------------------------------
 
-    # writer = DomainWriter(types, constants, functions, predicates, tasks, actions)
-    # text_domain = writer.get_domain()
+    writer = DomainWriter(types, constants, functions, predicates, tasks, actions)
+    text_domain = writer.get_domain()
 
     # ----------------------------------------------------------------------
     # Opening and printing HPDL domain file
 
-    # try:
-    #     write_output(args.gameOutput, text_domain)
-    # except Exception as e:
-    #     print("I shouldn't be here " + str(e))
+    try:
+        write_output(args.gameOutput, text_domain)
+    except Exception as e:
+        print("I shouldn't be here " + str(e))
 
 
     print("Game parsed without errors.")

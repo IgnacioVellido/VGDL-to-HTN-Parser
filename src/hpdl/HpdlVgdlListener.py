@@ -49,6 +49,11 @@ class HpdlVgdlListener(VgdlListener):
         actions     List of strings
     """
     def __init__(self):
+        # To parse the VGDL game description - from vgdlTypes.py
+        self.sprites = []
+        self.interactions = []
+        self.terminations = []
+
         # String arrays
         self.types      = []
         self.constants  = []
@@ -194,6 +199,15 @@ class HpdlVgdlListener(VgdlListener):
 
         self.functions.append("(turn)")
 
+    # -------------------------------------------------------------------------
+
+    def find_type_by_name(self, name):
+        for sprite in self.sprites:
+            if sprite.name == name:
+                if sprite.stype is not None:
+                    return sprite.stype
+                else:
+                    return sprite.name
 
     # -------------------------------------------------------------------------
 
@@ -225,21 +239,29 @@ class HpdlVgdlListener(VgdlListener):
         self.tasks.append(task_object)
 
         # Create interactions -------- UNFINISHED
-        interaction_methods = []
+        create_interaction_methods = []
+        create_interaction_methods.append(Method("create", ["(not (evaluate-interaction ?o1 - Object ?o2 - Object))"],
+                        ["(:inline () (evaluate-interaction ?o1 ?o2))"]))
 
-        for interaction in self.interactions:
-            create = Method("create", ["(not (evaluate-interaction ?o1 - Object ?o2 - Object))"],
-                            ["(:inline () (evaluate-interaction ?o1 ?o2))"])
-
-        interaction_methods.add(Method("base_case", [], [])) # Base case
-        create_interac = Task("create-interactions", [], interaction_methods)
+        create_interaction_methods.append(Method("base_case", [], [])) # Base case
+        create_interac = Task("create-interactions", [], create_interaction_methods)
         
         self.tasks.append(create_interac)
 
         # Check interactions --------- UNFINISHED
         object_interac = []
         object_methods = []
-        turn = Method("turn", [], object_interac)
+        
+        for interaction in self.interactions:
+            sprite_stype  = self.find_type_by_name(interaction.sprite_name)
+            partner_stype = self.find_type_by_name(interaction.partner_name)
+            object_methods.append(InteractionMethods(interaction.sprite_name, 
+                                                     sprite_stype,
+                                                     interaction.partner_name, 
+                                                     partner_stype,
+                                                     interaction.type,
+                                                     interaction.parameters)
+                                                     .get_methods())
 
         base = Method("base_case", [], [])
         object_methods.append(base)
@@ -247,8 +269,6 @@ class HpdlVgdlListener(VgdlListener):
         check_interac = Task("check-interactions", [], object_methods)
 
         self.tasks.append(check_interac)
-
-    
 
     # -------------------------------------------------------------------------
 
