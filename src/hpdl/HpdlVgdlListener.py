@@ -128,6 +128,15 @@ class HpdlVgdlListener(VgdlListener):
                 else:
                     return sprite.name
     
+    def find_father_by_name(self, name):
+        """ Find the type of a sprite given his name """
+        for sprite in self.sprites:
+            if sprite.name == name:
+                if sprite.father is not None:
+                    return sprite.father
+                else:
+                    return sprite.name
+
     # -------------------------------------------------------------------------
 
     # FROM GITHUB 
@@ -172,37 +181,55 @@ class HpdlVgdlListener(VgdlListener):
             print("Produced by: ", duplicates)
             exit()
 
-        self.types.append(stypes) 
-               
+        self.types.append(stypes)                
 
-        # print(self.types, "aaa\n")
-        # # print(self.hierarchy, "\n")
-        # inverted_hierarchy = self.invert_dict(self.hierarchy)
-        # print(inverted_hierarchy, "\n")
+        """ Detectar que moving no se ha declarado (el objeto no está en types),
+        buscar sus hijos directos (de aquellos hijos, los que no tengan a otro
+        como padre), eliminar sus tipos de objects y añadirlos a moving, añadir
+        moving a object """
 
-        # # Recorrer cada objeto de la jerarquía, si no está defindo en types,
-        # # añadirlo quitando a sus hijos
-        # for obj in inverted_hierarchy:
-        #     if obj != 'Object':
-        #         paso = False
-        #         for types in self.types:
-        #             if obj in types:
-        #                 paso = True
+        inverted_hierarchy = self.invert_dict(self.hierarchy)
+    
+        for obj in inverted_hierarchy:
+            if obj != 'Object':
+                to_add = False
+                for types in self.types:
+                    if obj in types:
+                        to_add = True
 
-        #     if not paso:
-        #         print(obj)
-        #         self.types.append([obj] + (inverted_hierarchy[obj]))
+            if not to_add:
+                print(obj)
+                childs = inverted_hierarchy[obj]
 
-        #         # for types in self.types:
-        #         # copy_types = []
-        #         # for i in range(0, len(self.types)):
-        #         #     if self.types[i][0] == 'Object':
-        #         #         copy_types.append(self.types[i])
-        #         #         copy_types.append(obj)
-        #         #     if self.types[i][1] not in inverted_hierarchy[obj]:
-        #         #         copy_types.append(self.types[i])
-                
-        #         # self.types = copy_types                        
+                to_remove = []
+
+                for c in childs:
+                    father = self.find_father_by_name(c)
+
+                    if father in childs:
+                        to_remove.append(self.find_type_by_name(father))
+                    if father == obj:
+                        to_remove.append(self.find_type_by_name(c))
+
+                to_remove = self.f7(to_remove)
+                self.types.append([obj] + to_remove)
+
+                copy_types = []
+                for i in range(0, len(self.types)):
+                    if self.types[i][0] == 'Object':
+                        for x in to_remove:
+                            try:
+                                self.types[i].remove(x)
+                            except ValueError:
+                                pass
+
+                    copy_types.append(self.types[i])
+
+                self.types = copy_types            
+
+                for i in range(0, len(self.types)): 
+                    if self.types[i][0] == 'Object':
+                        self.types[i].append(obj)
 
     # -------------------------------------------------------------------------
 

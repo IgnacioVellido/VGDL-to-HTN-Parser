@@ -225,12 +225,18 @@ class DomainWriter:
             preconditions = a.get_preconditions()
             effects = a.get_effects()
 
+            # If it don't begins with a forall
+            if len(a.effects) > 0 and not "forall" in a.effects[0]:
+                text_effects = "and " + effects
+            else:
+                text_effects = effects
+
             text  += ("\t(:action """ + a.name + "\n\t\t:parameters ("
                      + a.get_parameters()
                      + ")\n\t\t:precondition (" 
                      + ("" if not preconditions else ("and " + preconditions))
                      + "\n\t\t\t\t\t)\n\t\t:effect (" 
-                     + ("" if not effects else ("and " + effects))
+                     + ("" if not effects else text_effects)
                      + "\n\t\t\t\t)\n\t)\n\n")
 
         return start_text + text
