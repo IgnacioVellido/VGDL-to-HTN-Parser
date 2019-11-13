@@ -42,7 +42,7 @@ class HpdlVgdlListener(VgdlListener):
     This class defines a complete listener for a parse tree produced by VgdlParser.
 
     Atributes:
-        types       List of pairs string-string
+        types       List of pairs string-string (class, object)
         predicates  List of strings
         functions   List of strings
         tasks       List of strings
@@ -87,6 +87,12 @@ class HpdlVgdlListener(VgdlListener):
                                       self.avatar.stype, 
                                       self.partner)
 
+        self.assign_short_long_types()
+        self.assign_hierarchy()
+        self.assign_stypes()
+
+        # print(self.hierarchy)
+
         self.assign_types()
         self.assign_constants()
         self.assign_predicates()
@@ -94,9 +100,6 @@ class HpdlVgdlListener(VgdlListener):
         self.assign_tasks()
         self.assign_actions()
 
-        self.assign_short_long_types()
-        self.assign_hierarchy()
-        self.assign_stypes()
 
     # -------------------------------------------------------------------------
 
@@ -116,6 +119,31 @@ class HpdlVgdlListener(VgdlListener):
 
     # -------------------------------------------------------------------------
 
+    def find_type_by_name(self, name):
+        """ Find the type of a sprite given his name """
+        for sprite in self.sprites:
+            if sprite.name == name:
+                if sprite.stype is not None:
+                    return sprite.stype
+                else:
+                    return sprite.name
+    
+    # -------------------------------------------------------------------------
+
+    # FROM GITHUB 
+    def invert_dict(self, d): 
+        inverse = dict() 
+        for key in d: 
+            # Go through the list that is saved in the dict:
+            for item in d[key]:
+                # Check if in the inverted dict the key exists
+                if item not in inverse: 
+                    # If not create a new list
+                    inverse[item] = [key] 
+                else: 
+                    inverse[item].append(key) 
+        return inverse
+
     def assign_types(self):
         """ Object, the types of each sprite and the sprites in their hierarchy """        
         stypes = []
@@ -126,8 +154,6 @@ class HpdlVgdlListener(VgdlListener):
 
             if sprite.stype is not None:
                 stypes.append(sprite.stype)
-
-            if sprite.stype is not None:
                 self.types.append([sprite.stype, sprite.name])
             elif sprite.father is not None:
                 self.types.append([sprite.father, sprite.name])
@@ -146,7 +172,37 @@ class HpdlVgdlListener(VgdlListener):
             print("Produced by: ", duplicates)
             exit()
 
-        self.types.append(stypes)        
+        self.types.append(stypes) 
+               
+
+        # print(self.types, "aaa\n")
+        # # print(self.hierarchy, "\n")
+        # inverted_hierarchy = self.invert_dict(self.hierarchy)
+        # print(inverted_hierarchy, "\n")
+
+        # # Recorrer cada objeto de la jerarquía, si no está defindo en types,
+        # # añadirlo quitando a sus hijos
+        # for obj in inverted_hierarchy:
+        #     if obj != 'Object':
+        #         paso = False
+        #         for types in self.types:
+        #             if obj in types:
+        #                 paso = True
+
+        #     if not paso:
+        #         print(obj)
+        #         self.types.append([obj] + (inverted_hierarchy[obj]))
+
+        #         # for types in self.types:
+        #         # copy_types = []
+        #         # for i in range(0, len(self.types)):
+        #         #     if self.types[i][0] == 'Object':
+        #         #         copy_types.append(self.types[i])
+        #         #         copy_types.append(obj)
+        #         #     if self.types[i][1] not in inverted_hierarchy[obj]:
+        #         #         copy_types.append(self.types[i])
+                
+        #         # self.types = copy_types                        
 
     # -------------------------------------------------------------------------
 
@@ -167,6 +223,7 @@ class HpdlVgdlListener(VgdlListener):
         self.predicates.extend(avatar)
 
         self.predicates.append("(evaluate-interaction ?o1 ?o2 - Object)")
+        self.predicates.append("(regenerate-interaction ?o1 ?o2 - Object)")
 
 
     # -------------------------------------------------------------------------
@@ -179,35 +236,18 @@ class HpdlVgdlListener(VgdlListener):
         self.functions.append("(last_coordinate_x ?o - Object)")
         self.functions.append("(last_coordinate_y ?o - Object)")
 
-        # Getting each type of object removing duplicates
-        types_names = []
-
-        for sprite in self.types:
-            types_names.append(sprite[0])
-            types_names.append(sprite[1])
-        
+    
+        for sprite in self.types:        
             # If resource, add an special counter for the avatar
-            if sprite[0] == "Resource":
+            if "Resource" in sprite[0]:
                 self.functions.append("(resource_" + sprite[1] + " ?a - " 
                                         + self.avatar.name + ")")
 
-        types_names = list(set(types_names))
-
-        for t in types_names:
+        for t in self.hierarchy:
             if t is not "":
                 self.functions.append("(counter_" + t + ")")
 
         self.functions.append("(turn)")
-
-    # -------------------------------------------------------------------------
-
-    def find_type_by_name(self, name):
-        for sprite in self.sprites:
-            if sprite.name == name:
-                if sprite.stype is not None:
-                    return sprite.stype
-                else:
-                    return sprite.name
 
     # -------------------------------------------------------------------------
 
@@ -218,27 +258,33 @@ class HpdlVgdlListener(VgdlListener):
                         [],
                         ["(turn_avatar ?a - " + self.avatar.name + " ?p - " + self.partner.name + ")",
                          "(turn_objects)",
-                         "(check-interactions)"
-                         "(create-interactions)"
-                         "\n(:inline () (increase (turn) 1))"
+                         "(check-interactions)",
+                         "(create-interactions)",
+                         "(:inline () (increase (turn) 1))",
                          "(Turn)"
                         ])
-        undone = Method("turn_undone", [], ["(Turn)"])  # UNFINISHED TASKS
+        # undone = Method("turn_undone", [], ["(Turn)"])  # UNFINISHED TASKS
 
-        turn_task = Task("Turn", [], [finish, turn, undone])
+        turn_task = Task("Turn", [], [finish, turn])
         self.tasks.append(turn_task)
 
         # Avatar turn ----------------        
         self.tasks.append(self.avatar_hpdl.task)
 
-        # Rest of objects turn ------- UNFINISHED
+        # Rest of objects turn ------- THERE MUST BE A BETTER WAY
         object_tasks = []
+
+        for obj in self.sprites:
+            actions = ObjectHPDL(obj.name, obj.stype).actions
+            for act in actions:
+                object_tasks.append("(" + act.name + ")")
+
         turn = Method("turn", [], object_tasks)
         task_object = Task("turn_objects", [], [turn])
 
         self.tasks.append(task_object)
 
-        # Create interactions -------- UNFINISHED
+        # Create interactions -------- 
         create_interaction_methods = []
         create_interaction_methods.append(Method("create", ["(not (evaluate-interaction ?o1 - Object ?o2 - Object))"],
                         ["(:inline () (evaluate-interaction ?o1 ?o2))"]))
@@ -248,7 +294,7 @@ class HpdlVgdlListener(VgdlListener):
         
         self.tasks.append(create_interac)
 
-        # Check interactions --------- UNFINISHED
+        # Check interactions --------- 
         object_interac = []
         object_methods = []
         
@@ -280,11 +326,24 @@ class HpdlVgdlListener(VgdlListener):
         self.actions.extend(avatar_actions)
 
         # And one for each deterministic movable object 
-        # ...
+        for obj in self.sprites:
+            actions = ObjectHPDL(obj.name, obj.stype).actions
 
-        # And one for each interaction movable object 
-        # ...
-    
+            if actions:
+                self.actions.extend(actions)
+
+        # And one for each interaction
+        for interaction in self.interactions:
+            sprite_stype  = self.find_type_by_name(interaction.sprite_name)
+            partner_stype = self.find_type_by_name(interaction.partner_name)
+            self.actions.append(InteractionActions(interaction.sprite_name, 
+                                                    sprite_stype,
+                                                    interaction.partner_name, 
+                                                    partner_stype,
+                                                    interaction.type,
+                                                    interaction.parameters)
+                                                    .get_actions())
+        
     # -------------------------------------------------------------------------
 
     def assign_short_long_types(self):
@@ -296,14 +355,26 @@ class HpdlVgdlListener(VgdlListener):
 
     # -------------------------------------------------------------------------
 
+    # FROM GITHUB, REMOVING DUPLICATES WITHOUT CHANGING ORDER
+    def f7(self, seq):
+        seen = set()
+        seen_add = seen.add
+        return [x for x in seq if not (x in seen or seen_add(x))]
+
     def assign_hierarchy(self):
         """ Stores a hierarchy of the objects """
         for obj in self.hierarchy:
             self.hierarchy[obj].append("Object")
-            self.hierarchy[obj] = list(set(self.hierarchy[obj]))  # Removing duplicates
+            self.hierarchy[obj] = self.f7(self.hierarchy[obj])
+            # self.hierarchy[obj] = list(set(self.hierarchy[obj]))  # Removing duplicates
 
         # Adding Object with no father
         self.hierarchy["Object"] = []
+
+        # Deleting None from hierarchy
+        for obj in self.hierarchy:
+            if None in self.hierarchy[obj]:
+                self.hierarchy[obj].remove(None)
 
     # -------------------------------------------------------------------------
 
@@ -335,13 +406,6 @@ class HpdlVgdlListener(VgdlListener):
     # -------------------------------------------------------------------------
 
     def enterRecursiveSprite(self, ctx:VgdlParser.RecursiveSpriteContext):        
-        # If it has a type, include it (if not, father must have one)
-        if hasattr(ctx, 'spriteType') and hasattr(ctx.spriteType, 'text'):
-            stype = ctx.spriteType.text
-            self.hierarchy.setdefault(stype, []).append("Object")
-        else:
-            stype = None
-
         parentCtx = ctx.parentCtx
         if hasattr(parentCtx, 'name'):
             parent_name = parentCtx.name.text
@@ -351,6 +415,12 @@ class HpdlVgdlListener(VgdlListener):
             self.hierarchy.setdefault(ctx.name.text, []).append(parent_name)
             self.hierarchy.setdefault(ctx.name.text, []).extend(self.hierarchy[parent_name])
 
+        # If it has a type, include it (if not, father must have one)
+        if hasattr(ctx, 'spriteType') and hasattr(ctx.spriteType, 'text'):
+            stype = ctx.spriteType.text
+            self.hierarchy.setdefault(stype, []).append("Object")
+        else:
+            stype = None
 
         # The stype
         self.hierarchy.setdefault(ctx.name.text, []).append(stype)

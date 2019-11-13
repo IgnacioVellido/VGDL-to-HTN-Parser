@@ -251,16 +251,16 @@ class InteractionMethods:
         # preconditions = ["(evaluate-interaction " + self.sprite_name + " - " +
         #                     self.sprite_type + " " + self.partner_name + " - " +
         #                     self.partner_type + ")"],
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_ADDHEALTHPOINTS ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -271,16 +271,16 @@ class InteractionMethods:
     # UNFINISHED
     def addHealthPointsToMax(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_addhealthpointstomax"  
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_ADDHEALTHPOINTSTOMAX ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -291,16 +291,16 @@ class InteractionMethods:
     # UNFINISHED
     def align(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_align"  
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_ALIGN ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -311,16 +311,16 @@ class InteractionMethods:
     # UNFINISHED
     def attractGaze(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_attractgaze"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_ATTRACTGAZE ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -331,16 +331,16 @@ class InteractionMethods:
     # UNFINISHED
     def bounceDirection(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_bouncedirection"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_BOUNCEDIRECTION ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -351,16 +351,16 @@ class InteractionMethods:
     # UNFINISHED
     def bounceForward(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_bounceforward"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_BOUNCEFORWARD ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -371,16 +371,16 @@ class InteractionMethods:
     # UNFINISHED
     def changeResource(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_changeresource"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_CHANGERESOURCE ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -391,16 +391,16 @@ class InteractionMethods:
     # UNFINISHED
     def cloneSprite(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_clonesprite"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_CLONESPRITE ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -411,16 +411,16 @@ class InteractionMethods:
     # UNFINISHED
     def collectResource(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_collectresource"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_COLLECTRESOURCE ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -431,16 +431,16 @@ class InteractionMethods:
     # UNFINISHED
     def decreaseSpeedToAll(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_decreasespeedtoall"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_DECREASESPEEDTOALL ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -451,16 +451,16 @@ class InteractionMethods:
     # UNFINISHED
     def flipDirection(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_flipdirection"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_FLIPDIRECTION ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -471,16 +471,16 @@ class InteractionMethods:
     # UNFINISHED
     def increaseSpeedToAll(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_increasespeedtoall"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_INCREASESPEEDTOALL ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -491,16 +491,16 @@ class InteractionMethods:
     # UNFINISHED
     def killAll(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_killall"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_KILLALL ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -511,16 +511,16 @@ class InteractionMethods:
     # UNFINISHED
     def killBoth(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_killifboth"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_KILLIFBOTH ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -531,16 +531,16 @@ class InteractionMethods:
     # UNFINISHED
     def killIfAlive(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_killifalive"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_KILLIFALIVE ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -551,16 +551,16 @@ class InteractionMethods:
     # UNFINISHED
     def killIfFromAbove(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_killiffromabove"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_KILLIFFROMABOVE ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -571,16 +571,16 @@ class InteractionMethods:
     # UNFINISHED
     def killIfHasMore(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_killifhasmore"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_KILLIFHASMORE ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -591,16 +591,16 @@ class InteractionMethods:
     # UNFINISHED
     def killIfFast(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_killiffast"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_KILLIFFAST ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -611,16 +611,16 @@ class InteractionMethods:
     # UNFINISHED
     def killIfOtherHasLess(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_killifotherhasless"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_KILLIFOTHERHASLESS ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -632,16 +632,16 @@ class InteractionMethods:
     # NEEDED REST OF THE NAME
     def killIfOtherHasMore(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_killifotherhasmore"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_KILLIFOTHERHASMORE ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -652,16 +652,16 @@ class InteractionMethods:
     # UNFINISHED
     def killIfSlow(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_killifslow"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_KILLIFSLOW ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -672,16 +672,16 @@ class InteractionMethods:
     # UNFINISHED
     def killSprite(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_killsprite"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_KILLSPRITE ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -692,16 +692,16 @@ class InteractionMethods:
     # UNFINISHED
     def pullWithIt(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_pullwithit"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_PULLWITHIT ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -712,16 +712,16 @@ class InteractionMethods:
     # UNFINISHED
     def removeScore(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_removescore"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_REMOVESCORE ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -732,16 +732,16 @@ class InteractionMethods:
     # UNFINISHED
     def reverseDirection(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_reversedirection"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_REVERSEDIRECTION ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -752,16 +752,16 @@ class InteractionMethods:
     # UNFINISHED
     def setSpeedToAll(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_setspeedtoall"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_SETSPEEDTOALL ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -772,16 +772,16 @@ class InteractionMethods:
     # UNFINISHED
     def spawnBehind(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_spawnbehind"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_SPAWNBEHIND ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -792,16 +792,16 @@ class InteractionMethods:
     # UNFINISHED
     def spawnIfHasLess(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_spawnifhasless"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_SPAWNIFHASLESS ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -812,16 +812,16 @@ class InteractionMethods:
     # UNFINISHED
     def spawnIfHasMore(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_spawnifhasmore"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_SPAWNIFHASMORE ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -832,16 +832,16 @@ class InteractionMethods:
     # UNFINISHED
     def stepBack(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_stepback"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_STEPBACK ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -852,16 +852,16 @@ class InteractionMethods:
     # UNFINISHED
     def subsctractHealthPoints(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_substracthealthpoints"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_SUBSTRACTHEALTHPOINTS ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -872,16 +872,16 @@ class InteractionMethods:
     # UNFINISHED
     def teleportToExit(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_teleporttoexit"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_TELEPORTTOEXIT ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -892,16 +892,16 @@ class InteractionMethods:
     # UNFINISHED
     def transformIfCount(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_transformifcount"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_TRANSFORMIFCOUNT ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -913,16 +913,16 @@ class InteractionMethods:
     # NEEDED REST OF THE NAME
     def transformTo(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_transformto"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_TRANSFORMTO ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -933,16 +933,16 @@ class InteractionMethods:
     # UNFINISHED
     def transformToRandomChild(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_transformtorandomchild"
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_TRANSFORMTORANDOMCHILD ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -953,16 +953,16 @@ class InteractionMethods:
     # UNFINISHED
     def transformToSingleton(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_transformtosingleton"  
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_TRANSFORMTOSINGLETON ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -973,16 +973,16 @@ class InteractionMethods:
     # UNFINISHED
     def turnAround(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_turnaround"  
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_TURNAROUND ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -993,16 +993,16 @@ class InteractionMethods:
     # UNFINISHED
     def undoAll(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_undoall"  
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_UNDOALL ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -1013,16 +1013,16 @@ class InteractionMethods:
     # UNFINISHED
     def updateSpawnType(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_updatespawntype"  
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_UPDATESPAWNTYPE ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -1033,16 +1033,16 @@ class InteractionMethods:
     # UNFINISHED
     def wallBounce(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_wallbounce"  
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_WALLBOUNCE ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -1053,16 +1053,16 @@ class InteractionMethods:
     # UNFINISHED
     def wallStop(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_WALLSTOP"  
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_WALLSTOP ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -1073,16 +1073,16 @@ class InteractionMethods:
     # UNFINISHED
     def wrapAround(self):
         name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_wraparound"  
-        preconditions = ["(evaluate-interation ?x - " + self.sprite_type + 
+        preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
                             + "_WRAPAROUND ?x ?y)",
-                        "(:inline () (not (evaluate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
-                        "(:inline () (regenerate-interation ?x - " + self.sprite_type + 
+                        "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + "))",
                         "(check-interactions)"]
 
@@ -1094,16 +1094,15 @@ class InteractionMethods:
 
 class InteractionActions:
     """ Returns an action for each interaction """
-    def __init__(self, interaction_type,
-                       sprite_name, sprite_stype, 
+    def __init__(self, sprite_name, sprite_stype, 
                        partner_name, partner_stype,
-                       parameters):
+                       interaction, parameters):
 
         self.sprite_name  = sprite_name
         self.sprite_type  = sprite_stype
         self.partner_name = partner_name
         self.partner_type = partner_stype    
-        self.type         = interaction_type
+        self.type         = interaction
         self.parameters   = parameters
 
     def get_actions(self):
@@ -1287,8 +1286,8 @@ class InteractionActions:
     def addHealthPoints(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_ADDHEALTHPOINTS"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1298,8 +1297,8 @@ class InteractionActions:
     def addHealthPointsToMax(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_ADDHEALTHPOINTSTOMAX"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1309,8 +1308,8 @@ class InteractionActions:
     def align(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_ALIGN"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1320,8 +1319,8 @@ class InteractionActions:
     def attractGaze(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_ATTRACTGAZE"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1331,8 +1330,8 @@ class InteractionActions:
     def bounceDirection(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_BOUNCEDIRECTION"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1342,8 +1341,8 @@ class InteractionActions:
     def bounceForward(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_BOUNCEFORWARD"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1353,8 +1352,8 @@ class InteractionActions:
     def changeResource(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_CHANGERESOURCE"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1364,8 +1363,8 @@ class InteractionActions:
     def cloneSprite(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_CLONESPRITE"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1376,19 +1375,19 @@ class InteractionActions:
     def collectResource(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_COLLECTRESOURCE"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
-        effects = [["(assign (last_coordinate_y ?x) (coordinate_x ?x))"],
-					["(assign (last_coordinate_y ?x) (coordinate_y ?x))"],
-					["(assign (coordinate_x ?x) -1)"],
-					["(assign (coordinate_y ?x) -1)"],
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
+        effects = ["(assign (last_coordinate_y ?x) (coordinate_x ?x))",
+					"(assign (last_coordinate_y ?x) (coordinate_y ?x))",
+					"(assign (coordinate_x ?x) -1)",
+					"(assign (coordinate_y ?x) -1)",
 
-					["(decrease (counter_" + self.sprite_type + ") 1)"],
+					"(decrease (counter_" + self.sprite_type + ") 1)",
                     # ITERATE OVER PARENTS
-					["(decrease (counter_Resource) 1)"],
-					["(decrease (counter_Object) 1)"],
+					"(decrease (counter_Resource) 1)",
+					"(decrease (counter_Object) 1)",
 
-					["(increase (resource_" + self.sprite_type + "diamond ?a) 1)"]]
+					"(increase (resource_" + self.sprite_name + " ?a) 1)"]
 
         return Action(name, parameters, conditions, effects)        
 
@@ -1397,8 +1396,8 @@ class InteractionActions:
     def decreaseSpeedToAll(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_INCREASESPEEDTOALL"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1408,8 +1407,8 @@ class InteractionActions:
     def flipDirection(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_FLIPDIRECTION"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1419,8 +1418,8 @@ class InteractionActions:
     def increaseSpeedToAll(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_INCREASESPEEDTOALL"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1430,8 +1429,8 @@ class InteractionActions:
     def killAll(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_KILLALL"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1441,8 +1440,8 @@ class InteractionActions:
     def killBoth(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_KILLBOTH"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1452,8 +1451,8 @@ class InteractionActions:
     def killIfAlive(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_KILLIFALIVE"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1464,18 +1463,18 @@ class InteractionActions:
     def killIfFromAbove(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_KILLIFFROMABOVE"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"],
-                      ["(= (last_coordinate_y ?y) (- (coordinate_y ?y) 1))"]]
-        effects = [["(assign (last_coordinate_y ?a) (coordinate_x ?a))"],
-					["(assign (last_coordinate_y ?a) (coordinate_y ?a))"],
-					["(assign (coordinate_x ?a) -1)"],
-					["(assign (coordinate_y ?a) -1)"],
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))",
+                      "(= (last_coordinate_y ?y) (- (coordinate_y ?y) 1))"]
+        effects = ["(assign (last_coordinate_y ?a) (coordinate_x ?a))",
+					"(assign (last_coordinate_y ?a) (coordinate_y ?a))",
+					"(assign (coordinate_x ?a) -1)",
+					"(assign (coordinate_y ?a) -1)",
 
-					["(decrease (counter_" + self.sprite_type + ") 1)"],
+					"(decrease (counter_" + self.sprite_type + ") 1)",
 					# ["(decrease (counter_ShootAvatar) 1)"], RECORRER LOS PADRES
 					# ["(decrease (counter_moving) 1)"],
-					["(decrease (counter_Object) 1)"]]
+					"(decrease (counter_Object) 1)"]
 
         return Action(name, parameters, conditions, effects)        
 
@@ -1484,8 +1483,8 @@ class InteractionActions:
     def killIfHasMore(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_KILLIFHASMORE"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1495,8 +1494,8 @@ class InteractionActions:
     def killIfFast(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_KILLIFFAST"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1506,8 +1505,8 @@ class InteractionActions:
     def killIfOtherHasLess(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_KILLIFOTHERHASLESS"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1518,8 +1517,8 @@ class InteractionActions:
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_KILLIFOTHERHASMORE"
         # + self.third_sprite_type.upper() FIND TYPE IN PARAMETERS OF ACTION
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1529,8 +1528,8 @@ class InteractionActions:
     def killIfSlow(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_KILLIFSLOW"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1541,16 +1540,16 @@ class InteractionActions:
     def killSprite(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_KILLSPRITE"        
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
-        effects = [ ["(assign (last_coordinate_y ?x) (coordinate_x ?x))"]
-					["(assign (last_coordinate_y ?x) (coordinate_y ?x))"],
-					["(assign (coordinate_x ?x) -1)"],
-					["(assign (coordinate_y ?x) -1)"],
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
+        effects = [ "(assign (last_coordinate_y ?x) (coordinate_x ?x))",
+					"(assign (last_coordinate_y ?x) (coordinate_y ?x))",
+					"(assign (coordinate_x ?x) -1)",
+					"(assign (coordinate_y ?x) -1)",
 
-					["(decrease (counter_" + self.sprite_type + ") 1)"],
+					"(decrease (counter_" + self.sprite_type + ") 1)",
 					# ["(decrease (counter_Immovable) 1)"], RECORRER POR TODOS LOS PADRES
-					["(decrease (counter_Object) 1)"]]
+					"(decrease (counter_Object) 1)"]
 
         return Action(name, parameters, conditions, effects)        
 
@@ -1559,8 +1558,8 @@ class InteractionActions:
     def pullWithIt(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_PULLWITHIT"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1570,8 +1569,8 @@ class InteractionActions:
     def removeScore(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_REMOVESCORE"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1581,8 +1580,8 @@ class InteractionActions:
     def reverseDirection(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_REVERSEDIRECTION"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1592,8 +1591,8 @@ class InteractionActions:
     def setSpeedToAll(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_SETSPEEDTOALL"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1603,8 +1602,8 @@ class InteractionActions:
     def spawnBehind(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_SPAWNBEHING"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1614,8 +1613,8 @@ class InteractionActions:
     def spawnIfHasLess(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_SPAWNIFHASLESS"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1625,8 +1624,8 @@ class InteractionActions:
     def spawnIfHasMore(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_SPAWNIFHASMORE"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1637,10 +1636,10 @@ class InteractionActions:
     def stepBack(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_STEPBACK"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
-        effects = [["(assign (coordinate_y ?x) (last_coordinate_x ?x))"],
-					["(assign (coordinate_y ?x) (last_coordinate_y ?x))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
+        effects = ["(assign (coordinate_y ?x) (last_coordinate_x ?x))",
+					"(assign (coordinate_y ?x) (last_coordinate_y ?x))"]
 
         return Action(name, parameters, conditions, effects)        
 
@@ -1649,8 +1648,8 @@ class InteractionActions:
     def subsctractHealthPoints(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_SUBSCTRACTHEALTHPOINTS"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1660,8 +1659,8 @@ class InteractionActions:
     def teleportToExit(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_TELEPORTTOEXIT"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1671,8 +1670,8 @@ class InteractionActions:
     def transformIfCount(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_TRANSFORMIFCOUNT"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1716,8 +1715,8 @@ class InteractionActions:
     def transformToRandomChild(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_TRANSFORMTORANDOMCHILD"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1727,8 +1726,8 @@ class InteractionActions:
     def transformToSingleton(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_TRANSFORMTOSINGLETON"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1738,8 +1737,8 @@ class InteractionActions:
     def turnAround(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_TURNAROUND"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1749,8 +1748,8 @@ class InteractionActions:
     def undoAll(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_UNDOALL"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1760,8 +1759,8 @@ class InteractionActions:
     def updateSpawnType(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_UPDATESPAWNTYPE"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1771,8 +1770,8 @@ class InteractionActions:
     def wallBounce(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_WALLBOUNCE"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1782,8 +1781,8 @@ class InteractionActions:
     def wallStop(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_WALLSTOP"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
         return Action(name, parameters, conditions, effects)        
@@ -1793,8 +1792,8 @@ class InteractionActions:
     def wrapAround(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_WRAPAROUND"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
-        conditions = [["(= (coordinate_x ?x) (coordinate_x ?y))"],
-                      ["(= (coordinate_y ?x) (coordinate_y ?y))"]]
+        conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
+                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
         effects = [] # UNFINISHED
 
-        return Action(name, parameters, conditions, effects)        
+        return Action(name, parameters, conditions, effects)

@@ -17,7 +17,7 @@ class ObjectHPDL:
         self.object_name = object_name
         self.object_type = object_type
 
-        self.actions    = ObjectActions(object_name, object_type).actions
+        self.actions    = ObjectActions(object_name, object_type).get_actions()
         self.methods    = []
         self.get_methods()
         # self.tasks      = AvatarTasks(object_name, object_type, partner).tasks
@@ -53,6 +53,7 @@ class ObjectActions:
     def __init__(self, object_name, object_type):
         self.object_name = object_name
         self.object_type = object_type
+        # self.parameters  = parameters
 
     # -------------------------------------------------------------------------
 
@@ -91,8 +92,7 @@ class ObjectActions:
         # Object that moves constantly in one direction
         if self.object_type == "Missile":    
             # actions.append(self.move(direction ??))
-            pass
-            # actions.append(self.move())
+            actions.append(self.move())
 
         # Maybe not needed here
         # Oriented object that dissapear after a moment
@@ -140,7 +140,6 @@ class ObjectActions:
         # Not clear what it does
         if self.object_type == "WalkerJumper":            
             pass
-
        
         return actions
 
@@ -150,13 +149,10 @@ class ObjectActions:
     # def move(self, direction):
     def move(self):
         """ Move the object one position in the specified direction """
-        pass
-
-        name = self.object_name + "_MOVE"
-        # parameters = [["s", self.object_type]]        
+        name = self.object_name.upper() + "_MOVE"       
         parameters = []
         conditions = []
-        e = """
+        effects = ["""
                     forall (?m - """ + self.object_type + """)
 					(and
 						(when
@@ -195,8 +191,7 @@ class ObjectActions:
 							)
 						)
 					)
-"""
-        effects = []
+"""]
 
         return Action(name, parameters, conditions, effects)        
 
