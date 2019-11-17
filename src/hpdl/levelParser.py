@@ -137,7 +137,7 @@ def parse_level(level, short_types, long_types, transformTo):
 # -----------------------------------------------------------------------------
 
 def get_problem(objects, counters, short_types, long_types, 
-                    max_size, hierarchy, stypes):
+                    max_size, hierarchy, stypes, sprites):
     problem = ""
 
     problem += """
@@ -174,8 +174,16 @@ def get_problem(objects, counters, short_types, long_types,
             predicates += "\n\t\t(orientation-up " + avatar + ")"
             predicates += "\n\t\t(= (resource_diamond " + avatar + ") 0)"
 
-        if "boulder" in obj.stype.lower():      
-            predicates += "\n\t\t(orientation-down " + obj.name + ")"
+        # MUST BE IMPROVED !!!!!!!!!!!
+        if "boulder" in obj.stype.lower():
+            # Get Sprite instance
+            z = [x for x in sprites if x.stype == "Missile"]
+
+            # Get orientation
+            orientation = [x for x in z[0].parameters if "orientation" in x][0]
+            orientation = orientation.split("=")[1]
+            
+            predicates += "\n\t\t(orientation-" + orientation.lower() +  " " + obj.name + ")"
 
         #---------------------------------------------
         # Writing the coordinates of the objects

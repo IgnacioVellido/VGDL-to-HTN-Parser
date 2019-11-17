@@ -221,7 +221,7 @@ def main(argv):
         objects, max_size, short_types, counters = parse_level(level, short_types, 
                                                                 long_types, transformTo)
         problem = get_problem(objects, counters, short_types, 
-                                long_types, max_size, hierarchy, stypes)
+                                long_types, max_size, hierarchy, stypes, listener.sprites)
 
         # ----------------------------------------------------------------------
         # Writing ouput

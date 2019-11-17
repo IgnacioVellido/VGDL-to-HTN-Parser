@@ -103,14 +103,13 @@ class AvatarActions:
 
         # Can't move but can use object
         if self.avatar_type == "AimedAvatar":
-            # self.actions.append(self.turn_up())
-            # self.actions.append(self.turn_down())
-            # self.actions.append(self.turn_left())
-            # self.actions.append(self.turn_right())
-            # self.actions.append(self.use())
-            pass
+            self.actions.append(self.turn_up())
+            self.actions.append(self.turn_down())
+            self.actions.append(self.turn_left())
+            self.actions.append(self.turn_right())
+            self.actions.append(self.use())
 
-        # This avatar should have ammo
+        # This avatar should have ammo !!!!!!!!!!
         # Always same orientation, can move horizontally and use object
         if self.avatar_type == "FlakAvatar":
             self.actions.append(self.move_left())
@@ -119,17 +118,15 @@ class AvatarActions:
 
         # Always same orientation, can only move left or right
         if self.avatar_type == "HorizontalAvatar":
-            # self.actions.append(self.move_left())
-            # self.actions.append(self.move_right())
-            pass            
+            self.actions.append(self.move_left())
+            self.actions.append(self.move_right())
 
         # Always same orientation, can move in any direction
         if self.avatar_type == "MovingAvatar":
-            # self.actions.append(self.move_up())
-            # self.actions.append(self.move_down())
-            # self.actions.append(self.move_left())
-            # self.actions.append(self.move_right())
-            pass       
+            self.actions.append(self.move_up())
+            self.actions.append(self.move_down())
+            self.actions.append(self.move_left())
+            self.actions.append(self.move_right())
 
         # ONLY GVGAI
         if self.avatar_type == "OngoingShootAvatar":
@@ -139,17 +136,16 @@ class AvatarActions:
         if self.avatar_type == "OngoingTurningAvatar":
             pass
 
-        # Can move and aim in any direction
+        # Can move and aim in any direction, can't use object
         if self.avatar_type == "OrientedAvatar":
-            # self.actions.append(self.move_up())
-            # self.actions.append(self.move_down())
-            # self.actions.append(self.move_left())
-            # self.actions.append(self.move_right())
-            # self.actions.append(self.turn_up())
-            # self.actions.append(self.turn_down())
-            # self.actions.append(self.turn_left())
-            # self.actions.append(self.turn_right())
-            pass
+            self.actions.append(self.move_up())
+            self.actions.append(self.move_down())
+            self.actions.append(self.move_left())
+            self.actions.append(self.move_right())
+            self.actions.append(self.turn_up())
+            self.actions.append(self.turn_down())
+            self.actions.append(self.turn_left())
+            self.actions.append(self.turn_right())
         
         # Can move and aim in any direction, can use object
         if self.avatar_type == "ShootAvatar":
@@ -165,9 +161,8 @@ class AvatarActions:
 
         # Always same orientation, can only move up or down
         if self.avatar_type == "VerticalAvatar":
-            # self.actions.append(self.move_up())
-            # self.actions.append(self.move_down())
-            pass
+            self.actions.append(self.move_up())
+            self.actions.append(self.move_down())
 
 
         self.actions.append(self.nil()) # As last resource, don't do anything

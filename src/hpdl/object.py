@@ -91,7 +91,6 @@ class ObjectActions:
 
         # Object that moves constantly in one direction
         if self.object_type == "Missile":    
-            # actions.append(self.move(direction ??))
             actions.append(self.move())
 
         # Maybe not needed here
