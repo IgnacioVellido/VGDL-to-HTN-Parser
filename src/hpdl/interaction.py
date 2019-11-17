@@ -1096,7 +1096,8 @@ class InteractionActions:
     """ Returns an action for each interaction """
     def __init__(self, sprite_name, sprite_stype, 
                        partner_name, partner_stype,
-                       interaction, parameters):
+                       interaction, parameters,
+                       hierarchy):
 
         self.sprite_name  = sprite_name
         self.sprite_type  = sprite_stype
@@ -1104,6 +1105,7 @@ class InteractionActions:
         self.partner_type = partner_stype    
         self.type         = interaction
         self.parameters   = parameters
+        self.hierarchy    = hierarchy
 
     def get_actions(self):
         """ Return an action depending of the interaction """
@@ -1381,13 +1383,14 @@ class InteractionActions:
 					"(assign (last_coordinate_y ?x) (coordinate_y ?x))",
 					"(assign (coordinate_x ?x) -1)",
 					"(assign (coordinate_y ?x) -1)",
-
 					"(decrease (counter_" + self.sprite_type + ") 1)",
-                    # ITERATE OVER PARENTS
 					"(decrease (counter_Resource) 1)",
 					"(decrease (counter_Object) 1)",
 
 					"(increase (resource_" + self.sprite_name + " ?a) 1)"]
+
+        for parent in self.hierarchy[self.sprite_type]:
+            effects.append("(decrease (counter_" + parent + ") 1)")
 
         return Action(name, parameters, conditions, effects)        
 
@@ -1470,11 +1473,11 @@ class InteractionActions:
 					"(assign (last_coordinate_y ?a) (coordinate_y ?a))",
 					"(assign (coordinate_x ?a) -1)",
 					"(assign (coordinate_y ?a) -1)",
-
 					"(decrease (counter_" + self.sprite_type + ") 1)",
-					# ["(decrease (counter_ShootAvatar) 1)"], RECORRER LOS PADRES
-					# ["(decrease (counter_moving) 1)"],
 					"(decrease (counter_Object) 1)"]
+
+        for parent in self.hierarchy[self.sprite_type]:
+            effects.append("(decrease (counter_" + parent + ") 1)")
 
         return Action(name, parameters, conditions, effects)        
 
@@ -1547,9 +1550,11 @@ class InteractionActions:
 					"(assign (coordinate_x ?x) -1)",
 					"(assign (coordinate_y ?x) -1)",
 
-					"(decrease (counter_" + self.sprite_type + ") 1)",
-					# ["(decrease (counter_Immovable) 1)"], RECORRER POR TODOS LOS PADRES
+					"(decrease (counter_" + self.sprite_type + ") 1)",					
 					"(decrease (counter_Object) 1)"]
+
+        for parent in self.hierarchy[self.sprite_type]:
+            effects.append("(decrease (counter_" + parent + ") 1)")
 
         return Action(name, parameters, conditions, effects)        
 
@@ -1688,6 +1693,7 @@ class InteractionActions:
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]#, ["z", third_sprite_type]]
         conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
                       "(= (coordinate_y ?x) (coordinate_y ?y))"]
+        
         effects = ["(assign (last_coordinate_x ?x) (coordinate_x ?x))",
                    "(assign (last_coordinate_y ?x) (coordinate_y ?x))",
                    "(assign (last_coordinate_x ?y) (coordinate_x ?y))",
@@ -1695,18 +1701,23 @@ class InteractionActions:
                    "(assign (coordinate_y ?x) -1)",
                    "(assign (coordinate_x ?y) -1)",
                    "(assign (coordinate_y ?y) -1)",
-
-                   "(decrease (counter_" + self.sprite_type + ") 1)",
-                   # ITERATE OVER PARENTS
+                   "(decrease (counter_" + self.sprite_type + ") 1)",                       
                    "(decrease (counter_" + self.partner_type + ") 1)",
-                   # ITERATE OVER PARENTS
 
                     # Last coordinate is -1, no need to assign (is non-existen object)
                    "(assign (coordinate_x ?z) (last_coordinate_x ?x))",
                    "(assign (coordinate_y ?z) (last_coordinate_y ?x))"
                 #    "(increase (counter_" + third_sprite_type + ") 1)"
-                   # ITERATE OVER PARENTS
                    ]
+
+        for parent in self.hierarchy[self.sprite_type]:
+            effects.append("(decrease (counter_" + parent + ") 1)")
+
+        for parent in self.hierarchy[self.partner_type]:
+            effects.append("(decrease (counter_" + parent + ") 1)")
+
+        # for parent in self.hierarchy[self.third_sprite_type]:
+        #     effects.append("(increase (counter_" + parent + ") 1)")
 
         return Action(name, parameters, conditions, effects)        
 

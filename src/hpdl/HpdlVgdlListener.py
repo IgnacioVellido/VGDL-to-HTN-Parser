@@ -91,8 +91,6 @@ class HpdlVgdlListener(VgdlListener):
         self.assign_hierarchy()
         self.assign_stypes()
 
-        # print(self.hierarchy)
-
         self.assign_types()
         self.assign_constants()
         self.assign_predicates()
@@ -198,7 +196,6 @@ class HpdlVgdlListener(VgdlListener):
                         to_add = True
 
             if not to_add:
-                print(obj)
                 childs = inverted_hierarchy[obj]
 
                 to_remove = []
@@ -280,7 +277,7 @@ class HpdlVgdlListener(VgdlListener):
 
     def assign_tasks(self):
         # Main task ------------------
-        finish = Method("finish_game", ["(= (turn) 3)"], [])    # UNFINISHED PRECONDITION
+        finish = Method("finish_game", ["(= (turn) 10)"], [])    # UNFINISHED PRECONDITION
         turn   = Method("turn",
                         [],
                         ["(turn_avatar ?a - " + self.avatar.name + " ?p - " + self.partner.name + ")",
@@ -368,7 +365,8 @@ class HpdlVgdlListener(VgdlListener):
                                                     interaction.partner_name, 
                                                     partner_stype,
                                                     interaction.type,
-                                                    interaction.parameters)
+                                                    interaction.parameters,
+                                                    self.hierarchy)
                                                     .get_actions())
         
     # -------------------------------------------------------------------------
