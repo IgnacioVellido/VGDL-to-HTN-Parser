@@ -17,7 +17,7 @@ class ObjectHPDL:
         self.object_name = object_name
         self.object_type = object_type
 
-        self.actions    = ObjectActions(object_name, object_type).get_actions()
+        self.actions    = ObjectActions(object_name, object_type, partner).get_actions()
         self.methods    = []
         self.get_methods()
         # self.tasks      = AvatarTasks(object_name, object_type, partner).tasks
@@ -50,10 +50,10 @@ class ObjectActions:
     interactions
     """
 
-    def __init__(self, object_name, object_type):
+    def __init__(self, object_name, object_type, partner):
         self.object_name = object_name
         self.object_type = object_type
-        # self.parameters  = parameters
+        self.partner     = partner
 
     # -------------------------------------------------------------------------
 
@@ -63,7 +63,7 @@ class ObjectActions:
         # Not clear what it does
         # Missile that produces object at a specific ratio
         if self.object_type == "Bomber":    
-            # actions.append(self.produce(partner))        
+            actions.append(self.produce())        
             # actions.append(self.move(direction ??))
             pass
 
@@ -122,8 +122,7 @@ class ObjectActions:
 
         # Produces objects following a specific ratio
         if self.object_type == "SpawnPoint":  
-            # actions.append(self.produce(partner))          
-            pass
+            actions.append(self.produce())
 
         # Expands in 4 directions if not occupied
         if self.object_type == "Spreader":       
@@ -201,7 +200,7 @@ class ObjectActions:
         # If no other object in that position...
         pass
 
-        name = self.object_name + "_EXPAND"
+        name = self.object_name.upper() + "_EXPAND"
         parameters = [["s", self.object_type]]        
         conditions = []
         effects = []
@@ -210,14 +209,19 @@ class ObjectActions:
     
     # -------------------------------------------------------------------------
 
-    def produce(self, partner):
-        """ Generate an object - IN WICH POSITION ?? """
-        pass
-
-        name = self.object_name + "_PRODUCE"
-        parameters = [["s", self.object_type], ["p", partner.name]]        
-        conditions = []
-        effects = []
+    # UNFINISHED
+    def produce(self):
+        """ Generate an object - IN WICH POSITION ?? Down ?? 
+        It should depend of the partner orientation <-
+        """
+        name = self.object_name.upper() + "_PRODUCE"
+        parameters = [["s", self.object_type], ["p", self.partner.name]]        
+        # No need to check is position is available, if it is a wall (or 
+        # something similar) the last position will be -1
+        conditions = []        
+        effects = ["(assign (coordinate_x ?s) (last_coordinate_x ?p))",
+                   "(assign (coordinate_y ?s) (last_coordinate_y ?p))",
+                   "(increase (coordinate_y ?s) 1)"]
 
         return Action(name, parameters, conditions, effects)        
 
@@ -227,7 +231,7 @@ class ObjectActions:
         """ Eliminates the object """
         pass
 
-        name = self.object_name + "_DISSAPEAR"
+        name = self.object_name.upper() + "_DISSAPEAR"
         parameters = [["s", self.object_type]]        
         conditions = []
         effects = []
@@ -241,7 +245,7 @@ class ObjectActions:
         partner type """
         pass
 
-        name = self.object_name + "_CHASE"
+        name = self.object_name.upper() + "_CHASE"
         parameters = [["s", self.object_type], ["p", partner.name]]        
         conditions = []
         effects = []
@@ -255,7 +259,7 @@ class ObjectActions:
         partner type """        
         pass
 
-        name = self.object_name + "_FLEE"
+        name = self.object_name.upper() + "_FLEE"
         parameters = [["s", self.object_type], ["p", partner.name]]        
         conditions = []
         effects = []

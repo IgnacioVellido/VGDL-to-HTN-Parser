@@ -1445,7 +1445,22 @@ class InteractionActions:
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
         conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
                       "(= (coordinate_y ?x) (coordinate_y ?y))"]
-        effects = [] # UNFINISHED
+        effects = ["(assign (last_coordinate_x ?x) (coordinate_x ?x))",
+                   "(assign (last_coordinate_y ?x) (coordinate_y ?x))",
+                   "(assign (last_coordinate_x ?y) (coordinate_x ?y))",
+                   "(assign (coordinate_x ?x) -1)",
+                   "(assign (coordinate_y ?x) -1)",
+                   "(assign (coordinate_x ?y) -1)",
+                   "(assign (coordinate_y ?y) -1)",
+                   "(decrease (counter_" + self.sprite_type + ") 1)",                       
+                   "(decrease (counter_" + self.partner_type + ") 1)",
+                   ]
+
+        for parent in self.hierarchy[self.sprite_type]:
+            effects.append("(decrease (counter_" + parent + ") 1)")
+
+        for parent in self.hierarchy[self.partner_type]:
+            effects.append("(decrease (counter_" + parent + ") 1)")
 
         return Action(name, parameters, conditions, effects)        
 
@@ -1461,8 +1476,7 @@ class InteractionActions:
         return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
-
-    # UNFINISHED
+    
     def killIfFromAbove(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_KILLIFFROMABOVE"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       

@@ -58,7 +58,7 @@ class Method:
         return text
 
     def get_tasks(self):
-        """ Returns list of tasks without external brackets """
+        """ Returns list of tasks without (global) external brackets """
         text = ""
 
         if self.task_predicates:

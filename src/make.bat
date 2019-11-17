@@ -13,12 +13,12 @@ IF NOT x%option:build=% == x%option% (
 
 REM Parse a game
 IF NOT x%option:game=% == x%option% (    
-  python Main.py -gi vgdl-examples\boulderdash.txt
+  python Main.py -gi vgdl-examples\aliens.txt
 ) 
 
 REM Parse a level
 IF NOT x%option:level=% == x%option% (  
-  python Main.py -gi vgdl-examples\boulderdash.txt -li vgdl-examples\test_level.txt
+  python Main.py -gi vgdl-examples\aliens.txt -li vgdl-examples\test_level.txt
 ) 
 
 IF NOT x%option:test=% == x%option% (  

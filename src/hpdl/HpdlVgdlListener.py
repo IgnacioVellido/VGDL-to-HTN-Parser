@@ -275,6 +275,22 @@ class HpdlVgdlListener(VgdlListener):
 
     # -------------------------------------------------------------------------
 
+    def find_sprite_by_name(self, name):        
+        for sprite in self.sprites:
+            if sprite.name == name:
+                return sprite
+
+        return None
+
+    def find_partner(self, obj):
+        partner = None
+        for par in obj.parameters:
+            if "stype" in par:                
+                partner = par.split("=")[1]
+                partner = self.find_sprite_by_name(partner)
+
+        return partner
+
     def assign_tasks(self):
         # Main task ------------------
         finish = Method("finish_game", ["(= (turn) 10)"], [])    # UNFINISHED PRECONDITION
@@ -299,9 +315,11 @@ class HpdlVgdlListener(VgdlListener):
         object_tasks = []
 
         for obj in self.sprites:
-            actions = ObjectHPDL(obj.name, obj.stype).actions
-            for act in actions:
-                object_tasks.append("(" + act.name + ")")
+            partner = self.find_partner(obj)
+            methods = ObjectHPDL(obj.name, obj.stype, partner).methods
+
+            for met in methods:
+                object_tasks.extend(met.task_predicates)
 
         turn = Method("turn", [], object_tasks)
         task_object = Task("turn_objects", [], [turn])
@@ -351,7 +369,8 @@ class HpdlVgdlListener(VgdlListener):
 
         # And one for each deterministic movable object 
         for obj in self.sprites:
-            actions = ObjectHPDL(obj.name, obj.stype).actions
+            partner = self.find_partner(obj)
+            actions = ObjectHPDL(obj.name, obj.stype, partner).actions
 
             if actions:
                 self.actions.extend(actions)

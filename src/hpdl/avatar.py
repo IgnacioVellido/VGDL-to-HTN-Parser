@@ -188,7 +188,7 @@ class AvatarActions:
         parameters = [["a", self.avatar_type]]
 
         # can-move indicates that te avatar has the ability to move in that direction
-        conditions = ["(can-move-up ?a)", "(orientation-down ?a)"]
+        conditions = ["(can-move-down ?a)", "(orientation-down ?a)"]
         effects = ["(increase (coordinate_x ?a) 1)"]
 
         return Action(name, parameters, conditions, effects)
@@ -200,7 +200,7 @@ class AvatarActions:
         parameters = [["a", self.avatar_type]]
         
         # can-move indicates that te avatar has the ability to move in that direction
-        conditions = ["(can-move-up ?a)", "(orientation-left ?a)"]
+        conditions = ["(can-move-left ?a)", "(orientation-left ?a)"]
         effects = ["(decrease (coordinate_y ?a) 1)"]
 
         return Action(name, parameters, conditions, effects)
@@ -212,7 +212,7 @@ class AvatarActions:
         parameters = [["a", self.avatar_type]]
 
         # can-move indicates that te avatar has the ability to move in that direction
-        conditions = ["(can-move-up ?a)", "(orientation-right ?a)"]
+        conditions = ["(can-move-right ?a)", "(orientation-right ?a)"]
         effects = ["(increase (coordinate_y ?a) 1)"]
 
         return Action(name, parameters, conditions, effects)
@@ -425,7 +425,7 @@ class AvatarPredicates:
             self.predicates.append("(can-use ?a - " + self.avatar_type + ")")
             self.predicates.append("(can-change-orientation ?a - " + self.avatar_type + ")")
 
-        # This avatar should have ammo
+        # This avatar should have ammo !!!!
         # Always same orientation, can move horizontally and use object
         if self.avatar_type == "FlakAvatar":
             self.predicates.append("(can-move-left ?a - " + self.avatar_type + ")")
