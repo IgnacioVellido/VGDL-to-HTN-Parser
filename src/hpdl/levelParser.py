@@ -98,13 +98,13 @@ def parse_level(level, short_types, long_types, transformTo):
                     for change in changed_char:
                         if char == change[0]:
                             char = change[1]
-                            changed = True
+                            changed = True          
 
-                    # If char not found
-                    if not changed:
-                        raise ValueError (
-                            "Wrong level definition: " + char + " not defined"
-                        )
+                # Wrong level definition            
+                if char not in short_types:
+                    print("[ERROR] Wrong character in level definition ")
+                    print("Produced by: ", char)
+                    exit()
 
                 indx = short_types.index(char)
                 obj = LevelObject(char + str(name_counters[indx]), row, col,
@@ -170,9 +170,9 @@ def get_problem(objects, counters, short_types, long_types,
             predicates += "\n\t\t(can-move-left " + avatar + ")"
             predicates += "\n\t\t(can-move-right " + avatar + ")"
             predicates += "\n\t\t(can-use " + avatar + ")"
-            predicates += "\n\t\t(can-change-orientation " + avatar + ")"
+            # predicates += "\n\t\t(can-change-orientation " + avatar + ")"
             predicates += "\n\t\t(orientation-up " + avatar + ")"
-            predicates += "\n\t\t(= (resource_diamond " + avatar + ") 0)"
+            # predicates += "\n\t\t(= (resource_diamond " + avatar + ") 0)"
 
         # MUST BE IMPROVED !!!!!!!!!!!
         if "boulder" in obj.stype.lower():

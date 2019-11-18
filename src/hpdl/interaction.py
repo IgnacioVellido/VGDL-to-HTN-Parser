@@ -510,14 +510,14 @@ class InteractionMethods:
 
     # UNFINISHED
     def killBoth(self):
-        name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_killifboth"
+        name = self.sprite_name.lower() + "_" + self.partner_name.lower() + "_killboth"
         preconditions = ["(evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")",
                          "(not (= (coordinate_x ?x) -1))",
                          "(not (= (coordinate_x ?y) -1))"]
         tasks         = ["(" + self.sprite_name.upper() + "_" 
                             + self.partner_name.upper() 
-                            + "_KILLIFBOTH ?x ?y)",
+                            + "_KILLBOTH ?x ?y)",
                         "(:inline () (not (evaluate-interaction ?x - " + self.sprite_type + 
                             " " + "?y - " + self.partner_type + ")))",
                         "(:inline () (regenerate-interaction ?x - " + self.sprite_type + 

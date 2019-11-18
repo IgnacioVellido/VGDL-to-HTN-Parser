@@ -296,7 +296,7 @@ class HpdlVgdlListener(VgdlListener):
         finish = Method("finish_game", ["(= (turn) 10)"], [])    # UNFINISHED PRECONDITION
         turn   = Method("turn",
                         [],
-                        ["(turn_avatar ?a - " + self.avatar.name + " ?p - " + self.partner.name + ")",
+                        ["(turn_avatar ?a - " + self.avatar.stype + " ?p - " + self.partner.name + ")",
                          "(turn_objects)",
                          "(check-interactions)",
                          "(create-interactions)",

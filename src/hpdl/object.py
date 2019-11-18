@@ -24,7 +24,7 @@ class ObjectHPDL:
 
     def get_methods(self):
         for action in self.actions:
-            name = action.name.lower()
+            name = action.name.upper()
             preconditions = []
 
             # Getting the parameters (only the name, not the type)
@@ -215,13 +215,29 @@ class ObjectActions:
         It should depend of the partner orientation <-
         """
         name = self.object_name.upper() + "_PRODUCE"
-        parameters = [["s", self.object_type], ["p", self.partner.name]]        
+        # parameters = [["s", self.object_type], ["p", self.partner.name]]        
+        parameters = []
         # No need to check is position is available, if it is a wall (or 
-        # something similar) the last position will be -1
-        conditions = []        
-        effects = ["(assign (coordinate_x ?s) (last_coordinate_x ?p))",
-                   "(assign (coordinate_y ?s) (last_coordinate_y ?p))",
-                   "(increase (coordinate_y ?s) 1)"]
+        # something similar) the partner last position will be -1
+        conditions = []
+
+        # If no type is defined, get the parents name - MUST BE NEEDED LATER, ADD TO SPRITE OBJECT
+        partner_stype = self.partner.father if self.partner.stype is None else self.partner.stype
+        
+        effects = ["""
+                    forall (?s - """ + self.object_type + 
+                        """ ?p - """ + partner_stype + """)
+					(and
+                        (when
+                            (= (coordinate_x ?p) -1)
+                            (and                            
+                                (assign (coordinate_x ?p) (coordinate_x ?s))
+                                (assign (coordinate_y ?p) (coordinate_y ?s))
+                                (increase (coordinate_y ?p) 1)
+                            )                  
+                        )
+					)
+"""]            
 
         return Action(name, parameters, conditions, effects)        
 

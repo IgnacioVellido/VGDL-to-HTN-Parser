@@ -225,7 +225,9 @@ class AvatarActions:
         parameters = [["a", self.avatar_type]]
         
         # If not (can-change-orientation ?a), the avatar cannot use this action
-        conditions = ["(can-change-orientation ?a)","(not (orientation-up ?a))"]
+        # conditions = ["(can-change-orientation ?a)","(not (orientation-up ?a))"]
+        # can-change-orientation maybe not needed
+        conditions = ["(not (orientation-up ?a))"]
 
         effect_down = """
                     (when
@@ -253,8 +255,10 @@ class AvatarActions:
         parameters = [["a", self.avatar_type]]
 
         # If not (can-change-orientation ?a), the avatar cannot use this action
-        conditions = ["(can-change-orientation ?a)","(not (orientation-down ?a))"]
-        
+        # conditions = ["(can-change-orientation ?a)","(not (orientation-down ?a))"]
+        # can-change-orientation maybe not needed
+        conditions = ["(not (orientation-down ?a))"]
+
         effect_up = """
                     (when
                         (orientation-up ?a )
@@ -281,7 +285,8 @@ class AvatarActions:
         parameters = [["a", self.avatar_type]]      
         
         # If not (can-change-orientation ?a), the avatar cannot use this action
-        conditions = ["(can-change-orientation ?a)","(not (orientation-left ?a))"]
+        # conditions = ["(can-change-orientation ?a)","(not (orientation-left ?a))"]
+        conditions = ["(not (orientation-left ?a))"]
 
         effect_down = """
                     (when
@@ -310,7 +315,8 @@ class AvatarActions:
         parameters = [["a", self.avatar_type]]
         
         # If not (can-change-orientation ?a), the avatar cannot use this action
-        conditions = ["(can-change-orientation ?a)","(not (orientation-right ?a))"]
+        # conditions = ["(can-change-orientation ?a)","(not (orientation-right ?a))"]
+        conditions = ["(not (orientation-right ?a))"]
 
         effect_down = """
                     (when
