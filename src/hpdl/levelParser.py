@@ -165,11 +165,11 @@ def get_problem(objects, counters, short_types, long_types,
         # Only for boulderdash !!!!
         if "avatar" in obj.stype.lower():      
             avatar = obj.name
-            # predicates += "\n\t\t(can-move-up " + avatar + ")"
-            # predicates += "\n\t\t(can-move-down " + avatar + ")"
+            predicates += "\n\t\t(can-move-up " + avatar + ")"
+            predicates += "\n\t\t(can-move-down " + avatar + ")"
             predicates += "\n\t\t(can-move-left " + avatar + ")"
             predicates += "\n\t\t(can-move-right " + avatar + ")"
-            predicates += "\n\t\t(can-use " + avatar + ")"
+            # predicates += "\n\t\t(can-use " + avatar + ")"
             # predicates += "\n\t\t(can-change-orientation " + avatar + ")"
             predicates += "\n\t\t(orientation-up " + avatar + ")"
             # predicates += "\n\t\t(= (resource_diamond " + avatar + ") 0)"

@@ -1341,11 +1341,44 @@ class InteractionActions:
     # -------------------------------------------------------------------------
 
     def bounceForward(self):
+        """ Move in the same direction of partner """
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_BOUNCEFORWARD"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
         conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
                       "(= (coordinate_y ?x) (coordinate_y ?y))"]
-        effects = [] # UNFINISHED
+        effects = ["""
+                        (when
+                            (orientation-up ?y)
+
+                            (and
+                                (assign (last_coordinate_y ?x) (coordinate_y ?x))
+                                (decrease (coordinate_y ?x) 1)
+                            )
+                        )
+                        (when
+                            (orientation-down ?y)
+
+                            (and
+                                (assign (last_coordinate_y ?x) (coordinate_y ?x))
+                                (increase (coordinate_y ?x) 1)
+                            )
+                        )
+                        (when
+                            (orientation-left ?y)
+
+                            (and
+                                (assign (last_coordinate_x ?x) (coordinate_x ?x))
+                                (decrease (coordinate_x ?x) 1)
+                            )
+                        )
+                        (when
+                            (orientation-right ?y)
+
+                            (and
+                                (assign (last_coordinate_x ?x) (coordinate_x ?x))
+                                (increase (coordinate_x ?x) 1)
+                            )
+                        )"""]
 
         return Action(name, parameters, conditions, effects)        
 
@@ -1771,11 +1804,13 @@ class InteractionActions:
     # -------------------------------------------------------------------------
 
     def undoAll(self):
+        """ This action always fail to force another movement"""
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_UNDOALL"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
         conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
-                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
-        effects = [] # UNFINISHED
+                      "(= (coordinate_y ?x) (coordinate_y ?y))",
+                      "(not (= (coordinate_y ?x) (coordinate_y ?y)))"]
+        effects = []
 
         return Action(name, parameters, conditions, effects)        
 

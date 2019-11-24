@@ -15,15 +15,16 @@ BasicGame
         boulder > Passive img=newset/block3
         wall > Immovable img=oryx/wall3 autotiling=True
     LevelMapping
-        A > avatar floor
-        k > key floor
-        d > door floor
-        e > exit floor
-        g > green floor
-        r > red floor
-        b > blue  floor
-        O > boulder floor
+        A > avatar
+        k > key 
+        d > door 
+        e > exit 
+        g > green
+        r > red
+        b > blue
+        O > boulder
         . > floor
+        w > wall
     InteractionSet
 
         keym key wall gem boulder > transformTo stype=key

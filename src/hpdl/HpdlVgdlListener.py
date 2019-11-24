@@ -98,7 +98,6 @@ class HpdlVgdlListener(VgdlListener):
         self.assign_tasks()
         self.assign_actions()
 
-
     # -------------------------------------------------------------------------
 
     def search_partner(self):
@@ -294,15 +293,26 @@ class HpdlVgdlListener(VgdlListener):
     def assign_tasks(self):
         # Main task ------------------
         finish = Method("finish_game", ["(= (turn) 10)"], [])    # UNFINISHED PRECONDITION
-        turn   = Method("turn",
-                        [],
-                        ["(turn_avatar ?a - " + self.avatar.stype + " ?p - " + self.partner.name + ")",
-                         "(turn_objects)",
-                         "(check-interactions)",
-                         "(create-interactions)",
-                         "(:inline () (increase (turn) 1))",
-                         "(Turn)"
-                        ])
+        if self.partner is not None:
+            turn   = Method("turn",
+                            [],
+                            ["(turn_avatar ?a - " + self.avatar.stype + " ?p - " + self.partner.name + ")",
+                            "(turn_objects)",
+                            "(check-interactions)",
+                            "(create-interactions)",
+                            "(:inline () (increase (turn) 1))",
+                            "(Turn)"
+                            ])
+        else:
+            turn   = Method("turn",
+                            [],
+                            ["(turn_avatar ?a - " + self.avatar.stype + ")",
+                            "(turn_objects)",
+                            "(check-interactions)",
+                            "(create-interactions)",
+                            "(:inline () (increase (turn) 1))",
+                            "(Turn)"
+                            ])
         # undone = Method("turn_undone", [], ["(Turn)"])  # UNFINISHED TASKS
 
         turn_task = Task("Turn", [], [finish, turn])
@@ -561,7 +571,10 @@ class HpdlVgdlListener(VgdlListener):
                 if "transformto" in interaction.type.lower():
                     for par in interaction.parameters:                        
                         if "stype" in par:
-                            self.transformTo.append(par.split('=')[1])
+                            item = par.split('=')[1]
+                            # Check for duplicates
+                            if item not in self.transformTo:
+                                self.transformTo.append(item)
 
     def exitInteraction(self, ctx:VgdlParser.InteractionContext):
         pass

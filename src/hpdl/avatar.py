@@ -128,6 +128,12 @@ class AvatarActions:
             self.actions.append(self.move_left())
             self.actions.append(self.move_right())
 
+            # This avatar don't have orientation, so it can move freely
+            self.actions.append(self.turn_up())
+            self.actions.append(self.turn_down())
+            self.actions.append(self.turn_left())
+            self.actions.append(self.turn_right())
+
         # ONLY GVGAI
         if self.avatar_type == "OngoingShootAvatar":
             pass
