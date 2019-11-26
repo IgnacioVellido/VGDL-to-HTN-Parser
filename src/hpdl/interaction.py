@@ -1690,7 +1690,7 @@ class InteractionActions:
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
         conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
                       "(= (coordinate_y ?x) (coordinate_y ?y))"]
-        effects = ["(assign (coordinate_y ?x) (last_coordinate_x ?x))",
+        effects = ["(assign (coordinate_x ?x) (last_coordinate_x ?x))",
 					"(assign (coordinate_y ?x) (last_coordinate_y ?x))"]
 
         return Action(name, parameters, conditions, effects)        
