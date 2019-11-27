@@ -64,8 +64,7 @@ class ObjectActions:
         # Missile that produces object at a specific ratio
         if self.object_type == "Bomber":    
             actions.append(self.produce())        
-            # actions.append(self.move(direction ??))
-            pass
+            actions.append(self.move)
 
         # Follows partner (or avatar ?) object
         if self.object_type == "Chaser":    
@@ -74,7 +73,7 @@ class ObjectActions:
 
         # Missile that randomly changes direction
         if self.object_type == "ErraticMissile":     
-            # actions.append(self.move(direction ??))                   
+            # actions.append(self.move)                   
             # actions.append(self.changeDirection()) - DOESN'T MAKE SENSE TO BE AN ACTION, IT'S RANDOM
             pass
 
@@ -86,8 +85,7 @@ class ObjectActions:
         # Maybe not needed here
         # Object that dissapear after a moment
         if self.object_type == "Flicker":
-            # actions.append(self.disappear())
-            pass
+            actions.append(self.disappear())
 
         # Object that moves constantly in one direction
         if self.object_type == "Missile":    
@@ -96,8 +94,7 @@ class ObjectActions:
         # Maybe not needed here
         # Oriented object that dissapear after a moment
         if self.object_type == "OrientedFlicker":            
-            # actions.append(self.dissapear())
-            pass
+            actions.append(self.dissapear())
 
         # Acts like a Chaser but sometimes it makes a random move
         if self.object_type == "RandomAltChaser":  
@@ -243,14 +240,21 @@ class ObjectActions:
 
     # -------------------------------------------------------------------------
 
+    # UNTESTED
     def dissapear(self):
         """ Eliminates the object """
-        pass
-
         name = self.object_name.upper() + "_DISSAPEAR"
         parameters = [["s", self.object_type]]        
         conditions = []
-        effects = []
+        effects = ["""
+                    forall (?s - """ + self.object_type + """)
+					(and
+                        (assign (last_coordinate_x ?s) (coordinate_x ?s))
+                        (assign (last_coordinate_y ?s) (coordinate_y ?s))
+                        (assign (coordinate_x ?s) -1)
+                        (assign (coordinate_y ?s) -1)
+					)
+"""]
 
         return Action(name, parameters, conditions, effects)        
 

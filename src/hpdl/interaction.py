@@ -1307,17 +1307,59 @@ class InteractionActions:
 
     # -------------------------------------------------------------------------
 
+    # UNTESTED
     def align(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_ALIGN"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
         conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
                       "(= (coordinate_y ?x) (coordinate_y ?y))"]
-        effects = [] # UNFINISHED
+        effects = ["""
+                        (when 
+                            (orientation-up ?x)
+                            (not (orientation-up ?x))
+                        )
+
+                        (when 
+                            (orientation-down ?x)
+                            (not (orientation-down ?x))
+                        )
+
+                        (when 
+                            (orientation-left ?x)
+                            (not (orientation-left ?x))
+                        )
+
+                        (when 
+                            (orientation-right ?x)
+                            (not (orientation-right ?x))
+                        )
+
+                        (when 
+                            (orientation-up ?y)
+                            (orientation-up ?x)
+                        )
+
+                        (when 
+                            (orientation-down ?y)
+                            (orientation-down ?x)
+                        )
+
+                        (when 
+                            (orientation-left ?y)
+                            (orientation-left ?x)
+                        )
+
+                        (when 
+                            (orientation-right ?y)
+                            (orientation-right ?x)
+                        )
+                    """]
 
         return Action(name, parameters, conditions, effects)        
 
     # -------------------------------------------------------------------------
 
+    # It is like align but randomly
     def attractGaze(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_ATTRACTGAZE"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
@@ -1395,12 +1437,19 @@ class InteractionActions:
 
     # -------------------------------------------------------------------------
 
+    # Clones the object down
+    # UNTESTED
     def cloneSprite(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_CLONESPRITE"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
         conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
-                      "(= (coordinate_y ?x) (coordinate_y ?y))"]
-        effects = [] # UNFINISHED
+                      "(= (coordinate_y ?x) (coordinate_y ?y))",
+                      "(= (coordinate_x ?w - " + self.sprite_type + ") -1)"]
+        effects = ["(assign (last_coordinate_y ?w) (coordinate_x ?w))",
+					"(assign (last_coordinate_y ?w) (coordinate_y ?w))",
+					"(assign (coordinate_x ?w) (coordinate_x ?x))",
+					"(assign (coordinate_y ?w) (coordinate_y ?x))",
+                    "(increase (coordinate_y ?w) 1)"]
 
         return Action(name, parameters, conditions, effects)        
 
@@ -1440,6 +1489,7 @@ class InteractionActions:
 
     # -------------------------------------------------------------------------
 
+    # Changes to a random direction, how ?
     def flipDirection(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_FLIPDIRECTION"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
@@ -1462,12 +1512,21 @@ class InteractionActions:
 
     # -------------------------------------------------------------------------
 
+    # UNTESTED
     def killAll(self):
+        """ Kill all sprites of the type """
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_KILLALL"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
         conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
                       "(= (coordinate_y ?x) (coordinate_y ?y))"]
-        effects = [] # UNFINISHED
+        effects = ["""
+                        (for (?w - avatar)
+                            (assign (last_coordinate_x ?w) (coordinate_x ?w))
+                            (assign (last_coordinate_y ?w) (coordinate_y ?w))
+                            (assign (coordinate_x ?w) -1)
+                            (assign (coordinate_y ?w) -1)
+                        )
+                    """]
 
         return Action(name, parameters, conditions, effects)        
 
@@ -1499,6 +1558,7 @@ class InteractionActions:
 
     # -------------------------------------------------------------------------
 
+    # Like killSprite, because if partner is dead no interaction is produced
     def killIfAlive(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_KILLIFALIVE"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
@@ -1629,12 +1689,38 @@ class InteractionActions:
 
     # -------------------------------------------------------------------------
 
+    # UNTESTED
     def reverseDirection(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_REVERSEDIRECTION"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
         conditions = ["(= (coordinate_x ?x) (coordinate_x ?y))",
                       "(= (coordinate_y ?x) (coordinate_y ?y))"]
-        effects = [] # UNFINISHED
+        #   Maybe an (and) if needed
+        effects = ["""
+                        (when 
+                            (orientation-up ?x)
+                            (not (orientation-up ?x))
+                            (orientation-down ?x)
+                        )
+
+                        (when 
+                            (orientation-down ?x)
+                            (not (orientation-down ?x))
+                            (orientation-up ?x)
+                        )
+
+                        (when 
+                            (orientation-left ?x)
+                            (not (orientation-left ?x))
+                            (orientation-right ?x)
+                        )
+
+                        (when 
+                            (orientation-right ?x)
+                            (not (orientation-right ?x))
+                            (orientation-left ?x)
+                        )
+                    """]
 
         return Action(name, parameters, conditions, effects)        
 
@@ -1684,7 +1770,6 @@ class InteractionActions:
 
     # -------------------------------------------------------------------------
 
-    # Finished
     def stepBack(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_STEPBACK"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
@@ -1708,6 +1793,7 @@ class InteractionActions:
 
     # -------------------------------------------------------------------------
 
+    # Doesn't make much sense from description
     def teleportToExit(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_TELEPORTTOEXIT"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
@@ -1792,6 +1878,7 @@ class InteractionActions:
 
     # -------------------------------------------------------------------------
 
+    # Looks like is the same as reverseDirection
     def turnAround(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_TURNAROUND"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
@@ -1827,6 +1914,7 @@ class InteractionActions:
 
     # -------------------------------------------------------------------------
 
+    # With 4 kinds of orientation is the same as reverseDirection
     def wallBounce(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_WALLBOUNCE"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
@@ -1838,6 +1926,7 @@ class InteractionActions:
 
     # -------------------------------------------------------------------------
 
+    # The same as a stepBack, but removing velocity
     def wallStop(self):
         name = self.sprite_name.upper() + "_" + self.partner_name.upper() + "_WALLSTOP"
         parameters = [["x", self.sprite_name], ["y", self.partner_type]]       
