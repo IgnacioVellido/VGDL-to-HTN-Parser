@@ -1,9 +1,7 @@
 .vscode/*
 .settings/*
 
-
 *.pyc
-src/*.pddl
 
 #############
 # From ANTLR
@@ -17,10 +15,6 @@ src/VgdlLexer.py
 
 
 #############
-# For testing
+# From testing
 
-src/test/*
 *.stackdump
-handmadeExample/boulder.pddl
-src/verbose
-src/vgdl-examples/test_level.txt
