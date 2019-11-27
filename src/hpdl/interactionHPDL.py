@@ -14,7 +14,14 @@ from hpdl.hpdlTypes import *
 
 class InteractionHPDL:
     """ Class that encapsulate the generation of HPDL domain structures 
-    for interactions """
+    for interactions 
+    
+    Atributes:
+        interaction - InteractioVGDL
+        sprite - SpriteVGDL
+
+    """
+    # def __init__(self, interaction, sprite, partner):
     def __init__(self, interaction_type, 
                  sprite_name, sprite_stype, 
                  partner_name, partner_stype,

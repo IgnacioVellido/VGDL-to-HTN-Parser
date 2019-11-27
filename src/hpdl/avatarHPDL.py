@@ -14,20 +14,46 @@ from hpdl.hpdlTypes import *
 
 class AvatarHPDL:
     """ Class that encapsulate the generation of HPDL domain structures 
-    for the avatar """
-    def __init__(self, avatar_name, avatar_type, partner=None):
-        self.avatar_name = avatar_name
-        self.avatar_type = avatar_type
-        self.patner      = partner
+    for the avatar 
+    
+    Atributes:
+        avatar           - SpriteVGDL
+        partner          - SpriteVGDL
+        tasks            - List<TaskHPDL>
+        actions          - List<ActionHPDL>
+        predicates       - List<PredicateHPDL>
+        level_predicates - ??
+        hierarchy        - Dict<String,String>        
+    """
+    def __init__(self, avatar, hierarchy, partner=None):
+        self.avatar    = avatar
+        self.hierarchy = hierarchy
+        self.partner   = partner
 
-        self.actions    = AvatarActions(avatar_name, avatar_type, partner).actions
-        self.methods    = []
-        self.get_methods()
-        self.task       = None
-        self.get_task()
-        self.predicates = AvatarPredicates(avatar_name, avatar_type).predicates
+        self.tasks              = []        
+        self.methods            = []
+        self.actions            = []
+        self.predicates         = []
+        self.level_predicates   = []
+
+        get_actions()
+        get_methods()
+        get_tasks()
+        get_predicates()
+        get_level_predicates()
 
     # -------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
+
+    def get_actions(self):
+        avActions = AvatarActions(self.avatar, self.partner)
+        self.actions = avActions.actions
+
+    # -------------------------------------------------------------------------
+
+    def get_level_predicates(self):
+        pass
+
     # -------------------------------------------------------------------------
 
     def get_methods(self):
@@ -44,6 +70,12 @@ class AvatarHPDL:
             m = Method(name, [], [m_action])
 
             self.methods.append(m)
+
+    # -------------------------------------------------------------------------
+
+    def get_predicates(self):
+        avPredicates = AvatarPredicates(self.avatar, self.patner)
+        self.predicates = avPredicates.predicates
 
     # -------------------------------------------------------------------------
 
@@ -64,7 +96,6 @@ class AvatarHPDL:
 
         self.task = Task("turn_avatar", parameters, self.methods)
 
-
 ###############################################################################
 # -----------------------------------------------------------------------------
 ###############################################################################
@@ -73,27 +104,24 @@ class AvatarActions:
     """ Returns different actions depending of the avatar 
 
     Atributes:
-        avatar_name
-        avatar_type
-        partner         Sprite object. 
-                        If ACTION_USE is available for the avatar, 'partner' is the 
-                        sprite that is produced
-        actions         List of Action (depends of the avatar)
+        avatar  - SpriteVGDL
+        partner - SpriteVGDL
+                    If ACTION_USE is available for the avatar, 'partner' is the 
+                    sprite that is produced
+        actions - List<ActionHPDL>
     """
-    """ 
-    Although we can declare same predicates for any kind of avatar, some
-    will always be false, so, the reduce space in the domain we don't write 
-    them 
-    """
-    def __init__(self, avatar_name, avatar_type, partner=None):
-        self.avatar_name = avatar_name
-        self.avatar_type = avatar_type
-        self.partner     = partner
+
+    def __init__(self, avatar, hierarchy, partner):
+        self.avatar  = avatar
+        self.hierarchy = hierarchy
+        self.partner = partner
 
         self.actions = []
         self.get_actions()
 
-    # Podrían juntarse para no repetir código pero lo haría menos legible
+    # -------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
+    
     def get_actions(self):
         """ Return a list of actions depending of the avatar.
         
@@ -102,7 +130,7 @@ class AvatarActions:
         """
 
         # Can't move but can use object
-        if self.avatar_type == "AimedAvatar":
+        if self.avatar.stype == "AimedAvatar":
             self.actions.append(self.turn_up())
             self.actions.append(self.turn_down())
             self.actions.append(self.turn_left())
@@ -111,18 +139,18 @@ class AvatarActions:
 
         # This avatar should have ammo !!!!!!!!!!
         # Always same orientation, can move horizontally and use object
-        if self.avatar_type == "FlakAvatar":
+        if self.avatar.stype == "FlakAvatar":
             self.actions.append(self.move_left())
             self.actions.append(self.move_right())
             self.actions.append(self.use())
 
         # Always same orientation, can only move left or right
-        if self.avatar_type == "HorizontalAvatar":
+        if self.avatar.stype == "HorizontalAvatar":
             self.actions.append(self.move_left())
             self.actions.append(self.move_right())
 
         # Always same orientation, can move in any direction
-        if self.avatar_type == "MovingAvatar":
+        if self.avatar.stype == "MovingAvatar":
             self.actions.append(self.move_up())
             self.actions.append(self.move_down())
             self.actions.append(self.move_left())
@@ -135,15 +163,15 @@ class AvatarActions:
             self.actions.append(self.turn_right())
 
         # ONLY GVGAI
-        if self.avatar_type == "OngoingShootAvatar":
+        if self.avatar.stype == "OngoingShootAvatar":
             pass
 
         # ONLY GVGAI
-        if self.avatar_type == "OngoingTurningAvatar":
+        if self.avatar.stype == "OngoingTurningAvatar":
             pass
 
         # Can move and aim in any direction, can't use object
-        if self.avatar_type == "OrientedAvatar":
+        if self.avatar.stype == "OrientedAvatar":
             self.actions.append(self.move_up())
             self.actions.append(self.move_down())
             self.actions.append(self.move_left())
@@ -154,7 +182,7 @@ class AvatarActions:
             self.actions.append(self.turn_right())
         
         # Can move and aim in any direction, can use object
-        if self.avatar_type == "ShootAvatar":
+        if self.avatar.stype == "ShootAvatar":
             self.actions.append(self.move_up())
             self.actions.append(self.move_down())
             self.actions.append(self.move_left())
@@ -166,7 +194,7 @@ class AvatarActions:
             self.actions.append(self.use())
 
         # Always same orientation, can only move up or down
-        if self.avatar_type == "VerticalAvatar":
+        if self.avatar.stype == "VerticalAvatar":
             self.actions.append(self.move_up())
             self.actions.append(self.move_down())
 
@@ -179,7 +207,7 @@ class AvatarActions:
 
     def move_up(self):
         name = "AVATAR_MOVE_UP"
-        parameters = [["a", self.avatar_type]]
+        parameters = [["a", self.avatar.stype]]
         
         # can-move indicates that te avatar has the ability to move in that direction
         conditions = ["(can-move-up ?a)", "(orientation-up ?a)"]
@@ -191,7 +219,7 @@ class AvatarActions:
 
     def move_down(self):
         name = "AVATAR_MOVE_DOWN"
-        parameters = [["a", self.avatar_type]]
+        parameters = [["a", self.avatar.stype]]
 
         # can-move indicates that te avatar has the ability to move in that direction
         conditions = ["(can-move-down ?a)", "(orientation-down ?a)"]
@@ -203,7 +231,7 @@ class AvatarActions:
 
     def move_left(self):
         name = "AVATAR_MOVE_LEFT"
-        parameters = [["a", self.avatar_type]]
+        parameters = [["a", self.avatar.stype]]
         
         # can-move indicates that te avatar has the ability to move in that direction
         conditions = ["(can-move-left ?a)", "(orientation-left ?a)"]
@@ -215,7 +243,7 @@ class AvatarActions:
 
     def move_right(self):
         name = "AVATAR_MOVE_RIGHT"
-        parameters = [["a", self.avatar_type]]
+        parameters = [["a", self.avatar.stype]]
 
         # can-move indicates that te avatar has the ability to move in that direction
         conditions = ["(can-move-right ?a)", "(orientation-right ?a)"]
@@ -228,7 +256,7 @@ class AvatarActions:
     # This method should only be called if the avatar can turn
     def turn_up(self):
         name = "AVATAR_TURN_UP"
-        parameters = [["a", self.avatar_type]]
+        parameters = [["a", self.avatar.stype]]
         
         # If not (can-change-orientation ?a), the avatar cannot use this action
         # conditions = ["(can-change-orientation ?a)","(not (orientation-up ?a))"]
@@ -258,7 +286,7 @@ class AvatarActions:
 
     def turn_down(self):
         name = "AVATAR_TURN_DOWN"
-        parameters = [["a", self.avatar_type]]
+        parameters = [["a", self.avatar.stype]]
 
         # If not (can-change-orientation ?a), the avatar cannot use this action
         # conditions = ["(can-change-orientation ?a)","(not (orientation-down ?a))"]
@@ -288,7 +316,7 @@ class AvatarActions:
 
     def turn_left(self):
         name = "AVATAR_TURN_LEFT"
-        parameters = [["a", self.avatar_type]]      
+        parameters = [["a", self.avatar.stype]]      
         
         # If not (can-change-orientation ?a), the avatar cannot use this action
         # conditions = ["(can-change-orientation ?a)","(not (orientation-left ?a))"]
@@ -318,7 +346,7 @@ class AvatarActions:
 
     def turn_right(self):
         name = "AVATAR_TURN_RIGHT"
-        parameters = [["a", self.avatar_type]]
+        parameters = [["a", self.avatar.stype]]
         
         # If not (can-change-orientation ?a), the avatar cannot use this action
         # conditions = ["(can-change-orientation ?a)","(not (orientation-right ?a))"]
@@ -355,7 +383,7 @@ class AvatarActions:
             raise TypeError('Argument "partner" is not defined')
 
         name = "AVATAR_USE"
-        parameters = [["a", self.avatar_type], ["p", self.partner.name]]
+        parameters = [["a", self.avatar.stype], ["p", self.partner.name]]
         conditions = ["(can-use ?a)"]
         
         # Generate the partner object in a position depending of the orientation of the avatar
@@ -410,7 +438,7 @@ class AvatarActions:
     def nil(self):
         """ Avatar doesn't do anything """
         name = "AVATAR_NIL"
-        parameters = [["a", self.avatar_type]]        
+        parameters = [["a", self.avatar.stype]]        
         conditions = []
         effects = []
 
@@ -422,66 +450,72 @@ class AvatarActions:
 
 class AvatarPredicates:
     """ Returns different predicates depending of the avatar """
-    def __init__(self, avatar_name, avatar_type):
-        self.avatar_name = avatar_name
-        self.avatar_type = avatar_type
+    def __init__(self, avatar):
+        self.avatar = avatar
 
         self.predicates = []
         self.get_predicates()
+
+    # -------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
     def get_predicates(self):
         """ Return a list of predicates depending of the avatar """
 
         # Can't move but can use object
-        if self.avatar_type == "AimedAvatar":
-            self.predicates.append("(can-use ?a - " + self.avatar_type + ")")
-            self.predicates.append("(can-change-orientation ?a - " + self.avatar_type + ")")
+        if self.avatar.stype == "AimedAvatar":
+            self.predicates.append("(can-use ?a - " + self.avatar.stype + ")")
+            self.predicates.append("(can-change-orientation ?a - " + self.avatar.stype + ")")
 
         # This avatar should have ammo !!!!
         # Always same orientation, can move horizontally and use object
-        if self.avatar_type == "FlakAvatar":
-            self.predicates.append("(can-move-left ?a - " + self.avatar_type + ")")
-            self.predicates.append("(can-move-right ?a - " + self.avatar_type + ")")
-            self.predicates.append("(can-use ?a - " + self.avatar_type + ")")
+        if self.avatar.stype == "FlakAvatar":
+            self.predicates.append("(can-move-left ?a - " + self.avatar.stype + ")")
+            self.predicates.append("(can-move-right ?a - " + self.avatar.stype + ")")
+            self.predicates.append("(can-use ?a - " + self.avatar.stype + ")")
 
         # Always same orientation, can only move left or right
-        if self.avatar_type == "HorizontalAvatar":
-            self.predicates.append("(can-move-left ?a - " + self.avatar_type + ")")
-            self.predicates.append("(can-move-right ?a - " + self.avatar_type + ")")
+        if self.avatar.stype == "HorizontalAvatar":
+            self.predicates.append("(can-move-left ?a - " + self.avatar.stype + ")")
+            self.predicates.append("(can-move-right ?a - " + self.avatar.stype + ")")
 
         # Always same orientation, can move in any direction
-        if self.avatar_type == "MovingAvatar":
-            self.predicates.append("(can-move-up ?a - " + self.avatar_type + ")")
-            self.predicates.append("(can-move-down ?a - " + self.avatar_type + ")")
-            self.predicates.append("(can-move-left ?a - " + self.avatar_type + ")")
-            self.predicates.append("(can-move-right ?a - " + self.avatar_type + ")")
+        if self.avatar.stype == "MovingAvatar":
+            self.predicates.append("(can-move-up ?a - " + self.avatar.stype + ")")
+            self.predicates.append("(can-move-down ?a - " + self.avatar.stype + ")")
+            self.predicates.append("(can-move-left ?a - " + self.avatar.stype + ")")
+            self.predicates.append("(can-move-right ?a - " + self.avatar.stype + ")")
 
         # ONLY GVGAI
-        if self.avatar_type == "OngoingShootAvatar":
+        if self.avatar.stype == "OngoingShootAvatar":
             pass
 
         # ONLY GVGAI
-        if self.avatar_type == "OngoingTurningAvatar":
+        if self.avatar.stype == "OngoingTurningAvatar":
             pass
 
         # Can move and aim in any direction
-        if self.avatar_type == "OrientedAvatar":
-            self.predicates.append("(can-move-up ?a - " + self.avatar_type + ")")
-            self.predicates.append("(can-move-down ?a - " + self.avatar_type + ")")
-            self.predicates.append("(can-move-left ?a - " + self.avatar_type + ")")
-            self.predicates.append("(can-move-right ?a - " + self.avatar_type + ")")
-            self.predicates.append("(can-change-orientation ?a - " + self.avatar_type + ")")
+        if self.avatar.stype == "OrientedAvatar":
+            self.predicates.append("(can-move-up ?a - " + self.avatar.stype + ")")
+            self.predicates.append("(can-move-down ?a - " + self.avatar.stype + ")")
+            self.predicates.append("(can-move-left ?a - " + self.avatar.stype + ")")
+            self.predicates.append("(can-move-right ?a - " + self.avatar.stype + ")")
+            self.predicates.append("(can-change-orientation ?a - " + self.avatar.stype + ")")
         
         # Can move and aim in any direction, can use object
-        if self.avatar_type == "ShootAvatar":
-            self.predicates.append("(can-move-up ?a - " + self.avatar_type + ")")
-            self.predicates.append("(can-move-down ?a - " + self.avatar_type + ")")
-            self.predicates.append("(can-move-left ?a - " + self.avatar_type + ")")
-            self.predicates.append("(can-move-right ?a - " + self.avatar_type + ")")
-            self.predicates.append("(can-change-orientation ?a - " + self.avatar_type + ")")
-            self.predicates.append("(can-use ?a - " + self.avatar_type + ")")
+        if self.avatar.stype == "ShootAvatar":
+            self.predicates.append("(can-move-up ?a - " + self.avatar.stype + ")")
+            self.predicates.append("(can-move-down ?a - " + self.avatar.stype + ")")
+            self.predicates.append("(can-move-left ?a - " + self.avatar.stype + ")")
+            self.predicates.append("(can-move-right ?a - " + self.avatar.stype + ")")
+            self.predicates.append("(can-change-orientation ?a - " + self.avatar.stype + ")")
+            self.predicates.append("(can-use ?a - " + self.avatar.stype + ")")
 
         # Always same orientation, can only move up or down
-        if self.avatar_type == "VerticalAvatar":
-            self.predicates.append("(can-move-up ?a - " + self.avatar_type + ")")
-            self.predicates.append("(can-move-down ?a - " + self.avatar_type + ")")
+        if self.avatar.stype == "VerticalAvatar":
+            self.predicates.append("(can-move-up ?a - " + self.avatar.stype + ")")
+            self.predicates.append("(can-move-down ?a - " + self.avatar.stype + ")")
+
+###############################################################################
+# -----------------------------------------------------------------------------
+###############################################################################

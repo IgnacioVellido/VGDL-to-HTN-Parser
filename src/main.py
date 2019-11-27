@@ -18,7 +18,7 @@ from grammar.VgdlLexer import VgdlLexer
 from grammar.VgdlParser import VgdlParser
 
 # Custom listener
-from hpdl.listenerHPDL import HpdlVgdlListener
+from hpdl.listenerHPDL import ListenerHPDL
 
 # Needed to show parsed tree in terminal
 # from antlr4.tree.Trees import Trees
@@ -177,7 +177,7 @@ def main(argv):
     parser = VgdlParser(stream)
     tree = parser.basicGame()
 
-    listener = HpdlVgdlListener()
+    listener = ListenerHPDL()
     walker = ParseTreeWalker()
     walker.walk(listener, tree)    
 

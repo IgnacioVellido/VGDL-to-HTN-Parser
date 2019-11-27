@@ -1,10 +1,9 @@
 ###############################################################################
-# HpdlVgdlListener.py
+# ListenerHPDL.py
 # Ignacio Vellido Expósito
 # 21/08/2019
 # 
 # ANTLR Listener. Reads tokens and store in the corresponding data structure.
-# It also creates the separate parts of HPDL.
 ###############################################################################
 
 import sys
@@ -16,7 +15,7 @@ from vgdl.vgdlTypes import *
 from hpdl.hpdlTypes import *
 
 from hpdl.avatarHPDL import *
-from hpdl.objectHPDL import *
+from hpdl.spriteHPDL import *
 from hpdl.interactionHPDL import *
 
 ###############################################################################
@@ -36,7 +35,7 @@ def get_rule_parameters(list_par):
 # -----------------------------------------------------------------------------
 ###############################################################################
 
-class HpdlVgdlListener(VgdlListener):
+class ListenerHPDL(VgdlListener):
     """ 
     This class defines a complete listener for a parse tree produced by VgdlParser.
 
@@ -325,7 +324,7 @@ class HpdlVgdlListener(VgdlListener):
 
         for obj in self.sprites:
             partner = self.find_partner(obj)
-            methods = ObjectHPDL(obj.name, obj.stype, partner).methods
+            methods = SpriteHPDL(obj.name, obj.stype, partner).methods
 
             for met in methods:
                 object_tasks.extend(met.task_predicates)
@@ -379,7 +378,7 @@ class HpdlVgdlListener(VgdlListener):
         # And one for each deterministic movable object 
         for obj in self.sprites:
             partner = self.find_partner(obj)
-            actions = ObjectHPDL(obj.name, obj.stype, partner).actions
+            actions = SpriteHPDL(obj.name, obj.stype, partner).actions
 
             if actions:
                 self.actions.extend(actions)
@@ -517,7 +516,7 @@ class HpdlVgdlListener(VgdlListener):
 
         # Check if avatar
         if sprite.stype is not None and "avatar" in sprite.stype.lower():
-            self.avatar = Avatar(sprite)
+            self.avatar = Sprite(sprite)
 
         self.sprites.append(sprite)        
     
