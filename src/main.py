@@ -198,12 +198,21 @@ def main(argv):
     transformTo = listener.tasks
 
     # Getting the domain
-    types = listener.types
-    constants = listener.constants
-    functions = listener.functions
-    predicates = listener.predicates
-    tasks = listener.tasks
-    actions = listener.actions
+    domainGenerator = DomainGeneratorHPDL(sprites, interactions, terminations
+                                            mappings, hierarchy)
+    types = domainGenerator.types
+    constants = domainGenerator.constants
+    functions = domainGenerator.functions
+    predicates = domainGenerator.predicates
+    tasks = domainGenerator.tasks
+    actions = domainGenerator.actions
+    
+    # types = listener.types
+    # constants = listener.constants
+    # functions = listener.functions
+    # predicates = listener.predicates
+    # tasks = listener.tasks
+    # actions = listener.actions
 
     # ----------------------------------------------------------------------
 
