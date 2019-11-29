@@ -6,7 +6,7 @@
 # Multiple classes defining parts of a HPDL domain for a non-avatar sprite
 ###############################################################################
 
-from hpdl.hpdlTypes import *
+from hpdl.typesHPDL import *
 
 ###############################################################################
 # -----------------------------------------------------------------------------
@@ -34,8 +34,7 @@ class SpriteHPDL:
     # -------------------------------------------------------------------------
 
     def get_actions(self):
-        spActions = SpriteActions(self.sprite, self.partner)
-        self.actions = spActions.actions
+        self.actions = SpriteActions(self.sprite, self.partner).actions        
 
     # -------------------------------------------------------------------------
 
@@ -87,7 +86,7 @@ class SpriteActions:
         self.partner   = partner
 
         self.actions = []
-        get_actions()
+        self.get_actions()
 
     # -------------------------------------------------------------------------
 

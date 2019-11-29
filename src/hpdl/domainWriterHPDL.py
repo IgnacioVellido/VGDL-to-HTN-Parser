@@ -13,7 +13,7 @@ class DomainWriter:
         types - functions - predicates - tasks - actions
     """
     def __init__(self, types, constants, functions, predicates, tasks, actions):
-        self.text_domain = self.get_domain_definition()
+        self.text_domain  = self.get_domain_definition()
         self.text_domain += self.get_types(types)
         self.text_domain += self.get_constants(constants)
         self.text_domain += self.get_predicates(predicates)

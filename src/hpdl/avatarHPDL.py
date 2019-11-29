@@ -6,7 +6,7 @@
 # Multiple classes defining parts of a HPDL domain for an avatar
 ###############################################################################
 
-from hpdl.hpdlTypes import *
+from hpdl.typesHPDL import *
 
 ###############################################################################
 # -----------------------------------------------------------------------------
@@ -36,18 +36,17 @@ class AvatarHPDL:
         self.predicates         = []
         self.level_predicates   = []
 
-        get_actions()
-        get_methods()
-        get_tasks()
-        get_predicates()
-        get_level_predicates()
+        self.get_actions()
+        self.get_methods()
+        self.get_tasks()
+        self.get_predicates()
+        self.get_level_predicates()
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
 
     def get_actions(self):
-        avActions = AvatarActions(self.avatar, self.partner)
-        self.actions = avActions.actions
+        self.actions = AvatarActions(self.avatar, self.partner).actions
 
     # -------------------------------------------------------------------------
 
@@ -74,8 +73,7 @@ class AvatarHPDL:
     # -------------------------------------------------------------------------
 
     def get_predicates(self):
-        avPredicates = AvatarPredicates(self.avatar, self.patner)
-        self.predicates = avPredicates.predicates
+        self.predicates = AvatarPredicates(self.avatar, self.patner).predicates
 
     # -------------------------------------------------------------------------
 
@@ -128,7 +126,6 @@ class AvatarActions:
         partner:    If ACTION_USE is available for the avatar, 'partner' is the 
                     sprite that is produced
         """
-
         # Can't move but can use object
         if self.avatar.stype == "AimedAvatar":
             self.actions.append(self.turn_up())
