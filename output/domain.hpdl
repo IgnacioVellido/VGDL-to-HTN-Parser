@@ -35,10 +35,10 @@
 		alien - Bomber
 		alienGreen - alien
 		alienBlue - alien
+		portal - portalStype
 		portalSlow - SpawnPoint
 		portalFast - SpawnPoint
-		Missile FlakAvatar Immovable Bomber portal - Object
-		SpawnPoint - portal
+		FlakAvatar portalStype Immovable Bomber Missile alien miss SpawnPoint - Object
 	)
 
 	; Constants -----------------------------------------------------------------
@@ -85,7 +85,6 @@
 		(counter_portalSlow)
 		(counter_SpawnPoint)
 		(counter_portalFast)
-		(counter_Object)
 		(turn)
 	)
 
@@ -234,28 +233,28 @@
 
 		(:method base_bomb_killboth
 				:precondition (and 
-									(evaluate-interaction ?x - Immovable ?y - bomb)
+									(evaluate-interaction ?x - Immovable ?y - miss)
 									(not (= (coordinate_x ?x) -1))
 									(not (= (coordinate_x ?y) -1))
 								)
 				:tasks ( 
 							(BASE_BOMB_KILLBOTH ?x ?y)
-							(:inline () (not (evaluate-interaction ?x - Immovable ?y - bomb)))
-							(:inline () (regenerate-interaction ?x - Immovable ?y - bomb))
+							(:inline () (not (evaluate-interaction ?x - Immovable ?y - miss)))
+							(:inline () (regenerate-interaction ?x - Immovable ?y - miss))
 							(check-interactions) 
 						)
 		)
 
 		(:method base_sam_killboth
 				:precondition (and 
-									(evaluate-interaction ?x - Immovable ?y - sam)
+									(evaluate-interaction ?x - Immovable ?y - miss)
 									(not (= (coordinate_x ?x) -1))
 									(not (= (coordinate_x ?y) -1))
 								)
 				:tasks ( 
 							(BASE_SAM_KILLBOTH ?x ?y)
-							(:inline () (not (evaluate-interaction ?x - Immovable ?y - sam)))
-							(:inline () (regenerate-interaction ?x - Immovable ?y - sam))
+							(:inline () (not (evaluate-interaction ?x - Immovable ?y - miss)))
+							(:inline () (regenerate-interaction ?x - Immovable ?y - miss))
 							(check-interactions) 
 						)
 		)
@@ -290,28 +289,28 @@
 
 		(:method avatar_bomb_killsprite
 				:precondition (and 
-									(evaluate-interaction ?x - FlakAvatar ?y - bomb)
+									(evaluate-interaction ?x - FlakAvatar ?y - miss)
 									(not (= (coordinate_x ?x) -1))
 									(not (= (coordinate_x ?y) -1))
 								)
 				:tasks ( 
 							(AVATAR_BOMB_KILLSPRITE ?x ?y)
-							(:inline () (not (evaluate-interaction ?x - FlakAvatar ?y - bomb)))
-							(:inline () (regenerate-interaction ?x - FlakAvatar ?y - bomb))
+							(:inline () (not (evaluate-interaction ?x - FlakAvatar ?y - miss)))
+							(:inline () (regenerate-interaction ?x - FlakAvatar ?y - miss))
 							(check-interactions) 
 						)
 		)
 
 		(:method alien_sam_killsprite
 				:precondition (and 
-									(evaluate-interaction ?x - Bomber ?y - sam)
+									(evaluate-interaction ?x - Bomber ?y - miss)
 									(not (= (coordinate_x ?x) -1))
 									(not (= (coordinate_x ?y) -1))
 								)
 				:tasks ( 
 							(ALIEN_SAM_KILLSPRITE ?x ?y)
-							(:inline () (not (evaluate-interaction ?x - Bomber ?y - sam)))
-							(:inline () (regenerate-interaction ?x - Bomber ?y - sam))
+							(:inline () (not (evaluate-interaction ?x - Bomber ?y - miss)))
+							(:inline () (regenerate-interaction ?x - Bomber ?y - miss))
 							(check-interactions) 
 						)
 		)
@@ -558,7 +557,7 @@
 	)
 
 	(:action BASE_BOMB_KILLBOTH
-		:parameters (?x - base ?y - bomb )
+		:parameters (?x - base ?y - miss )
 		:precondition (and 
 						(= (coordinate_x ?x) (coordinate_x ?y))
 						(= (coordinate_y ?x) (coordinate_y ?y))
@@ -572,16 +571,16 @@
 					(assign (coordinate_x ?y) -1)
 					(assign (coordinate_y ?y) -1)
 					(decrease (counter_Immovable) 1)
-					(decrease (counter_bomb) 1)
-					(decrease (counter_Object) 1)
 					(decrease (counter_miss) 1)
-					(decrease (counter_Missile) 1)
 					(decrease (counter_Object) 1)
+					(decrease (counter_Object) 1)
+					(decrease (counter_Object) 1)
+					(decrease (counter_Missile) 1)
 				)
 	)
 
 	(:action BASE_SAM_KILLBOTH
-		:parameters (?x - base ?y - sam )
+		:parameters (?x - base ?y - miss )
 		:precondition (and 
 						(= (coordinate_x ?x) (coordinate_x ?y))
 						(= (coordinate_y ?x) (coordinate_y ?y))
@@ -595,11 +594,11 @@
 					(assign (coordinate_x ?y) -1)
 					(assign (coordinate_y ?y) -1)
 					(decrease (counter_Immovable) 1)
-					(decrease (counter_sam) 1)
-					(decrease (counter_Object) 1)
 					(decrease (counter_miss) 1)
-					(decrease (counter_Missile) 1)
 					(decrease (counter_Object) 1)
+					(decrease (counter_Object) 1)
+					(decrease (counter_Object) 1)
+					(decrease (counter_Missile) 1)
 				)
 	)
 
@@ -615,6 +614,8 @@
 					(assign (coordinate_x ?x) -1)
 					(assign (coordinate_y ?x) -1)
 					(decrease (counter_Immovable) 1)
+					(decrease (counter_Object) 1)
+					(decrease (counter_Object) 1)
 					(decrease (counter_Object) 1)
 					(decrease (counter_Object) 1)
 				)
@@ -638,7 +639,7 @@
 	)
 
 	(:action AVATAR_BOMB_KILLSPRITE
-		:parameters (?x - avatar ?y - bomb )
+		:parameters (?x - avatar ?y - miss )
 		:precondition (and 
 						(= (coordinate_x ?x) (coordinate_x ?y))
 						(= (coordinate_y ?x) (coordinate_y ?y))
@@ -655,7 +656,7 @@
 	)
 
 	(:action ALIEN_SAM_KILLSPRITE
-		:parameters (?x - alien ?y - sam )
+		:parameters (?x - alien ?y - miss )
 		:precondition (and 
 						(= (coordinate_x ?x) (coordinate_x ?y))
 						(= (coordinate_y ?x) (coordinate_y ?y))

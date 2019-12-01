@@ -24,17 +24,17 @@ class SpriteHPDL:
         self.predicates         = []
         self.level_predicates   = []
 
-        get_actions()
-        get_methods()
-        get_tasks()
-        get_predicates()
-        get_level_predicates()
+        self.get_actions()
+        self.get_methods()
+        self.get_tasks()
+        self.get_predicates()
+        self.get_level_predicates()
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
 
     def get_actions(self):
-        self.actions = SpriteActions(self.sprite, self.partner).actions        
+        self.actions = SpriteActions(self.sprite, self.hierarchy, self.partner).actions        
 
     # -------------------------------------------------------------------------
 
@@ -94,40 +94,40 @@ class SpriteActions:
         # Not clear what it does
         # Missile that produces sprite at a specific ratio
         if self.sprite.stype == "Bomber":    
-            self.actions.apend(self.produce())        
-            # self.actions.apend(self.move(direction ??))
+            self.actions.append(self.produce())        
+            # self.actions.append(self.move(direction ??))
             pass
 
         # Follows partner (or avatar ?) sprite
         if self.sprite.stype == "Chaser":    
-            # self.actions.apend(self.follow(partner))        
+            # self.actions.append(self.follow(partner))        
             pass
 
         # Missile that randomly changes direction
         if self.sprite.stype == "ErraticMissile":     
-            # self.actions.apend(self.move(direction ??))                   
-            # self.actions.apend(self.changeDirection()) - DOESN'T MAKE SENSE TO BE AN ACTION, IT'S RANDOM
+            # self.actions.append(self.move(direction ??))                   
+            # self.actions.append(self.changeDirection()) - DOESN'T MAKE SENSE TO BE AN ACTION, IT'S RANDOM
             pass
 
         # Try to make the greatest distance with the partner (or avatar) sprite
         if self.sprite.stype == "Fleeing":       
-            # self.actions.apend(self.flee(partner))     
+            # self.actions.append(self.flee(partner))     
             pass
 
         # Maybe not needed here
         # sprite that dissapear after a moment
         if self.sprite.stype == "Flicker":
-            # self.actions.apend(self.disappear())
+            # self.actions.append(self.disappear())
             pass
 
         # sprite that moves constantly in one direction
         if self.sprite.stype == "Missile":    
-            self.actions.apend(self.move())
+            self.actions.append(self.move())
 
         # Maybe not needed here
         # Oriented sprite that dissapear after a moment
         if self.sprite.stype == "OrientedFlicker":            
-            # self.actions.apend(self.dissapear())
+            # self.actions.append(self.dissapear())
             pass
 
         # Acts like a Chaser but sometimes it makes a random move
@@ -153,16 +153,16 @@ class SpriteActions:
 
         # Produces sprites following a specific ratio
         if self.sprite.stype == "SpawnPoint":  
-            self.actions.apend(self.produce())
+            self.actions.append(self.produce())
 
         # Expands in 4 directions if not occupied
         if self.sprite.stype == "Spreader":       
-            # self.actions.apend(self.expand())     
+            # self.actions.append(self.expand())     
             pass
 
         # Missile that if when it collides it change to a random direction
         if self.sprite.stype == "Walker":
-            # self.actions.apend(self.move(direction ??))
+            # self.actions.append(self.move(direction ??))
             # If collides stop calculating until we know the new direction
             pass
 

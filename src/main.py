@@ -24,10 +24,12 @@ from grammar.VgdlListener import VgdlListener
 # from antlr4.tree.Trees import Trees
 
 # HPDL domain generator
-from hpdl.domainWriter import DomainWriter
+from hpdl.domainGeneratorHPDL import DomainGeneratorHPDL
+from hpdl.domainWriterHPDL import DomainWriter
 
 # Level parser
-from hpdl.levelParser import *
+# from hpdl.levelWriterHPDL import LevelWriter
+from hpdl.levelGeneratorHPDL import *
 
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
@@ -187,19 +189,14 @@ def main(argv):
     sprites = listener.sprites
     interactions = listener.interactions
     terminations = listener.terminations
+
     mappings = listener.mappings
     hierarchy = listener.hierarchy
-
-    avatar = listener.constants
-    partner = listener.functions
-    short_types = listener.types
-    long_types = listener.constants
-    stypes = listener.predicates
-    transformTo = listener.tasks
+    avatar = listener.avatar
 
     # Getting the domain
-    domainGenerator = DomainGeneratorHPDL(sprites, interactions, terminations
-                                            mappings, hierarchy)
+    domainGenerator = DomainGeneratorHPDL(sprites, interactions, terminations,
+                                            mappings, hierarchy, avatar)
     types = domainGenerator.types
     constants = domainGenerator.constants
     functions = domainGenerator.functions

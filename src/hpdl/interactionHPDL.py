@@ -90,71 +90,71 @@ class InteractionMethods:
 
         # [GVGAI] Adds a certain quantity of health points
         if self.interaction.type == "addHealthPoints":
-            self.methods.append(addHealthPoints())
+            self.methods.append(self.addHealthPoints())
 
         # [GVGAI] Puts health points to max
         if self.interaction.type == "addHealthPointsToMax":
-            self.methods.append(addHealthPointsToMax())
+            self.methods.append(self.addHealthPointsToMax())
 
         # [GVGAI] Changes position and orientation of sprite to partner
         if self.interaction.type == "align":
-            self.methods.append(align())
+            self.methods.append(self.align())
 
         # Randomly changesdirection of partner
         if self.interaction.type == "attractGaze":
-            self.methods.append(attractGaze())
+            self.methods.append(self.attractGaze())
 
         # Not sure what it does, seems like the center of the object decides the direction
         if self.interaction.type == "bounceDirection":
-            self.methods.append(bounceDirection())
+            self.methods.append(self.bounceDirection())
 
         # Sprite tries to move in the opposite direction of partner
         if self.interaction.type == "bounceForward":
-            self.methods.append(bounceForward())
+            self.methods.append(self.bounceForward())
 
         # Change resource (sprite) in the object (partner) to a given
         if self.interaction.type == "changeResource":
-            self.methods.append(changeResource())
+            self.methods.append(self.changeResource())
 
         # Creates a copy
         if self.interaction.type == "cloneSprite":
-            self.methods.append(cloneSprite())
+            self.methods.append(self.cloneSprite())
 
         # Increment resource (sprite) in the object (partner)
         if self.interaction.type == "collectResource":
-            self.methods.append(collectResource())
+            self.methods.append(self.collectResource())
 
         # [GVGAI] Decrease speed of all objects of the type of the sprite
         if self.interaction.type == "decreaseSpeedToAll":
-            self.methods.append(decreaseSpeedToAll())
+            self.methods.append(self.decreaseSpeedToAll())
 
         # Changes to a random orientation
         if self.interaction.type == "flipDirection":
-            self.methods.append(flipDirection())
+            self.methods.append(self.flipDirection())
 
         # [GVGAI] Increase speed of all objects of the sprite type
         if self.interaction.type == "increaseSpeedToAll":
-            self.methods.append(increaseSpeedToAll())
+            self.methods.append(self.increaseSpeedToAll())
 
         # [GVGAI] Kill all sprite of the same type
         if self.interaction.type == "killAll":
-            self.methods.append(killAll())
+            self.methods.append(self.killAll())
 
         # Sprite and partner dies
         if self.interaction.type == "killBoth":
-            self.methods.append(killBoth())
+            self.methods.append(self.killBoth())
 
         # Kill sprite if partner is not destroyed by the collision
         if self.interaction.type == "killIfAlive":
-            self.methods.append(killIfAlive())
+            self.methods.append(self.killIfAlive())
 
         # Kill sprite if partner is above him
         if self.interaction.type == "killIfFromAbove":
-            self.methods.append(killIfFromAbove())
+            self.methods.append(self.killIfFromAbove())
 
         # If sprite has more resource than parameter (limit), kill it
         if self.interaction.type == "killIfHasMore":
-            self.methods.append(killIfHasMore())
+            self.methods.append(self.killIfHasMore())
 
         # Not found in the GVGAI files
         # If sprite has less resource than parameter (limit), kill it
@@ -163,103 +163,103 @@ class InteractionMethods:
 
         # Kill sprite if speed is higher than the given
         if self.interaction.type == "killIfFast":
-            self.methods.append(killIfFast())
+            self.methods.append(self.killIfFast())
 
         # If partner has less resource than parameter (limit), kill sprite
         if self.interaction.type == "killIfOtherHasLess":
-            self.methods.append(killIfOtherHasLess())
+            self.methods.append(self.killIfOtherHasLess())
 
         # If partner has more resource than parameter (limit), kill sprite
         if self.interaction.type == "killIfOtherHasMore":
-            self.methods.append(killIfOtherHasMore())
+            self.methods.append(self.killIfOtherHasMore())
 
         # Kill sprite if speed is lower than the given
         if self.interaction.type == "killIfSlow":
-            self.methods.append(killIfSlow())
+            self.methods.append(self.killIfSlow())
 
         # Sprite dies
         if self.interaction.type == "killSprite":
-            self.methods.append(killSprite())
+            self.methods.append(self.killSprite())
 
         # Movement of partner is added to sprite (same quantity and direction)
         if self.interaction.type == "pullWithIt":
-            self.methods.append(pullWithIt())
+            self.methods.append(self.pullWithIt())
 
         # [GVGAI] Changes score of the avatar
         if self.interaction.type == "removeScore":
-            self.methods.append(removeScore()) 
+            self.methods.append(self.removeScore()) 
 
         # Changes orientation 180º
         if self.interaction.type == "reverseDirection":
-            self.methods.append(reverseDirection())
+            self.methods.append(self.reverseDirection())
 
         # [GVGAI] Asigns a specific speed to the sprite
         if self.interaction.type == "setSpeedToAll":
-            self.methods.append(setSpeedToAll())
+            self.methods.append(self.setSpeedToAll())
 
         # Creates sprite behind partner
         if self.interaction.type == "spawnBehind":
-            self.methods.append(spawnBehind())
+            self.methods.append(self.spawnBehind())
 
         # If sprite has less resource than parameter (limit), create new sprite
         if self.interaction.type == "spawnIfHasLess":
-            self.methods.append(spawnIfHasLess())
+            self.methods.append(self.spawnIfHasLess())
 
         # If sprite has more resource than parameter (limit), create new sprite
         if self.interaction.type == "spawnIfHasMore":
-            self.methods.append(spawnIfHasMore())
+            self.methods.append(self.spawnIfHasMore())
 
         # Undo last movement
         if self.interaction.type == "stepBack":
-            self.methods.append(stepBack())
+            self.methods.append(self.stepBack())
 
         # [GVGAI] Decrease a certain quantity of health points
         if self.interaction.type == "substractHealthPoints":
-            self.methods.append(subsctractHealthPoints())
+            self.methods.append(self.subsctractHealthPoints())
 
         # Move sprite to partner position (must be a Portal, if not, destroy sprite)
         if self.interaction.type == "teleportToExit":
-            self.methods.append(teleportToExit())
+            self.methods.append(self.teleportToExit())
 
         # [GVGAI] Changes sprite to stype if there are a certain quantity (stypeCount)
         if self.interaction.type == "transformIfCount":
-            self.methods.append(transformIfCounts())
+            self.methods.append(self.transformIfCounts())
 
         # Seems like it creates a new copy of sprite
         if self.interaction.type == "transformTo":
-            self.methods.append(transformTo())
+            self.methods.append(self.transformTo())
 
         # [GVGAI] Transform sprite to one of his childs
         if self.interaction.type == "transformToRandomChild":
-            self.methods.append(transformToRandomChild())
+            self.methods.append(self.transformToRandomChild())
 
         # [GVGAI] Transform all sprites of stype to stype_other in the same position
         if self.interaction.type == "transformToSingleton":
-            self.methods.append(transformToSingleton())
+            self.methods.append(self.transformToSingleton())
 
         # Not sure what it does, in VGDL seems to call reverseDirection
         if self.interaction.type == "turnAround":
-            self.methods.append(turnAround())
+            self.methods.append(self.turnAround())
 
         # Undo movement of every object in the game
         if self.interaction.type == "undoAll":
-            self.methods.append(undoAll())
+            self.methods.append(self.undoAll())
 
         # [GVGAI] Changes the "spawn type" to SpawnPoint
         if self.interaction.type == "updateSpawnType":
-            self.methods.append(updateSpawnType())
+            self.methods.append(self.updateSpawnType())
 
         # Bounce in a perpendicular direction from the wall
         if self.interaction.type == "wallBounce":
-            self.methods.append(wallBounce())
+            self.methods.append(self.wallBounce())
 
         # Stops sprite in front of wall
         if self.interaction.type == "wallStop":
-            self.methods.append(wallStop())
+            self.methods.append(self.wallStop())
 
         # Move sprite at the end of the screen in the orientation of sprite
         if self.interaction.type == "wrapAround":
-            self.methods.append(wrapAround())
+            self.methods.append(self.wrapAround())
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
@@ -1126,71 +1126,71 @@ class InteractionActions:
         """ Return an action depending of the interaction """
         # [GVGAI] Adds a certain quantity of health points
         if self.interaction.type == "addHealthPoints":
-            self.actions.append(addHealthPoints())
+            self.actions.append(self.addHealthPoints())
 
         # [GVGAI] Puts health points to max
         if self.interaction.type == "addHealthPointsToMax":
-            self.actions.append(addHealthPointsToMax())
+            self.actions.append(self.addHealthPointsToMax())
 
         # [GVGAI] Changes position and orientation of sprite to partner
         if self.interaction.type == "align":
-            self.actions.append(align())
+            self.actions.append(self.align())
 
         # Randomly changesdirection of partner
         if self.interaction.type == "attractGaze":
-            self.actions.append(attractGaze())
+            self.actions.append(self.attractGaze())
 
         # Not sure what it does, seems like the center of the object decides the direction
         if self.interaction.type == "bounceDirection":
-            self.actions.append(bounceDirection())
+            self.actions.append(self.bounceDirection())
 
         # Sprite tries to move in the opposite direction of partner
         if self.interaction.type == "bounceForward":
-            self.actions.append(bounceForward())
+            self.actions.append(self.bounceForward())
 
         # Change resource (sprite) in the object (partner) to a given
         if self.interaction.type == "changeResource":
-            self.actions.append(changeResource())
+            self.actions.append(self.changeResource())
 
         # Creates a copy
         if self.interaction.type == "cloneSprite":
-            self.actions.append(cloneSprite())
+            self.actions.append(self.cloneSprite())
 
         # Increment resource (sprite) in the object (partner)
         if self.interaction.type == "collectResource":
-            self.actions.append(collectResource())
+            self.actions.append(self.collectResource())
 
         # [GVGAI] Decrease speed of all objects of the type of the sprite
         if self.interaction.type == "decreaseSpeedToAll":
-            self.actions.append(decreaseSpeedToAll())
+            self.actions.append(self.decreaseSpeedToAll())
 
         # Changes to a random orientation
         if self.interaction.type == "flipDirection":
-            self.actions.append(flipDirection())
+            self.actions.append(self.flipDirection())
 
         # [GVGAI] Increase speed of all objects of the sprite type
         if self.interaction.type == "increaseSpeedToAll":
-            self.actions.append(increaseSpeedToAll())
+            self.actions.append(self.increaseSpeedToAll())
 
         # [GVGAI] Kill all sprite of the same type
         if self.interaction.type == "killAll":
-            self.actions.append(killAll())
+            self.actions.append(self.killAll())
 
         # Sprite and partner dies
         if self.interaction.type == "killBoth":
-            self.actions.append(killBoth())
+            self.actions.append(self.killBoth())
 
         # Kill sprite if partner is not destroyed by the collision
         if self.interaction.type == "killIfAlive":
-            self.actions.append(killIfAlive())
+            self.actions.append(self.killIfAlive())
 
         # Kill sprite if partner is above him
         if self.interaction.type == "killIfFromAbove":
-            self.actions.append(killIfFromAbove())
+            self.actions.append(self.killIfFromAbove())
 
         # If sprite has more resource than parameter (limit), kill it
         if self.interaction.type == "killIfHasMore":
-            self.actions.append(killIfHasMore())
+            self.actions.append(self.killIfHasMore())
 
         # Not found in the GVGAI files
         # If sprite has less resource than parameter (limit), kill it
@@ -1199,103 +1199,103 @@ class InteractionActions:
 
         # Kill sprite if speed is higher than the given
         if self.interaction.type == "killIfFast":
-            self.actions.append(killIfFast())
+            self.actions.append(self.killIfFast())
 
         # If partner has less resource than parameter (limit), kill sprite
         if self.interaction.type == "killIfOtherHasLess":
-            self.actions.append(killIfOtherHasLess())
+            self.actions.append(self.killIfOtherHasLess())
 
         # If partner has more resource than parameter (limit), kill sprite
         if self.interaction.type == "killIfOtherHasMore":
-            self.actions.append(killIfOtherHasMore())
+            self.actions.append(self.killIfOtherHasMore())
 
         # Kill sprite if speed is lower than the given
         if self.interaction.type == "killIfSlow":
-            self.actions.append(killIfSlow())
+            self.actions.append(self.killIfSlow())
 
         # Sprite dies
         if self.interaction.type == "killSprite":
-            self.actions.append(killSprite())
+            self.actions.append(self.killSprite())
 
         # Movement of partner is added to sprite (same quantity and direction)
         if self.interaction.type == "pullWithIt":
-            self.actions.append(pullWithIt())
+            self.actions.append(self.pullWithIt())
 
         # [GVGAI] Changes score of the avatar
         if self.interaction.type == "removeScore":
-            self.actions.append(removeScore()) 
+            self.actions.append(self.removeScore()) 
 
         # Changes orientation 180º
         if self.interaction.type == "reverseDirection":
-            self.actions.append(reverseDirection())
+            self.actions.append(self.reverseDirection())
 
         # [GVGAI] Asigns a specific speed to the sprite
         if self.interaction.type == "setSpeedToAll":
-            self.actions.append(setSpeedToAll())
+            self.actions.append(self.setSpeedToAll())
 
         # Creates sprite behind partner
         if self.interaction.type == "spawnBehind":
-            self.actions.append(spawnBehind())
+            self.actions.append(self.spawnBehind())
 
         # If sprite has less resource than parameter (limit), create new sprite
         if self.interaction.type == "spawnIfHasLess":
-            self.actions.append(spawnIfHasLess())
+            self.actions.append(self.spawnIfHasLess())
 
         # If sprite has more resource than parameter (limit), create new sprite
         if self.interaction.type == "spawnIfHasMore":
-            self.actions.append(spawnIfHasMore())
+            self.actions.append(self.spawnIfHasMore())
 
         # Undo last movement
         if self.interaction.type == "stepBack":
-            self.actions.append(stepBack())
+            self.actions.append(self.stepBack())
 
         # [GVGAI] Decrease a certain quantity of health points
         if self.interaction.type == "substractHealthPoints":
-            self.actions.append(subsctractHealthPoints())
+            self.actions.append(self.subsctractHealthPoints())
 
         # Move sprite to partner position (must be a Portal, if not, destroy sprite)
         if self.interaction.type == "teleportToExit":
-            self.actions.append(teleportToExit())
+            self.actions.append(self.teleportToExit())
 
         # [GVGAI] Changes sprite to stype if there are a certain quantity (stypeCount)
         if self.interaction.type == "transformIfCount":
-            self.actions.append(transformIfCounts())
+            self.actions.append(self.transformIfCounts())
 
         # Seems like it creates a new copy of sprite
         if self.interaction.type == "transformTo":
-            self.actions.append(transformTo())
+            self.actions.append(self.transformTo())
 
         # [GVGAI] Transform sprite to one of his childs
         if self.interaction.type == "transformToRandomChild":
-            self.actions.append(transformToRandomChild())
+            self.actions.append(self.transformToRandomChild())
 
         # [GVGAI] Transform all sprites of stype to stype_other in the same position
         if self.interaction.type == "transformToSingleton":
-            self.actions.append(transformToSingleton())
+            self.actions.append(self.transformToSingleton())
 
         # Not sure what it does, in VGDL seems to call reverseDirection
         if self.interaction.type == "turnAround":
-            self.actions.append(turnAround())
+            self.actions.append(self.turnAround())
 
         # Undo movement of every object in the game
         if self.interaction.type == "undoAll":
-            self.actions.append(undoAll())
+            self.actions.append(self.undoAll())
 
         # [GVGAI] Changes the "spawn type" to SpawnPoint
         if self.interaction.type == "updateSpawnType":
-            self.actions.append(updateSpawnType())
+            self.actions.append(self.updateSpawnType())
 
         # Bounce in a perpendicular direction from the wall
         if self.interaction.type == "wallBounce":
-            self.actions.append(wallBounce())
+            self.actions.append(self.wallBounce())
 
         # Stops sprite in front of wall
         if self.interaction.type == "wallStop":
-            self.actions.append(wallStop())
+            self.actions.append(self.wallStop())
 
         # Move sprite at the end of the screen in the orientation of sprite
         if self.interaction.type == "wrapAround":
-            self.actions.append(wrapAround()))
+            self.actions.append(self.wrapAround())
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
@@ -1507,8 +1507,9 @@ class InteractionActions:
         for parent in self.hierarchy[self.sprite.stype]:
             effects.append("(decrease (counter_" + parent + ") 1)")
 
-        for parent in self.hierarchy[self.partner.stype]:
-            effects.append("(decrease (counter_" + parent + ") 1)")
+        if not "Stype" in self.partner.stype:
+            for parent in self.hierarchy[self.partner.stype]:
+                effects.append("(decrease (counter_" + parent + ") 1)")
 
         return Action(name, parameters, conditions, effects)        
 

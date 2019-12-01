@@ -13,9 +13,10 @@ from hpdl.spriteHPDL import *
 from hpdl.interactionHPDL import *
 
 class DomainGeneratorHPDL():
-    def __init__(self, sprites, interactions, terminations, mappings, hierarchy):
+    def __init__(self, sprites, interactions, terminations, mappings, hierarchy,
+                    avatar):
         self.sprites     = sprites
-        self.interacions = interactions
+        self.interactions = interactions
         self.mappings    = mappings     # An array of LevelMapping
         self.hierarchy   = hierarchy    # Dictionary with the parents of each long_type
         self.avatar     = avatar
@@ -39,12 +40,10 @@ class DomainGeneratorHPDL():
 
 
         self.search_partner()
-        self.avatarHPDL = AvatarHPDL(self.avatar.name, 
-                                      self.avatar.stype, 
-                                      self.partner)
+        self.avatarHPDL = AvatarHPDL(self.avatar, self.hierarchy, self.partner)
 
         self.assign_short_long_types()
-        self.assign_hierarchy()
+        # self.assign_hierarchy()
         self.assign_stypes()
 
         self.assign_types()
@@ -73,6 +72,12 @@ class DomainGeneratorHPDL():
     # -------------------------------------------------------------------------
     # Auxiliary
     # -------------------------------------------------------------------------
+
+    def find_sprite_by_name(self, name):
+        """ Find a sprite given his name """
+        for sprite in self.sprites:
+            if sprite.name == name:
+                return sprite
 
     def find_type_by_name(self, name):
         """ Find the type of a sprite given his name """
@@ -131,7 +136,7 @@ class DomainGeneratorHPDL():
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
 
-        def assign_types(self):
+    def assign_types(self):
         """ Object, the types of each sprite and the sprites in their hierarchy """        
         stypes = []
         names = []
@@ -150,14 +155,14 @@ class DomainGeneratorHPDL():
         stypes.insert(0, 'Object')  # Inserting at the beginning
         
         # Search for duplicates in sprites names and stypes
-        names.extend(stypes)
-        lower_names = [x.lower() for x in names]
-        duplicates = set([x for x in lower_names if lower_names.count(x) > 1])
+        # names.extend(stypes)
+        # lower_names = [x.lower() for x in names]
+        # duplicates = set([x for x in lower_names if lower_names.count(x) > 1])
 
-        if len(duplicates) > 0:
-            print("[ERROR] Sprite name can't be the same as the sprite type (case-insensitive)")
-            print("Produced by: ", duplicates)
-            exit()
+        # if len(duplicates) > 0:
+        #     print("[ERROR] Sprite name can't be the same as the sprite type (case-insensitive)")
+        #     print("Produced by: ", duplicates)
+        #     exit()
 
         self.types.append(stypes)                
 
@@ -223,7 +228,7 @@ class DomainGeneratorHPDL():
         self.predicates.append("(orientation-left ?o - Object)")
         self.predicates.append("(orientation-right ?o - Object)")
 
-        avatar = self.avatar_hpdl.predicates
+        avatar = self.avatarHPDL.predicates
         self.predicates.extend(avatar)
 
         self.predicates.append("(evaluate-interaction ?o1 ?o2 - Object)")
@@ -240,9 +245,9 @@ class DomainGeneratorHPDL():
         self.functions.append("(last_coordinate_y ?o - Object)")
 
     
-        for sprite in self.types:        
+        for sprite in self.types:            
             # If resource, add an special counter for the avatar
-            if "Resource" in sprite[0]:
+            if sprite[0] is not None and "Resource" in sprite[0]:
                 self.functions.append("(resource_" + sprite[1] + " ?a - " 
                                         + self.avatar.name + ")")
 
@@ -283,14 +288,14 @@ class DomainGeneratorHPDL():
         self.tasks.append(turn_task)
 
         # Avatar turn ----------------        
-        self.tasks.append(self.avatar_hpdl.task)
+        self.tasks.append(self.avatarHPDL.task)
 
         # Rest of objects turn ------- THERE MUST BE A BETTER WAY
         object_tasks = []
 
         for obj in self.sprites:
             partner = self.find_partner(obj)
-            methods = SpriteHPDL(obj.name, obj.stype, partner).methods
+            methods = SpriteHPDL(obj, self.hierarchy, partner).methods
 
             for met in methods:
                 object_tasks.extend(met.task_predicates)
@@ -315,15 +320,12 @@ class DomainGeneratorHPDL():
         object_methods = []
         
         for interaction in self.interactions:
-            sprite_stype  = self.find_type_by_name(interaction.sprite_name)
-            partner_stype = self.find_type_by_name(interaction.partner_name)
-            object_methods.append(InteractionMethods(interaction.sprite_name, 
-                                                     sprite_stype,
-                                                     interaction.partner_name, 
-                                                     partner_stype,
-                                                     interaction.type,
-                                                     interaction.parameters)
-                                                     .get_methods())
+            sprite  = self.find_sprite_by_name(interaction.sprite_name)
+            partner = self.find_sprite_by_name(interaction.partner_name)
+            object_methods.extend(InteractionMethods(interaction, 
+                                                     sprite,
+                                                     partner, 
+                                                     self.hierarchy).methods)
 
         base = Method("base_case", [], [])
         object_methods.append(base)
@@ -338,29 +340,25 @@ class DomainGeneratorHPDL():
         """ Calls the different actions generators """
 
         # Getting specific avatar actions
-        avatar_actions = self.avatar_hpdl.actions
+        avatar_actions = self.avatarHPDL.actions
         self.actions.extend(avatar_actions)
 
         # And one for each deterministic movable object 
         for obj in self.sprites:
             partner = self.find_partner(obj)
-            actions = SpriteHPDL(obj.name, obj.stype, partner).actions
+            actions = SpriteHPDL(obj, self.hierarchy, partner).actions
 
             if actions:
                 self.actions.extend(actions)
 
         # And one for each interaction
         for interaction in self.interactions:
-            sprite_stype  = self.find_type_by_name(interaction.sprite_name)
-            partner_stype = self.find_type_by_name(interaction.partner_name)
-            self.actions.append(InteractionActions(interaction.sprite_name, 
-                                                    sprite_stype,
-                                                    interaction.partner_name, 
-                                                    partner_stype,
-                                                    interaction.type,
-                                                    interaction.parameters,
-                                                    self.hierarchy)
-                                                    .get_actions())
+            sprite  = self.find_sprite_by_name(interaction.sprite_name)
+            partner = self.find_sprite_by_name(interaction.partner_name)
+            self.actions.extend(InteractionActions(interaction, 
+                                                     sprite,
+                                                     partner, 
+                                                     self.hierarchy).actions)
         
     # -------------------------------------------------------------------------
 

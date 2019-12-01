@@ -46,7 +46,7 @@ class AvatarHPDL:
     # -------------------------------------------------------------------------
 
     def get_actions(self):
-        self.actions = AvatarActions(self.avatar, self.partner).actions
+        self.actions = AvatarActions(self.avatar, self.hierarchy, self.partner).actions
 
     # -------------------------------------------------------------------------
 
@@ -73,11 +73,11 @@ class AvatarHPDL:
     # -------------------------------------------------------------------------
 
     def get_predicates(self):
-        self.predicates = AvatarPredicates(self.avatar, self.patner).predicates
+        self.predicates = AvatarPredicates(self.avatar).predicates
 
     # -------------------------------------------------------------------------
 
-    def get_task(self):
+    def get_tasks(self):
         """ Read parameters of each action and remove duplicates, produce task 
         (only one) including previous methods """
 

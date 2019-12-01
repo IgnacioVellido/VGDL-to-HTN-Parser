@@ -191,7 +191,8 @@ class DomainWriter:
         for t in tasks:
             text_method = ""
 
-            for m in t.methods:          
+            for m in t.methods:
+                # print(m)
                 preconditions = m.get_preconditions()
 
                 text_method += ("\n\t\t(:method " + m.name + "\n\t\t\t\t:precondition (" 

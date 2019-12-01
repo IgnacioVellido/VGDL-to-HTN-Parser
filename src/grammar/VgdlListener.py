@@ -69,13 +69,15 @@ class VgdlListener(ParseTreeListener):
         # self.partner    = None
 
         # For the level parser
-        # self.mappings    = []   # An array of LevelMapping        
-        # self.short_types = []   # The char part of a LevelMapping
-        # self.long_types  = []   # The sprites part of a LevelMapping
-        # self.hierarchy   = {}   # Dictionary with the parents of each long_type
-        # self.stypes      = set()   # All types in the game (bigger than long_types)
-        # self.transformTo = []   # Objects that can be created 
-        #                         # ADD LATER THE SPAWNPOINTS TOO
+        self.mappings    = []   # An array of LevelMapping        
+        self.short_types = []   # The char part of a LevelMapping
+        self.long_types  = []   # The sprites part of a LevelMapping
+        self.hierarchy   = {}   # Dictionary with the parents of each long_type
+        self.stypes      = set()   # All types in the game (bigger than long_types)
+        self.transformTo = []   # Objects that can be created 
+                                # ADD LATER THE SPAWNPOINTS TOO
+        self.assign_short_long_types()
+        self.assign_stypes()
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
@@ -406,12 +408,12 @@ class VgdlListener(ParseTreeListener):
     #                                                 .get_actions())
         
     # # -------------------------------------------------------------------------
-
-    # def assign_short_long_types(self):
-    #     """ From the LevelMap, stores short and the long name """
-    #     for m in self.mappings:
-    #         self.short_types.append(m.char)
-    #         self.long_types.append(m.sprites)
+    
+    def assign_short_long_types(self):
+        """ From the LevelMap, stores short and the long name """
+        for m in self.mappings:
+            self.short_types.append(m.char)
+            self.long_types.append(m.sprites)
 
 
     # -------------------------------------------------------------------------
@@ -433,10 +435,10 @@ class VgdlListener(ParseTreeListener):
 
     # -------------------------------------------------------------------------
 
-    # def assign_stypes(self):
-    #     for key in self.hierarchy:
-    #         self.stypes.add(key)
-    #         self.stypes.update(self.hierarchy[key])
+    def assign_stypes(self):
+        for key in self.hierarchy:
+            self.stypes.add(key)
+            self.stypes.update(self.hierarchy[key])
 
 
     ###########################################################################
@@ -477,7 +479,8 @@ class VgdlListener(ParseTreeListener):
             stype = ctx.spriteType.text
             self.hierarchy.setdefault(stype, []).append("Object")
         else:
-            stype = None
+            # stype = None
+            stype = ctx.name.text + "Stype"
 
         # The stype
         self.hierarchy.setdefault(ctx.name.text, []).append(stype)
@@ -514,14 +517,14 @@ class VgdlListener(ParseTreeListener):
             self.hierarchy.setdefault(ctx.name.text, []).append(stype)
             self.hierarchy.setdefault(stype, []).append("Object")
         else:
-            stype = None
+            stype = parent_name
 
         sprite = Sprite(ctx.name.text, stype, parent_name,
                         get_rule_parameters(ctx.parameter()))
 
         # Check if avatar
         if sprite.stype is not None and "avatar" in sprite.stype.lower():
-            self.avatar = Sprite(sprite)
+            self.avatar = sprite
 
         self.sprites.append(sprite)        
     
