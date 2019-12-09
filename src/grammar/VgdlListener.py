@@ -56,14 +56,6 @@ class VgdlListener(ParseTreeListener):
         self.interactions = []
         self.terminations = []
 
-        # String arrays
-        # self.types      = []
-        # self.constants  = []
-        # self.predicates = []
-        # self.functions  = []
-        # self.tasks      = []
-        # self.actions    = []
-
         # Only one avatar for now
         # self.avatar     = None
         # self.partner    = None
@@ -76,8 +68,6 @@ class VgdlListener(ParseTreeListener):
         self.stypes      = set()   # All types in the game (bigger than long_types)
         self.transformTo = []   # Objects that can be created 
                                 # ADD LATER THE SPAWNPOINTS TOO
-        self.assign_short_long_types()
-        self.assign_stypes()
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
@@ -415,8 +405,12 @@ class VgdlListener(ParseTreeListener):
             self.short_types.append(m.char)
             self.long_types.append(m.sprites)
 
-
     # -------------------------------------------------------------------------
+
+    def f7(self, seq):
+        seen = set()
+        seen_add = seen.add
+        return [x for x in seq if not (x in seen or seen_add(x))]
 
     def assign_hierarchy(self):
         """ Stores a hierarchy of the objects """
@@ -448,9 +442,11 @@ class VgdlListener(ParseTreeListener):
     def enterBasicGame(self, ctx:VgdlParser.BasicGameContext):
         pass
 
-    def exitBasicGame(self, ctx:VgdlParser.BasicGameContext):        
-        # self.process_domain()
-        pass
+    def exitBasicGame(self, ctx:VgdlParser.BasicGameContext):
+        self.assign_hierarchy()
+        self.assign_short_long_types()        
+        self.assign_stypes()
+        # pass
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
@@ -481,6 +477,7 @@ class VgdlListener(ParseTreeListener):
         else:
             # stype = None
             stype = ctx.name.text + "Stype"
+            self.hierarchy.setdefault(stype, []).append("Object")
 
         # The stype
         self.hierarchy.setdefault(ctx.name.text, []).append(stype)
@@ -546,8 +543,8 @@ class VgdlListener(ParseTreeListener):
             sprites = sprites.split()            
             sprites = sprites[-1].strip()   # Getting the last one defined
 
-            l = LevelMap(char, sprites)  
-            self.mappings.append(l)            
+            l = LevelMap(char, sprites)
+            self.mappings.append(l)
 
     def exitLevelMapping(self, ctx:VgdlParser.LevelMappingContext):
         pass

@@ -137,7 +137,7 @@ def parse_level(level, short_types, long_types, transformTo):
 # -----------------------------------------------------------------------------
 
 def get_problem(objects, counters, short_types, long_types, 
-                    max_size, hierarchy, stypes, sprites):
+                    max_size, hierarchy, stypes, sprites, avatarHPDL):
     problem = ""
 
     problem += """
@@ -162,17 +162,11 @@ def get_problem(objects, counters, short_types, long_types,
         # Si es avatar, misil, recurso
         predicates = ""
 
-        # Only for boulderdash !!!!
+        # Avatar-specific predicates
         if "avatar" in obj.stype.lower():      
-            avatar = obj.name
-            predicates += "\n\t\t(can-move-up " + avatar + ")"
-            predicates += "\n\t\t(can-move-down " + avatar + ")"
-            predicates += "\n\t\t(can-move-left " + avatar + ")"
-            predicates += "\n\t\t(can-move-right " + avatar + ")"
-            # predicates += "\n\t\t(can-use " + avatar + ")"
-            # predicates += "\n\t\t(can-change-orientation " + avatar + ")"
-            predicates += "\n\t\t(orientation-up " + avatar + ")"
-            # predicates += "\n\t\t(= (resource_diamond " + avatar + ") 0)"
+            avatar_name = obj.name
+            for pred in avatarHPDL.level_predicates:
+                predicates += "\n\t\t" + pred.replace("?a", avatar_name)
 
         # MUST BE IMPROVED !!!!!!!!!!!
         if "boulder" in obj.stype.lower():

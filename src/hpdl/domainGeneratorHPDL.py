@@ -42,9 +42,9 @@ class DomainGeneratorHPDL():
         self.search_partner()
         self.avatarHPDL = AvatarHPDL(self.avatar, self.hierarchy, self.partner)
 
-        self.assign_short_long_types()
+        # self.assign_short_long_types()
         # self.assign_hierarchy()
-        self.assign_stypes()
+        # self.assign_stypes()
 
         self.assign_types()
         self.assign_constants()
@@ -136,6 +136,21 @@ class DomainGeneratorHPDL():
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
 
+    def assign_hierarchy(self):
+        """ Stores a hierarchy of the objects """
+        for obj in self.hierarchy:
+            self.hierarchy[obj].append("Object")
+            self.hierarchy[obj] = self.f7(self.hierarchy[obj])
+            # self.hierarchy[obj] = list(set(self.hierarchy[obj]))  # Removing duplicates
+
+        # Adding Object with no father
+        self.hierarchy["Object"] = []
+
+        # Deleting None from hierarchy
+        for obj in self.hierarchy:
+            if None in self.hierarchy[obj]:
+                self.hierarchy[obj].remove(None)
+
     def assign_types(self):
         """ Object, the types of each sprite and the sprites in their hierarchy """        
         stypes = []
@@ -143,26 +158,30 @@ class DomainGeneratorHPDL():
 
         for sprite in self.sprites:
             names.append(sprite.name)
+            self.stypes.add(sprite.name)
 
             if sprite.stype is not None:
-                stypes.append(sprite.stype)
+                stypes.append(sprite.stype)                
                 self.types.append([sprite.stype, sprite.name])
-            elif sprite.father is not None:
+                self.stypes.add(sprite.stype)
+            elif sprite.father is not None: # If no stype, assign the father as stype
                 self.types.append([sprite.father, sprite.name])
+                self.stypes.add(sprite.father)
                 
 
         stypes = list(set(stypes))  # Removing duplicates
         stypes.insert(0, 'Object')  # Inserting at the beginning
         
-        # Search for duplicates in sprites names and stypes
-        # names.extend(stypes)
-        # lower_names = [x.lower() for x in names]
-        # duplicates = set([x for x in lower_names if lower_names.count(x) > 1])
+        # Removing duplicates in sprites names and stypes
+        names.extend(stypes)
+        lower_names = [x.lower() for x in names]
+        duplicates = set([x for x in lower_names if lower_names.count(x) > 1])
 
-        # if len(duplicates) > 0:
-        #     print("[ERROR] Sprite name can't be the same as the sprite type (case-insensitive)")
-        #     print("Produced by: ", duplicates)
-        #     exit()
+        if len(duplicates) > 0:
+            # print("[ERROR] Sprite name can't be the same as the sprite type (case-insensitive)")
+            # print("Produced by: ", duplicates)            
+            for dup in duplicates:
+                stypes.remove(dup)
 
         self.types.append(stypes)                
 
@@ -250,6 +269,8 @@ class DomainGeneratorHPDL():
             if sprite[0] is not None and "Resource" in sprite[0]:
                 self.functions.append("(resource_" + sprite[1] + " ?a - " 
                                         + self.avatar.name + ")")
+
+        # print(self.hierarchy)
 
         for t in self.hierarchy:
             if t is not "":

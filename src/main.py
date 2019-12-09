@@ -237,14 +237,16 @@ def main(argv):
         hierarchy = listener.hierarchy
         stypes = listener.stypes
         transformTo = listener.transformTo
+        avatarHPDL = domainGenerator.avatarHPDL
 
         # ----------------------------------------------------------------------
         # Parsing level
         level = read_level(args.levelInput)
         objects, max_size, short_types, counters = parse_level(level, short_types, 
                                                                 long_types, transformTo)
-        problem = get_problem(objects, counters, short_types, 
-                                long_types, max_size, hierarchy, stypes, listener.sprites)
+        problem = get_problem(objects, counters, short_types, long_types, 
+                                max_size, hierarchy, stypes, listener.sprites,
+                                avatarHPDL)
 
         # ----------------------------------------------------------------------
         # Writing ouput

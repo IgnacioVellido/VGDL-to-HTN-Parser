@@ -1,5 +1,3 @@
-#BrainMan: http://www.mobygames.com/game/brainman
-
 BasicGame
     SpriteSet
         floor > Immovable hidden=True img=newset/floor2

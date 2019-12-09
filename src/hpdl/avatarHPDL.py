@@ -51,7 +51,7 @@ class AvatarHPDL:
     # -------------------------------------------------------------------------
 
     def get_level_predicates(self):
-        pass
+        self.level_predicates = AvatarLevelPredicates(self.avatar).level_predicates
 
     # -------------------------------------------------------------------------
 
@@ -516,3 +516,79 @@ class AvatarPredicates:
 ###############################################################################
 # -----------------------------------------------------------------------------
 ###############################################################################
+
+"""
+Or return the predicate with the variable to be replace with the name of the 
+avatar, or recieve the name and replace it himself
+
+Second option: returns the predicate with '?a' when the name of the avatar should
+be written
+"""
+class AvatarLevelPredicates:
+    """ Returns different level predicates depending of the avatar """
+    def __init__(self, avatar):
+        self.avatar = avatar
+
+        self.level_predicates = []
+        self.get_level_predicates()
+
+    # -------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
+
+    def get_level_predicates(self):
+        """ Return a list of predicates depending of the avatar """
+        self.level_predicates.append("(orientation-up ?a)")
+
+        # Can't move but can use object
+        if self.avatar.stype == "AimedAvatar":
+            self.level_predicates.append("(can-use ?a)")
+            self.level_predicates.append("(can-change-orientation ?a)")
+
+        # This avatar should have ammo !!!!
+        # Always same orientation, can move horizontally and use object
+        if self.avatar.stype == "FlakAvatar":
+            self.level_predicates.append("(can-move-left ?a)")
+            self.level_predicates.append("(can-move-right ?a)")
+            self.level_predicates.append("(can-use ?a)")
+
+        # Always same orientation, can only move left or right
+        if self.avatar.stype == "HorizontalAvatar":
+            self.level_predicates.append("(can-move-left ?a)")
+            self.level_predicates.append("(can-move-right ?a)")
+
+        # Always same orientation, can move in any direction
+        if self.avatar.stype == "MovingAvatar":
+            self.level_predicates.append("(can-move-up ?a)")
+            self.level_predicates.append("(can-move-down ?a)")
+            self.level_predicates.append("(can-move-left ?a)")
+            self.level_predicates.append("(can-move-right ?a)")
+
+        # ONLY GVGAI
+        if self.avatar.stype == "OngoingShootAvatar":
+            pass
+
+        # ONLY GVGAI
+        if self.avatar.stype == "OngoingTurningAvatar":
+            pass
+
+        # Can move and aim in any direction
+        if self.avatar.stype == "OrientedAvatar":
+            self.level_predicates.append("(can-move-up ?a)")
+            self.level_predicates.append("(can-move-down ?a)")
+            self.level_predicates.append("(can-move-left ?a)")
+            self.level_predicates.append("(can-move-right ?a)")
+            self.level_predicates.append("(can-change-orientation ?a)")
+        
+        # Can move and aim in any direction, can use object
+        if self.avatar.stype == "ShootAvatar":
+            self.level_predicates.append("(can-move-up ?a)")
+            self.level_predicates.append("(can-move-down ?a)")
+            self.level_predicates.append("(can-move-left ?a)")
+            self.level_predicates.append("(can-move-right ?a)")
+            self.level_predicates.append("(can-change-orientation ?a)")
+            self.level_predicates.append("(can-use ?a)")
+
+        # Always same orientation, can only move up or down
+        if self.avatar.stype == "VerticalAvatar":
+            self.level_predicates.append("(can-move-up ?a)")
+            self.level_predicates.append("(can-move-down ?a )")
