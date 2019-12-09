@@ -25,11 +25,11 @@ from grammar.VgdlListener import VgdlListener
 
 # HPDL domain generator
 from hpdl.domainGeneratorHPDL import DomainGeneratorHPDL
-from hpdl.domainWriterHPDL import DomainWriter
+from hpdl.domainWriterHPDL import DomainWriterHPDL
 
 # Level parser
-# from hpdl.levelWriterHPDL import LevelWriter
-from hpdl.levelGeneratorHPDL import *
+from hpdl.problemGeneratorHPDL import ProblemGeneratorHPDL
+from hpdl.problemWriterHPDL import ProblemWriterHPDL
 
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
@@ -91,7 +91,7 @@ To parse a level, ... [TO BE COMPLETED]
 
 # -----------------------------------------------------------------------------
 
-"""Right now it only check if contains BasicGame, SpriteSet and InteractionSet"""
+# Right now it only check if contains BasicGame, SpriteSet and InteractionSet
 def check_VGDL(lines):
     """ Receiving an array of lines, checks if it contains the basic structure of a
     VGDL game description file """
@@ -117,11 +117,21 @@ def check_VGDL(lines):
 
 # -----------------------------------------------------------------------------
 
-# Writes domain in file
 def write_output(path, text):  
+    """ Writes domain in file """
     try:
         with open(path, "wb") as file:
           file.write(text.encode('utf-8'))
+    except Exception as e:
+        print("Cannot open file " + path)
+        print(str(e))
+
+# -----------------------------------------------------------------------------
+
+def read_file(path):  
+    try:
+        with open(path, "r") as file:
+            return file.read()            
     except Exception as e:
         print("Cannot open file " + path)
         print(str(e))
@@ -203,17 +213,10 @@ def main(argv):
     predicates = domainGenerator.predicates
     tasks = domainGenerator.tasks
     actions = domainGenerator.actions
-    
-    # types = listener.types
-    # constants = listener.constants
-    # functions = listener.functions
-    # predicates = listener.predicates
-    # tasks = listener.tasks
-    # actions = listener.actions
 
     # ----------------------------------------------------------------------
 
-    writer = DomainWriter(types, constants, functions, predicates, tasks, actions)
+    writer = DomainWriterHPDL(types, constants, functions, predicates, tasks, actions)
     text_domain = writer.get_domain()
 
     # ----------------------------------------------------------------------
@@ -221,11 +224,10 @@ def main(argv):
 
     try:
         write_output(args.gameOutput, text_domain)
+        print("Game parsed without errors.")
     except Exception as e:
-        print("I shouldn't be here " + str(e))
+        print("Error writing the domain: " + str(e))
 
-
-    print("Game parsed without errors.")
     # ----------------------------------------------------------------------
 
     if args.levelInput:
@@ -241,21 +243,25 @@ def main(argv):
 
         # ----------------------------------------------------------------------
         # Parsing level
-        level = read_level(args.levelInput)
-        objects, max_size, short_types, counters = parse_level(level, short_types, 
-                                                                long_types, transformTo)
-        problem = get_problem(objects, counters, short_types, long_types, 
-                                max_size, hierarchy, stypes, listener.sprites,
-                                avatarHPDL)
+        level = read_file(args.levelInput)
+        problemGenerator = ProblemGeneratorHPDL(level, short_types, long_types,
+                                                transformTo, hierarchy, stypes,
+                                                sprites, avatarHPDL)
+
+        objects = problemGenerator.objects
+        init = problemGenerator.init
+        goals = problemGenerator.goals
+
+        writer = ProblemWriterHPDL(objects, init, goals)
+        text_problem = writer.get_problem()
 
         # ----------------------------------------------------------------------
         # Writing ouput
         try:
-            write_output(args.levelOutput, problem)
+            write_output(args.levelOutput, text_problem)
+            print("Problem defined without errors.")
         except Exception as e:
-            print("I shouldn't be here " + str(e))
-
-        print("Problem defined without errors.")
+            print("Error writing problem: " + str(e))
 
 ###############################################################################
 # -----------------------------------------------------------------------------

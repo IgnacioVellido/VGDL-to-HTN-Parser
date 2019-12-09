@@ -1,12 +1,12 @@
 ###############################################################################
-# domainWriter.py
+# domainWriterHPDL.py
 # Ignacio Vellido Expósito
 # 23/08/2019
 # 
 # Produces a HPDL domain receiving each part separately
 ###############################################################################
 
-class DomainWriter:
+class DomainWriterHPDL:
     """ Produces a string with a HPDL domain 
 
     Arguments:

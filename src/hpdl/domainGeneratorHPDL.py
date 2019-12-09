@@ -42,10 +42,6 @@ class DomainGeneratorHPDL():
         self.search_partner()
         self.avatarHPDL = AvatarHPDL(self.avatar, self.hierarchy, self.partner)
 
-        # self.assign_short_long_types()
-        # self.assign_hierarchy()
-        # self.assign_stypes()
-
         self.assign_types()
         self.assign_constants()
         self.assign_predicates()
@@ -134,22 +130,7 @@ class DomainGeneratorHPDL():
         return [x for x in seq if not (x in seen or seen_add(x))]
 
     # -------------------------------------------------------------------------
-    # -------------------------------------------------------------------------
-
-    def assign_hierarchy(self):
-        """ Stores a hierarchy of the objects """
-        for obj in self.hierarchy:
-            self.hierarchy[obj].append("Object")
-            self.hierarchy[obj] = self.f7(self.hierarchy[obj])
-            # self.hierarchy[obj] = list(set(self.hierarchy[obj]))  # Removing duplicates
-
-        # Adding Object with no father
-        self.hierarchy["Object"] = []
-
-        # Deleting None from hierarchy
-        for obj in self.hierarchy:
-            if None in self.hierarchy[obj]:
-                self.hierarchy[obj].remove(None)
+    # -------------------------------------------------------------------------    
 
     def assign_types(self):
         """ Object, the types of each sprite and the sprites in their hierarchy """        
@@ -382,16 +363,3 @@ class DomainGeneratorHPDL():
                                                      self.hierarchy).actions)
         
     # -------------------------------------------------------------------------
-
-    def assign_short_long_types(self):
-        """ From the LevelMap, stores short and the long name """
-        for m in self.mappings:
-            self.short_types.append(m.char)
-            self.long_types.append(m.sprites)
-
-    # -------------------------------------------------------------------------
-
-    def assign_stypes(self):
-        for key in self.hierarchy:
-            self.stypes.add(key)
-            self.stypes.update(self.hierarchy[key])

@@ -37,7 +37,7 @@
 		door - Immovable
 		boulder - Passive
 		wall - Immovable
-		Passive Missile Immovable OrientedAvatar - Object
+		Missile OrientedAvatar Immovable Passive - Object
 	)
 
 	; Constants -----------------------------------------------------------------
