@@ -1,0 +1,72 @@
+/* ************************************************************************************
+ * Copyright (C) IACTIVE Intelligent Solutions,
+ *
+ * http://www.iactive.es
+ *
+ * Este fichero es propiedad intelectual de IACTIVE Intelligent Solutions
+ * y queda protegido por las leyes de propiedad intelectual aplicables.
+ * Queda totalmente prohibido, su copia, modificación, distribución y lectura
+ * Sin el consentimiento explícito y por escrito de IACTIVE Intelligent Solutions
+ *
+ * ********************************************************************************** */
+
+/* **************************************************************
+ * Created by oscar oscar@decsai.ugr.es: jue 25 ago, 2005  10:59
+ * Last modified: vie 09 sep, 2005  05:58
+ * ************************************************************** */
+
+#ifndef HEADER_HH
+#define HEADER_HH
+
+using namespace std;
+
+#include "parameterContainer.hh"
+
+class Header :public ParameterContainer
+{
+    public:
+        /**
+          @brief Constructor para la clase header
+        */
+        Header(int i, int mid)  {id=i;metaid=mid;};
+
+        Header(int i, int mid, const KeyList * v)
+            : ParameterContainer(v) 
+        {
+	    id = i;
+	    metaid = mid;
+        };
+
+	Header(void) {id=-1;metaid=-1;};
+
+	Header(const Header * h) :ParameterContainer(h) {id= h->getId(); metaid = h->metaid;};
+
+        virtual ~Header(void) {};
+
+        virtual void headerPrint(ostream * os) const
+        {
+            //*os << "(" << getName() << " [" << getId() << "]";
+            *os << "(" << getName();
+            for_each(parameters.begin(),parameters.end(),PrintKey(os));
+            *os << ")";
+        };
+
+	virtual int getId(void) const {return id;};
+
+	virtual void setId(int i) {id = i;};
+
+	virtual int getMetaId(void) const {return metaid;};
+
+	virtual void setMetaId(int i) {metaid = i;};
+
+	virtual const char * getName(void) const;
+
+	virtual void setName(const char * n);
+
+    protected:
+	int metaid;
+	int id;
+
+};
+
+#endif
