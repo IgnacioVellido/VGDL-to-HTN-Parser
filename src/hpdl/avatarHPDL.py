@@ -517,13 +517,6 @@ class AvatarPredicates:
 # -----------------------------------------------------------------------------
 ###############################################################################
 
-"""
-Or return the predicate with the variable to be replace with the name of the 
-avatar, or recieve the name and replace it himself
-
-Second option: returns the predicate with '?a' when the name of the avatar should
-be written
-"""
 class AvatarLevelPredicates:
     """ Returns different level predicates depending of the avatar """
     def __init__(self, avatar):

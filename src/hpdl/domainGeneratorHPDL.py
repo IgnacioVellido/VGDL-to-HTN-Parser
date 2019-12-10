@@ -41,6 +41,7 @@ class DomainGeneratorHPDL():
 
         self.search_partner()
         self.avatarHPDL = AvatarHPDL(self.avatar, self.hierarchy, self.partner)
+        self.spritesHPDL = []
 
         self.assign_types()
         self.assign_constants()
@@ -297,7 +298,9 @@ class DomainGeneratorHPDL():
 
         for obj in self.sprites:
             partner = self.find_partner(obj)
-            methods = SpriteHPDL(obj, self.hierarchy, partner).methods
+            spriteHPDL = SpriteHPDL(obj, self.hierarchy, partner)
+            methods = spriteHPDL.methods
+            self.spritesHPDL.append(spriteHPDL)
 
             for met in methods:
                 object_tasks.extend(met.task_predicates)

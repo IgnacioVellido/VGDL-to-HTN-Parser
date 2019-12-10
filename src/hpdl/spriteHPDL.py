@@ -39,7 +39,7 @@ class SpriteHPDL:
     # -------------------------------------------------------------------------
 
     def get_level_predicates(self):
-        pass
+        self.level_predicates = SpriteLevelPredicates(self.sprite).level_predicates
 
     # -------------------------------------------------------------------------
 
@@ -168,7 +168,7 @@ class SpriteActions:
 
         # Not clear what it does
         if self.sprite.stype == "WalkerJumper":            
-            pass       
+            pass
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
@@ -315,3 +315,93 @@ class SpriteActions:
 ###############################################################################
 # -----------------------------------------------------------------------------
 ###############################################################################
+
+class SpriteLevelPredicates:
+    """ Returns different level predicates depending of the sprite """
+    def __init__(self, sprite):
+        self.sprite = sprite
+
+        self.level_predicates = []
+        self.get_level_predicates()
+
+    # -------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
+
+    def get_level_predicates(self):
+        # Not clear what it does
+        # Missile that produces sprite at a specific ratio
+        if self.sprite.stype == "Bomber":    
+            pass
+
+        # Follows partner (or avatar ?) sprite
+        if self.sprite.stype == "Chaser":    
+            pass
+
+        # Missile that randomly changes direction
+        if self.sprite.stype == "ErraticMissile":     
+            self.level_predicates.append(self.get_orientation())
+
+        # Try to make the greatest distance with the partner (or avatar) sprite
+        if self.sprite.stype == "Fleeing":       
+            pass
+
+        # Maybe not needed here
+        # sprite that dissapear after a moment
+        if self.sprite.stype == "Flicker":
+            pass
+
+        # sprite that moves constantly in one direction
+        if self.sprite.stype == "Missile":    
+            self.level_predicates.append(self.get_orientation())
+
+        # Maybe not needed here
+        # Oriented sprite that dissapear after a moment
+        if self.sprite.stype == "OrientedFlicker":            
+            # self.level_predicates.append(self.dissapear())
+            pass
+
+        # Acts like a Chaser but sometimes it makes a random move
+        if self.sprite.stype == "RandomAltChaser":  
+            # The same actions that Chaser, random moves don't need to be defined
+            pass
+        
+        # Acts like a Bomber but randomly change direction
+        if self.sprite.stype == "RandomBomber":            
+            # The same actions that Bomber, random moves don't need to be defined
+            pass
+
+        # Acts like a Missile but randomly change direction
+        if self.sprite.stype == "RandomMissile":            
+            # The same actions that Missile, random moves don't need to be defined
+            pass
+
+        # Chooses randomly an action in each iteration
+        if self.sprite.stype == "RandomNPC":         
+            # We can't know wich action will he choose, probably this will be empty  
+            # In case we want to add something, we should add each action of the NPC 
+            pass
+
+        # Produces sprites following a specific ratio
+        if self.sprite.stype == "SpawnPoint":  
+            pass
+
+        # Expands in 4 directions if not occupied
+        if self.sprite.stype == "Spreader":       
+            pass
+
+        # Missile that if when it collides it change to a random direction
+        if self.sprite.stype == "Walker":
+            # If collides stop calculating until we know the new direction
+            self.level_predicates.append(self.get_orientation())
+
+        # Not clear what it does
+        if self.sprite.stype == "WalkerJumper":            
+            pass
+
+    # -------------------------------------------------------------------------
+
+    def get_orientation(self):
+        orientation = [x for x in self.sprite.parameters if "orientation" in x][0]
+        orientation = orientation.split("=")[1]
+
+        return "(orientation-" + orientation.lower() +  " ?o)"

@@ -240,13 +240,14 @@ def main(argv):
         stypes = listener.stypes
         transformTo = listener.transformTo
         avatarHPDL = domainGenerator.avatarHPDL
+        spritesHPDL = domainGenerator.spritesHPDL
 
         # ----------------------------------------------------------------------
         # Parsing level
         level = read_file(args.levelInput)
         problemGenerator = ProblemGeneratorHPDL(level, short_types, long_types,
                                                 transformTo, hierarchy, stypes,
-                                                sprites, avatarHPDL)
+                                                sprites, avatarHPDL, spritesHPDL)
 
         objects = problemGenerator.objects
         init = problemGenerator.init

@@ -13,13 +13,7 @@ else:
     from VgdlParser import VgdlParser
 
 import sys
-
 from vgdl.typesVGDL import *
-# from hpdl.typesHPDL import *
-
-# from hpdl.avatarHPDL import *
-# from hpdl.spriteHPDL import *
-# from hpdl.interactionHPDL import *
 
 ###############################################################################
 # -----------------------------------------------------------------------------

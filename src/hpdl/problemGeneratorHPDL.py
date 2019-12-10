@@ -28,7 +28,7 @@ class LevelObject:
 
 class ProblemGeneratorHPDL:
     def __init__(self, level, short_types, long_types, transformTo, hierarchy, 
-                    stypes, sprites, avatarHPDL):
+                    stypes, sprites, avatarHPDL, spritesHPDL):
         self.objects = []
         self.init    = []
         self.goals   = []
@@ -41,6 +41,7 @@ class ProblemGeneratorHPDL:
         self.stypes = stypes
         self.sprites = sprites
         self.avatarHPDL = avatarHPDL
+        self.spritesHPDL = spritesHPDL
 
         self.max_size = 0   # To calculate the maximum number of objects in the game
     
@@ -77,8 +78,7 @@ class ProblemGeneratorHPDL:
         # Init part
         for obj in self.levelObjects:
             # --------------------------------------------
-            # Writing predicates, if any
-            # Si es avatar, misil, recurso
+            # Writing object-specific predicates, if any
 
             # Avatar-specific predicates
             if "avatar" in obj.stype.lower():      
@@ -86,16 +86,13 @@ class ProblemGeneratorHPDL:
                 for pred in self.avatarHPDL.level_predicates:
                     self.init.append(pred.replace("?a", avatar_name))
 
-            # MUST BE IMPROVED !!!!!!!!!!!
-            if "boulder" in obj.stype.lower():
-                # Get Sprite instance
-                z = [x for x in self.sprites if x.stype == "Missile"]
+            else:   # The rest of the objects
+                sprite_name = obj.name
 
-                # Get orientation
-                orientation = [x for x in z[0].parameters if "orientation" in x][0]
-                orientation = orientation.split("=")[1]
-                
-                self.init.append("(orientation-" + orientation.lower() +  " " + obj.name + ")")
+                for spriteHPDL in self.spritesHPDL:
+                    if spriteHPDL.sprite.stype in self.hierarchy[obj.stype]:
+                        for pred in spriteHPDL.level_predicates:
+                            self.init.append(pred.replace("?o", sprite_name))
 
             #---------------------------------------------
             # Writing the coordinates of the objects
@@ -191,8 +188,8 @@ class ProblemGeneratorHPDL:
                         exit()
 
                     indx = self.short_types.index(char)
-                    obj = LevelObject(char + str(self.name_counters[indx]), row, col,
-                                        self.long_types[indx])                
+                    obj = LevelObject(char + str(self.name_counters[indx]), 
+                                        row, col, self.long_types[indx])                
                     self.levelObjects.append(obj)
 
                     self.name_counters[indx] += 1
