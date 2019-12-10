@@ -21,10 +21,6 @@ class InteractionHPDL:
         sprite - SpriteVGDL
 
     """
-    # def __init__(self, interaction_type, 
-    #              sprite_name, sprite_stype, 
-    #              partner_name, partner_stype,
-    #              parameters):
     def __init__(self, interaction, sprite, partner, hierarchy):
         self.interaction = interaction
         self.sprite      = sprite
