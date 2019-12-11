@@ -2,25 +2,29 @@
 # typesHPDL.py
 # Ignacio Vellido Expósito
 # 26/08/2019
-# 
+#
 # Multiple classes defining parts of a HPDL domain
 ###############################################################################
+
 
 class Task:
     """ Defines the structure of a task in HPDL
 
-    Atributes:
-        name            String
-        parameters      List of pairs <alias, type>
-        methods         List
+        Atributes:
+            name            String
+            parameters      List of pairs <alias, type>
+            methods         List
     """
-    def __init__(self, name, parameters, methods):
+
+    def __init__(self, name: str, parameters: list, methods: list):
         self.name = name
         self.parameters = parameters
         self.methods = methods
 
-    def get_parameters(self):
-        """ Returns list of parameters without external brackets """
+    # --------------------------------------------------------------------------
+
+    def get_parameters(self) -> str:
+        """ Returns string of parameters without external brackets """
         text = " "
 
         for p in self.parameters:
@@ -29,25 +33,29 @@ class Task:
         return text
 
 
-# -------------------------------------------------------------------------
-# -------------------------------------------------------------------------
-# -------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+
 
 class Method:
     """ Defines the structure of a method in HPDL
 
-    Atributes:
-        name             String
-        preconditions    List
-        task_predicates  List of tasks. Their calling way, not the objects
+        Atributes:
+            name             String
+            preconditions    List
+            task_predicates  List of tasks. Their calling way, not the objects
     """
-    def __init__(self, name, preconditions, task_predicates):
+
+    def __init__(self, name: str, preconditions: list, task_predicates: list):
         self.name = name
         self.preconditions = preconditions
         self.task_predicates = task_predicates
-    
-    def get_preconditions(self):
-        """ Returns list of preconditions without external brackets """
+
+    # --------------------------------------------------------------------------
+
+    def get_preconditions(self) -> str:
+        """ Returns string of preconditions without external brackets """
         text = ""
 
         # If list not empty
@@ -57,8 +65,10 @@ class Method:
 
         return text
 
-    def get_tasks(self):
-        """ Returns list of tasks without (global) external brackets """
+    # --------------------------------------------------------------------------
+
+    def get_tasks(self) -> str:
+        """ Returns string of tasks without (global) external brackets """
         text = ""
 
         if self.task_predicates:
@@ -67,9 +77,11 @@ class Method:
 
         return text
 
-# -------------------------------------------------------------------------
-# -------------------------------------------------------------------------
-# -------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+
 
 class Action:
     """ Defines the structure of a method in HPDL
@@ -80,14 +92,17 @@ class Action:
         preconditions   List of predicates, with brackets
         effects         List of effects, with brackets
     """
+
     def __init__(self, name, parameters, preconditions, effects):
         self.name = name
         self.parameters = parameters
         self.preconditions = preconditions
         self.effects = effects
 
-    def get_parameters(self):
-        """ Returns list of parameters without external brackets """
+    # --------------------------------------------------------------------------
+
+    def get_parameters(self) -> str:
+        """ Returns string of parameters without external brackets """
         text = ""
 
         for p in self.parameters:
@@ -95,8 +110,10 @@ class Action:
 
         return text
 
+    # --------------------------------------------------------------------------
+
     def get_preconditions(self):
-        """ Returns list of conditions without external brackets """
+        """ Returns string of conditions without external brackets """
         text = ""
 
         for c in self.preconditions:
@@ -104,8 +121,10 @@ class Action:
 
         return text
 
-    def get_effects(self):
-        """ Returns list of effects without external brackets """
+    # --------------------------------------------------------------------------
+
+    def get_effects(self) -> str:
+        """ Returns string of effects without external brackets """
         text = ""
 
         for e in self.effects:

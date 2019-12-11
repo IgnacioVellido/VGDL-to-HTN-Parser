@@ -2,7 +2,7 @@
 # avatar.py
 # Ignacio Vellido Expósito
 # 09/09/2019
-# 
+#
 # Multiple classes defining parts of a HPDL domain for an avatar
 ###############################################################################
 
@@ -12,6 +12,7 @@ from hpdl.typesHPDL import *
 # -----------------------------------------------------------------------------
 ###############################################################################
 
+
 class AvatarHPDL:
     """ Class that encapsulate the generation of HPDL domain structures 
     for the avatar 
@@ -19,22 +20,19 @@ class AvatarHPDL:
     Atributes:
         avatar           - SpriteVGDL
         partner          - SpriteVGDL
-        tasks            - List<TaskHPDL>
-        actions          - List<ActionHPDL>
-        predicates       - List<PredicateHPDL>
-        level_predicates - ??
-        hierarchy        - Dict<String,String>        
+        hierarchy        - Dict<String,String>
     """
-    def __init__(self, avatar, hierarchy, partner=None):
-        self.avatar    = avatar
-        self.hierarchy = hierarchy
-        self.partner   = partner
 
-        self.tasks              = []        
-        self.methods            = []
-        self.actions            = []
-        self.predicates         = []
-        self.level_predicates   = []
+    def __init__(self, avatar: "Sprite", hierarchy: dict, partner: "Sprite" = None):
+        self.avatar = avatar
+        self.hierarchy = hierarchy
+        self.partner = partner
+
+        self.tasks = []
+        self.methods = []
+        self.actions = []
+        self.predicates = []
+        self.level_predicates = []
 
         self.get_actions()
         self.get_methods()
@@ -57,7 +55,7 @@ class AvatarHPDL:
 
     def get_methods(self):
         for action in self.actions:
-            name = action.name.lower()            
+            name = action.name.lower()
 
             # Getting the parameters (only the name, not the type)
             parameters = ""
@@ -82,8 +80,8 @@ class AvatarHPDL:
         (only one) including previous methods """
 
         # Getting the parameters from the actions
-        parameters = []       
-        included_parameters = []    # To check for duplicates    
+        parameters = []
+        included_parameters = []  # To check for duplicates
 
         for action in self.actions:
             for p in action.parameters:
@@ -94,9 +92,11 @@ class AvatarHPDL:
 
         self.task = Task("turn_avatar", parameters, self.methods)
 
+
 ###############################################################################
 # -----------------------------------------------------------------------------
 ###############################################################################
+
 
 class AvatarActions:
     """ Returns different actions depending of the avatar 
@@ -109,8 +109,8 @@ class AvatarActions:
         actions - List<ActionHPDL>
     """
 
-    def __init__(self, avatar, hierarchy, partner):
-        self.avatar  = avatar
+    def __init__(self, avatar: "Sprite", hierarchy: dict, partner: "Sprite"):
+        self.avatar = avatar
         self.hierarchy = hierarchy
         self.partner = partner
 
@@ -119,7 +119,7 @@ class AvatarActions:
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
-    
+
     def get_actions(self):
         """ Return a list of actions depending of the avatar.
         
@@ -177,7 +177,7 @@ class AvatarActions:
             self.actions.append(self.turn_down())
             self.actions.append(self.turn_left())
             self.actions.append(self.turn_right())
-        
+
         # Can move and aim in any direction, can use object
         if self.avatar.stype == "ShootAvatar":
             self.actions.append(self.move_up())
@@ -195,9 +195,7 @@ class AvatarActions:
             self.actions.append(self.move_up())
             self.actions.append(self.move_down())
 
-
-        self.actions.append(self.nil()) # As last resource, don't do anything
-        
+        self.actions.append(self.nil())  # As last resource, don't do anything
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
@@ -205,7 +203,7 @@ class AvatarActions:
     def move_up(self):
         name = "AVATAR_MOVE_UP"
         parameters = [["a", self.avatar.stype]]
-        
+
         # can-move indicates that te avatar has the ability to move in that direction
         conditions = ["(can-move-up ?a)", "(orientation-up ?a)"]
         effects = ["(decrease (coordinate_x ?a) 1)"]
@@ -229,7 +227,7 @@ class AvatarActions:
     def move_left(self):
         name = "AVATAR_MOVE_LEFT"
         parameters = [["a", self.avatar.stype]]
-        
+
         # can-move indicates that te avatar has the ability to move in that direction
         conditions = ["(can-move-left ?a)", "(orientation-left ?a)"]
         effects = ["(decrease (coordinate_y ?a) 1)"]
@@ -254,7 +252,7 @@ class AvatarActions:
     def turn_up(self):
         name = "AVATAR_TURN_UP"
         parameters = [["a", self.avatar.stype]]
-        
+
         # If not (can-change-orientation ?a), the avatar cannot use this action
         # conditions = ["(can-change-orientation ?a)","(not (orientation-up ?a))"]
         # can-change-orientation maybe not needed
@@ -264,7 +262,7 @@ class AvatarActions:
                     (when
                         (orientation-down ?a )
                         (not (orientation-down ?a))
-                    )"""        
+                    )"""
         effect_left = """
                     (when
                         (orientation-left ?a )
@@ -313,8 +311,8 @@ class AvatarActions:
 
     def turn_left(self):
         name = "AVATAR_TURN_LEFT"
-        parameters = [["a", self.avatar.stype]]      
-        
+        parameters = [["a", self.avatar.stype]]
+
         # If not (can-change-orientation ?a), the avatar cannot use this action
         # conditions = ["(can-change-orientation ?a)","(not (orientation-left ?a))"]
         conditions = ["(not (orientation-left ?a))"]
@@ -344,7 +342,7 @@ class AvatarActions:
     def turn_right(self):
         name = "AVATAR_TURN_RIGHT"
         parameters = [["a", self.avatar.stype]]
-        
+
         # If not (can-change-orientation ?a), the avatar cannot use this action
         # conditions = ["(can-change-orientation ?a)","(not (orientation-right ?a))"]
         conditions = ["(not (orientation-right ?a))"]
@@ -382,7 +380,7 @@ class AvatarActions:
         name = "AVATAR_USE"
         parameters = [["a", self.avatar.stype], ["p", self.partner.name]]
         conditions = ["(can-use ?a)"]
-        
+
         # Generate the partner object in a position depending of the orientation of the avatar
         partner_generation = """
                     (when
@@ -424,10 +422,12 @@ class AvatarActions:
                             (increase (coordinate_x ?p) 1)						
                         )
                     )"""
-        effects = ["(increase (counter_" + self.partner.name + ") 1)", partner_generation]
+        effects = [
+            "(increase (counter_" + self.partner.name + ") 1)",
+            partner_generation,
+        ]
 
-
-        return Action(name, parameters, conditions, effects)        
+        return Action(name, parameters, conditions, effects)
 
     # -------------------------------------------------------------------------
 
@@ -435,18 +435,21 @@ class AvatarActions:
     def nil(self):
         """ Avatar doesn't do anything """
         name = "AVATAR_NIL"
-        parameters = [["a", self.avatar.stype]]        
+        parameters = [["a", self.avatar.stype]]
         conditions = []
         effects = []
 
-        return Action(name, parameters, conditions, effects)        
+        return Action(name, parameters, conditions, effects)
+
 
 ###############################################################################
 # -----------------------------------------------------------------------------
 ###############################################################################
 
+
 class AvatarPredicates:
     """ Returns different predicates depending of the avatar """
+
     def __init__(self, avatar):
         self.avatar = avatar
 
@@ -462,7 +465,9 @@ class AvatarPredicates:
         # Can't move but can use object
         if self.avatar.stype == "AimedAvatar":
             self.predicates.append("(can-use ?a - " + self.avatar.stype + ")")
-            self.predicates.append("(can-change-orientation ?a - " + self.avatar.stype + ")")
+            self.predicates.append(
+                "(can-change-orientation ?a - " + self.avatar.stype + ")"
+            )
 
         # This avatar should have ammo !!!!
         # Always same orientation, can move horizontally and use object
@@ -497,15 +502,19 @@ class AvatarPredicates:
             self.predicates.append("(can-move-down ?a - " + self.avatar.stype + ")")
             self.predicates.append("(can-move-left ?a - " + self.avatar.stype + ")")
             self.predicates.append("(can-move-right ?a - " + self.avatar.stype + ")")
-            self.predicates.append("(can-change-orientation ?a - " + self.avatar.stype + ")")
-        
+            self.predicates.append(
+                "(can-change-orientation ?a - " + self.avatar.stype + ")"
+            )
+
         # Can move and aim in any direction, can use object
         if self.avatar.stype == "ShootAvatar":
             self.predicates.append("(can-move-up ?a - " + self.avatar.stype + ")")
             self.predicates.append("(can-move-down ?a - " + self.avatar.stype + ")")
             self.predicates.append("(can-move-left ?a - " + self.avatar.stype + ")")
             self.predicates.append("(can-move-right ?a - " + self.avatar.stype + ")")
-            self.predicates.append("(can-change-orientation ?a - " + self.avatar.stype + ")")
+            self.predicates.append(
+                "(can-change-orientation ?a - " + self.avatar.stype + ")"
+            )
             self.predicates.append("(can-use ?a - " + self.avatar.stype + ")")
 
         # Always same orientation, can only move up or down
@@ -513,13 +522,16 @@ class AvatarPredicates:
             self.predicates.append("(can-move-up ?a - " + self.avatar.stype + ")")
             self.predicates.append("(can-move-down ?a - " + self.avatar.stype + ")")
 
+
 ###############################################################################
 # -----------------------------------------------------------------------------
 ###############################################################################
 
+
 class AvatarLevelPredicates:
     """ Returns different level predicates depending of the avatar """
-    def __init__(self, avatar):
+
+    def __init__(self, avatar: "Sprite"):
         self.avatar = avatar
 
         self.level_predicates = []
@@ -571,7 +583,7 @@ class AvatarLevelPredicates:
             self.level_predicates.append("(can-move-left ?a)")
             self.level_predicates.append("(can-move-right ?a)")
             self.level_predicates.append("(can-change-orientation ?a)")
-        
+
         # Can move and aim in any direction, can use object
         if self.avatar.stype == "ShootAvatar":
             self.level_predicates.append("(can-move-up ?a)")

@@ -2,7 +2,7 @@
 # sprite.py
 # Ignacio Vellido Expósito
 # 09/09/2019
-# 
+#
 # Multiple classes defining parts of a HPDL domain for a non-avatar sprite
 ###############################################################################
 
@@ -12,17 +12,18 @@ from hpdl.typesHPDL import *
 # -----------------------------------------------------------------------------
 ###############################################################################
 
+
 class SpriteHPDL:
-    def __init__(self, sprite, hierarchy, partner=None):
+    def __init__(self, sprite: "Sprite", hierarchy: dict, partner: "Sprite" = None):
         self.sprite = sprite
         self.hierarchy = hierarchy
-        self.partner   = partner
+        self.partner = partner
 
-        self.tasks              = []        
-        self.methods            = []
-        self.actions            = []
-        self.predicates         = []
-        self.level_predicates   = []
+        self.tasks = []
+        self.methods = []
+        self.actions = []
+        self.predicates = []
+        self.level_predicates = []
 
         self.get_actions()
         self.get_methods()
@@ -30,20 +31,20 @@ class SpriteHPDL:
         self.get_predicates()
         self.get_level_predicates()
 
-    # -------------------------------------------------------------------------
-    # -------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
 
-    def get_actions(self):
-        self.actions = SpriteActions(self.sprite, self.hierarchy, self.partner).actions        
+    def get_actions(self) -> list:
+        self.actions = SpriteActions(self.sprite, self.hierarchy, self.partner).actions
 
-    # -------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
 
-    def get_level_predicates(self):
+    def get_level_predicates(self) -> list:
         self.level_predicates = SpriteLevelPredicates(self.sprite).level_predicates
 
-    # -------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
 
-    def get_methods(self):
+    def get_methods(self) -> list:
         for action in self.actions:
             name = action.name.upper()
             preconditions = []
@@ -61,12 +62,12 @@ class SpriteHPDL:
 
     # -------------------------------------------------------------------------
 
-    def get_predicates(self):
+    def get_predicates(self) -> list:
         pass
 
     # -------------------------------------------------------------------------
 
-    def get_tasks(self):
+    def get_tasks(self) -> list:
         pass
 
 
@@ -74,44 +75,47 @@ class SpriteHPDL:
 # -----------------------------------------------------------------------------
 ###############################################################################
 
+
 class SpriteActions:
     """ Return actions depending of the sprite (not including avatars) 
     
     These actions define the movements of the sprite not (directly) related with 
     interactions
     """
-    def __init__(self, sprite, hierarchy, partner):
-        self.sprite    = sprite
+
+    def __init__(self, sprite: "Sprite", hierarchy: dict, partner: "Sprite"):
+        self.sprite = sprite
         self.hierarchy = hierarchy
-        self.partner   = partner
+        self.partner = partner
 
         self.actions = []
-        self.get_actions()
+        self.set_actions()
 
     # -------------------------------------------------------------------------
 
-    def get_actions(self):
+    def set_actions(self):
+        """ Stores in self.actions the actions defined """
         # Not clear what it does
         # Missile that produces sprite at a specific ratio
-        if self.sprite.stype == "Bomber":    
-            self.actions.append(self.produce())        
+        if self.sprite.stype == "Bomber":
+            self.actions.append(self.produce())
             # self.actions.append(self.move(direction ??))
             pass
 
         # Follows partner (or avatar ?) sprite
-        if self.sprite.stype == "Chaser":    
-            # self.actions.append(self.follow(partner))        
+        if self.sprite.stype == "Chaser":
+            # self.actions.append(self.follow(partner))
             pass
 
         # Missile that randomly changes direction
-        if self.sprite.stype == "ErraticMissile":     
-            # self.actions.append(self.move(direction ??))                   
+        if self.sprite.stype == "ErraticMissile":
+            # self.actions.append(self.move(direction ??))
             # self.actions.append(self.changeDirection()) - DOESN'T MAKE SENSE TO BE AN ACTION, IT'S RANDOM
             pass
 
         # Try to make the greatest distance with the partner (or avatar) sprite
-        if self.sprite.stype == "Fleeing":       
-            # self.actions.append(self.flee(partner))     
+        if self.sprite.stype == "Fleeing":
+            # self.actions.append(self.flee(partner))
             pass
 
         # Maybe not needed here
@@ -121,43 +125,43 @@ class SpriteActions:
             pass
 
         # sprite that moves constantly in one direction
-        if self.sprite.stype == "Missile":    
+        if self.sprite.stype == "Missile":
             self.actions.append(self.move())
 
         # Maybe not needed here
         # Oriented sprite that dissapear after a moment
-        if self.sprite.stype == "OrientedFlicker":            
+        if self.sprite.stype == "OrientedFlicker":
             # self.actions.append(self.dissapear())
             pass
 
         # Acts like a Chaser but sometimes it makes a random move
-        if self.sprite.stype == "RandomAltChaser":  
+        if self.sprite.stype == "RandomAltChaser":
             # The same actions that Chaser, random moves don't need to be defined
             pass
-        
+
         # Acts like a Bomber but randomly change direction
-        if self.sprite.stype == "RandomBomber":            
+        if self.sprite.stype == "RandomBomber":
             # The same actions that Bomber, random moves don't need to be defined
             pass
 
         # Acts like a Missile but randomly change direction
-        if self.sprite.stype == "RandomMissile":            
+        if self.sprite.stype == "RandomMissile":
             # The same actions that Missile, random moves don't need to be defined
             pass
 
         # Chooses randomly an action in each iteration
-        if self.sprite.stype == "RandomNPC":         
-            # We can't know wich action will he choose, probably this will be empty  
-            # In case we want to add something, we should add each action of the NPC 
+        if self.sprite.stype == "RandomNPC":
+            # We can't know wich action will he choose, probably this will be empty
+            # In case we want to add something, we should add each action of the NPC
             pass
 
         # Produces sprites following a specific ratio
-        if self.sprite.stype == "SpawnPoint":  
+        if self.sprite.stype == "SpawnPoint":
             self.actions.append(self.produce())
 
         # Expands in 4 directions if not occupied
-        if self.sprite.stype == "Spreader":       
-            # self.actions.append(self.expand())     
+        if self.sprite.stype == "Spreader":
+            # self.actions.append(self.expand())
             pass
 
         # Missile that if when it collides it change to a random direction
@@ -167,20 +171,22 @@ class SpriteActions:
             pass
 
         # Not clear what it does
-        if self.sprite.stype == "WalkerJumper":            
+        if self.sprite.stype == "WalkerJumper":
             pass
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
 
-    # def move(self, direction):
     def move(self):
-        """ Move the sprite one position in the specified direction """
-        name = self.sprite.name.upper() + "_MOVE"       
+        """ Move the sprite one position """
+        name = self.sprite.name.upper() + "_MOVE"
         parameters = []
         conditions = []
-        effects = ["""
-                    forall (?m - """ + self.sprite.stype + """)
+        effects = [
+            """
+                    forall (?m - """
+            + self.sprite.stype
+            + """)
 					(and
 						(when
 							(orientation-up ?m)
@@ -218,44 +224,49 @@ class SpriteActions:
 							)
 						)
 					)
-"""]
+"""
+        ]
 
-        return Action(name, parameters, conditions, effects)        
+        return Action(name, parameters, conditions, effects)
 
     # -------------------------------------------------------------------------
 
+    # UNFINISHED
     def expand(self):
-        """ Expand all sprites in the 4 directions if unoccupied """ 
+        """ Expand all sprites in the 4 directions if unoccupied """
         # If no other sprite in that position...
         pass
 
         name = self.sprite.name.upper() + "_EXPAND"
-        parameters = [["s", self.sprite.stype]]        
+        parameters = [["s", self.sprite.stype]]
         conditions = []
         effects = []
 
-        return Action(name, parameters, conditions, effects)        
-    
+        return Action(name, parameters, conditions, effects)
+
     # -------------------------------------------------------------------------
 
-    # UNFINISHED
+    # UNFINISHED -> INCREASE counters
     def produce(self):
         """ Generate an sprite - IN WICH POSITION ?? Down ?? 
         It should depend of the partner orientation <-
         """
         name = self.sprite.name.upper() + "_PRODUCE"
-        # parameters = [["s", self.sprite.stype], ["p", self.partner.name]]        
         parameters = []
-        # No need to check is position is available, if it is a wall (or 
-        # something similar) the partner last position will be -1
         conditions = []
 
-        # If no type is defined, get the parents name - MUST BE NEEDED LATER, ADD TO SPRITE sprite
-        partner_stype = self.partner.father if self.partner.stype is None else self.partner.stype
-        
-        effects = ["""
-                    forall (?s - """ + self.sprite.stype + 
-                        """ ?p - """ + partner_stype + """)
+        # If no type is defined, get the parents name
+        partner_stype = (
+            self.partner.father if self.partner.stype is None else self.partner.stype
+        )
+
+        effects = [
+            """
+                    forall (?s - """
+            + self.sprite.stype
+            + """ ?p - """
+            + partner_stype
+            + """)
 					(and
                         (when
                             (= (coordinate_x ?p) -1)
@@ -266,58 +277,64 @@ class SpriteActions:
                             )                  
                         )
 					)
-"""]            
+"""
+        ]
 
-        return Action(name, parameters, conditions, effects)        
+        return Action(name, parameters, conditions, effects)
 
     # -------------------------------------------------------------------------
 
+    # UNFINISHED
     def dissapear(self):
         """ Eliminates the sprite """
         pass
 
         name = self.sprite.name.upper() + "_DISSAPEAR"
-        parameters = [["s", self.sprite.stype]]        
+        parameters = [["s", self.sprite.stype]]
         conditions = []
         effects = []
 
-        return Action(name, parameters, conditions, effects)        
+        return Action(name, parameters, conditions, effects)
 
     # -------------------------------------------------------------------------
 
+    # UNFINISHED
     def chase(self, partner):
         """ Choose the movement that moves toward the closest sprite of the 
         partner type """
         pass
 
         name = self.sprite.name.upper() + "_CHASE"
-        parameters = [["s", self.sprite.stype], ["p", partner.name]]        
+        parameters = [["s", self.sprite.stype], ["p", partner.name]]
         conditions = []
         effects = []
 
-        return Action(name, parameters, conditions, effects)        
+        return Action(name, parameters, conditions, effects)
 
     # -------------------------------------------------------------------------
 
+    # UNFINISHED
     def flee(self, partner):
         """ Choose the movement that moves away the closest sprite of the
-        partner type """        
+        partner type """
         pass
 
         name = self.sprite.name.upper() + "_FLEE"
-        parameters = [["s", self.sprite.stype], ["p", partner.name]]        
+        parameters = [["s", self.sprite.stype], ["p", partner.name]]
         conditions = []
         effects = []
 
-        return Action(name, parameters, conditions, effects)        
+        return Action(name, parameters, conditions, effects)
 
 
 ###############################################################################
 # -----------------------------------------------------------------------------
 ###############################################################################
 
+
 class SpriteLevelPredicates:
     """ Returns different level predicates depending of the sprite """
+
     def __init__(self, sprite):
         self.sprite = sprite
 
@@ -330,19 +347,19 @@ class SpriteLevelPredicates:
     def get_level_predicates(self):
         # Not clear what it does
         # Missile that produces sprite at a specific ratio
-        if self.sprite.stype == "Bomber":    
+        if self.sprite.stype == "Bomber":
             pass
 
         # Follows partner (or avatar ?) sprite
-        if self.sprite.stype == "Chaser":    
+        if self.sprite.stype == "Chaser":
             pass
 
         # Missile that randomly changes direction
-        if self.sprite.stype == "ErraticMissile":     
+        if self.sprite.stype == "ErraticMissile":
             self.level_predicates.append(self.get_orientation())
 
         # Try to make the greatest distance with the partner (or avatar) sprite
-        if self.sprite.stype == "Fleeing":       
+        if self.sprite.stype == "Fleeing":
             pass
 
         # Maybe not needed here
@@ -351,42 +368,42 @@ class SpriteLevelPredicates:
             pass
 
         # sprite that moves constantly in one direction
-        if self.sprite.stype == "Missile":    
+        if self.sprite.stype == "Missile":
             self.level_predicates.append(self.get_orientation())
 
         # Maybe not needed here
         # Oriented sprite that dissapear after a moment
-        if self.sprite.stype == "OrientedFlicker":            
+        if self.sprite.stype == "OrientedFlicker":
             # self.level_predicates.append(self.dissapear())
             pass
 
         # Acts like a Chaser but sometimes it makes a random move
-        if self.sprite.stype == "RandomAltChaser":  
+        if self.sprite.stype == "RandomAltChaser":
             # The same actions that Chaser, random moves don't need to be defined
             pass
-        
+
         # Acts like a Bomber but randomly change direction
-        if self.sprite.stype == "RandomBomber":            
+        if self.sprite.stype == "RandomBomber":
             # The same actions that Bomber, random moves don't need to be defined
             pass
 
         # Acts like a Missile but randomly change direction
-        if self.sprite.stype == "RandomMissile":            
+        if self.sprite.stype == "RandomMissile":
             # The same actions that Missile, random moves don't need to be defined
             pass
 
         # Chooses randomly an action in each iteration
-        if self.sprite.stype == "RandomNPC":         
-            # We can't know wich action will he choose, probably this will be empty  
-            # In case we want to add something, we should add each action of the NPC 
+        if self.sprite.stype == "RandomNPC":
+            # We can't know wich action will he choose, probably this will be empty
+            # In case we want to add something, we should add each action of the NPC
             pass
 
         # Produces sprites following a specific ratio
-        if self.sprite.stype == "SpawnPoint":  
+        if self.sprite.stype == "SpawnPoint":
             pass
 
         # Expands in 4 directions if not occupied
-        if self.sprite.stype == "Spreader":       
+        if self.sprite.stype == "Spreader":
             pass
 
         # Missile that if when it collides it change to a random direction
@@ -395,13 +412,18 @@ class SpriteLevelPredicates:
             self.level_predicates.append(self.get_orientation())
 
         # Not clear what it does
-        if self.sprite.stype == "WalkerJumper":            
+        if self.sprite.stype == "WalkerJumper":
             pass
 
     # -------------------------------------------------------------------------
 
-    def get_orientation(self):
-        orientation = [x for x in self.sprite.parameters if "orientation" in x][0]
-        orientation = orientation.split("=")[1]
+    def get_orientation(self) -> str:
+        orientation = [x for x in self.sprite.parameters if "orientation" in x]
 
-        return "(orientation-" + orientation.lower() +  " ?o)"
+        if len(orientation) > 1:
+            orientation = orientation[0]
+            orientation = orientation.split("=")[1]
+
+            return "(orientation-" + orientation.lower() + " ?o)"
+        else:
+            return "(orientation-down ?o)"

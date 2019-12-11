@@ -2,24 +2,28 @@
 # problemWriterHPDL.py
 # Ignacio Vellido Expósito
 # 09/12/2019
-# 
+#
 # Produces a HPDL problem receiving each part separately
 ###############################################################################
+
 
 class ProblemWriterHPDL:
     """ Produces a string with a HPDL domain 
 
-    Arguments:
-        objects - init - goals
+        Arguments:
+            objects     List of strings
+            init        List of strings
+            goals       List of strings
     """
-    def __init__(self, objects, init, goals):
-        self.text_problem  = self.get_problem_definition()
+
+    def __init__(self, objects: list, init: list, goals: list):
+        self.text_problem = self.get_problem_definition()
         self.text_problem += self.get_objects(objects)
         self.text_problem += self.get_init(init)
         self.text_problem += self.get_goals(goals)
         self.text_problem += self.get_end_problem()
 
-    def get_problem(self):
+    def get_problem(self) -> str:
         return self.text_problem
 
     # -------------------------------------------------------------------------
@@ -35,7 +39,7 @@ class ProblemWriterHPDL:
 
 (define (problem VGDLProblem) (:domain VGDLGame)
 """
-        return text    
+        return text
 
     # -------------------------------------------------------------------------
 
@@ -47,7 +51,7 @@ class ProblemWriterHPDL:
         return text
 
     # -------------------------------------------------------------------------
-    
+
     def get_objects(self, objects):
         """ Returns a string with the types definition
     
@@ -70,7 +74,7 @@ class ProblemWriterHPDL:
         return start_text + text_content + end_text
 
     # -------------------------------------------------------------------------
-        
+
     def get_init(self, init):
         """ Returns a string with the init definition
     
@@ -92,7 +96,7 @@ class ProblemWriterHPDL:
         return start_text + text_content + end_text
 
     # -------------------------------------------------------------------------
-    
+
     def get_goals(self, goals):
         """ Returns a string with the task-goal definition
     
@@ -114,6 +118,5 @@ class ProblemWriterHPDL:
             text_content += "\n\t\t\t" + g
 
         return start_text + text_content + end_text
-
 
     # -------------------------------------------------------------------------

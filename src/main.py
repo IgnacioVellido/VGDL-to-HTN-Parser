@@ -3,7 +3,7 @@
 # Main.py
 # Ignacio Vellido Expósito
 # 20/08/2019
-# 
+#
 # Parses a VGDL file into a HPDL domain, using Vgdl.g4 grammar
 ###############################################################################
 
@@ -20,7 +20,7 @@ from grammar.VgdlParser import VgdlParser
 # Custom listener
 from grammar.VgdlListener import VgdlListener
 
-# Needed to show parsed tree in terminal
+# To show parsed tree in terminal
 # from antlr4.tree.Trees import Trees
 
 # HPDL domain generator
@@ -34,9 +34,8 @@ from hpdl.problemWriterHPDL import ProblemWriterHPDL
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
 
-
 # Receiving argument '-help' or '-h', prints Help
-def GetHelp():
+def GetHelp() -> str:
     help_text = """
 Description -----------------------------------------------------------
 antlr-vgdl is a Python parser that transform files following the 
@@ -85,21 +84,20 @@ To parse a level, ... [TO BE COMPLETED]
 -----------------------------------------------------------------------
 -----------------------------------------------------------------------
 """
-
     return help_text
 
 
 # -----------------------------------------------------------------------------
 
 # Right now it only check if contains BasicGame, SpriteSet and InteractionSet
-def check_VGDL(lines):
+def check_VGDL(lines: str) -> bool:
     """ Receiving an array of lines, checks if it contains the basic structure of a
     VGDL game description file """
-    basicGame = spriteSet = interactionSet = terminationSet = levelMapping = False    
+    basicGame = spriteSet = interactionSet = terminationSet = levelMapping = False
 
     for l in lines:
         if "basicgame" in l.lower():
-            basicGame = True              
+            basicGame = True
         elif "spriteset" in l.lower():
             spriteSet = True
         elif "InteractionSet" in l:
@@ -109,55 +107,71 @@ def check_VGDL(lines):
         elif "terminationset" in l.lower():
             terminationSet = True
 
-    if not basicGame or not spriteSet or not interactionSet \
-        or not terminationSet or not levelMapping:
+    if (
+        not basicGame
+        or not spriteSet
+        or not interactionSet
+        or not terminationSet
+        or not levelMapping
+    ):
         return False
     else:
         return True
 
+
 # -----------------------------------------------------------------------------
 
-def write_output(path, text):  
+
+def write_output(path: str, text: str):
     """ Writes domain in file """
     try:
         with open(path, "wb") as file:
-          file.write(text.encode('utf-8'))
+            file.write(text.encode("utf-8"))
     except Exception as e:
         print("Cannot open file " + path)
         print(str(e))
 
+
 # -----------------------------------------------------------------------------
 
-def read_file(path):  
+
+def read_file(path: str) -> str:
     try:
         with open(path, "r") as file:
-            return file.read()            
+            return file.read()
     except Exception as e:
         print("Cannot open file " + path)
         print(str(e))
 
+
 ###############################################################################
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
 ###############################################################################
 
 
-def main(argv):    
-    # -------------------------------------------------------------------------
-    # Checking arguments        
-    argparser = argparse.ArgumentParser(epilog=GetHelp(), 
-                                        formatter_class=argparse.RawDescriptionHelpFormatter,
-                                        description="Python parser that transform a VGDL game/level description into a HPDL domain/problem")
-    argparser.add_argument("-gi", "--gameInput", required=True, 
-                                help="Input VGDL game file")
-    argparser.add_argument("-li","--levelInput", 
-                                help="Input VGDL level file")
-    argparser.add_argument("-go", "--gameOutput", default="domain.pddl", 
-                                help="Ouput VGDL game file")
-    argparser.add_argument("-lo","--levelOutput", default="problem.pddl", 
-                                help="Ouput VGDL level file")
-    argparser.add_argument("-vh","--verboseHelp", action="store_true", 
-                                help="Show additional information")
+def main(argv):
+    # --------------------------------------------------------------------------
+    # Checking arguments
+
+    argparser = argparse.ArgumentParser(
+        epilog=GetHelp(),
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description="Python parser that transform a VGDL game/level description into a HPDL domain/problem",
+    )
+    argparser.add_argument(
+        "-gi", "--gameInput", required=True, help="Input VGDL game file"
+    )
+    argparser.add_argument("-li", "--levelInput", help="Input VGDL level file")
+    argparser.add_argument(
+        "-go", "--gameOutput", default="domain.pddl", help="Ouput VGDL game file"
+    )
+    argparser.add_argument(
+        "-lo", "--levelOutput", default="problem.pddl", help="Ouput VGDL level file"
+    )
+    argparser.add_argument(
+        "-vh", "--verboseHelp", action="store_true", help="Show additional information"
+    )
 
     args = argparser.parse_args()
 
@@ -165,9 +179,8 @@ def main(argv):
         print(GetHelp())
         sys.exit()
 
-    # -----------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
     # Opening input file, separating it in lines and checking VGDL structure
-    # if game is being parsed
 
     input_file = open(args.gameInput, "r")
     lines = [line.rstrip("\n") for line in input_file]
@@ -191,11 +204,12 @@ def main(argv):
 
     listener = VgdlListener()
     walker = ParseTreeWalker()
-    walker.walk(listener, tree)    
+    walker.walk(listener, tree)
 
     # --------------------------------------------------------------------------
     # --------------------------------------------------------------------------
     # Getting the results from the listener
+
     sprites = listener.sprites
     interactions = listener.interactions
     terminations = listener.terminations
@@ -205,8 +219,10 @@ def main(argv):
     avatar = listener.avatar
 
     # Getting the domain
-    domainGenerator = DomainGeneratorHPDL(sprites, interactions, terminations,
-                                            mappings, hierarchy, avatar)
+    domainGenerator = DomainGeneratorHPDL(
+        sprites, interactions, terminations, mappings, hierarchy, avatar
+    )
+
     types = domainGenerator.types
     constants = domainGenerator.constants
     functions = domainGenerator.functions
@@ -234,6 +250,7 @@ def main(argv):
         # ----------------------------------------------------------------------
         # Getting the level conversion from the LevelMapping
         # w -> wall    (w = short_type, wall = long_type)
+
         short_types = listener.short_types
         long_types = listener.long_types
         hierarchy = listener.hierarchy
@@ -244,10 +261,19 @@ def main(argv):
 
         # ----------------------------------------------------------------------
         # Parsing level
+
         level = read_file(args.levelInput)
-        problemGenerator = ProblemGeneratorHPDL(level, short_types, long_types,
-                                                transformTo, hierarchy, stypes,
-                                                sprites, avatarHPDL, spritesHPDL)
+        problemGenerator = ProblemGeneratorHPDL(
+            level,
+            short_types,
+            long_types,
+            transformTo,
+            hierarchy,
+            stypes,
+            sprites,
+            avatarHPDL,
+            spritesHPDL,
+        )
 
         objects = problemGenerator.objects
         init = problemGenerator.init
@@ -258,16 +284,18 @@ def main(argv):
 
         # ----------------------------------------------------------------------
         # Writing ouput
+
         try:
             write_output(args.levelOutput, text_problem)
             print("Problem defined without errors.")
         except Exception as e:
             print("Error writing problem: " + str(e))
 
+
 ###############################################################################
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
 ###############################################################################
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main(sys.argv)

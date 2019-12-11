@@ -2,18 +2,28 @@
 # domainWriterHPDL.py
 # Ignacio Vellido Expósito
 # 23/08/2019
-# 
+#
 # Produces a HPDL domain receiving each part separately
 ###############################################################################
+
 
 class DomainWriterHPDL:
     """ Produces a string with a HPDL domain 
 
-    Arguments:
-        types - functions - predicates - tasks - actions
+        Arguments (all list of strings):
+            types - functions - predicates - tasks - actions
     """
-    def __init__(self, types, constants, functions, predicates, tasks, actions):
-        self.text_domain  = self.get_domain_definition()
+
+    def __init__(
+        self,
+        types: list,
+        constants: list,
+        functions: list,
+        predicates: list,
+        tasks: list,
+        actions: list,
+    ):
+        self.text_domain = self.get_domain_definition()
         self.text_domain += self.get_types(types)
         self.text_domain += self.get_constants(constants)
         self.text_domain += self.get_predicates(predicates)
@@ -22,7 +32,9 @@ class DomainWriterHPDL:
         self.text_domain += self.get_actions(actions)
         self.text_domain += self.get_end_domain()
 
-    def get_domain(self):
+    # -------------------------------------------------------------------------
+
+    def get_domain(self) -> str:
         return self.text_domain
 
     # -------------------------------------------------------------------------
@@ -54,7 +66,7 @@ class DomainWriterHPDL:
 \t\t:equality
 \t)
 """
-        return text    
+        return text
 
     # -------------------------------------------------------------------------
 
@@ -66,7 +78,7 @@ class DomainWriterHPDL:
         return text
 
     # -------------------------------------------------------------------------
-    
+
     def get_types(self, types):
         """ Returns a string with the types definition
     
@@ -88,7 +100,7 @@ class DomainWriterHPDL:
 
             type_class = t[0]
 
-            if t[1] == '':
+            if t[1] == "":
                 text_content += type_class
             else:
                 for i in range(1, len(t)):
@@ -99,7 +111,7 @@ class DomainWriterHPDL:
         return start_text + text_content + end_text
 
     # -------------------------------------------------------------------------
-        
+
     def get_constants(self, constants):
         """ Returns a string with the constants definition
     
@@ -121,7 +133,7 @@ class DomainWriterHPDL:
 
             type_class = c[0]
 
-            if c[1] == '':
+            if c[1] == "":
                 text_content += type_class
             else:
                 for i in range(1, len(c)):
@@ -132,7 +144,7 @@ class DomainWriterHPDL:
         return start_text + text_content + end_text
 
     # -------------------------------------------------------------------------
-    
+
     def get_functions(self, functions):
         """ Returns a string with the functions definition
     
@@ -152,7 +164,6 @@ class DomainWriterHPDL:
             text_content += "\n\t\t" + f
 
         return start_text + text_content + end_text
-
 
     # -------------------------------------------------------------------------
 
@@ -195,14 +206,27 @@ class DomainWriterHPDL:
                 # print(m)
                 preconditions = m.get_preconditions()
 
-                text_method += ("\n\t\t(:method " + m.name + "\n\t\t\t\t:precondition (" 
-                                # If no preconditions are defined, we can't write the 'and' 
-                                + ("" if not preconditions else ("and " + preconditions))   
-                                + "\n\t\t\t\t\t\t\t\t)\n\t\t\t\t:tasks ( " 
-                                + m.get_tasks() + " \n\t\t\t\t\t\t)\n\t\t)\n")
+                text_method += (
+                    "\n\t\t(:method "
+                    + m.name
+                    + "\n\t\t\t\t:precondition ("
+                    # If no preconditions are defined, we can't write the 'and'
+                    + ("" if not preconditions else ("and " + preconditions))
+                    + "\n\t\t\t\t\t\t\t\t)\n\t\t\t\t:tasks ( "
+                    + m.get_tasks()
+                    + " \n\t\t\t\t\t\t)\n\t\t)\n"
+                )
 
-            text_task = ("(:task """ + t.name + "\n\t\t:parameters (" + t.get_parameters()
-                        + ")\n" + text_method + "\t)\n")
+            text_task = (
+                "(:task "
+                ""
+                + t.name
+                + "\n\t\t:parameters ("
+                + t.get_parameters()
+                + ")\n"
+                + text_method
+                + "\t)\n"
+            )
 
             text += text_task + "\n\t"
 
@@ -232,12 +256,17 @@ class DomainWriterHPDL:
             else:
                 text_effects = effects
 
-            text  += ("\t(:action """ + a.name + "\n\t\t:parameters ("
-                     + a.get_parameters()
-                     + ")\n\t\t:precondition (" 
-                     + ("" if not preconditions else ("and " + preconditions))
-                     + "\n\t\t\t\t\t)\n\t\t:effect (" 
-                     + ("" if not effects else text_effects)
-                     + "\n\t\t\t\t)\n\t)\n\n")
+            text += (
+                "\t(:action "
+                ""
+                + a.name
+                + "\n\t\t:parameters ("
+                + a.get_parameters()
+                + ")\n\t\t:precondition ("
+                + ("" if not preconditions else ("and " + preconditions))
+                + "\n\t\t\t\t\t)\n\t\t:effect ("
+                + ("" if not effects else text_effects)
+                + "\n\t\t\t\t)\n\t)\n\n"
+            )
 
         return start_text + text
