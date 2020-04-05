@@ -131,7 +131,7 @@ class SpriteActions:
         # Maybe not needed here
         # Oriented sprite that dissapear after a moment
         if self.sprite.stype == "OrientedFlicker":
-            # self.actions.append(self.dissapear())
+            # self.actions.append(self.disappear())
             pass
 
         # Acts like a Chaser but sometimes it makes a random move
@@ -285,11 +285,11 @@ class SpriteActions:
     # -------------------------------------------------------------------------
 
     # UNFINISHED
-    def dissapear(self):
+    def disappear(self):
         """ Eliminates the sprite """
         pass
 
-        name = self.sprite.name.upper() + "_DISSAPEAR"
+        name = self.sprite.name.upper() + "_DISAPPEAR"
         parameters = [["s", self.sprite.stype]]
         conditions = []
         effects = []
