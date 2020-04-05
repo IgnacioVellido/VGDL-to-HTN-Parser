@@ -14,4 +14,4 @@ verbose:
 	./planners/Siadex/planner -d $(d) -p $(p) -v
 
 help:
-	python Main.py -h
+	python3 ./src/main.py -h

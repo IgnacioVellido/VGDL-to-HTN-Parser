@@ -205,7 +205,7 @@
 			; :precondition (<= (counter_diamond) 0)
 			; :precondition (= (coordinate_y ?a - avatar) 1)
 			:precondition (or 
-								(= (turn) 20)
+								(= (turn) 50)
 								(= (counter_avatar) 0)
 								(= (counter_diamond) 0)
 			)

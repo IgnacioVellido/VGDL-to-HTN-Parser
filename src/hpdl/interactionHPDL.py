@@ -18,16 +18,17 @@ class InteractionHPDL:
     for interactions 
     
     Atributes:
-        interaction - InteractioVGDL
-        sprite - SpriteVGDL
-
+        interaction - InteractionVGDL
+        sprite - Sprite
+        partner - Sprite
+        hierarchy - Dict<String,String>
     """
 
     def __init__(
         self,
         interaction: "Interaction",
         sprite: "Sprite",
-        partner: "Spirte",
+        partner: "Sprite",
         hierarchy: dict,
     ):
         self.interaction = interaction
@@ -51,7 +52,7 @@ class InteractionHPDL:
     # -------------------------------------------------------------------------
 
     def get_actions(self):
-        self.actions = InteractionMethods(
+        self.actions = InteractionActions(
             self.interaction, self.sprite, self.partner, self.hierarchy
         ).actions
 
@@ -289,14 +290,10 @@ class InteractionMethods:
             + self.partner.name.lower()
             + "_addhealthpoints"
         )
-        # preconditions = ["(evaluate-interaction " + self.sprite.name + " - " +
-        #                     self.sprite.stype + " " + self.partner.name + " - " +
-        #                     self.partner.stype + ")"],
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -310,14 +307,12 @@ class InteractionMethods:
             + "_ADDHEALTHPOINTS ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -338,8 +333,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -353,14 +347,12 @@ class InteractionMethods:
             + "_ADDHEALTHPOINTSTOMAX ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -376,8 +368,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -391,14 +382,12 @@ class InteractionMethods:
             + "_ALIGN ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -416,8 +405,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -431,14 +419,12 @@ class InteractionMethods:
             + "_ATTRACTGAZE ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -459,8 +445,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -474,14 +459,12 @@ class InteractionMethods:
             + "_BOUNCEDIRECTION ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -502,8 +485,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -517,14 +499,12 @@ class InteractionMethods:
             + "_BOUNCEFORWARD ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -545,8 +525,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -560,14 +539,12 @@ class InteractionMethods:
             + "_CHANGERESOURCE ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -585,8 +562,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -600,14 +576,12 @@ class InteractionMethods:
             + "_CLONESPRITE ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -628,8 +602,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -643,14 +616,12 @@ class InteractionMethods:
             + "_COLLECTRESOURCE ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -671,8 +642,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -686,14 +656,12 @@ class InteractionMethods:
             + "_DECREASESPEEDTOALL ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -714,8 +682,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -729,14 +696,12 @@ class InteractionMethods:
             + "_FLIPDIRECTION ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -757,8 +722,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -772,14 +736,12 @@ class InteractionMethods:
             + "_INCREASESPEEDTOALL ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -795,8 +757,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -810,14 +771,12 @@ class InteractionMethods:
             + "_KILLALL ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -833,8 +792,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -848,14 +806,12 @@ class InteractionMethods:
             + "_KILLBOTH ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -873,8 +829,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -888,14 +843,12 @@ class InteractionMethods:
             + "_KILLIFALIVE ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -916,8 +869,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -931,14 +883,12 @@ class InteractionMethods:
             + "_KILLIFFROMABOVE ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -959,8 +909,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -974,14 +923,12 @@ class InteractionMethods:
             + "_KILLIFHASMORE ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -999,8 +946,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -1014,14 +960,12 @@ class InteractionMethods:
             + "_KILLIFFAST ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -1042,8 +986,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -1057,14 +1000,12 @@ class InteractionMethods:
             + "_KILLIFOTHERHASLESS ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -1074,8 +1015,7 @@ class InteractionMethods:
 
     # -------------------------------------------------------------------------
 
-    # UNFINISHED
-    # NEEDED REST OF THE NAME
+    # UNFINISHED - NEEDED REST OF THE NAME
     def killIfOtherHasMore(self):
         name = (
             self.sprite.name.lower()
@@ -1086,8 +1026,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -1101,14 +1040,12 @@ class InteractionMethods:
             + "_KILLIFOTHERHASMORE ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -1126,8 +1063,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -1141,14 +1077,12 @@ class InteractionMethods:
             + "_KILLIFSLOW ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -1166,8 +1100,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -1181,14 +1114,12 @@ class InteractionMethods:
             + "_KILLSPRITE ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -1206,8 +1137,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -1221,14 +1151,12 @@ class InteractionMethods:
             + "_PULLWITHIT ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -1246,8 +1174,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -1261,14 +1188,12 @@ class InteractionMethods:
             + "_REMOVESCORE ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -1289,8 +1214,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -1304,14 +1228,12 @@ class InteractionMethods:
             + "_REVERSEDIRECTION ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -1332,8 +1254,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -1347,14 +1268,12 @@ class InteractionMethods:
             + "_SETSPEEDTOALL ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -1372,8 +1291,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -1387,14 +1305,12 @@ class InteractionMethods:
             + "_SPAWNBEHIND ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -1415,8 +1331,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -1430,14 +1345,12 @@ class InteractionMethods:
             + "_SPAWNIFHASLESS ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -1458,8 +1371,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -1473,14 +1385,12 @@ class InteractionMethods:
             + "_SPAWNIFHASMORE ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -1496,8 +1406,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -1511,14 +1420,12 @@ class InteractionMethods:
             + "_STEPBACK ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -1539,8 +1446,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -1554,14 +1460,12 @@ class InteractionMethods:
             + "_SUBSTRACTHEALTHPOINTS ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -1582,8 +1486,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -1597,14 +1500,12 @@ class InteractionMethods:
             + "_TELEPORTTOEXIT ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -1625,8 +1526,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -1640,14 +1540,12 @@ class InteractionMethods:
             + "_TRANSFORMIFCOUNT ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -1666,8 +1564,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -1681,14 +1578,12 @@ class InteractionMethods:
             + "_TRANSFORMTO ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -1709,8 +1604,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -1724,14 +1618,12 @@ class InteractionMethods:
             + "_TRANSFORMTORANDOMCHILD ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -1752,8 +1644,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -1767,14 +1658,12 @@ class InteractionMethods:
             + "_TRANSFORMTOSINGLETON ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -1792,8 +1681,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -1807,14 +1695,12 @@ class InteractionMethods:
             + "_TURNAROUND ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -1826,12 +1712,12 @@ class InteractionMethods:
 
     # UNFINISHED
     def undoAll(self):
+        """ Always fail """
         name = self.sprite.name.lower() + "_" + self.partner.name.lower() + "_undoall"
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -1845,14 +1731,12 @@ class InteractionMethods:
             + "_UNDOALL ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -1873,8 +1757,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -1888,14 +1771,12 @@ class InteractionMethods:
             + "_UPDATESPAWNTYPE ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -1913,8 +1794,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -1928,14 +1808,12 @@ class InteractionMethods:
             + "_WALLBOUNCE ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -1951,8 +1829,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -1966,14 +1843,12 @@ class InteractionMethods:
             + "_WALLSTOP ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -1991,8 +1866,7 @@ class InteractionMethods:
         preconditions = [
             "(evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")",
             "(not (= (coordinate_x ?x) -1))",
@@ -2006,14 +1880,12 @@ class InteractionMethods:
             + "_WRAPAROUND ?x ?y)",
             "(:inline () (not (evaluate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + ")))",
             "(:inline () (regenerate-interaction ?x - "
             + self.sprite.stype
-            + " "
-            + "?y - "
+            + " ?y - "
             + self.partner.stype
             + "))",
             "(check-interactions)",
@@ -2030,7 +1902,13 @@ class InteractionMethods:
 class InteractionActions:
     """ Returns an action for each interaction """
 
-    def __init__(self, interaction, sprite, partner, hierarchy):
+    def __init__(
+        self,
+        interaction: "Interaction",
+        sprite: "Sprite",
+        partner: "Sprite",
+        hierarchy: dict,
+    ):
         self.interaction = interaction
         self.sprite = sprite
         self.partner = partner
@@ -2406,7 +2284,7 @@ class InteractionActions:
             "(decrease (counter_" + self.sprite.stype + ") 1)",
             "(decrease (counter_Resource) 1)",
             "(decrease (counter_Object) 1)",
-            "(increase (resource_" + self.sprite.name + " ?a) 1)",
+            "(increase (resource_" + self.sprite.name + " ?y) 1)",
         ]
 
         for parent in self.hierarchy[self.sprite.stype]:
