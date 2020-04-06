@@ -26,7 +26,7 @@ public class Test {
 		String sampleOLETSController = "tracks.singlePlayer.advanced.olets.Agent";
 
 		// Mi agente
-		String micontrolador = "practica_busqueda.Agent";
+		String micontrolador = "main.Agent";
 
 		//Load available games
 		String spGamesCollection =  "examples/all_games_sp.csv";
@@ -37,8 +37,12 @@ public class Test {
 		int seed = new Random().nextInt();
 
 		// Game and level to play
-		int gameIdx = 11;
-		int levelIdx = 0; // level names from 0 to 4 (game_lvlN.txt).
+		// Aliens: 0 -> SAM IS NOT ADDED TO THE PROBLEM -> ERROR
+		// Boulderdash: 11
+		// Brainman: 12
+		// Sokoban 87
+		int gameIdx = 87;
+		int levelIdx = 2; // level names from 0 to 4 (game_lvlN.txt).
 		String gameName = games[gameIdx][1];
 		String game = games[gameIdx][0];
 		String level1 = game.replace(gameName, gameName + "_lvl" + levelIdx);
