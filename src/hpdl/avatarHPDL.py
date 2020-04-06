@@ -71,7 +71,7 @@ class AvatarHPDL:
     # -------------------------------------------------------------------------
 
     def get_predicates(self):
-        self.predicates = AvatarPredicates(self.avatar).predicates
+        self.predicates = AvatarPredicates(self.avatar, self.partner).predicates
 
     # -------------------------------------------------------------------------
 
@@ -379,7 +379,7 @@ class AvatarActions:
 
         name = "AVATAR_USE"
         parameters = [["a", self.avatar.stype], ["p", self.partner.name]]
-        conditions = ["(can-use ?a)"]
+        conditions = ["(can-use ?a ?p)"]
 
         # Generate the partner object in a position depending of the orientation of the avatar
         partner_generation = """
@@ -450,8 +450,9 @@ class AvatarActions:
 class AvatarPredicates:
     """ Returns different predicates depending of the avatar """
 
-    def __init__(self, avatar):
+    def __init__(self, avatar: "Sprite", partner: "Sprite" = None):
         self.avatar = avatar
+        self.partner = partner
 
         self.predicates = []
         self.get_predicates()
@@ -464,7 +465,7 @@ class AvatarPredicates:
 
         # Can't move but can use object
         if self.avatar.stype == "AimedAvatar":
-            self.predicates.append("(can-use ?a - " + self.avatar.stype + ")")
+            self.predicates.append("(can-use ?a - " + self.avatar.stype + " ?p - " + self.partner.name + ")")
             self.predicates.append(
                 "(can-change-orientation ?a - " + self.avatar.stype + ")"
             )
@@ -474,7 +475,7 @@ class AvatarPredicates:
         if self.avatar.stype == "FlakAvatar":
             self.predicates.append("(can-move-left ?a - " + self.avatar.stype + ")")
             self.predicates.append("(can-move-right ?a - " + self.avatar.stype + ")")
-            self.predicates.append("(can-use ?a - " + self.avatar.stype + ")")
+            self.predicates.append("(can-use ?a - " + self.avatar.stype + " ?p - " + self.partner.name + ")")
 
         # Always same orientation, can only move left or right
         if self.avatar.stype == "HorizontalAvatar":
@@ -515,7 +516,7 @@ class AvatarPredicates:
             self.predicates.append(
                 "(can-change-orientation ?a - " + self.avatar.stype + ")"
             )
-            self.predicates.append("(can-use ?a - " + self.avatar.stype + ")")
+            self.predicates.append("(can-use ?a - " + self.avatar.stype + " ?p - " + self.partner.name + ")")
 
         # Always same orientation, can only move up or down
         if self.avatar.stype == "VerticalAvatar":
@@ -546,7 +547,7 @@ class AvatarLevelPredicates:
 
         # Can't move but can use object
         if self.avatar.stype == "AimedAvatar":
-            self.level_predicates.append("(can-use ?a)")
+            self.level_predicates.append("(can-use ?a partner)")
             self.level_predicates.append("(can-change-orientation ?a)")
 
         # This avatar should have ammo !!!!
@@ -554,7 +555,7 @@ class AvatarLevelPredicates:
         if self.avatar.stype == "FlakAvatar":
             self.level_predicates.append("(can-move-left ?a)")
             self.level_predicates.append("(can-move-right ?a)")
-            self.level_predicates.append("(can-use ?a)")
+            self.level_predicates.append("(can-use ?a partner)")
 
         # Always same orientation, can only move left or right
         if self.avatar.stype == "HorizontalAvatar":
@@ -591,7 +592,7 @@ class AvatarLevelPredicates:
             self.level_predicates.append("(can-move-left ?a)")
             self.level_predicates.append("(can-move-right ?a)")
             self.level_predicates.append("(can-change-orientation ?a)")
-            self.level_predicates.append("(can-use ?a)")
+            self.level_predicates.append("(can-use ?a partner)")
 
         # Always same orientation, can only move up or down
         if self.avatar.stype == "VerticalAvatar":

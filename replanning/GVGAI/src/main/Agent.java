@@ -58,7 +58,7 @@ public class Agent extends AbstractPlayer {
     // If no actions saved
     if (actions.isEmpty()) {
       try {
-        System.out.println("Replanning");
+        System.out.println("\nReplanning");
         replanning();
       } catch (IOException e) {
         e.printStackTrace();
@@ -160,7 +160,7 @@ public class Agent extends AbstractPlayer {
       if (action.contains("AVATAR")) {
         action = action.substring(8);
         String[] split = action.split(" ");
-        if (split.length == 2) {
+        if (split.length == 2 || (split.length == 3 && split[2].contains("partner"))) { // If it is an avatar action
           String act = split[0].replace("(AVATAR_", "");
           System.out.println("Adding action: " + act);
 
@@ -179,8 +179,8 @@ public class Agent extends AbstractPlayer {
               actions.add(Types.ACTIONS.ACTION_RIGHT); break;
 
             case "USE":  actions.add(Types.ACTIONS.ACTION_USE);  break;
-            // case "NIL":  actions.add(Types.ACTIONS.ACTION_NIL);  break;
-            default: actions.add(Types.ACTIONS.ACTION_NIL);  break;
+            case "NIL":  actions.add(Types.ACTIONS.ACTION_NIL);  break;
+            default: System.out.println(act + " is a not an available action for the avatar"); break; // An non-avatar action passed through
           }
         }
       }
@@ -213,6 +213,7 @@ public class Agent extends AbstractPlayer {
     }
     while ((s = stdError.readLine()) != null) {
       error.add(s);
+//      System.out.println(s);
     }
 
     // Check for errors

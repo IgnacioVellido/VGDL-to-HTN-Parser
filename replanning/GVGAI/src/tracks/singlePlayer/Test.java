@@ -41,7 +41,7 @@ public class Test {
 		// Boulderdash: 11
 		// Brainman: 12
 		// Sokoban 87
-		int gameIdx = 87;
+		int gameIdx = 0;
 		int levelIdx = 2; // level names from 0 to 4 (game_lvlN.txt).
 		String gameName = games[gameIdx][1];
 		String game = games[gameIdx][0];
