@@ -1,5 +1,9 @@
 package tracks.singlePlayer;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.Random;
 
 import core.logging.Logger;
@@ -11,6 +15,52 @@ import tracks.ArcadeMachine;
  * Java port from Tom Schaul's VGDL - https://github.com/schaul/py-vgdl
  */
 public class Test {
+
+	static private Integer gameIdx, levelIdx;
+
+	/**
+	 * TODO: Read game paths from configuration file
+	 */
+	private static void parseGameData() {
+		// Read file
+		BufferedReader reader;
+		ArrayList<String> lines = new ArrayList<>();
+
+		// Read configuration file
+		try {
+			reader = new BufferedReader(new FileReader("../configuration.txt"));
+			String l = reader.readLine();
+			while (l != null) {
+				lines.add(l);
+				l = reader.readLine();
+			}
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// Get values
+		for (String s : lines) {
+			String[] split = s.split("=");
+
+			// Probably better in a HashMap
+			switch (split[0]) {
+				case "game": gameIdx = Integer.parseInt(split[1]);
+				case "level": levelIdx = Integer.parseInt(split[1]);
+			}
+		}
+
+		// Create copy of game description for replanning
+		File src = new File("../../resources/games/" + games[gameIdx][1] + ".txt");
+		File dst = new File("../game.txt");
+		try {
+			Files.copy(src.toPath(), dst.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	static String[][] games;
 
     public static void main(String[] args) {
 
@@ -30,19 +80,23 @@ public class Test {
 
 		//Load available games
 		String spGamesCollection =  "examples/all_games_sp.csv";
-		String[][] games = Utils.readGames(spGamesCollection);
+		//String[][] games = Utils.readGames(spGamesCollection);
+		games = Utils.readGames(spGamesCollection);
 
 		//Game settings
 		boolean visuals = true;
 		int seed = new Random().nextInt();
 
 		// Game and level to play
-		// Aliens: 0 -> SAM IS NOT ADDED TO THE PROBLEM -> ERROR
+		// Aliens: 0
 		// Boulderdash: 11
 		// Brainman: 12
 		// Sokoban 87
-		int gameIdx = 0;
-		int levelIdx = 2; // level names from 0 to 4 (game_lvlN.txt).
+
+		// int gameIdx = 0;
+		// int levelIdx = 2; // level names from 0 to 4 (game_lvlN.txt).
+		parseGameData();
+
 		String gameName = games[gameIdx][1];
 		String game = games[gameIdx][0];
 		String level1 = game.replace(gameName, gameName + "_lvl" + levelIdx);

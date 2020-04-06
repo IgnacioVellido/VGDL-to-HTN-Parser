@@ -38,7 +38,7 @@
 		portal - portalStype
 		portalSlow - SpawnPoint
 		portalFast - SpawnPoint
-		portalStype FlakAvatar SpawnPoint Immovable Missile Bomber - Object
+		FlakAvatar Immovable Bomber Missile SpawnPoint portalStype - Object
 	)
 
 	; Constants -----------------------------------------------------------------

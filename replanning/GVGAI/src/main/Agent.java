@@ -44,7 +44,27 @@ public class Agent extends AbstractPlayer {
     stringMap = new String[height][width];
 
     charMapping = so.getModel().getCharMapping();
-    invertMapping();
+
+    // Change floor to background in the values
+    charMapping.forEach( (k,v) -> {
+      v.replaceAll(s -> {
+        if (s.equals("floor")) {
+          s = "background";
+        }
+        return s;
+      });
+    });
+
+    // If floor/background is at the beggining
+    boolean invert = true;
+    Collection<ArrayList<String>> values = charMapping.values();
+    Object[] toArray = values.toArray();
+    ArrayList list1 = (ArrayList) toArray[0], list2 = (ArrayList) toArray[1];
+    if (!list1.get(0).equals(list2.get(0))) { // UNSAFE OPERATION
+      invert = false;
+    }
+
+    invertMapping(invert);
   }
 
   // -------------------------------------------------------------------------------------------------------------------
@@ -57,15 +77,15 @@ public class Agent extends AbstractPlayer {
 
     // If no actions saved
     if (actions.isEmpty()) {
+      parseState();
+      writeLevel();
+
       try {
         System.out.println("\nReplanning");
         replanning();
       } catch (IOException e) {
         e.printStackTrace();
       }
-
-      parseState();
-      writeLevel();
     }
 
     action = actions.get(0);
@@ -119,7 +139,11 @@ public class Agent extends AbstractPlayer {
       for (int j = 0; j < width; j++) {
         if (map[j][i].size() > 0) {
           int itype = map[j][i].get(0).itype; // GVGAI gives the observationGrid rotated
-          stringMap[i][j] = levelMapping.get(VGDLRegistry.GetInstance().getRegisteredSpriteKey(itype));
+          String key = VGDLRegistry.GetInstance().getRegisteredSpriteKey(itype);
+          if (key.equals("floor")) {
+            key = "background";
+          }
+          stringMap[i][j] = levelMapping.get(key);
         }
         else {
           stringMap[i][j] = levelMapping.get("background");
@@ -131,21 +155,17 @@ public class Agent extends AbstractPlayer {
   // -------------------------------------------------------------------------------------------------------------------
 
   /**
-   * TODO: Read game paths from configuration file
-   */
-  private void parseGameData() {
-
-  }
-
-  // -------------------------------------------------------------------------------------------------------------------
-
-  /**
    * Inverts charMapping to fill levelMapping
    */
-  private void invertMapping() {
+  private void invertMapping(Boolean invert) {
     // TODO: OPTIMIZE
     for (Map.Entry<Character, ArrayList<String>> entry : charMapping.entrySet()) {
-      levelMapping.put(entry.getValue().get(entry.getValue().size()-1), entry.getKey().toString());
+      if (invert) {
+        levelMapping.put(entry.getValue().get(entry.getValue().size()-1), entry.getKey().toString());
+      }
+      else {
+        levelMapping.put(entry.getValue().get(0), entry.getKey().toString());
+      }
     }
   }
 
@@ -210,7 +230,9 @@ public class Agent extends AbstractPlayer {
 
     while ((s = stdInput.readLine()) != null) {
       input.add(s);
+//      System.out.println(s);
     }
+//    System.out.println("Errors:");
     while ((s = stdError.readLine()) != null) {
       error.add(s);
 //      System.out.println(s);
