@@ -286,7 +286,7 @@ class DomainGeneratorHPDL:
     def assign_tasks(self):
         # Main task ------------------------------------------------------------
         finish = Method(
-            "finish_game", ["(= (turn) 10)"], []
+            "finish_game", ["(= (turn) 1)"], []
         )  # UNFINISHED PRECONDITIONS
         if self.partner is not None:
             turn = Method(

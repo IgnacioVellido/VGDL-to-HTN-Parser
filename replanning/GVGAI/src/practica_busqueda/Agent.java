@@ -7,10 +7,7 @@
 package practica_busqueda;
 
 // Métodos de Java
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 // Métodos para GVGAI
@@ -21,75 +18,144 @@ import core.vgdl.VGDLRegistry;
 import ontology.Types;
 import tools.ElapsedCpuTimer;
 
+import javax.swing.*;
+
 public class Agent extends AbstractPlayer {
 
   private ArrayList<core.game.Observation>[][] map;
   private String[][] stringMap;
   private int width, height;
+  HashMap<Character, ArrayList<String>> charMapping;
+  HashMap<String, String> levelMapping = new HashMap<>();
+  private ArrayList<Types.ACTIONS> actions = new ArrayList<>();
 
   // -------------------------------------------------------------------------------------------------------------------
   public Agent (StateObservation so, ElapsedCpuTimer elapsedTimer) {
-    //super(so, elapsedTimer);
     int blockSize = so.getBlockSize(); // Tamaño de un sprite en píxeles
     width = so.getWorldDimension().width / blockSize;
     height = so.getWorldDimension().height / blockSize;
-    stringMap = new String[width][height];
+    stringMap = new String[height][width];
+
+    charMapping = so.getModel().getCharMapping();
+    invertMapping();
   }
 
   // -------------------------------------------------------------------------------------------------------------------
   // -------------------------------------------------------------------------------------------------------------------
 
-  public void printState() {
-    for (int i = 0; i < width; i++) {
-      for (int j = 0; j < height; j++) {
-        System.out.print(stringMap[i][j]);
-        System.out.print(" ");
+  private String getState() {
+    StringBuilder state = new StringBuilder();
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        state.append(stringMap[i][j]);//.append(" ");
       }
-      System.out.print("\n");
+      state.append("\n");
+    }
+    state.deleteCharAt(state.length()-1); // Remove last \n
+
+    return state.toString();
+  }
+
+
+  private void writeLevel() {
+    String state = getState();
+
+    try (BufferedWriter bf = new BufferedWriter(new FileWriter("../level.txt"))) {
+      bf.write(state);
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 
-  public void parseState() {
-    for (int i = 0; i < width; i++) {
-      for (int j = 0; j < height; j++) {
-        if (map[i][j].size() > 0) {
-          int itype = map[i][j].get(0).itype;
-          stringMap[i][j] = VGDLRegistry.GetInstance().getRegisteredSpriteKey(itype);;
+  private void parseState() {
+    // Get values
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        if (map[j][i].size() > 0) {
+          int itype = map[j][i].get(0).itype; // GVGAI gives the observationGrid rotated
+          stringMap[i][j] = levelMapping.get(VGDLRegistry.GetInstance().getRegisteredSpriteKey(itype));
         }
         else {
-          stringMap[i][j] = "background";
+          stringMap[i][j] = levelMapping.get("background");
         }
       }
+    }
+  }
+
+  private void parseGameData() {
+
+  }
+
+  // Invert charMapping to fill levelMapping
+  private void invertMapping() {
+    // TODO: OPTIMIZE
+    for (Map.Entry<Character, ArrayList<String>> entry : charMapping.entrySet()) {
+      levelMapping.put(entry.getValue().get(entry.getValue().size()-1), entry.getKey().toString());
     }
   }
 
   @Override
   public Types.ACTIONS act (StateObservation stateObs, ElapsedCpuTimer elapsedTimer) {
-    Types.ACTIONS action = Types.ACTIONS.ACTION_NIL;
+    Types.ACTIONS action;
     map = stateObs.getObservationGrid();
 
-    // En game hay un charMapping
-
-    if (hola) {
+    if (actions.isEmpty()) {
       try {
+        System.out.println("Replanning");
         replanning();
       } catch (IOException e) {
         e.printStackTrace();
       }
 
       parseState();
-      printState();
-      hola = false;
+      writeLevel();
     }
+
+    action = actions.get(0);
+    actions.remove(0);
 
     return action;
   }
 
-  Boolean hola = true;
+  String levelPath = "replanning/level.txt";
+  String gamePath = "replanning/game.txt"; // Parsearlo de un archivo
+  String domainPath = "replanning/domain.hpdl";
+  String problemPath = "replanning/problem.hpdl";
 
-  public void replanning() throws IOException {
-    //String[] commands = {"make", "replan"};
-    String[] commands = {"ls"};
+  private void parseActions(ArrayList<String> input) {
+    for (String action : input) {
+      if (action.contains("AVATAR")) {
+        action = action.substring(8);
+        String[] split = action.split(" ");
+        if (split.length == 2) {
+          String act = split[0].replace("(AVATAR_", "");
+
+          switch (act) {
+            case "MOVE_UP":
+            case "TURN_UP":
+              actions.add(Types.ACTIONS.ACTION_UP);    break;
+            case "MOVE_DOWN":
+            case "TURN_DOWN":
+              actions.add(Types.ACTIONS.ACTION_DOWN);  break;
+            case "MOVE_LEFT":
+            case "TURN_LEFT":
+              actions.add(Types.ACTIONS.ACTION_LEFT);  break;
+            case "MOVE_RIGHT":
+            case "TURN_RIGHT":
+              actions.add(Types.ACTIONS.ACTION_RIGHT); break;
+
+            case "USE":  actions.add(Types.ACTIONS.ACTION_USE);  break;
+            // case "NIL":  actions.add(Types.ACTIONS.ACTION_NIL);  break;
+            default: actions.add(Types.ACTIONS.ACTION_NIL);  break;
+          }
+        }
+      }
+    }
+  }
+
+  private void replanning() throws IOException {
+    String[] commands = {"make", "replan", "gi="+gamePath, "li="+levelPath, "go="+domainPath, "lo="+problemPath};
+    //String[] commands = {"ls"};
     String [] envp = { };
     File dir = new File("../../");
     Process proc = Runtime.getRuntime().exec(commands, envp, dir);
@@ -101,16 +167,18 @@ public class Agent extends AbstractPlayer {
             InputStreamReader(proc.getErrorStream()));
 
     // Read the output from the command
-    System.out.println("Here is the standard output of the command:\n");
     String s = null;
+    ArrayList<String> input = new ArrayList<>();
+    ArrayList<String> error = new ArrayList<>();
     while ((s = stdInput.readLine()) != null) {
-      System.out.println(s);
+      input.add(s);
     }
 
+    parseActions(input);
+
     // Read any errors from the attempted command
-    System.out.println("Here is the standard error of the command (if any):\n");
     while ((s = stdError.readLine()) != null) {
-      System.out.println(s);
+      error.add(s);
     }
   }
 }

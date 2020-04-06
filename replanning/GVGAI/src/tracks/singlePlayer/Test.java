@@ -42,9 +42,13 @@ public class Test {
 		String gameName = games[gameIdx][1];
 		String game = games[gameIdx][0];
 		String level1 = game.replace(gameName, gameName + "_lvl" + levelIdx);
-		// String level = "../../output/level.txt";
 
-		String recordActionsFile = null;// "actions_" + games[gameIdx] + "_lvl"
+		// String game = "../game.txt";
+		// String level = "../level.txt";
+		// ArcadeMachine.runOneGame(game, level, visuals, micontrolador, recordActionsFile, seed, 0);
+
+		String recordActionsFile = null;
+						// "actions_" + games[gameIdx] + "_lvl"
 						// + levelIdx + "_" + seed + ".txt";
 						// where to record the actions
 						// executed. null if not to save.

@@ -13,8 +13,10 @@ run:
 verbose:
 	./planners/Siadex/planner -d $(d) -p $(p) -v
 
-# replan:
-# 	
+replan:
+	python3 ./src/main.py -gi $(gi) -li $(li) -go $(go) -lo $(lo)
+	./planners/Siadex/planner -d $(go) -p $(lo)
+	# ./planners/Siadex/planner -d $(go) -p $(lo) 2> /dev/null
 
 help:
 	python3 ./src/main.py -h

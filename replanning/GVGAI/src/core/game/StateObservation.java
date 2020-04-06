@@ -32,6 +32,10 @@ public class StateObservation {
      */
     protected ForwardModel model;
 
+    public ForwardModel getModel() {
+        return model;
+    }
+
     /**
      * Constructor for StateObservation. Requires a forward model
      *
