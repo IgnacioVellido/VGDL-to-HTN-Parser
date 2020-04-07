@@ -4,11 +4,11 @@
   Boulderdash
 */
 
-// PONER package practica_busqueda;
 package main;
 
 import java.io.*;
 import java.util.*;
+
 import core.game.StateObservation;
 import core.player.AbstractPlayer;
 import core.vgdl.VGDLRegistry;
@@ -19,7 +19,7 @@ public class Agent extends AbstractPlayer {
 
   private ArrayList<Types.ACTIONS> actions = new ArrayList<>();
 
-  // Grid
+  // Level grid
   private ArrayList<core.game.Observation>[][] map;
   private String[][] stringMap;
   private int width, height;
@@ -29,15 +29,18 @@ public class Agent extends AbstractPlayer {
   HashMap<String, String> levelMapping = new HashMap<>();
 
   // Needed for calling the planner
-  String levelOutputPath = "../level.txt",
-         levelPath = "replanning/level.txt",
-         gamePath = "replanning/game.txt", // TODO: Recieve the path from configuration file
-         domainPath = "replanning/domain.hpdl",
-         problemPath = "replanning/problem.hpdl",
-         avatarName; // Name of the avatar in the output of Siadex
+  String levelOutputPath = "../tmp/level.txt",
+         levelPath = "replanning/tmp/level.txt",
+         gamePath = "replanning/tmp/game.txt",
+         domainPath = "replanning/tmp/domain.hpdl",
+         problemPath = "replanning/tmp/problem.hpdl";
 
-  // -------------------------------------------------------------------------------------------------------------------
+  String avatarName; // Name of the avatar in the output of Siadex
+
+  // ---------------------------------------------------------------------------
+
   public Agent (StateObservation so, ElapsedCpuTimer elapsedTimer) {
+    // Set level dimensions
     int blockSize = so.getBlockSize(); // Sprite size in pixels
     width = so.getWorldDimension().width / blockSize;
     height = so.getWorldDimension().height / blockSize;
@@ -45,7 +48,7 @@ public class Agent extends AbstractPlayer {
 
     charMapping = so.getModel().getCharMapping();
 
-    // Change floor to background in the values
+    // Change 'floor' to 'background' in the values
     charMapping.forEach( (k,v) -> {
       v.replaceAll(s -> {
         if (s.equals("floor")) {
@@ -55,20 +58,22 @@ public class Agent extends AbstractPlayer {
       });
     });
 
-    // If floor/background is at the beggining
+    // If "floor"/"background" is at the beggining
     boolean invert = true;
     Collection<ArrayList<String>> values = charMapping.values();
     Object[] toArray = values.toArray();
-    ArrayList list1 = (ArrayList) toArray[0], list2 = (ArrayList) toArray[1];
-    if (!list1.get(0).equals(list2.get(0))) { // UNSAFE OPERATION
+    ArrayList values1 = (ArrayList) toArray[0],
+              values2 = (ArrayList) toArray[1];
+
+    if (!values1.get(0).equals(values2.get(0))) { // UNSAFE OPERATION
       invert = false;
     }
 
     invertMapping(invert);
   }
 
-  // -------------------------------------------------------------------------------------------------------------------
-  // -------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
 
   @Override
   public Types.ACTIONS act (StateObservation stateObs, ElapsedCpuTimer elapsedTimer) {
@@ -94,8 +99,8 @@ public class Agent extends AbstractPlayer {
     return action;
   }
 
-  // -------------------------------------------------------------------------------------------------------------------
-  // -------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
 
   /**
    * @return The current level state as a unique String
@@ -113,22 +118,7 @@ public class Agent extends AbstractPlayer {
     return state.toString();
   }
 
-  // -------------------------------------------------------------------------------------------------------------------
-
-  /**
-   * Writes the actual level state in a file
-   */
-  private void writeLevel() {
-    String state = getState();
-
-    try (BufferedWriter bf = new BufferedWriter(new FileWriter(levelOutputPath))) {
-      bf.write(state);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  // -------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
 
   /**
    * Transform the current observationGrid into string (of values in the levelMapping)
@@ -137,39 +127,41 @@ public class Agent extends AbstractPlayer {
     // Get values
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
+        String key;
+
         if (map[j][i].size() > 0) {
           int itype = map[j][i].get(0).itype; // GVGAI gives the observationGrid rotated
-          String key = VGDLRegistry.GetInstance().getRegisteredSpriteKey(itype);
+          key = VGDLRegistry.GetInstance().getRegisteredSpriteKey(itype);
+
           if (key.equals("floor")) {
             key = "background";
           }
-          stringMap[i][j] = levelMapping.get(key);
         }
         else {
-          stringMap[i][j] = levelMapping.get("background");
+          key = "background";
         }
+
+        stringMap[i][j] = levelMapping.get(key);
       }
     }
   }
 
-  // -------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
 
   /**
-   * Inverts charMapping to fill levelMapping
+   * Fills levelMapping with the characters associated to each map
    */
   private void invertMapping(Boolean invert) {
-    // TODO: OPTIMIZE
-    for (Map.Entry<Character, ArrayList<String>> entry : charMapping.entrySet()) {
+    charMapping.forEach((key, value) -> {
       if (invert) {
-        levelMapping.put(entry.getValue().get(entry.getValue().size()-1), entry.getKey().toString());
+        levelMapping.put(value.get(value.size() - 1), key.toString());
+      } else {
+        levelMapping.put(value.get(0), key.toString());
       }
-      else {
-        levelMapping.put(entry.getValue().get(0), entry.getKey().toString());
-      }
-    }
+    });
   }
 
-  // -------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
 
   /**
    * Parses plan output into agent actions
@@ -180,7 +172,10 @@ public class Agent extends AbstractPlayer {
       if (action.contains("AVATAR")) {
         action = action.substring(8);
         String[] split = action.split(" ");
-        if (split.length == 2 || (split.length == 3 && split[2].contains("partner"))) { // If it is an avatar action
+
+        // If it is an avatar action
+        if (split.length == 2
+                || (split.length == 3 && split[2].contains("partner"))) {
           String act = split[0].replace("(AVATAR_", "");
           System.out.println("Adding action: " + act);
 
@@ -200,14 +195,16 @@ public class Agent extends AbstractPlayer {
 
             case "USE":  actions.add(Types.ACTIONS.ACTION_USE);  break;
             case "NIL":  actions.add(Types.ACTIONS.ACTION_NIL);  break;
-            default: System.out.println(act + " is a not an available action for the avatar"); break; // An non-avatar action passed through
+            default: System.out.println(act + " is a not an available action for the avatar");
+                     break; // An non-avatar action passed through
           }
         }
       }
     }
   }
 
-  // -------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
 
   private void replanning() throws IOException {
     String[] commands = {"make", "replan",
@@ -230,20 +227,32 @@ public class Agent extends AbstractPlayer {
 
     while ((s = stdInput.readLine()) != null) {
       input.add(s);
-//      System.out.println(s);
     }
-//    System.out.println("Errors:");
     while ((s = stdError.readLine()) != null) {
       error.add(s);
-//      System.out.println(s);
     }
 
     // Check for errors
-//    if (!error.isEmpty()) {
-//      System.out.println(error.toString());
-//    }
+    if (!error.isEmpty() && error.contains("Error")) {
+      System.out.println(error.toString());
+    }
 
     // Get the avatar actions
     parseActions(input);
+  }
+
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Writes the actual level state in a file
+   */
+  private void writeLevel() {
+    String state = getState();
+
+    try (BufferedWriter bf = new BufferedWriter(new FileWriter(levelOutputPath))) {
+      bf.write(state);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }

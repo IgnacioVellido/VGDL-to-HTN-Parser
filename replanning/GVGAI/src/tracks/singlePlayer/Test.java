@@ -17,10 +17,8 @@ import tracks.ArcadeMachine;
 public class Test {
 
 	static private Integer gameIdx, levelIdx;
+	static String[][] games;
 
-	/**
-	 * TODO: Read game paths from configuration file
-	 */
 	private static void parseGameData() {
 		// Read file
 		BufferedReader reader;
@@ -52,7 +50,7 @@ public class Test {
 
 		// Create copy of game description for replanning
 		File src = new File("../../resources/games/" + games[gameIdx][1] + ".txt");
-		File dst = new File("../game.txt");
+		File dst = new File("../tmp/game.txt");
 		try {
 			Files.copy(src.toPath(), dst.toPath(), StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
@@ -60,10 +58,10 @@ public class Test {
 		}
 	}
 
-	static String[][] games;
+	// -------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 
     public static void main(String[] args) {
-
 		// Available tracks:
 		String sampleRandomController = "tracks.singlePlayer.simple.sampleRandom.Agent";
 		String doNothingController = "tracks.singlePlayer.simple.doNothing.Agent";
@@ -75,12 +73,11 @@ public class Test {
         String sampleRHEAController = "tracks.singlePlayer.advanced.sampleRHEA.Agent";
 		String sampleOLETSController = "tracks.singlePlayer.advanced.olets.Agent";
 
-		// Mi agente
+		// Agent
 		String micontrolador = "main.Agent";
 
-		//Load available games
+		// Load available games
 		String spGamesCollection =  "examples/all_games_sp.csv";
-		//String[][] games = Utils.readGames(spGamesCollection);
 		games = Utils.readGames(spGamesCollection);
 
 		//Game settings
@@ -101,18 +98,14 @@ public class Test {
 		String game = games[gameIdx][0];
 		String level1 = game.replace(gameName, gameName + "_lvl" + levelIdx);
 
-		// String game = "../game.txt";
-		// String level = "../level.txt";
-		// ArcadeMachine.runOneGame(game, level, visuals, micontrolador, recordActionsFile, seed, 0);
-
 		String recordActionsFile = null;
 						// "actions_" + games[gameIdx] + "_lvl"
 						// + levelIdx + "_" + seed + ".txt";
 						// where to record the actions
 						// executed. null if not to save.
 
-		boolean humano = false;
-		if (humano)
+		boolean human = false;
+		if (human)
 			ArcadeMachine.playOneGame(game, level1, recordActionsFile, seed);
 		else
 			ArcadeMachine.runOneGame(game, level1, visuals, micontrolador, recordActionsFile, seed, 0);
@@ -149,7 +142,5 @@ public class Test {
 //			}
 //			ArcadeMachine.runGames(game, levels, M, sampleRHEAController, saveActions? actionFiles:null);
 //		}
-
-
     }
 }
