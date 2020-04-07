@@ -25,19 +25,20 @@
 	; Types ---------------------------------------------------------------------
 
 	(:types
+		EOS - Immovable
 		background - Immovable
-		wall - Immovable
-		sword - Flicker
-		dirt - Immovable
-		exitdoor - Door
-		diamond - Resource
-		boulder - Missile
-		moving - movingStype
-		avatar - ShootAvatar
-		enemy - RandomNPC
-		crab - enemy
-		butterfly - enemy
-		movingStype Resource RandomNPC Door Missile ShootAvatar Flicker Immovable - Object
+		base - Immovable
+		avatar - FlakAvatar
+		miss - Missile
+		sam - miss
+		bomb - miss
+		alien - Bomber
+		alienGreen - alien
+		alienBlue - alien
+		portal - portalStype
+		portalSlow - SpawnPoint
+		portalFast - SpawnPoint
+		Bomber Immovable portalStype SpawnPoint Missile FlakAvatar - Object
 	)
 
 	; Constants -----------------------------------------------------------------
@@ -52,12 +53,9 @@
 		(orientation-down ?o - Object)
 		(orientation-left ?o - Object)
 		(orientation-right ?o - Object)
-		(can-move-up ?a - ShootAvatar)
-		(can-move-down ?a - ShootAvatar)
-		(can-move-left ?a - ShootAvatar)
-		(can-move-right ?a - ShootAvatar)
-		(can-change-orientation ?a - ShootAvatar)
-		(can-use ?a - ShootAvatar)
+		(can-move-left ?a - FlakAvatar)
+		(can-move-right ?a - FlakAvatar)
+		(can-use ?a - FlakAvatar ?p - sam)
 		(evaluate-interaction ?o1 ?o2 - Object)
 		(regenerate-interaction ?o1 ?o2 - Object)
 	)
@@ -69,27 +67,25 @@
 		(coordinate_y ?o - Object)
 		(last_coordinate_x ?o - Object)
 		(last_coordinate_y ?o - Object)
-		(resource_diamond ?a - avatar)
-		(counter_background)
+		(counter_EOS)
 		(counter_Immovable)
-		(counter_wall)
-		(counter_sword)
-		(counter_Flicker)
-		(counter_dirt)
-		(counter_exitdoor)
-		(counter_Door)
-		(counter_diamond)
-		(counter_Resource)
-		(counter_boulder)
-		(counter_Missile)
-		(counter_movingStype)
-		(counter_moving)
+		(counter_background)
+		(counter_base)
 		(counter_avatar)
-		(counter_ShootAvatar)
-		(counter_enemy)
-		(counter_RandomNPC)
-		(counter_crab)
-		(counter_butterfly)
+		(counter_FlakAvatar)
+		(counter_Missile)
+		(counter_miss)
+		(counter_sam)
+		(counter_bomb)
+		(counter_Bomber)
+		(counter_alien)
+		(counter_alienGreen)
+		(counter_alienBlue)
+		(counter_portalStype)
+		(counter_portal)
+		(counter_portalSlow)
+		(counter_SpawnPoint)
+		(counter_portalFast)
 		(counter_Object)
 		(turn)
 	)
@@ -101,7 +97,7 @@
 
 		(:method finish_game
 				:precondition (and 
-									(= (turn) 10)
+									(= (turn) 1)
 								)
 				:tasks (  
 						)
@@ -111,7 +107,7 @@
 				:precondition (
 								)
 				:tasks ( 
-							(turn_avatar ?a - ShootAvatar ?p - sword)
+							(turn_avatar ?a - FlakAvatar ?p - sam)
 							(turn_objects)
 							(check-interactions)
 							(create-interactions)
@@ -122,23 +118,7 @@
 	)
 
 	(:task turn_avatar
-		:parameters ( ?a - ShootAvatar ?p - sword )
-
-		(:method avatar_move_up
-				:precondition (
-								)
-				:tasks ( 
-							(AVATAR_MOVE_UP ?a) 
-						)
-		)
-
-		(:method avatar_move_down
-				:precondition (
-								)
-				:tasks ( 
-							(AVATAR_MOVE_DOWN ?a) 
-						)
-		)
+		:parameters ( ?a - FlakAvatar ?p - sam )
 
 		(:method avatar_move_left
 				:precondition (
@@ -153,38 +133,6 @@
 								)
 				:tasks ( 
 							(AVATAR_MOVE_RIGHT ?a) 
-						)
-		)
-
-		(:method avatar_turn_up
-				:precondition (
-								)
-				:tasks ( 
-							(AVATAR_TURN_UP ?a) 
-						)
-		)
-
-		(:method avatar_turn_down
-				:precondition (
-								)
-				:tasks ( 
-							(AVATAR_TURN_DOWN ?a) 
-						)
-		)
-
-		(:method avatar_turn_left
-				:precondition (
-								)
-				:tasks ( 
-							(AVATAR_TURN_LEFT ?a) 
-						)
-		)
-
-		(:method avatar_turn_right
-				:precondition (
-								)
-				:tasks ( 
-							(AVATAR_TURN_RIGHT ?a) 
 						)
 		)
 
@@ -212,7 +160,10 @@
 				:precondition (
 								)
 				:tasks ( 
-							(BOULDER_MOVE) 
+							(MISS_MOVE)
+							(ALIEN_PRODUCE)
+							(PORTALSLOW_PRODUCE)
+							(PORTALFAST_PRODUCE) 
 						)
 		)
 	)
@@ -240,240 +191,128 @@
 	(:task check-interactions
 		:parameters ( )
 
-		(:method dirt_avatar_killsprite
+		(:method avatar_eos_stepback
 				:precondition (and 
-									(evaluate-interaction ?x - Immovable ?y - ShootAvatar)
+									(evaluate-interaction ?x - FlakAvatar ?y - Immovable)
 									(not (= (coordinate_x ?x) -1))
 									(not (= (coordinate_x ?y) -1))
 								)
 				:tasks ( 
-							(DIRT_AVATAR_KILLSPRITE ?x ?y)
-							(:inline () (not (evaluate-interaction ?x - Immovable ?y - ShootAvatar)))
-							(:inline () (regenerate-interaction ?x - Immovable ?y - ShootAvatar))
+							(AVATAR_EOS_STEPBACK ?x ?y)
+							(:inline () (not (evaluate-interaction ?x - FlakAvatar ?y - Immovable)))
+							(:inline () (regenerate-interaction ?x - FlakAvatar ?y - Immovable))
 							(check-interactions) 
 						)
 		)
 
-		(:method dirt_sword_killsprite
+		(:method alien_eos_turnaround
 				:precondition (and 
-									(evaluate-interaction ?x - Immovable ?y - Flicker)
+									(evaluate-interaction ?x - Bomber ?y - Immovable)
 									(not (= (coordinate_x ?x) -1))
 									(not (= (coordinate_x ?y) -1))
 								)
 				:tasks ( 
-							(DIRT_SWORD_KILLSPRITE ?x ?y)
-							(:inline () (not (evaluate-interaction ?x - Immovable ?y - Flicker)))
-							(:inline () (regenerate-interaction ?x - Immovable ?y - Flicker))
+							(ALIEN_EOS_TURNAROUND ?x ?y)
+							(:inline () (not (evaluate-interaction ?x - Bomber ?y - Immovable)))
+							(:inline () (regenerate-interaction ?x - Bomber ?y - Immovable))
 							(check-interactions) 
 						)
 		)
 
-		(:method diamond_avatar_collectresource
-				:precondition (and 
-									(evaluate-interaction ?x - Resource ?y - ShootAvatar)
-									(not (= (coordinate_x ?x) -1))
-									(not (= (coordinate_x ?y) -1))
-								)
-				:tasks ( 
-							(DIAMOND_AVATAR_COLLECTRESOURCE ?x ?y)
-							(:inline () (not (evaluate-interaction ?x - Resource ?y - ShootAvatar)))
-							(:inline () (regenerate-interaction ?x - Resource ?y - ShootAvatar))
-							(check-interactions) 
-						)
-		)
-
-		(:method moving_wall_stepback
-				:precondition (and 
-									(evaluate-interaction ?x - movingStype ?y - Immovable)
-									(not (= (coordinate_x ?x) -1))
-									(not (= (coordinate_x ?y) -1))
-								)
-				:tasks ( 
-							(MOVING_WALL_STEPBACK ?x ?y)
-							(:inline () (not (evaluate-interaction ?x - movingStype ?y - Immovable)))
-							(:inline () (regenerate-interaction ?x - movingStype ?y - Immovable))
-							(check-interactions) 
-						)
-		)
-
-		(:method moving_boulder_stepback
-				:precondition (and 
-									(evaluate-interaction ?x - movingStype ?y - Missile)
-									(not (= (coordinate_x ?x) -1))
-									(not (= (coordinate_x ?y) -1))
-								)
-				:tasks ( 
-							(MOVING_BOULDER_STEPBACK ?x ?y)
-							(:inline () (not (evaluate-interaction ?x - movingStype ?y - Missile)))
-							(:inline () (regenerate-interaction ?x - movingStype ?y - Missile))
-							(check-interactions) 
-						)
-		)
-
-		(:method avatar_boulder_killiffromabove
-				:precondition (and 
-									(evaluate-interaction ?x - ShootAvatar ?y - Missile)
-									(not (= (coordinate_x ?x) -1))
-									(not (= (coordinate_x ?y) -1))
-								)
-				:tasks ( 
-							(AVATAR_BOULDER_KILLIFFROMABOVE ?x ?y)
-							(:inline () (not (evaluate-interaction ?x - ShootAvatar ?y - Missile)))
-							(:inline () (regenerate-interaction ?x - ShootAvatar ?y - Missile))
-							(check-interactions) 
-						)
-		)
-
-		(:method avatar_butterfly_killsprite
-				:precondition (and 
-									(evaluate-interaction ?x - ShootAvatar ?y - enemy)
-									(not (= (coordinate_x ?x) -1))
-									(not (= (coordinate_x ?y) -1))
-								)
-				:tasks ( 
-							(AVATAR_BUTTERFLY_KILLSPRITE ?x ?y)
-							(:inline () (not (evaluate-interaction ?x - ShootAvatar ?y - enemy)))
-							(:inline () (regenerate-interaction ?x - ShootAvatar ?y - enemy))
-							(check-interactions) 
-						)
-		)
-
-		(:method avatar_crab_killsprite
-				:precondition (and 
-									(evaluate-interaction ?x - ShootAvatar ?y - enemy)
-									(not (= (coordinate_x ?x) -1))
-									(not (= (coordinate_x ?y) -1))
-								)
-				:tasks ( 
-							(AVATAR_CRAB_KILLSPRITE ?x ?y)
-							(:inline () (not (evaluate-interaction ?x - ShootAvatar ?y - enemy)))
-							(:inline () (regenerate-interaction ?x - ShootAvatar ?y - enemy))
-							(check-interactions) 
-						)
-		)
-
-		(:method boulder_dirt_stepback
+		(:method miss_eos_killsprite
 				:precondition (and 
 									(evaluate-interaction ?x - Missile ?y - Immovable)
 									(not (= (coordinate_x ?x) -1))
 									(not (= (coordinate_x ?y) -1))
 								)
 				:tasks ( 
-							(BOULDER_DIRT_STEPBACK ?x ?y)
+							(MISS_EOS_KILLSPRITE ?x ?y)
 							(:inline () (not (evaluate-interaction ?x - Missile ?y - Immovable)))
 							(:inline () (regenerate-interaction ?x - Missile ?y - Immovable))
 							(check-interactions) 
 						)
 		)
 
-		(:method boulder_wall_stepback
+		(:method base_bomb_killboth
 				:precondition (and 
-									(evaluate-interaction ?x - Missile ?y - Immovable)
+									(evaluate-interaction ?x - Immovable ?y - miss)
 									(not (= (coordinate_x ?x) -1))
 									(not (= (coordinate_x ?y) -1))
 								)
 				:tasks ( 
-							(BOULDER_WALL_STEPBACK ?x ?y)
-							(:inline () (not (evaluate-interaction ?x - Missile ?y - Immovable)))
-							(:inline () (regenerate-interaction ?x - Missile ?y - Immovable))
+							(BASE_BOMB_KILLBOTH ?x ?y)
+							(:inline () (not (evaluate-interaction ?x - Immovable ?y - miss)))
+							(:inline () (regenerate-interaction ?x - Immovable ?y - miss))
 							(check-interactions) 
 						)
 		)
 
-		(:method boulder_diamond_stepback
+		(:method base_sam_killboth
 				:precondition (and 
-									(evaluate-interaction ?x - Missile ?y - Resource)
+									(evaluate-interaction ?x - Immovable ?y - miss)
 									(not (= (coordinate_x ?x) -1))
 									(not (= (coordinate_x ?y) -1))
 								)
 				:tasks ( 
-							(BOULDER_DIAMOND_STEPBACK ?x ?y)
-							(:inline () (not (evaluate-interaction ?x - Missile ?y - Resource)))
-							(:inline () (regenerate-interaction ?x - Missile ?y - Resource))
+							(BASE_SAM_KILLBOTH ?x ?y)
+							(:inline () (not (evaluate-interaction ?x - Immovable ?y - miss)))
+							(:inline () (regenerate-interaction ?x - Immovable ?y - miss))
 							(check-interactions) 
 						)
 		)
 
-		(:method boulder_boulder_stepback
+		(:method base_alien_killsprite
 				:precondition (and 
-									(evaluate-interaction ?x - Missile ?y - Missile)
+									(evaluate-interaction ?x - Immovable ?y - Bomber)
 									(not (= (coordinate_x ?x) -1))
 									(not (= (coordinate_x ?y) -1))
 								)
 				:tasks ( 
-							(BOULDER_BOULDER_STEPBACK ?x ?y)
-							(:inline () (not (evaluate-interaction ?x - Missile ?y - Missile)))
-							(:inline () (regenerate-interaction ?x - Missile ?y - Missile))
+							(BASE_ALIEN_KILLSPRITE ?x ?y)
+							(:inline () (not (evaluate-interaction ?x - Immovable ?y - Bomber)))
+							(:inline () (regenerate-interaction ?x - Immovable ?y - Bomber))
 							(check-interactions) 
 						)
 		)
 
-		(:method enemy_dirt_stepback
+		(:method avatar_alien_killsprite
 				:precondition (and 
-									(evaluate-interaction ?x - RandomNPC ?y - Immovable)
+									(evaluate-interaction ?x - FlakAvatar ?y - Bomber)
 									(not (= (coordinate_x ?x) -1))
 									(not (= (coordinate_x ?y) -1))
 								)
 				:tasks ( 
-							(ENEMY_DIRT_STEPBACK ?x ?y)
-							(:inline () (not (evaluate-interaction ?x - RandomNPC ?y - Immovable)))
-							(:inline () (regenerate-interaction ?x - RandomNPC ?y - Immovable))
+							(AVATAR_ALIEN_KILLSPRITE ?x ?y)
+							(:inline () (not (evaluate-interaction ?x - FlakAvatar ?y - Bomber)))
+							(:inline () (regenerate-interaction ?x - FlakAvatar ?y - Bomber))
 							(check-interactions) 
 						)
 		)
 
-		(:method enemy_diamond_stepback
+		(:method avatar_bomb_killsprite
 				:precondition (and 
-									(evaluate-interaction ?x - RandomNPC ?y - Resource)
+									(evaluate-interaction ?x - FlakAvatar ?y - miss)
 									(not (= (coordinate_x ?x) -1))
 									(not (= (coordinate_x ?y) -1))
 								)
 				:tasks ( 
-							(ENEMY_DIAMOND_STEPBACK ?x ?y)
-							(:inline () (not (evaluate-interaction ?x - RandomNPC ?y - Resource)))
-							(:inline () (regenerate-interaction ?x - RandomNPC ?y - Resource))
+							(AVATAR_BOMB_KILLSPRITE ?x ?y)
+							(:inline () (not (evaluate-interaction ?x - FlakAvatar ?y - miss)))
+							(:inline () (regenerate-interaction ?x - FlakAvatar ?y - miss))
 							(check-interactions) 
 						)
 		)
 
-		(:method crab_butterfly_killsprite
+		(:method alien_sam_killsprite
 				:precondition (and 
-									(evaluate-interaction ?x - enemy ?y - enemy)
+									(evaluate-interaction ?x - Bomber ?y - miss)
 									(not (= (coordinate_x ?x) -1))
 									(not (= (coordinate_x ?y) -1))
 								)
 				:tasks ( 
-							(CRAB_BUTTERFLY_KILLSPRITE ?x ?y)
-							(:inline () (not (evaluate-interaction ?x - enemy ?y - enemy)))
-							(:inline () (regenerate-interaction ?x - enemy ?y - enemy))
-							(check-interactions) 
-						)
-		)
-
-		(:method butterfly_crab_transformto
-				:precondition (and 
-									(evaluate-interaction ?x - enemy ?y - enemy)
-									(not (= (coordinate_x ?x) -1))
-									(not (= (coordinate_x ?y) -1))
-								)
-				:tasks ( 
-							(BUTTERFLY_CRAB_TRANSFORMTO ?x ?y)
-							(:inline () (not (evaluate-interaction ?x - enemy ?y - enemy)))
-							(:inline () (regenerate-interaction ?x - enemy ?y - enemy))
-							(check-interactions) 
-						)
-		)
-
-		(:method exitdoor_avatar_killifotherhasmore
-				:precondition (and 
-									(evaluate-interaction ?x - Door ?y - ShootAvatar)
-									(not (= (coordinate_x ?x) -1))
-									(not (= (coordinate_x ?y) -1))
-								)
-				:tasks ( 
-							(EXITDOOR_AVATAR_KILLIFOTHERHASMORE ?x ?y)
-							(:inline () (not (evaluate-interaction ?x - Door ?y - ShootAvatar)))
-							(:inline () (regenerate-interaction ?x - Door ?y - ShootAvatar))
+							(ALIEN_SAM_KILLSPRITE ?x ?y)
+							(:inline () (not (evaluate-interaction ?x - Bomber ?y - miss)))
+							(:inline () (regenerate-interaction ?x - Bomber ?y - miss))
 							(check-interactions) 
 						)
 		)
@@ -489,30 +328,8 @@
 	
 	; Actions -------------------------------------------------------------------
   
-	(:action AVATAR_MOVE_UP
-		:parameters (?a - ShootAvatar )
-		:precondition (and 
-						(can-move-up ?a)
-						(orientation-up ?a)
-					)
-		:effect (and 
-					(decrease (coordinate_x ?a) 1)
-				)
-	)
-
-	(:action AVATAR_MOVE_DOWN
-		:parameters (?a - ShootAvatar )
-		:precondition (and 
-						(can-move-down ?a)
-						(orientation-down ?a)
-					)
-		:effect (and 
-					(increase (coordinate_x ?a) 1)
-				)
-	)
-
 	(:action AVATAR_MOVE_LEFT
-		:parameters (?a - ShootAvatar )
+		:parameters (?a - FlakAvatar )
 		:precondition (and 
 						(can-move-left ?a)
 						(orientation-left ?a)
@@ -523,7 +340,7 @@
 	)
 
 	(:action AVATAR_MOVE_RIGHT
-		:parameters (?a - ShootAvatar )
+		:parameters (?a - FlakAvatar )
 		:precondition (and 
 						(can-move-right ?a)
 						(orientation-right ?a)
@@ -533,113 +350,13 @@
 				)
 	)
 
-	(:action AVATAR_TURN_UP
-		:parameters (?a - ShootAvatar )
-		:precondition (and 
-						(not (orientation-up ?a))
-					)
-		:effect (and 
-					
-                    (when
-                        (orientation-down ?a )
-                        (not (orientation-down ?a))
-                    )
-					
-                    (when
-                        (orientation-right ?a )
-                        (not (orientation-right ?a))
-                    )
-					
-                    (when
-                        (orientation-left ?a )
-                        (not (orientation-left ?a))
-                    )
-					(orientation-up ?a)
-				)
-	)
-
-	(:action AVATAR_TURN_DOWN
-		:parameters (?a - ShootAvatar )
-		:precondition (and 
-						(not (orientation-down ?a))
-					)
-		:effect (and 
-					
-                    (when
-                        (orientation-left ?a )
-                        (not (orientation-left ?a))
-                    )
-					
-                    (when
-                        (orientation-right ?a )
-                        (not (orientation-right ?a))
-                    )
-					
-                    (when
-                        (orientation-up ?a )
-                        (not (orientation-up ?a))
-                    )
-					(orientation-down ?a)
-				)
-	)
-
-	(:action AVATAR_TURN_LEFT
-		:parameters (?a - ShootAvatar )
-		:precondition (and 
-						(not (orientation-left ?a))
-					)
-		:effect (and 
-					
-                    (when
-                        (orientation-down ?a )
-                        (not (orientation-down ?a))
-                    )
-					
-                    (when
-                        (orientation-right ?a )
-                        (not (orientation-right ?a))
-                    )
-					
-                    (when
-                        (orientation-up ?a )
-                        (not (orientation-up ?a))
-                    )
-					(orientation-left ?a)
-				)
-	)
-
-	(:action AVATAR_TURN_RIGHT
-		:parameters (?a - ShootAvatar )
-		:precondition (and 
-						(not (orientation-right ?a))
-					)
-		:effect (and 
-					
-                    (when
-                        (orientation-down ?a )
-                        (not (orientation-down ?a))
-                    )
-					
-                    (when
-                        (orientation-left ?a )
-                        (not (orientation-left ?a))
-                    )
-					
-                    (when
-                        (orientation-up ?a )
-                        (not (orientation-up ?a))
-                    )
-					(orientation-right ?a)
-				)
-	)
-
 	(:action AVATAR_USE
-		:parameters (?a - ShootAvatar ?p - sword )
+		:parameters (?a - FlakAvatar ?p - sam )
 		:precondition (and 
-						(can-use ?a)
+						(can-use ?a ?p)
 					)
 		:effect (and 
-					(increase (counter_sword) 1)
+					(increase (counter_sam) 1)
 					
                     (when
                         (orientation-up ?a)
@@ -684,14 +401,14 @@
 	)
 
 	(:action AVATAR_NIL
-		:parameters (?a - ShootAvatar )
+		:parameters (?a - FlakAvatar )
 		:precondition (
 					)
 		:effect (
 				)
 	)
 
-	(:action BOULDER_MOVE
+	(:action MISS_MOVE
 		:parameters ()
 		:precondition (
 					)
@@ -739,8 +456,93 @@
 				)
 	)
 
-	(:action DIRT_AVATAR_KILLSPRITE
-		:parameters (?x - dirt ?y - ShootAvatar )
+	(:action ALIEN_PRODUCE
+		:parameters ()
+		:precondition (
+					)
+		:effect (
+					
+                    forall (?s - Bomber ?p - miss)
+					(and
+                        (when
+                            (= (coordinate_x ?p) -1)
+                            (and                            
+                                (assign (coordinate_x ?p) (coordinate_x ?s))
+                                (assign (coordinate_y ?p) (coordinate_y ?s))
+                                (increase (coordinate_y ?p) 1)
+                            )                  
+                        )
+					)
+
+				)
+	)
+
+	(:action PORTALSLOW_PRODUCE
+		:parameters ()
+		:precondition (
+					)
+		:effect (
+					
+                    forall (?s - SpawnPoint ?p - alien)
+					(and
+                        (when
+                            (= (coordinate_x ?p) -1)
+                            (and                            
+                                (assign (coordinate_x ?p) (coordinate_x ?s))
+                                (assign (coordinate_y ?p) (coordinate_y ?s))
+                                (increase (coordinate_y ?p) 1)
+                            )                  
+                        )
+					)
+
+				)
+	)
+
+	(:action PORTALFAST_PRODUCE
+		:parameters ()
+		:precondition (
+					)
+		:effect (
+					
+                    forall (?s - SpawnPoint ?p - alien)
+					(and
+                        (when
+                            (= (coordinate_x ?p) -1)
+                            (and                            
+                                (assign (coordinate_x ?p) (coordinate_x ?s))
+                                (assign (coordinate_y ?p) (coordinate_y ?s))
+                                (increase (coordinate_y ?p) 1)
+                            )                  
+                        )
+					)
+
+				)
+	)
+
+	(:action AVATAR_EOS_STEPBACK
+		:parameters (?x - avatar ?y - Immovable )
+		:precondition (and 
+						(= (coordinate_x ?x) (coordinate_x ?y))
+						(= (coordinate_y ?x) (coordinate_y ?y))
+					)
+		:effect (and 
+					(assign (coordinate_x ?x) (last_coordinate_x ?x))
+					(assign (coordinate_y ?x) (last_coordinate_y ?x))
+				)
+	)
+
+	(:action ALIEN_EOS_TURNAROUND
+		:parameters (?x - alien ?y - Immovable )
+		:precondition (and 
+						(= (coordinate_x ?x) (coordinate_x ?y))
+						(= (coordinate_y ?x) (coordinate_y ?y))
+					)
+		:effect (
+				)
+	)
+
+	(:action MISS_EOS_KILLSPRITE
+		:parameters (?x - miss ?y - Immovable )
 		:precondition (and 
 						(= (coordinate_x ?x) (coordinate_x ?y))
 						(= (coordinate_y ?x) (coordinate_y ?y))
@@ -750,218 +552,14 @@
 					(assign (last_coordinate_y ?x) (coordinate_y ?x))
 					(assign (coordinate_x ?x) -1)
 					(assign (coordinate_y ?x) -1)
-					(decrease (counter_Immovable) 1)
+					(decrease (counter_Missile) 1)
 					(decrease (counter_Object) 1)
 					(decrease (counter_Object) 1)
 				)
 	)
 
-	(:action DIRT_SWORD_KILLSPRITE
-		:parameters (?x - dirt ?y - Flicker )
-		:precondition (and 
-						(= (coordinate_x ?x) (coordinate_x ?y))
-						(= (coordinate_y ?x) (coordinate_y ?y))
-					)
-		:effect (and 
-					(assign (last_coordinate_y ?x) (coordinate_x ?x))
-					(assign (last_coordinate_y ?x) (coordinate_y ?x))
-					(assign (coordinate_x ?x) -1)
-					(assign (coordinate_y ?x) -1)
-					(decrease (counter_Immovable) 1)
-					(decrease (counter_Object) 1)
-					(decrease (counter_Object) 1)
-				)
-	)
-
-	(:action DIAMOND_AVATAR_COLLECTRESOURCE
-		:parameters (?x - diamond ?y - ShootAvatar )
-		:precondition (and 
-						(= (coordinate_x ?x) (coordinate_x ?y))
-						(= (coordinate_y ?x) (coordinate_y ?y))
-					)
-		:effect (and 
-					(assign (last_coordinate_y ?x) (coordinate_x ?x))
-					(assign (last_coordinate_y ?x) (coordinate_y ?x))
-					(assign (coordinate_x ?x) -1)
-					(assign (coordinate_y ?x) -1)
-					(decrease (counter_Resource) 1)
-					(decrease (counter_Resource) 1)
-					(decrease (counter_Object) 1)
-					(increase (resource_diamond ?y) 1)
-					(decrease (counter_Object) 1)
-				)
-	)
-
-	(:action MOVING_WALL_STEPBACK
-		:parameters (?x - moving ?y - Immovable )
-		:precondition (and 
-						(= (coordinate_x ?x) (coordinate_x ?y))
-						(= (coordinate_y ?x) (coordinate_y ?y))
-					)
-		:effect (and 
-					(assign (coordinate_x ?x) (last_coordinate_x ?x))
-					(assign (coordinate_y ?x) (last_coordinate_y ?x))
-				)
-	)
-
-	(:action MOVING_BOULDER_STEPBACK
-		:parameters (?x - moving ?y - Missile )
-		:precondition (and 
-						(= (coordinate_x ?x) (coordinate_x ?y))
-						(= (coordinate_y ?x) (coordinate_y ?y))
-					)
-		:effect (and 
-					(assign (coordinate_x ?x) (last_coordinate_x ?x))
-					(assign (coordinate_y ?x) (last_coordinate_y ?x))
-				)
-	)
-
-	(:action AVATAR_BOULDER_KILLIFFROMABOVE
-		:parameters (?x - avatar ?y - Missile )
-		:precondition (and 
-						(= (coordinate_x ?x) (coordinate_x ?y))
-						(= (coordinate_y ?x) (coordinate_y ?y))
-						(= (last_coordinate_y ?y) (- (coordinate_y ?y) 1))
-					)
-		:effect (and 
-					(assign (last_coordinate_y ?a) (coordinate_x ?a))
-					(assign (last_coordinate_y ?a) (coordinate_y ?a))
-					(assign (coordinate_x ?a) -1)
-					(assign (coordinate_y ?a) -1)
-					(decrease (counter_ShootAvatar) 1)
-					(decrease (counter_Object) 1)
-					(decrease (counter_Object) 1)
-				)
-	)
-
-	(:action AVATAR_BUTTERFLY_KILLSPRITE
-		:parameters (?x - avatar ?y - enemy )
-		:precondition (and 
-						(= (coordinate_x ?x) (coordinate_x ?y))
-						(= (coordinate_y ?x) (coordinate_y ?y))
-					)
-		:effect (and 
-					(assign (last_coordinate_y ?x) (coordinate_x ?x))
-					(assign (last_coordinate_y ?x) (coordinate_y ?x))
-					(assign (coordinate_x ?x) -1)
-					(assign (coordinate_y ?x) -1)
-					(decrease (counter_ShootAvatar) 1)
-					(decrease (counter_Object) 1)
-					(decrease (counter_Object) 1)
-				)
-	)
-
-	(:action AVATAR_CRAB_KILLSPRITE
-		:parameters (?x - avatar ?y - enemy )
-		:precondition (and 
-						(= (coordinate_x ?x) (coordinate_x ?y))
-						(= (coordinate_y ?x) (coordinate_y ?y))
-					)
-		:effect (and 
-					(assign (last_coordinate_y ?x) (coordinate_x ?x))
-					(assign (last_coordinate_y ?x) (coordinate_y ?x))
-					(assign (coordinate_x ?x) -1)
-					(assign (coordinate_y ?x) -1)
-					(decrease (counter_ShootAvatar) 1)
-					(decrease (counter_Object) 1)
-					(decrease (counter_Object) 1)
-				)
-	)
-
-	(:action BOULDER_DIRT_STEPBACK
-		:parameters (?x - boulder ?y - Immovable )
-		:precondition (and 
-						(= (coordinate_x ?x) (coordinate_x ?y))
-						(= (coordinate_y ?x) (coordinate_y ?y))
-					)
-		:effect (and 
-					(assign (coordinate_x ?x) (last_coordinate_x ?x))
-					(assign (coordinate_y ?x) (last_coordinate_y ?x))
-				)
-	)
-
-	(:action BOULDER_WALL_STEPBACK
-		:parameters (?x - boulder ?y - Immovable )
-		:precondition (and 
-						(= (coordinate_x ?x) (coordinate_x ?y))
-						(= (coordinate_y ?x) (coordinate_y ?y))
-					)
-		:effect (and 
-					(assign (coordinate_x ?x) (last_coordinate_x ?x))
-					(assign (coordinate_y ?x) (last_coordinate_y ?x))
-				)
-	)
-
-	(:action BOULDER_DIAMOND_STEPBACK
-		:parameters (?x - boulder ?y - Resource )
-		:precondition (and 
-						(= (coordinate_x ?x) (coordinate_x ?y))
-						(= (coordinate_y ?x) (coordinate_y ?y))
-					)
-		:effect (and 
-					(assign (coordinate_x ?x) (last_coordinate_x ?x))
-					(assign (coordinate_y ?x) (last_coordinate_y ?x))
-				)
-	)
-
-	(:action BOULDER_BOULDER_STEPBACK
-		:parameters (?x - boulder ?y - Missile )
-		:precondition (and 
-						(= (coordinate_x ?x) (coordinate_x ?y))
-						(= (coordinate_y ?x) (coordinate_y ?y))
-					)
-		:effect (and 
-					(assign (coordinate_x ?x) (last_coordinate_x ?x))
-					(assign (coordinate_y ?x) (last_coordinate_y ?x))
-				)
-	)
-
-	(:action ENEMY_DIRT_STEPBACK
-		:parameters (?x - enemy ?y - Immovable )
-		:precondition (and 
-						(= (coordinate_x ?x) (coordinate_x ?y))
-						(= (coordinate_y ?x) (coordinate_y ?y))
-					)
-		:effect (and 
-					(assign (coordinate_x ?x) (last_coordinate_x ?x))
-					(assign (coordinate_y ?x) (last_coordinate_y ?x))
-				)
-	)
-
-	(:action ENEMY_DIAMOND_STEPBACK
-		:parameters (?x - enemy ?y - Resource )
-		:precondition (and 
-						(= (coordinate_x ?x) (coordinate_x ?y))
-						(= (coordinate_y ?x) (coordinate_y ?y))
-					)
-		:effect (and 
-					(assign (coordinate_x ?x) (last_coordinate_x ?x))
-					(assign (coordinate_y ?x) (last_coordinate_y ?x))
-				)
-	)
-
-	(:action CRAB_BUTTERFLY_KILLSPRITE
-		:parameters (?x - crab ?y - enemy )
-		:precondition (and 
-						(= (coordinate_x ?x) (coordinate_x ?y))
-						(= (coordinate_y ?x) (coordinate_y ?y))
-					)
-		:effect (and 
-					(assign (last_coordinate_y ?x) (coordinate_x ?x))
-					(assign (last_coordinate_y ?x) (coordinate_y ?x))
-					(assign (coordinate_x ?x) -1)
-					(assign (coordinate_y ?x) -1)
-					(decrease (counter_enemy) 1)
-					(decrease (counter_Object) 1)
-					(decrease (counter_moving) 1)
-					(decrease (counter_movingStype) 1)
-					(decrease (counter_RandomNPC) 1)
-					(decrease (counter_Object) 1)
-				)
-	)
-
-	(:action BUTTERFLY_CRAB_TRANSFORMTO
-		:parameters (?x - butterfly ?y - enemy )
+	(:action BASE_BOMB_KILLBOTH
+		:parameters (?x - base ?y - miss )
 		:precondition (and 
 						(= (coordinate_x ?x) (coordinate_x ?y))
 						(= (coordinate_y ?x) (coordinate_y ?y))
@@ -974,28 +572,101 @@
 					(assign (coordinate_y ?x) -1)
 					(assign (coordinate_x ?y) -1)
 					(assign (coordinate_y ?y) -1)
-					(decrease (counter_enemy) 1)
-					(decrease (counter_enemy) 1)
-					(assign (coordinate_x ?z) (last_coordinate_x ?x))
-					(assign (coordinate_y ?z) (last_coordinate_y ?x))
-					(decrease (counter_moving) 1)
-					(decrease (counter_movingStype) 1)
-					(decrease (counter_RandomNPC) 1)
+					(decrease (counter_Immovable) 1)
+					(decrease (counter_miss) 1)
 					(decrease (counter_Object) 1)
-					(decrease (counter_moving) 1)
-					(decrease (counter_movingStype) 1)
-					(decrease (counter_RandomNPC) 1)
+					(decrease (counter_Missile) 1)
 					(decrease (counter_Object) 1)
 				)
 	)
 
-	(:action EXITDOOR_AVATAR_KILLIFOTHERHASMORE
-		:parameters (?x - exitdoor ?y - ShootAvatar )
+	(:action BASE_SAM_KILLBOTH
+		:parameters (?x - base ?y - miss )
 		:precondition (and 
 						(= (coordinate_x ?x) (coordinate_x ?y))
 						(= (coordinate_y ?x) (coordinate_y ?y))
 					)
-		:effect (
+		:effect (and 
+					(assign (last_coordinate_x ?x) (coordinate_x ?x))
+					(assign (last_coordinate_y ?x) (coordinate_y ?x))
+					(assign (last_coordinate_x ?y) (coordinate_x ?y))
+					(assign (coordinate_x ?x) -1)
+					(assign (coordinate_y ?x) -1)
+					(assign (coordinate_x ?y) -1)
+					(assign (coordinate_y ?y) -1)
+					(decrease (counter_Immovable) 1)
+					(decrease (counter_miss) 1)
+					(decrease (counter_Object) 1)
+					(decrease (counter_Missile) 1)
+					(decrease (counter_Object) 1)
+				)
+	)
+
+	(:action BASE_ALIEN_KILLSPRITE
+		:parameters (?x - base ?y - Bomber )
+		:precondition (and 
+						(= (coordinate_x ?x) (coordinate_x ?y))
+						(= (coordinate_y ?x) (coordinate_y ?y))
+					)
+		:effect (and 
+					(assign (last_coordinate_y ?x) (coordinate_x ?x))
+					(assign (last_coordinate_y ?x) (coordinate_y ?x))
+					(assign (coordinate_x ?x) -1)
+					(assign (coordinate_y ?x) -1)
+					(decrease (counter_Immovable) 1)
+					(decrease (counter_Object) 1)
+					(decrease (counter_Object) 1)
+				)
+	)
+
+	(:action AVATAR_ALIEN_KILLSPRITE
+		:parameters (?x - avatar ?y - Bomber )
+		:precondition (and 
+						(= (coordinate_x ?x) (coordinate_x ?y))
+						(= (coordinate_y ?x) (coordinate_y ?y))
+					)
+		:effect (and 
+					(assign (last_coordinate_y ?x) (coordinate_x ?x))
+					(assign (last_coordinate_y ?x) (coordinate_y ?x))
+					(assign (coordinate_x ?x) -1)
+					(assign (coordinate_y ?x) -1)
+					(decrease (counter_FlakAvatar) 1)
+					(decrease (counter_Object) 1)
+					(decrease (counter_Object) 1)
+				)
+	)
+
+	(:action AVATAR_BOMB_KILLSPRITE
+		:parameters (?x - avatar ?y - miss )
+		:precondition (and 
+						(= (coordinate_x ?x) (coordinate_x ?y))
+						(= (coordinate_y ?x) (coordinate_y ?y))
+					)
+		:effect (and 
+					(assign (last_coordinate_y ?x) (coordinate_x ?x))
+					(assign (last_coordinate_y ?x) (coordinate_y ?x))
+					(assign (coordinate_x ?x) -1)
+					(assign (coordinate_y ?x) -1)
+					(decrease (counter_FlakAvatar) 1)
+					(decrease (counter_Object) 1)
+					(decrease (counter_Object) 1)
+				)
+	)
+
+	(:action ALIEN_SAM_KILLSPRITE
+		:parameters (?x - alien ?y - miss )
+		:precondition (and 
+						(= (coordinate_x ?x) (coordinate_x ?y))
+						(= (coordinate_y ?x) (coordinate_y ?y))
+					)
+		:effect (and 
+					(assign (last_coordinate_y ?x) (coordinate_x ?x))
+					(assign (last_coordinate_y ?x) (coordinate_y ?x))
+					(assign (coordinate_x ?x) -1)
+					(assign (coordinate_y ?x) -1)
+					(decrease (counter_Bomber) 1)
+					(decrease (counter_Object) 1)
+					(decrease (counter_Object) 1)
 				)
 	)
 

@@ -67,6 +67,10 @@ class ProblemGeneratorHPDL:
 
         self.parse_level()
 
+        # Adding the partner of the avatar (if exists) as a levelObject
+        if avatarHPDL.partner:
+            self.levelObjects.append(LevelObject("partner", -1, -1, avatarHPDL.partner.name))
+
         self.assign_objects()
         self.assign_init()
         self.assign_goals()
