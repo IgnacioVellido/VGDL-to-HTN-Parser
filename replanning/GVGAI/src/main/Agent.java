@@ -17,6 +17,8 @@ import tools.ElapsedCpuTimer;
 
 public class Agent extends AbstractPlayer {
 
+  private static final boolean KEEPDOMAIN = true;
+
   private ArrayList<Types.ACTIONS> actions = new ArrayList<>();
 
   // Level grid
@@ -33,6 +35,7 @@ public class Agent extends AbstractPlayer {
          levelPath = "replanning/tmp/level.txt",
          gamePath = "replanning/tmp/game.txt",
          domainPath = "replanning/tmp/domain.hpdl",
+         domainPathTmp = "replanning/tmp/domainTMP.hpdl",
          problemPath = "replanning/tmp/problem.hpdl";
 
   String avatarName; // Name of the avatar in the output of Siadex
@@ -207,10 +210,19 @@ public class Agent extends AbstractPlayer {
   // ---------------------------------------------------------------------------
 
   private void replanning() throws IOException {
-    String[] commands = {"make", "replan",
-                         "gi="+gamePath, "li="+levelPath,
-                         "go="+domainPath, "lo="+problemPath},
-             envp = { };
+    String[] commands;
+    if (KEEPDOMAIN) {
+      commands = new String[]{"make", "replan-level",
+              "gi=" + gamePath, "li=" + levelPath,
+              "go=" + domainPath, "lo=" + problemPath,
+              "goTMP=" + domainPathTmp};
+    }
+    else {
+      commands = new String[]{"make", "replan",
+              "gi=" + gamePath, "li=" + levelPath,
+              "go=" + domainPath, "lo=" + problemPath};
+    }
+    String[] envp = { };
     File dir = new File("../../");
     Process proc = Runtime.getRuntime().exec(commands, envp, dir);
 

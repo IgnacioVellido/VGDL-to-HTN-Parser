@@ -114,7 +114,7 @@
         ; porque creo que podría existir la posibilidad de que por motivos del 
         ; juego (a la hora de generalizar) el avatar no pueda utilizar este comando
         ; y la comprobación que añade no es grande
-		(can-use ?a - ShootAvatar)
+		(can-use ?a - ShootAvatar ?partner - sword)
 
 		; Para comprobar una interacción
 		; Habrá una por cada par de objetos definidos en el problema, y duplicadas
@@ -176,6 +176,7 @@
 		(counter_Missile)
 		(counter_RandomNPC)
 		(counter_moving)
+		(counter_movingStype)
 
 		; Para llevar la cuenta de los turnos
 		(turn)
@@ -205,7 +206,7 @@
 			; :precondition (<= (counter_diamond) 0)
 			; :precondition (= (coordinate_y ?a - avatar) 1)
 			:precondition (or 
-								(= (turn) 50)
+								(= (turn) 5)
 								(= (counter_avatar) 0)
 								(= (counter_diamond) 0)
 			)
@@ -1162,7 +1163,7 @@
 	(:action AVATAR_USE
 		:parameters (?a - ShootAvatar ?p - sword)
 		:precondition (and 
-						(can-use ?a)
+						(can-use ?a ?p)
 					)
 		:effect (and 
                     ; Por ahora supongo que se genera delante, 
