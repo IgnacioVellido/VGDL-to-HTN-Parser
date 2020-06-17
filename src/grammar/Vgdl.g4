@@ -11,7 +11,7 @@
 grammar Vgdl; 
 
 /* ----------------------------------------------------------------------------
-  To manage indentation, thanks to:
+  To manage indentation, thanks to: Alexandre JABORSKA
   https://stackoverflow.com/questions/43622514/translating-java-to-python-in-antlr4-python3-target
   -----------------------------------------------------------------------------
 */ 
