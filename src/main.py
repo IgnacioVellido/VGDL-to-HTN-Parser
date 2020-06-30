@@ -38,18 +38,18 @@ from hpdl.problemWriterHPDL import ProblemWriterHPDL
 def GetHelp() -> str:
     help_text = """
 Description -----------------------------------------------------------
-antlr-vgdl is a Python parser that transform files following the 
-VGDL game description into a HPDL domain. 
+VGDL-to-HTN-Parser is a Python parser from VGDL game and level 
+description into HPDL domains and problems.
 
-antlr-vgdl works with files following the VGDL, VGDL 2.0 and GVGAI 
-version VGDL. All properties not relevant to the construction of the 
-domain are ignored.
+VGDL-to-HTN-Parser works with files following the VGDL, VGDL 2.0 and 
+GVGAI version VGDL. All properties not relevant to the construction of
+the domain are ignored.
 
 VGDL ------------------------------------------------------------------
 VGDL is a high-level game description language developed by Tom Schaul.
 
 To parse a game, the following structure is required:
-  - A initial line, wich must include "BasicGame"
+  - A initial line, which must include "BasicGame"
 
   In no particular order:
   - Following a line with "SpriteSet", the definition of game sprites. 
@@ -73,8 +73,6 @@ To parse a game, the following structure is required:
   - Following a line with "TerminationSet", the definition of . (OPCIONAL, NO ?)
     The format for each line is:
       condition [parameters] win=[True/False]
-
-To parse a level, ... [TO BE COMPLETED]
 
   For more information, see:
   https://github.com/schaul/py-vgdl

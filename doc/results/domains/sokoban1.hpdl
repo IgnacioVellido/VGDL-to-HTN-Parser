@@ -1,0 +1,540 @@
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; HPDL domain for a VGDL game
+;;; Made with antlr-vgdl
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define (domain VGDLGame)  
+	(:requirements
+		:typing
+		:fluents
+		:derived-predicates
+		:negative-preconditions
+		:universal-preconditions
+		:disjuntive-preconditions
+		:conditional-effects
+		:htn-expansion
+
+		; For time management
+		; :durative-actions
+		; :metatags
+
+		:equality
+	)
+
+	; Types ---------------------------------------------------------------------
+
+	(:types
+		floor - Immovable
+		hole - Immovable
+		avatar - MovingAvatar
+		box - Passive
+		wall - Immovable
+		MovingAvatar Passive Immovable - Object
+	)
+
+	; Constants -----------------------------------------------------------------
+
+	(:constants
+	)
+
+	; Predicates ----------------------------------------------------------------
+
+	(:predicates
+		(orientation-up ?o - Object)
+		(orientation-down ?o - Object)
+		(orientation-left ?o - Object)
+		(orientation-right ?o - Object)
+		(can-move-up ?a - MovingAvatar)
+		(can-move-down ?a - MovingAvatar)
+		(can-move-left ?a - MovingAvatar)
+		(can-move-right ?a - MovingAvatar)
+		(evaluate-interaction ?o1 ?o2 - Object)
+		(regenerate-interaction ?o1 ?o2 - Object)
+	)
+  
+	; Functions -----------------------------------------------------------------
+
+	(:functions
+		(coordinate_x ?o - Object)
+		(coordinate_y ?o - Object)
+		(last_coordinate_x ?o - Object)
+		(last_coordinate_y ?o - Object)
+		(counter_floor)
+		(counter_Immovable)
+		(counter_hole)
+		(counter_avatar)
+		(counter_MovingAvatar)
+		(counter_box)
+		(counter_Passive)
+		(counter_wall)
+		(counter_Object)
+		(turn)
+	)
+
+	; Tasks ---------------------------------------------------------------------
+  
+	(:task Turn
+		:parameters ( )
+
+		(:method finish_game
+				:precondition (and 
+									(= (turn) 1)
+								)
+				:tasks (  
+						)
+		)
+
+		(:method turn
+				:precondition (
+								)
+				:tasks ( 
+							(turn_avatar ?a - MovingAvatar)
+							(turn_objects)
+							(check-interactions)
+							(create-interactions)
+							(:inline () (increase (turn) 1))
+							(Turn) 
+						)
+		)
+	)
+
+	(:task turn_avatar
+		:parameters ( ?a - MovingAvatar )
+
+		(:method avatar_move_up
+				:precondition (
+								)
+				:tasks ( 
+							(AVATAR_MOVE_UP ?a) 
+						)
+		)
+
+		(:method avatar_move_down
+				:precondition (
+								)
+				:tasks ( 
+							(AVATAR_MOVE_DOWN ?a) 
+						)
+		)
+
+		(:method avatar_move_left
+				:precondition (
+								)
+				:tasks ( 
+							(AVATAR_MOVE_LEFT ?a) 
+						)
+		)
+
+		(:method avatar_move_right
+				:precondition (
+								)
+				:tasks ( 
+							(AVATAR_MOVE_RIGHT ?a) 
+						)
+		)
+
+		(:method avatar_turn_up
+				:precondition (
+								)
+				:tasks ( 
+							(AVATAR_TURN_UP ?a) 
+						)
+		)
+
+		(:method avatar_turn_down
+				:precondition (
+								)
+				:tasks ( 
+							(AVATAR_TURN_DOWN ?a) 
+						)
+		)
+
+		(:method avatar_turn_left
+				:precondition (
+								)
+				:tasks ( 
+							(AVATAR_TURN_LEFT ?a) 
+						)
+		)
+
+		(:method avatar_turn_right
+				:precondition (
+								)
+				:tasks ( 
+							(AVATAR_TURN_RIGHT ?a) 
+						)
+		)
+
+		(:method avatar_nil
+				:precondition (
+								)
+				:tasks ( 
+							(AVATAR_NIL ?a) 
+						)
+		)
+	)
+
+	(:task turn_objects
+		:parameters ( )
+
+		(:method turn
+				:precondition (
+								)
+				:tasks (  
+						)
+		)
+	)
+
+	(:task create-interactions
+		:parameters ( )
+
+		(:method create
+				:precondition (and 
+									(not (evaluate-interaction ?o1 - Object ?o2 - Object))
+								)
+				:tasks ( 
+							(:inline () (evaluate-interaction ?o1 ?o2)) 
+						)
+		)
+
+		(:method base_case
+				:precondition (
+								)
+				:tasks (  
+						)
+		)
+	)
+
+	(:task check-interactions
+		:parameters ( )
+
+		(:method avatar_wall_stepback
+				:precondition (and 
+									(evaluate-interaction ?x - MovingAvatar ?y - Immovable)
+									(not (= (coordinate_x ?x) -1))
+									(not (= (coordinate_x ?y) -1))
+								)
+				:tasks ( 
+							(AVATAR_WALL_STEPBACK ?x ?y)
+							(:inline () (not (evaluate-interaction ?x - MovingAvatar ?y - Immovable)))
+							(:inline () (regenerate-interaction ?x - MovingAvatar ?y - Immovable))
+							(check-interactions) 
+						)
+		)
+
+		(:method box_avatar_bounceforward
+				:precondition (and 
+									(evaluate-interaction ?x - Passive ?y - MovingAvatar)
+									(not (= (coordinate_x ?x) -1))
+									(not (= (coordinate_x ?y) -1))
+								)
+				:tasks ( 
+							(BOX_AVATAR_BOUNCEFORWARD ?x ?y)
+							(:inline () (not (evaluate-interaction ?x - Passive ?y - MovingAvatar)))
+							(:inline () (regenerate-interaction ?x - Passive ?y - MovingAvatar))
+							(check-interactions) 
+						)
+		)
+
+		(:method box_wall_undoall
+				:precondition (and 
+									(evaluate-interaction ?x - Passive ?y - Immovable)
+									(not (= (coordinate_x ?x) -1))
+									(not (= (coordinate_x ?y) -1))
+								)
+				:tasks ( 
+							(BOX_WALL_UNDOALL ?x ?y)
+							(:inline () (not (evaluate-interaction ?x - Passive ?y - Immovable)))
+							(:inline () (regenerate-interaction ?x - Passive ?y - Immovable))
+							(check-interactions) 
+						)
+		)
+
+		(:method box_box_undoall
+				:precondition (and 
+									(evaluate-interaction ?x - Passive ?y - Passive)
+									(not (= (coordinate_x ?x) -1))
+									(not (= (coordinate_x ?y) -1))
+								)
+				:tasks ( 
+							(BOX_BOX_UNDOALL ?x ?y)
+							(:inline () (not (evaluate-interaction ?x - Passive ?y - Passive)))
+							(:inline () (regenerate-interaction ?x - Passive ?y - Passive))
+							(check-interactions) 
+						)
+		)
+
+		(:method box_hole_killsprite
+				:precondition (and 
+									(evaluate-interaction ?x - Passive ?y - Immovable)
+									(not (= (coordinate_x ?x) -1))
+									(not (= (coordinate_x ?y) -1))
+								)
+				:tasks ( 
+							(BOX_HOLE_KILLSPRITE ?x ?y)
+							(:inline () (not (evaluate-interaction ?x - Passive ?y - Immovable)))
+							(:inline () (regenerate-interaction ?x - Passive ?y - Immovable))
+							(check-interactions) 
+						)
+		)
+
+		(:method base_case
+				:precondition (
+								)
+				:tasks (  
+						)
+		)
+	)
+
+	
+	; Actions -------------------------------------------------------------------
+  
+	(:action AVATAR_MOVE_UP
+		:parameters (?a - MovingAvatar )
+		:precondition (and 
+						(can-move-up ?a)
+						(orientation-up ?a)
+					)
+		:effect (and 
+					(decrease (coordinate_x ?a) 1)
+				)
+	)
+
+	(:action AVATAR_MOVE_DOWN
+		:parameters (?a - MovingAvatar )
+		:precondition (and 
+						(can-move-down ?a)
+						(orientation-down ?a)
+					)
+		:effect (and 
+					(increase (coordinate_x ?a) 1)
+				)
+	)
+
+	(:action AVATAR_MOVE_LEFT
+		:parameters (?a - MovingAvatar )
+		:precondition (and 
+						(can-move-left ?a)
+						(orientation-left ?a)
+					)
+		:effect (and 
+					(decrease (coordinate_y ?a) 1)
+				)
+	)
+
+	(:action AVATAR_MOVE_RIGHT
+		:parameters (?a - MovingAvatar )
+		:precondition (and 
+						(can-move-right ?a)
+						(orientation-right ?a)
+					)
+		:effect (and 
+					(increase (coordinate_y ?a) 1)
+				)
+	)
+
+	(:action AVATAR_TURN_UP
+		:parameters (?a - MovingAvatar )
+		:precondition (and 
+						(not (orientation-up ?a))
+					)
+		:effect (and 
+					
+                    (when
+                        (orientation-down ?a )
+                        (not (orientation-down ?a))
+                    )
+					
+                    (when
+                        (orientation-right ?a )
+                        (not (orientation-right ?a))
+                    )
+					
+                    (when
+                        (orientation-left ?a )
+                        (not (orientation-left ?a))
+                    )
+					(orientation-up ?a)
+				)
+	)
+
+	(:action AVATAR_TURN_DOWN
+		:parameters (?a - MovingAvatar )
+		:precondition (and 
+						(not (orientation-down ?a))
+					)
+		:effect (and 
+					
+                    (when
+                        (orientation-left ?a )
+                        (not (orientation-left ?a))
+                    )
+					
+                    (when
+                        (orientation-right ?a )
+                        (not (orientation-right ?a))
+                    )
+					
+                    (when
+                        (orientation-up ?a )
+                        (not (orientation-up ?a))
+                    )
+					(orientation-down ?a)
+				)
+	)
+
+	(:action AVATAR_TURN_LEFT
+		:parameters (?a - MovingAvatar )
+		:precondition (and 
+						(not (orientation-left ?a))
+					)
+		:effect (and 
+					
+                    (when
+                        (orientation-down ?a )
+                        (not (orientation-down ?a))
+                    )
+					
+                    (when
+                        (orientation-right ?a )
+                        (not (orientation-right ?a))
+                    )
+					
+                    (when
+                        (orientation-up ?a )
+                        (not (orientation-up ?a))
+                    )
+					(orientation-left ?a)
+				)
+	)
+
+	(:action AVATAR_TURN_RIGHT
+		:parameters (?a - MovingAvatar )
+		:precondition (and 
+						(not (orientation-right ?a))
+					)
+		:effect (and 
+					
+                    (when
+                        (orientation-down ?a )
+                        (not (orientation-down ?a))
+                    )
+					
+                    (when
+                        (orientation-left ?a )
+                        (not (orientation-left ?a))
+                    )
+					
+                    (when
+                        (orientation-up ?a )
+                        (not (orientation-up ?a))
+                    )
+					(orientation-right ?a)
+				)
+	)
+
+	(:action AVATAR_NIL
+		:parameters (?a - MovingAvatar )
+		:precondition (
+					)
+		:effect (
+				)
+	)
+
+	(:action AVATAR_WALL_STEPBACK
+		:parameters (?x - avatar ?y - Immovable )
+		:precondition (and 
+						(= (coordinate_x ?x) (coordinate_x ?y))
+						(= (coordinate_y ?x) (coordinate_y ?y))
+					)
+		:effect (and 
+					(assign (coordinate_x ?x) (last_coordinate_x ?x))
+					(assign (coordinate_y ?x) (last_coordinate_y ?x))
+				)
+	)
+
+	(:action BOX_AVATAR_BOUNCEFORWARD
+		:parameters (?x - box ?y - MovingAvatar )
+		:precondition (and 
+						(= (coordinate_x ?x) (coordinate_x ?y))
+						(= (coordinate_y ?x) (coordinate_y ?y))
+					)
+		:effect (and 
+					
+                        (when
+                            (orientation-up ?y)
+
+                            (and
+                                (assign (last_coordinate_y ?x) (coordinate_y ?x))
+                                (decrease (coordinate_y ?x) 1)
+                            )
+                        )
+                        (when
+                            (orientation-down ?y)
+
+                            (and
+                                (assign (last_coordinate_y ?x) (coordinate_y ?x))
+                                (increase (coordinate_y ?x) 1)
+                            )
+                        )
+                        (when
+                            (orientation-left ?y)
+
+                            (and
+                                (assign (last_coordinate_x ?x) (coordinate_x ?x))
+                                (decrease (coordinate_x ?x) 1)
+                            )
+                        )
+                        (when
+                            (orientation-right ?y)
+
+                            (and
+                                (assign (last_coordinate_x ?x) (coordinate_x ?x))
+                                (increase (coordinate_x ?x) 1)
+                            )
+                        )
+				)
+	)
+
+	(:action BOX_WALL_UNDOALL
+		:parameters (?x - box ?y - Immovable )
+		:precondition (and 
+						(= (coordinate_x ?x) (coordinate_x ?y))
+						(= (coordinate_y ?x) (coordinate_y ?y))
+						(not (= (coordinate_y ?x) (coordinate_y ?y)))
+					)
+		:effect (
+				)
+	)
+
+	(:action BOX_BOX_UNDOALL
+		:parameters (?x - box ?y - Passive )
+		:precondition (and 
+						(= (coordinate_x ?x) (coordinate_x ?y))
+						(= (coordinate_y ?x) (coordinate_y ?y))
+						(not (= (coordinate_y ?x) (coordinate_y ?y)))
+					)
+		:effect (
+				)
+	)
+
+	(:action BOX_HOLE_KILLSPRITE
+		:parameters (?x - box ?y - Immovable )
+		:precondition (and 
+						(= (coordinate_x ?x) (coordinate_x ?y))
+						(= (coordinate_y ?x) (coordinate_y ?y))
+					)
+		:effect (and 
+					(assign (last_coordinate_y ?x) (coordinate_x ?x))
+					(assign (last_coordinate_y ?x) (coordinate_y ?x))
+					(assign (coordinate_x ?x) -1)
+					(assign (coordinate_y ?x) -1)
+					(decrease (counter_Passive) 1)
+					(decrease (counter_Object) 1)
+					(decrease (counter_Object) 1)
+				)
+	)
+
+
+)
