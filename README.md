@@ -96,7 +96,7 @@ A basic configuration file is included under the ```replanning``` folder, where 
 
 &nbsp;
 
-To run the agent, set the game id ant the level on ```replanning/configuration``` and launch the java class ```/master/replanning/GVGAI/src/tracks/singlePlayer/Test.java```
+To run the agent, set the game id ant the level on ```replanning/configuration.txt``` and launch the java class ```/master/replanning/GVGAI/src/tracks/singlePlayer/Test.java```
 
 # Results and experimentation
 
