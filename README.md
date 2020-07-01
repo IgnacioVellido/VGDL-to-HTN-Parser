@@ -5,9 +5,9 @@ VGDL-to-HTN-Parser is a Python parser from VGDL game and level description into 
 ``` This research is being developed and partially funded by the Spanish MINECO R&D Project TIN2015-71618-R and RTI2018-098460-B-I00 ```
 
 # Requirements
-- Python3.
-- ANTLR 4.7.2 for Python3 (or superior), see [here](https://github.com/antlr/antlr4/blob/master/doc/python-target.md) for more information.
-- (For replanning only) Java JDK 8 (or superior).
+- Python3
+- ANTLR 4.7.2 for Python3 (or superior), see [here](https://github.com/antlr/antlr4/blob/master/doc/python-target.md) for more information
+- (For replanning only) Java JDK 8 (or superior)
 
 # Installation
 Compile Siadex planner:
@@ -18,7 +18,6 @@ $ make compile-planner
 # Usage
 
 With the exception of the replanning module, all functionally can be called from the  makefile.
-<!-- The generation of domains/problems and plans (with the Siadex planner) is simplified with the use of  -->
 
 ```
 The available options, with their parameters, are:
@@ -68,6 +67,7 @@ optional arguments:
 ```
 
 ### Planning with Siadex
+The HTN planner can be found in the [planners/Siadex](https://github.com/IgnacioVellido/VGDL-to-HTN-Parser/tree/master/planners/Siadex) directory.
 
 ```
 Syntax: ./planner/planner [options] --domain_file (-d) <domain.pddl> --problem_file 
@@ -88,17 +88,16 @@ Options:
 
 ## Replanning module
 The replanning module is defined as a GVGAI agent, located [here](https://github.com/IgnacioVellido/VGDL-to-HTN-Parser/blob/master/replanning/GVGAI/src/main/Agent.java).
+It uses a version of the GVGAI framework, from the official [repo](https://github.com/GAIGResearch/GVGAI).
 
-The agent is available for the games Sokoban (id=87), Brainman (id=12), Aliens (id=0) and Boulderdash (id=83). The levels ids ranges from 0 to 4.
+The agent is available for the games __Sokoban__ (id=87), __Brainman__ (id=12), __Aliens__ (id=0) and __Boulderdash__ (id=83). The levels ids ranges from 0 to 4.
 
 A basic configuration file is included under the ```replanning``` folder, where you can specify the game and the level to test.
 
-To run the agent, just launch the java class ```/master/replanning/GVGAI/src/tracks/singlePlayer/Test.java```
+&nbsp;
 
-# Results, experimentation and additional notes
+To run the agent, set the game id ant the level on ```replanning/configuration``` and launch the java class ```/master/replanning/GVGAI/src/tracks/singlePlayer/Test.java```
 
-- All related documentation and experimentation can be found under the [doc](https://github.com/IgnacioVellido/VGDL-to-HTN-Parser/tree/master/doc) directory.
-  
-- The replanning module uses a version of the GVGAI framework, from the [repo](https://github.com/GAIGResearch/GVGAI).
-  
-- The Siadex planner used for the experimentation can be found in the [planners/Siadex](https://github.com/IgnacioVellido/VGDL-to-HTN-Parser/tree/master/planners/Siadex) directory.
+# Results and experimentation
+
+All related documentation and experimentation can be found under the [doc](https://github.com/IgnacioVellido/VGDL-to-HTN-Parser/tree/master/doc) directory.
