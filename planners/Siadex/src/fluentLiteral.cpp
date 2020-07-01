@@ -1,7 +1,3 @@
-/*  ***************************************************************************
- * Copyright (C) 2008 IActive Intelligent Solutions S.L. http://www.iactive.es
- * ************************************************************************* */
-
 #include "fluentLiteral.hh"
 #include "function.hh"
 #include "pyDefFunction.hh"

@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 #include "domain.hh"
 #include "primitivetask.hh"
 #include "compoundtask.hh"
@@ -87,7 +83,7 @@ Domain::Domain(const char * n)
 };
 
 void Domain::initTypes(void) {
-    // antes de gestionar los tipos añado el tipo number
+    // antes de gestionar los tipos aï¿½ado el tipo number
     Type * t = new Type();
     t->setName("number");
     t->setFileId(-1);
@@ -217,13 +213,13 @@ const Type * Domain::addType(Type * type) {
     ldictionaryit i;
     i = tdictionary.find(type->getName());
     if((i != tdictionary.end())){
-        // el tipo ya se definió con anterioridad
+        // el tipo ya se definiï¿½ con anterioridad
         return typetable[(*i).second];
     }
     // es la primera vez que aparece el tipo
     else {
         type->setId(typetable.size());
-        // inserción en la tabla de tipos, y en el diccionario de tipos
+        // inserciï¿½n en la tabla de tipos, y en el diccionario de tipos
         typetable.push_back(type);
         tdictionary.insert(make_pair(type->getName(),type->getId()));
         return (const Type *) type;
@@ -265,9 +261,9 @@ vector<Task *> * Domain::getUnifyTask(TaskHeader * th,
         if(mt->candidates[0]->isPrimitiveTask()) {
             tcopy = (Task *) mt->candidates[0]->clone();
             // en el preprocesamiento (ver Tasknetwork->isWellDefined), ya
-            // se comprobó que había unificación, y se comprobó que los tipos
+            // se comprobï¿½ que habï¿½a unificaciï¿½n, y se comprobï¿½ que los tipos
             // encajaban.
-            // Añado las sustituciones necesarias.
+            // Aï¿½ado las sustituciones necesarias.
             u = new Unifier();
             keylistcit p,e = th->endp();
             keylistcit b = mt->candidates[0]->beginp();
@@ -514,11 +510,11 @@ struct MakeRelations{
         end = ref->getParentsEnd();
         beg = ref->getParentsBegin();
         for(;beg != end; beg++){
-            // relación directa
+            // relaciï¿½n directa
             (*typerelations)[ref->getId()*ntypes+(*beg)->getId()] = 1;
             // construyo las relaciones de mi padre
             mk((*beg));
-            // añado las relaciones inferidas
+            // aï¿½ado las relaciones inferidas
             for(int i =0;i<ntypes;i++)
                 if((*typerelations)[(*beg)->getId()*ntypes+i])
                     (*typerelations)[ref->getId()*ntypes+i] = 1;

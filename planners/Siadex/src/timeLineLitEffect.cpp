@@ -1,34 +1,3 @@
-/*  ************************************************************************************
- * Copyright (C) 2003, 2004, 2005  Luis Castillo Vidal,  Juan Fernandez Olivares,
- * Oscar Jesus Garcia Perez, Francisco Carlos Palao Reines.
- *
- * More information about SIADEX project:
- * http://siadex.ugr.es
- * siadexwww@decsai.ugr.es
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or any later version.
- *
- * Please cite the authors above in your publications or in your
- * software when you made use of this software.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- * ********************************************************************************** */
-
-/* **************************************************************
- * Created by oscar oscar@decsai.ugr.es: mié 24 ago, 2005  01:27
- * Last modified: mié 10 may, 2006  12:54
- * ************************************************************** */
-
 #include "timeLineLitEffect.hh"
 #include <sstream>
 #include <math.h>
@@ -125,7 +94,7 @@ void TimeLineLiteralEffect::generateNIntervals(int min,int max){
     } else{
 	if(min < nmin || nmin == -1){
 	    // insertar por el inicio del vector es costoso, seguramente
-	    // esta operación sea más rápida.
+	    // esta operaciï¿½n sea mï¿½s rï¿½pida.
 	    VIntervals aux;
 	    if(nmin == -1)
 		nmin = 0;
@@ -236,14 +205,14 @@ void TimeLineLiteralEffect::merge(VIntervals & other,int  min, int max){
 	else if((*j).second < (*i).first)
 	    j++;
 	else{
-	    // hay intersección entre los intervalos
-	    // me quedo con el máximo de los mínimos
+	    // hay intersecciï¿½n entre los intervalos
+	    // me quedo con el mï¿½ximo de los mï¿½nimos
 	    if((*i).first < (*j).first)
 		imin = (*j).first;
 	    else
 		imin = (*i).first;
 
-	    // y con el mínimo de los máximos 
+	    // y con el mï¿½nimo de los mï¿½ximos 
 	    if((*i).second > (*j).second){
 		imax = (*j).second;
 		j++;

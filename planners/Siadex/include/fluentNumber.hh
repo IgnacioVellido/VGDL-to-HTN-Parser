@@ -1,36 +1,3 @@
-/*  ************************************************************************************
- * Copyright (C) 2003, 2004, 2005  Luis Castillo Vidal,  Juan Fernandez Olivares,
- * Oscar Jesus Garcia Perez, Francisco Carlos Palao Reines.
- *
- * More information about SIADEX project:
- * http://siadex.ugr.es
- * siadexwww@decsai.ugr.es
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or any later version.
- *
- * Please cite the authors above in your publications or in your
- * software when you made use of this software.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- * ********************************************************************************** */
-
-/* **************************************************************
- * This file is copyrighted by SIADEX project.
- * Visit http://siadex.ugr.es for more information.
- * Created by oscar oscar@decsai.ugr.es: jue 01 sep, 2005  10:07
- * Last modified: mié 22 feb, 2006  01:08
- * ************************************************************** */
-
 #ifndef FLUENTNUMBER_HH
 #define FLUENTNUMBER_HH
 
@@ -43,8 +10,8 @@ using namespace std;
 #include "papi.hh"
 
 /**
- * Esta clase representa a un número simple, que se
- * puede usar dentro de las operaciones aritméticas
+ * Esta clase representa a un nï¿½mero simple, que se
+ * puede usar dentro de las operaciones aritmï¿½ticas
  * o comparaciones.
  */
 class FluentNumber :public Evaluable 
@@ -89,16 +56,16 @@ class FluentNumber :public Evaluable
         virtual Evaluable * cloneEvaluable(void) const {return new FluentNumber(this);};
 
 	/**
-	 * Imprime en texto la información sobre la clase.
+	 * Imprime en texto la informaciï¿½n sobre la clase.
 	 * @param os El flujo de salida.
-	 * @param indent Número de espacios que se utilizarán al principio de cada línea
+	 * @param indent Nï¿½mero de espacios que se utilizarï¿½n al principio de cada lï¿½nea
 	 */
 	virtual void printEvaluable(ostream * os,int indent=0) const {string s(indent,' '); *os << s << value.second;};
 
 	/**
-	 * Imprime en xml la información sobre la clase.
+	 * Imprime en xml la informaciï¿½n sobre la clase.
 	 * @param os El flujo de salida.
-	 * @param indent Número de espacios que se utilizarán al principio de cada línea
+	 * @param indent Nï¿½mero de espacios que se utilizarï¿½n al principio de cada lï¿½nea
 	 */
 	virtual void toxmlEvaluable(XmlWriter * writer) const {
 	    writer->startTag("fluent")
@@ -111,26 +78,26 @@ class FluentNumber :public Evaluable
         virtual void compRenameVars(Unifier * u, VUndo * undo) {};
 
 	/**
-	 * Devuelve el resultado de la evaluación de la clase.
+	 * Devuelve el resultado de la evaluaciï¿½n de la clase.
 	 * @param state el estado actual.
-	 * @param context El contexto de unificación.
-	 * @return El resultado de la unificación.
+	 * @param context El contexto de unificaciï¿½n.
+	 * @return El resultado de la unificaciï¿½n.
 	 */
         virtual pkey eval(const State * state, const Unifier * context) const {return value;};
 
 
 	/**
-	 * Devuelve el resultado de la evaluación de la clase.
-	 * Esta evaluación es ligeramente diferente en el sentido de que está pensada
+	 * Devuelve el resultado de la evaluaciï¿½n de la clase.
+	 * Esta evaluaciï¿½n es ligeramente diferente en el sentido de que estï¿½ pensada
 	 * para poder trabajar con las restricciones temporales impuestas sobre
 	 * las tareas. Se hace un tratamiento diferente para manejar los time points.
-	 * @param state El estado actual de planificación.
-	 * @param contex El contexto de planificación.
-	 * @param tp Es un parámetro de salida. Contendrá un time point si
-	 * durante la evaluación se encuentra una referencia a dicho elemento.
-	 * @param pol Es un parámetro de salida. Si es true el tp no va afectado
+	 * @param state El estado actual de planificaciï¿½n.
+	 * @param contex El contexto de planificaciï¿½n.
+	 * @param tp Es un parï¿½metro de salida. Contendrï¿½ un time point si
+	 * durante la evaluaciï¿½n se encuentra una referencia a dicho elemento.
+	 * @param pol Es un parï¿½metro de salida. Si es true el tp no va afectado
 	 * por un signo negativo, false en otro caso.
-	 * @return un pkey con el resultado de la evaluación.
+	 * @return un pkey con el resultado de la evaluaciï¿½n.
 	 */
         virtual pkey evaltp(const State * state, const Unifier * context, pkey * tp, bool * pol) const {return value;};
 
@@ -149,7 +116,7 @@ class FluentNumber :public Evaluable
     protected:
 	/** Este es el valor almacenado en el fluent. */
         pkey value;
-	/** El tipo del fluent, generalmente será number. */
+	/** El tipo del fluent, generalmente serï¿½ number. */
 	const Type * type;
 };
 

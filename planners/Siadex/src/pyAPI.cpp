@@ -1,12 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
-/* *************************************************************************************
- * Created by oscar@decsai.ugr.es: lun 12 dic, 2005  12:56
- * Last modified: o.garcia vie 31 oct, 2008  01:02
- * ********************************************************************************** */
-
 /**
  * Este módulo implementa una api para siadex, con funcionalidad que puede ser
  * utilizada, dentro del python incrustrado dentro de la definición de dominio

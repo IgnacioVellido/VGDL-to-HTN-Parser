@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 #ifndef TASK_HEADER_H
 #define TASK_HEADER_H
 
@@ -29,7 +25,7 @@ public:
     virtual ~TaskHeader(void) {};
 
     /**
-    * @brief La función es una descripción de acción
+    * @brief La funciï¿½n es una descripciï¿½n de acciï¿½n
     */
     inline virtual bool isTaskHeader(void) const {return true;};
 

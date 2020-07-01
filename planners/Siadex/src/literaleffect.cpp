@@ -1,34 +1,3 @@
-/*  ************************************************************************************
- * Copyright (C) 2003, 2004, 2005  Luis Castillo Vidal,  Juan Fernandez Olivares,
- * Oscar Jesus Garcia Perez, Francisco Carlos Palao Reines.
- *
- * More information about SIADEX project:
- * http://siadex.ugr.es
- * siadexwww@decsai.ugr.es
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or any later version.
- *
- * Please cite the authors above in your publications or in your
- * software when you made use of this software.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- * ********************************************************************************** */
-
-/* **************************************************************
- * Created by oscar oscar@decsai.ugr.es: jue 01 sep, 2005  10:32
- * Last modified: mié 22 feb, 2006  02:09
- * ************************************************************** */
-
 #include "literaleffect.hh"
 #include <sstream>
 #include "state.hh"
@@ -148,8 +117,8 @@ bool LiteralEffect::apply(State *sta, VUndo * undo, Unifier * uf){
 
     if (getPolarity()) 
     {
-	// Es un literal de la lista de adición. Se añade al estado.
-	// solo insertamos el literal si no está ya insertado
+	// Es un literal de la lista de adiciï¿½n. Se aï¿½ade al estado.
+	// solo insertamos el literal si no estï¿½ ya insertado
 	// comprobar que no se cuelen variables libres.
 	if(hasVariables())
 	{
@@ -165,8 +134,8 @@ bool LiteralEffect::apply(State *sta, VUndo * undo, Unifier * uf){
     }
     else 
     {
-	// Es un literal de la lista de supresión. Se borran del estado todos los literales que unifiquen con él.
-	// Obtenemos todos los literales del estado que tienen el mismo nombre que el literal de la lista de supresión
+	// Es un literal de la lista de supresiï¿½n. Se borran del estado todos los literales que unifiquen con ï¿½l.
+	// Obtenemos todos los literales del estado que tienen el mismo nombre que el literal de la lista de supresiï¿½n
 	//cerr << "------------------------------------" << endl;
 	//problem->getState()->print(&cerr);
 	//cerr << "------------------------------------" << endl;

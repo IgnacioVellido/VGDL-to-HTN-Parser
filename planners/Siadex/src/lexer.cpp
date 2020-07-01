@@ -2052,10 +2052,7 @@ goto find_rule; \
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 #line 1 "yacc/lexer.ll"
-/*  ***************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-#line 7 "yacc/lexer.ll"
+#line 3 "yacc/lexer.ll"
 
 using namespace std;
 
@@ -2239,8 +2236,8 @@ void MyLexer::initErrorTable()
     dictionary["PYTHON_INIT"] = "`:PyInit'";
 }
 
-#line 2243 "src/lexer.cpp"
-#line 2244 "src/lexer.cpp"
+#line 2240 "src/lexer.cpp"
+#line 2241 "src/lexer.cpp"
 
 #define INITIAL 0
 
@@ -2378,9 +2375,9 @@ YY_DECL
 		}
 
 	{
-#line 200 "yacc/lexer.ll"
+#line 196 "yacc/lexer.ll"
 
-#line 2384 "src/lexer.cpp"
+#line 2381 "src/lexer.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -2444,17 +2441,17 @@ do_action:	/* This label is used only to access EOF actions. */
 	{ /* beginning of action switch */
 case 1:
 YY_RULE_SETUP
-#line 201 "yacc/lexer.ll"
+#line 197 "yacc/lexer.ll"
 {cerr << "se encontro o" <<endl;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 202 "yacc/lexer.ll"
+#line 198 "yacc/lexer.ll"
 {inComment = true;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 203 "yacc/lexer.ll"
+#line 199 "yacc/lexer.ll"
 {
                 if(!inComment) {
                     if(!inScript){
@@ -2468,7 +2465,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 213 "yacc/lexer.ll"
+#line 209 "yacc/lexer.ll"
 {
                 if(!inComment) {
                     if(!inScript){
@@ -2486,7 +2483,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 227 "yacc/lexer.ll"
+#line 223 "yacc/lexer.ll"
 {
                 if(!inComment){
                     if(inScript)
@@ -2498,7 +2495,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 236 "yacc/lexer.ll"
+#line 232 "yacc/lexer.ll"
 {
                 if(!inStr) {
                     inStr = true;
@@ -2531,7 +2528,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 266 "yacc/lexer.ll"
+#line 262 "yacc/lexer.ll"
 {
                     if(inStr)
                     buffer += yytext;
@@ -2542,7 +2539,7 @@ YY_RULE_SETUP
 case 8:
 /* rule 8 can match eol */
 YY_RULE_SETUP
-#line 273 "yacc/lexer.ll"
+#line 269 "yacc/lexer.ll"
 {if(inComment) inComment = false;
                                  if(inScript) script += "\n";
                                  if(inStr) buffer += "\n";
@@ -2550,7 +2547,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 277 "yacc/lexer.ll"
+#line 273 "yacc/lexer.ll"
 {
                     string filename = yytext;
                     int pos = filename.find("\"",0);
@@ -2560,417 +2557,417 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 283 "yacc/lexer.ll"
+#line 279 "yacc/lexer.ll"
 {return LEFTPAR;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 284 "yacc/lexer.ll"
+#line 280 "yacc/lexer.ll"
 {return RIGHTPAR;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 285 "yacc/lexer.ll"
+#line 281 "yacc/lexer.ll"
 {return PDDL_DEFINE;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 286 "yacc/lexer.ll"
+#line 282 "yacc/lexer.ll"
 {return CUSTOMIZATION;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 287 "yacc/lexer.ll"
+#line 283 "yacc/lexer.ll"
 {return TIMEUNIT;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 288 "yacc/lexer.ll"
+#line 284 "yacc/lexer.ll"
 {return TIMESTART;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 289 "yacc/lexer.ll"
+#line 285 "yacc/lexer.ll"
 {return TIMEFORMAT;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 290 "yacc/lexer.ll"
+#line 286 "yacc/lexer.ll"
 {return TIMEHORIZON;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 291 "yacc/lexer.ll"
+#line 287 "yacc/lexer.ll"
 {return RELTIMEHORIZON;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 292 "yacc/lexer.ll"
+#line 288 "yacc/lexer.ll"
 {return THOURS;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 293 "yacc/lexer.ll"
+#line 289 "yacc/lexer.ll"
 {return TMINUTES;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 294 "yacc/lexer.ll"
+#line 290 "yacc/lexer.ll"
 {return TSECONDS;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 295 "yacc/lexer.ll"
+#line 291 "yacc/lexer.ll"
 {return TDAYS;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 296 "yacc/lexer.ll"
+#line 292 "yacc/lexer.ll"
 {return TMONTHS;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 297 "yacc/lexer.ll"
+#line 293 "yacc/lexer.ll"
 {return TYEARS;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 298 "yacc/lexer.ll"
+#line 294 "yacc/lexer.ll"
 {return PDDL_DOMAINREF;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 299 "yacc/lexer.ll"
+#line 295 "yacc/lexer.ll"
 {return PDDL_DOMAIN;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 300 "yacc/lexer.ll"
+#line 296 "yacc/lexer.ll"
 {return PDDL_PROBLEM;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 301 "yacc/lexer.ll"
+#line 297 "yacc/lexer.ll"
 {return PDDL_CONSTANTS;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 302 "yacc/lexer.ll"
+#line 298 "yacc/lexer.ll"
 {return PDDL_REQUIREMENTS;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 303 "yacc/lexer.ll"
+#line 299 "yacc/lexer.ll"
 {return PDDL_STRIPS;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 304 "yacc/lexer.ll"
+#line 300 "yacc/lexer.ll"
 {return PDDL_TYPING;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 305 "yacc/lexer.ll"
+#line 301 "yacc/lexer.ll"
 {return PDDL_NEGATIVE_PRECONDITIONS;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 306 "yacc/lexer.ll"
+#line 302 "yacc/lexer.ll"
 {return PDDL_DISJUNTIVE_PRECONDITIONS;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 307 "yacc/lexer.ll"
+#line 303 "yacc/lexer.ll"
 {return PDDL_EQUALITY;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 308 "yacc/lexer.ll"
+#line 304 "yacc/lexer.ll"
 {return PDDL_EXISTENTIAL_PRECONDITIONS;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 309 "yacc/lexer.ll"
+#line 305 "yacc/lexer.ll"
 {return PDDL_UNIVERSAL_PRECONDITIONS;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 310 "yacc/lexer.ll"
+#line 306 "yacc/lexer.ll"
 {return PDDL_QUANTIFIED_PRECONDITIONS;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 311 "yacc/lexer.ll"
+#line 307 "yacc/lexer.ll"
 {return PDDL_CONDITIONAL_EFFECTS;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 312 "yacc/lexer.ll"
+#line 308 "yacc/lexer.ll"
 {return PDDL_FLUENTS;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 313 "yacc/lexer.ll"
+#line 309 "yacc/lexer.ll"
 {return PDDL_ADL;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 314 "yacc/lexer.ll"
+#line 310 "yacc/lexer.ll"
 {return PDDL_DURATIVE_ACTIONS;}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 315 "yacc/lexer.ll"
+#line 311 "yacc/lexer.ll"
 {return PDDL_DERIVED_PREDICATES;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 316 "yacc/lexer.ll"
+#line 312 "yacc/lexer.ll"
 {return PDDL_TIMED_INITIAL_LITERALS;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 317 "yacc/lexer.ll"
+#line 313 "yacc/lexer.ll"
 {return HTN_EXPANSION;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 318 "yacc/lexer.ll"
+#line 314 "yacc/lexer.ll"
 {return META_TAGS;}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 319 "yacc/lexer.ll"
+#line 315 "yacc/lexer.ll"
 {return META;}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 320 "yacc/lexer.ll"
+#line 316 "yacc/lexer.ll"
 {return TAG;}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 321 "yacc/lexer.ll"
+#line 317 "yacc/lexer.ll"
 {return HTN_INLINE;}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 322 "yacc/lexer.ll"
+#line 318 "yacc/lexer.ll"
 {return HTN_INLINECUT;}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 323 "yacc/lexer.ll"
+#line 319 "yacc/lexer.ll"
 {return PDDL_TYPES;}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 324 "yacc/lexer.ll"
+#line 320 "yacc/lexer.ll"
 {return PYTHON_INIT;}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 325 "yacc/lexer.ll"
+#line 321 "yacc/lexer.ll"
 {return PDDL_EITHER;}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 326 "yacc/lexer.ll"
+#line 322 "yacc/lexer.ll"
 {return PDDL_PREDICATES;}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 327 "yacc/lexer.ll"
+#line 323 "yacc/lexer.ll"
 {return PDDL_FUNCTIONS;}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 328 "yacc/lexer.ll"
+#line 324 "yacc/lexer.ll"
 {return PDDL_ACTION;}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 329 "yacc/lexer.ll"
+#line 325 "yacc/lexer.ll"
 {return PDDL_PARAMETERS;}
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 330 "yacc/lexer.ll"
+#line 326 "yacc/lexer.ll"
 {return PDDL_PRECONDITION;}
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 331 "yacc/lexer.ll"
+#line 327 "yacc/lexer.ll"
 {return PDDL_EFFECT;}
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 332 "yacc/lexer.ll"
+#line 328 "yacc/lexer.ll"
 {return SORTBY;}
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 333 "yacc/lexer.ll"
+#line 329 "yacc/lexer.ll"
 {return ASC;}
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 334 "yacc/lexer.ll"
+#line 330 "yacc/lexer.ll"
 {return DESC;}
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 335 "yacc/lexer.ll"
+#line 331 "yacc/lexer.ll"
 {return MAINTAIN;}
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 336 "yacc/lexer.ll"
+#line 332 "yacc/lexer.ll"
 {return PDDL_INIT;}
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 337 "yacc/lexer.ll"
+#line 333 "yacc/lexer.ll"
 {return PDDL_NOT;}
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 338 "yacc/lexer.ll"
+#line 334 "yacc/lexer.ll"
 {return PDDL_AND;}
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 339 "yacc/lexer.ll"
+#line 335 "yacc/lexer.ll"
 {return PDDL_OR;}
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 340 "yacc/lexer.ll"
+#line 336 "yacc/lexer.ll"
 {return PDDL_IMPLY;}
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 341 "yacc/lexer.ll"
+#line 337 "yacc/lexer.ll"
 {return PDDL_EXISTS;}
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 342 "yacc/lexer.ll"
+#line 338 "yacc/lexer.ll"
 {return PDDL_FORALL;}
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 343 "yacc/lexer.ll"
+#line 339 "yacc/lexer.ll"
 {return PDDL_WHEN;}
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 344 "yacc/lexer.ll"
+#line 340 "yacc/lexer.ll"
 {return PDDL_SCALE_UP;}
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 345 "yacc/lexer.ll"
+#line 341 "yacc/lexer.ll"
 {return PDDL_SCALE_DOWN;}
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 346 "yacc/lexer.ll"
+#line 342 "yacc/lexer.ll"
 {return PDDL_ASSIGN;}
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 347 "yacc/lexer.ll"
+#line 343 "yacc/lexer.ll"
 {return PDDL_INCREASE;}
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 348 "yacc/lexer.ll"
+#line 344 "yacc/lexer.ll"
 {return PDDL_DECREASE;}
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
-#line 349 "yacc/lexer.ll"
+#line 345 "yacc/lexer.ll"
 {return PDDL_BIND;}
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
-#line 350 "yacc/lexer.ll"
+#line 346 "yacc/lexer.ll"
 {return PLUS;}
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
-#line 351 "yacc/lexer.ll"
+#line 347 "yacc/lexer.ll"
 {return MULTIPLY;}
 	YY_BREAK
 case 79:
 YY_RULE_SETUP
-#line 352 "yacc/lexer.ll"
+#line 348 "yacc/lexer.ll"
 {return DIVIDE;}
 	YY_BREAK
 case 80:
 YY_RULE_SETUP
-#line 353 "yacc/lexer.ll"
+#line 349 "yacc/lexer.ll"
 {return LESS_EQUAL;}
 	YY_BREAK
 case 81:
 YY_RULE_SETUP
-#line 354 "yacc/lexer.ll"
+#line 350 "yacc/lexer.ll"
 {return EQUAL;}
 	YY_BREAK
 case 82:
 YY_RULE_SETUP
-#line 355 "yacc/lexer.ll"
+#line 351 "yacc/lexer.ll"
 {return LESS;}
 	YY_BREAK
 case 83:
 YY_RULE_SETUP
-#line 356 "yacc/lexer.ll"
+#line 352 "yacc/lexer.ll"
 {return GREATHER;}
 	YY_BREAK
 case 84:
 YY_RULE_SETUP
-#line 357 "yacc/lexer.ll"
+#line 353 "yacc/lexer.ll"
 {return GREATHER_EQUAL;}
 	YY_BREAK
 case 85:
 YY_RULE_SETUP
-#line 358 "yacc/lexer.ll"
+#line 354 "yacc/lexer.ll"
 {return DISTINCT;}
 	YY_BREAK
 case 86:
 YY_RULE_SETUP
-#line 359 "yacc/lexer.ll"
+#line 355 "yacc/lexer.ll"
 {return DISTINCT;}
 	YY_BREAK
 case 87:
 YY_RULE_SETUP
-#line 360 "yacc/lexer.ll"
+#line 356 "yacc/lexer.ll"
 {return POW;};
 	YY_BREAK
 case 88:
 YY_RULE_SETUP
-#line 361 "yacc/lexer.ll"
+#line 357 "yacc/lexer.ll"
 {return ABS;};
 	YY_BREAK
 case 89:
 YY_RULE_SETUP
-#line 362 "yacc/lexer.ll"
+#line 358 "yacc/lexer.ll"
 {return SQRT;};
 	YY_BREAK
 case 90:
 YY_RULE_SETUP
-#line 363 "yacc/lexer.ll"
+#line 359 "yacc/lexer.ll"
 {return PPRINT;};
 	YY_BREAK
 case 91:
 YY_RULE_SETUP
-#line 364 "yacc/lexer.ll"
+#line 360 "yacc/lexer.ll"
 {return PDDL_GOAL;}
 	YY_BREAK
 case 92:
 YY_RULE_SETUP
-#line 365 "yacc/lexer.ll"
+#line 361 "yacc/lexer.ll"
 {
                 if(AtExpected)
                     return PDDL_AT;
@@ -2980,22 +2977,22 @@ YY_RULE_SETUP
 	YY_BREAK
 case 93:
 YY_RULE_SETUP
-#line 371 "yacc/lexer.ll"
+#line 367 "yacc/lexer.ll"
 {return PDDL_BETWEEN;}
 	YY_BREAK
 case 94:
 YY_RULE_SETUP
-#line 372 "yacc/lexer.ll"
+#line 368 "yacc/lexer.ll"
 {return PDDL_OBJECT;}
 	YY_BREAK
 case 95:
 YY_RULE_SETUP
-#line 373 "yacc/lexer.ll"
+#line 369 "yacc/lexer.ll"
 {return PDDL_OVERALL;}
 	YY_BREAK
 case 96:
 YY_RULE_SETUP
-#line 374 "yacc/lexer.ll"
+#line 370 "yacc/lexer.ll"
 {
                     buffer = "?duration";
                     yylval.type_string = buffer.c_str();
@@ -3004,7 +3001,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 97:
 YY_RULE_SETUP
-#line 379 "yacc/lexer.ll"
+#line 375 "yacc/lexer.ll"
 {
                     buffer = "?start";
                     yylval.type_string = buffer.c_str();
@@ -3013,7 +3010,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 98:
 YY_RULE_SETUP
-#line 384 "yacc/lexer.ll"
+#line 380 "yacc/lexer.ll"
 {
                     buffer = "?end";
                     yylval.type_string = buffer.c_str();
@@ -3022,311 +3019,311 @@ YY_RULE_SETUP
 	YY_BREAK
 case 99:
 YY_RULE_SETUP
-#line 389 "yacc/lexer.ll"
+#line 385 "yacc/lexer.ll"
 {return PDDL_DERIVED;}
 	YY_BREAK
 case 100:
 YY_RULE_SETUP
-#line 390 "yacc/lexer.ll"
+#line 386 "yacc/lexer.ll"
 {return PDDL_CONDITION;}
 	YY_BREAK
 case 101:
 YY_RULE_SETUP
-#line 391 "yacc/lexer.ll"
+#line 387 "yacc/lexer.ll"
 {return PDDL_ATSTART;}
 	YY_BREAK
 case 102:
 YY_RULE_SETUP
-#line 392 "yacc/lexer.ll"
+#line 388 "yacc/lexer.ll"
 {return PDDL_DURATION;}
 	YY_BREAK
 case 103:
 YY_RULE_SETUP
-#line 393 "yacc/lexer.ll"
+#line 389 "yacc/lexer.ll"
 {return PDDL_DURATIVE_ACTION;}
 	YY_BREAK
 case 104:
 YY_RULE_SETUP
-#line 394 "yacc/lexer.ll"
+#line 390 "yacc/lexer.ll"
 {return PDDL_ATEND;}
 	YY_BREAK
 case 105:
 YY_RULE_SETUP
-#line 395 "yacc/lexer.ll"
+#line 391 "yacc/lexer.ll"
 {return PDDL_AND_EVERY;}
 	YY_BREAK
 case 106:
 YY_RULE_SETUP
-#line 396 "yacc/lexer.ll"
+#line 392 "yacc/lexer.ll"
 {return HTN_TASK;}
 	YY_BREAK
 case 107:
 YY_RULE_SETUP
-#line 397 "yacc/lexer.ll"
+#line 393 "yacc/lexer.ll"
 {return HTN_TASKS;}
 	YY_BREAK
 case 108:
 YY_RULE_SETUP
-#line 398 "yacc/lexer.ll"
+#line 394 "yacc/lexer.ll"
 {return HTN_ACHIEVE;}
 	YY_BREAK
 case 109:
 YY_RULE_SETUP
-#line 399 "yacc/lexer.ll"
+#line 395 "yacc/lexer.ll"
 {return HTN_METHOD;}
 	YY_BREAK
 case 110:
 YY_RULE_SETUP
-#line 400 "yacc/lexer.ll"
+#line 396 "yacc/lexer.ll"
 {return HTN_TASKSGOAL;}
 	YY_BREAK
 case 111:
 YY_RULE_SETUP
-#line 401 "yacc/lexer.ll"
+#line 397 "yacc/lexer.ll"
 {return RANDOM;}
 	YY_BREAK
 case 112:
 YY_RULE_SETUP
-#line 403 "yacc/lexer.ll"
+#line 399 "yacc/lexer.ll"
 {return DBG_DEBUG;}
 	YY_BREAK
 case 113:
 YY_RULE_SETUP
-#line 404 "yacc/lexer.ll"
+#line 400 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_QUIT; else REJECT;}
 	YY_BREAK
 case 114:
 YY_RULE_SETUP
-#line 405 "yacc/lexer.ll"
+#line 401 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_QUIT; else REJECT;}
 	YY_BREAK
 case 115:
 YY_RULE_SETUP
-#line 406 "yacc/lexer.ll"
+#line 402 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_CONTINUE; else REJECT;}
 	YY_BREAK
 case 116:
 YY_RULE_SETUP
-#line 407 "yacc/lexer.ll"
+#line 403 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_CONTINUE; else REJECT;}
 	YY_BREAK
 case 117:
 YY_RULE_SETUP
-#line 408 "yacc/lexer.ll"
+#line 404 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_NEXT; else REJECT;}
 	YY_BREAK
 case 118:
 YY_RULE_SETUP
-#line 409 "yacc/lexer.ll"
+#line 405 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_NEXT; else REJECT;}
 	YY_BREAK
 case 119:
 YY_RULE_SETUP
-#line 410 "yacc/lexer.ll"
+#line 406 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_NEXP; else REJECT;}
 	YY_BREAK
 case 120:
 YY_RULE_SETUP
-#line 411 "yacc/lexer.ll"
+#line 407 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_NEXP; else REJECT;}
 	YY_BREAK
 case 121:
 YY_RULE_SETUP
-#line 412 "yacc/lexer.ll"
+#line 408 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_HELP; else REJECT;}
 	YY_BREAK
 case 122:
 YY_RULE_SETUP
-#line 413 "yacc/lexer.ll"
+#line 409 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_HELP; else REJECT;}
 	YY_BREAK
 case 123:
 YY_RULE_SETUP
-#line 414 "yacc/lexer.ll"
+#line 410 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_PRINT; else REJECT;}
 	YY_BREAK
 case 124:
 YY_RULE_SETUP
-#line 415 "yacc/lexer.ll"
+#line 411 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_PRINT; else REJECT;}
 	YY_BREAK
 case 125:
 YY_RULE_SETUP
-#line 416 "yacc/lexer.ll"
+#line 412 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_PRINT; else REJECT;}
 	YY_BREAK
 case 126:
 YY_RULE_SETUP
-#line 417 "yacc/lexer.ll"
+#line 413 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_DISPLAY; else REJECT;}
 	YY_BREAK
 case 127:
 YY_RULE_SETUP
-#line 418 "yacc/lexer.ll"
+#line 414 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_DISPLAY; else REJECT;}
 	YY_BREAK
 case 128:
 YY_RULE_SETUP
-#line 419 "yacc/lexer.ll"
+#line 415 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_DESCRIBE; else REJECT;}
 	YY_BREAK
 case 129:
 YY_RULE_SETUP
-#line 420 "yacc/lexer.ll"
+#line 416 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_UNDISPLAY; else REJECT;}
 	YY_BREAK
 case 130:
 YY_RULE_SETUP
-#line 421 "yacc/lexer.ll"
+#line 417 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_DOTPATH; else REJECT;}
 	YY_BREAK
 case 131:
 YY_RULE_SETUP
-#line 422 "yacc/lexer.ll"
+#line 418 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_TMPDIR; else REJECT;}
 	YY_BREAK
 case 132:
 YY_RULE_SETUP
-#line 423 "yacc/lexer.ll"
+#line 419 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_STATE; else REJECT;}
 	YY_BREAK
 case 133:
 YY_RULE_SETUP
-#line 424 "yacc/lexer.ll"
+#line 420 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_AGENDA; else REJECT;}
 	YY_BREAK
 case 134:
 YY_RULE_SETUP
-#line 425 "yacc/lexer.ll"
+#line 421 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_PLAN; else REJECT;}
 	YY_BREAK
 case 135:
 YY_RULE_SETUP
-#line 426 "yacc/lexer.ll"
+#line 422 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_PLOT; else REJECT;}
 	YY_BREAK
 case 136:
 YY_RULE_SETUP
-#line 427 "yacc/lexer.ll"
+#line 423 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_SET; else REJECT;}
 	YY_BREAK
 case 137:
 YY_RULE_SETUP
-#line 428 "yacc/lexer.ll"
+#line 424 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_VIEWER; else REJECT;}
 	YY_BREAK
 case 138:
 YY_RULE_SETUP
-#line 429 "yacc/lexer.ll"
+#line 425 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_BREAKPOINT; else REJECT;}
 	YY_BREAK
 case 139:
 YY_RULE_SETUP
-#line 430 "yacc/lexer.ll"
+#line 426 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_BREAKPOINT; else REJECT;}
 	YY_BREAK
 case 140:
 YY_RULE_SETUP
-#line 431 "yacc/lexer.ll"
+#line 427 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_WATCH; else REJECT;}
 	YY_BREAK
 case 141:
 YY_RULE_SETUP
-#line 432 "yacc/lexer.ll"
+#line 428 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_WATCH; else REJECT;}
 	YY_BREAK
 case 142:
 YY_RULE_SETUP
-#line 433 "yacc/lexer.ll"
+#line 429 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_EVAL; else REJECT;}
 	YY_BREAK
 case 143:
 YY_RULE_SETUP
-#line 434 "yacc/lexer.ll"
+#line 430 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_ENABLE; else REJECT;}
 	YY_BREAK
 case 144:
 YY_RULE_SETUP
-#line 435 "yacc/lexer.ll"
+#line 431 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_DISABLE; else REJECT;}
 	YY_BREAK
 case 145:
 YY_RULE_SETUP
-#line 436 "yacc/lexer.ll"
+#line 432 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_CAUSAL; else REJECT;}
 	YY_BREAK
 case 146:
 YY_RULE_SETUP
-#line 437 "yacc/lexer.ll"
+#line 433 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_MEM; else REJECT;}
 	YY_BREAK
 case 147:
 YY_RULE_SETUP
-#line 438 "yacc/lexer.ll"
+#line 434 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_SELECT; else REJECT;}
 	YY_BREAK
 case 148:
 YY_RULE_SETUP
-#line 439 "yacc/lexer.ll"
+#line 435 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_OPTIONS; else REJECT;}
 	YY_BREAK
 case 149:
 YY_RULE_SETUP
-#line 440 "yacc/lexer.ll"
+#line 436 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_VERBOSE; else REJECT;}
 	YY_BREAK
 case 150:
 YY_RULE_SETUP
-#line 441 "yacc/lexer.ll"
+#line 437 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_ON; else REJECT;}
 	YY_BREAK
 case 151:
 YY_RULE_SETUP
-#line 442 "yacc/lexer.ll"
+#line 438 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_OFF; else REJECT;}
 	YY_BREAK
 case 152:
 YY_RULE_SETUP
-#line 443 "yacc/lexer.ll"
+#line 439 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_TERMTABLE; else REJECT;}
 	YY_BREAK
 case 153:
 YY_RULE_SETUP
-#line 444 "yacc/lexer.ll"
+#line 440 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_TASKS; else REJECT;}
 	YY_BREAK
 case 154:
 YY_RULE_SETUP
-#line 445 "yacc/lexer.ll"
+#line 441 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_PREDICATES; else REJECT;}
 	YY_BREAK
 case 155:
 YY_RULE_SETUP
-#line 446 "yacc/lexer.ll"
+#line 442 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_VERBOSITY; else REJECT;}
 	YY_BREAK
 case 156:
 YY_RULE_SETUP
-#line 447 "yacc/lexer.ll"
+#line 443 "yacc/lexer.ll"
 {if(inDebugContext) return DBG_APPLY; else REJECT;}
 	YY_BREAK
 case 157:
 YY_RULE_SETUP
-#line 449 "yacc/lexer.ll"
+#line 445 "yacc/lexer.ll"
 {
                                  yylval.type_number = (double) strtod(yytext,NULL);
                                  return PDDL_DNUMBER;}
 	YY_BREAK
 case 158:
 YY_RULE_SETUP
-#line 452 "yacc/lexer.ll"
+#line 448 "yacc/lexer.ll"
 {
                                  yylval.type_number = (double) strtod(yytext,NULL);
                                  return PDDL_NUMBER;}
 	YY_BREAK
 case 159:
 YY_RULE_SETUP
-#line 456 "yacc/lexer.ll"
+#line 452 "yacc/lexer.ll"
 {
                                  buffer = yytext;
                                  yylval.type_string = buffer.c_str();
@@ -3334,7 +3331,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 160:
 YY_RULE_SETUP
-#line 460 "yacc/lexer.ll"
+#line 456 "yacc/lexer.ll"
 {
                                  buffer = yytext;
                                  yylval.type_string = buffer.c_str();
@@ -3342,7 +3339,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 161:
 YY_RULE_SETUP
-#line 464 "yacc/lexer.ll"
+#line 460 "yacc/lexer.ll"
 {
                      if(inDebugContext) {
             buffer = yytext;
@@ -3354,32 +3351,32 @@ YY_RULE_SETUP
 	YY_BREAK
 case 162:
 YY_RULE_SETUP
-#line 472 "yacc/lexer.ll"
+#line 468 "yacc/lexer.ll"
 {return LEFTBRAC;}
 	YY_BREAK
 case 163:
 YY_RULE_SETUP
-#line 473 "yacc/lexer.ll"
+#line 469 "yacc/lexer.ll"
 {return RIGHTBRAC;}
 	YY_BREAK
 case 164:
 YY_RULE_SETUP
-#line 474 "yacc/lexer.ll"
+#line 470 "yacc/lexer.ll"
 {return EXCLAMATION;}
 	YY_BREAK
 case 165:
 YY_RULE_SETUP
-#line 475 "yacc/lexer.ll"
+#line 471 "yacc/lexer.ll"
 {return PDDL_HYPHEN;}
 	YY_BREAK
 case 166:
 YY_RULE_SETUP
-#line 476 "yacc/lexer.ll"
+#line 472 "yacc/lexer.ll"
 {}
 	YY_BREAK
 case 167:
 YY_RULE_SETUP
-#line 477 "yacc/lexer.ll"
+#line 473 "yacc/lexer.ll"
 {
                                  buffer = "Not a valid character: `";
                                  buffer += yytext;
@@ -3388,7 +3385,7 @@ YY_RULE_SETUP
                                 }
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 484 "yacc/lexer.ll"
+#line 480 "yacc/lexer.ll"
 {
             if(!lexer->restore())
             yyterminate();
@@ -3396,10 +3393,10 @@ case YY_STATE_EOF(INITIAL):
 	YY_BREAK
 case 168:
 YY_RULE_SETUP
-#line 488 "yacc/lexer.ll"
+#line 484 "yacc/lexer.ll"
 ECHO;
 	YY_BREAK
-#line 3403 "src/lexer.cpp"
+#line 3400 "src/lexer.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -4325,6 +4322,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 488 "yacc/lexer.ll"
+#line 484 "yacc/lexer.ll"
 
 

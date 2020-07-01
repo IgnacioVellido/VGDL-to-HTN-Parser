@@ -1,34 +1,3 @@
-/* ************************************************************************************
- * Copyright (C) 2003, 2004, 2005  Luis Castillo Vidal,  Juan Fernandez Olivares,
- * Oscar Jesus Garcia Perez, Francisco Carlos Palao Reines.
- *
- * More information about SIADEX project:
- * http://siadex.ugr.es
- * siadexwww@decsai.ugr.es
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or any later version.
- *
- * Please cite the authors above in your publications or in your
- * software when you made use of this software.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- * ********************************************************************************** */
-
-/* *************************************************************************************
- * Created by oscar@decsai.ugr.es: mié 22 feb, 2006  10:56
- * Last modified: mié 22 feb, 2006  10:56
- * ********************************************************************************** */
-
 #ifndef ORGOAL_HH
 #define ORGOAL_HH
 
@@ -63,14 +32,14 @@ class OrGoal :public ContainerGoal
 
            /**
             * @brief Crea una copia exacta del objeto.
-            * @description Todos los herederos deben implementar este método.
+            * @description Todos los herederos deben implementar este mï¿½todo.
             * @author oscar
             */
            virtual Expression * clone(void) const;
 
            /**
              @brief Imprime el contenido del objeto por la salida estandard.
-             @param indent el número de espacios a dejar antes de la cadena.
+             @param indent el nï¿½mero de espacios a dejar antes de la cadena.
             */
            virtual void print(ostream * os, int indent=0) const;
 

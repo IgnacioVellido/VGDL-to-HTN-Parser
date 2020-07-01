@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 /**
  * This class define de API for accessing the parser information from an
  * external program
@@ -36,9 +32,9 @@ string TimeUnit2String(const TimeUnit t);
 
 /**
  * Estructura que almacena la api del planificador y del parser.
- * contiene metainformación esencial para el proceso de planificación
+ * contiene metainformaciï¿½n esencial para el proceso de planificaciï¿½n
  * y el parseado.
- * Es una clase base a partir de la cual se puede extraer toda la información
+ * Es una clase base a partir de la cual se puede extraer toda la informaciï¿½n
  * necesaria.
 **/
 class PAPI {
@@ -59,9 +55,9 @@ class PAPI {
     * Realiza el parseo del dominio y del problema.
     * @param domainfile El fichero de dominio.
     * @param problemfile El fichero de problema.
-    * @param fast si es true hace un parseado rápido, sin hacer test de alcanzabilidad
+    * @param fast si es true hace un parseado rï¿½pido, sin hacer test de alcanzabilidad
     * ni otros.
-    * @return true si hubo éxito, error en otro caso.
+    * @return true si hubo ï¿½xito, error en otro caso.
     **/
         bool parse(const char * domainfile, const char * problemfile, bool fast=false);
 
@@ -69,18 +65,18 @@ class PAPI {
     * Realiza el parseo del dominio y del problema.
     * @param domainfile El flujo de dominio.
     * @param problemfile El flujo de problema.
-    * @param fast si es true hace un parseado rápido, sin hacer test de alcanzabilidad
+    * @param fast si es true hace un parseado rï¿½pido, sin hacer test de alcanzabilidad
     * ni otros.
-    * @return true si hubo éxito, error en otro caso.
+    * @return true si hubo ï¿½xito, error en otro caso.
     **/
         bool parse(istream * domainfile, istream * problemfile, bool fast=false);
 
     /**
     * Realiza el parseo del dominio.
     * @param domainfile El fichero de dominio.
-    * @param fast si es true hace un parseado rápido, sin hacer test de alcanzabilidad
+    * @param fast si es true hace un parseado rï¿½pido, sin hacer test de alcanzabilidad
     * ni otros.
-    * @return true si hubo éxito, error en otro caso.
+    * @return true si hubo ï¿½xito, error en otro caso.
     **/
         bool parse_domain(const char * domainfile, bool fast=false);
 
@@ -88,19 +84,19 @@ class PAPI {
     * Realiza el parseo del problema.
     * Es necesario que se haya cargado el dominio previamente.
     * @param problemfile El fichero de problema.
-    * @param fast si es true hace un parseado rápido, sin hacer test de alcanzabilidad
+    * @param fast si es true hace un parseado rï¿½pido, sin hacer test de alcanzabilidad
     * ni otros.
-    * @return true si hubo éxito, error en otro caso.
+    * @return true si hubo ï¿½xito, error en otro caso.
     **/
         bool parse_problem(const char * problemfile, bool fast=false);
 
     /**
-    * Establecer o no el parseado rápido sin hacer ningún tipo de test.
+    * Establecer o no el parseado rï¿½pido sin hacer ningï¿½n tipo de test.
     **/
         inline void setFastMode(bool v=true) {fastMode = v;};
 
     /**
-    * Devuelve si estamos o no en modo de parseado rápido
+    * Devuelve si estamos o no en modo de parseado rï¿½pido
     **/
     inline bool isFastMode(void) {return fastMode;};
 
@@ -119,18 +115,18 @@ class PAPI {
     TermTable * termtable;
 
     // estructura para mantener los ficheros de los cuales
-    // hemos leido la información
+    // hemos leido la informaciï¿½n
     vector<string> files;
     // identificador del fichero actualmente abierto
     // -1 indica ninguno
     int fileid;
 
-    // clase que contiene el intérprete de python
+    // clase que contiene el intï¿½rprete de python
     PythonWrapper wpython;
 
 
     /**
-    * Imprime la versión de SIADEX utilizada.
+    * Imprime la versiï¿½n de SIADEX utilizada.
     */
     const char * ver(void) const;
 
@@ -140,12 +136,12 @@ class PAPI {
     void resetOutStream(void);
 
     /**
-    * Lee lo último escrito en el flujo de salida interno
+    * Lee lo ï¿½ltimo escrito en el flujo de salida interno
     */
     const char * readOutStream(void);
 
     /**
-    * Devuelve la configuración temporal en el plan actual.
+    * Devuelve la configuraciï¿½n temporal en el plan actual.
     */
     const char * getTFormat(void) const;
 
@@ -154,7 +150,7 @@ class PAPI {
     TimeUnit getTUnit(void) const;
 
     /**
-    * Establece parámetros de la configuración temporal.
+    * Establece parï¿½metros de la configuraciï¿½n temporal.
     **/
     void setFlagTUnit(TimeUnit tu);
 
@@ -166,27 +162,27 @@ class PAPI {
 
     void setTStart(time_t t);
 
-    // flag para indicar si hubo algún tipo de error durante el parseado
+    // flag para indicar si hubo algï¿½n tipo de error durante el parseado
     // del pddl.
     bool errors;
 
     /**
-    * Devuelve el número de errores detectados en el fichero de problema
+    * Devuelve el nï¿½mero de errores detectados en el fichero de problema
     **/
     inline int getNProblemErrors(void) const {return n_problem_errors;};
 
     /**
-    * Devuelve el número de warnings detectados en el fichero de problema
+    * Devuelve el nï¿½mero de warnings detectados en el fichero de problema
     **/
     inline int getNProblemWarnings(void) const {return n_problem_warnings;};
 
     /**
-    * Devuelve el número de errores detectados en el fichero de dominio
+    * Devuelve el nï¿½mero de errores detectados en el fichero de dominio
     **/
     inline int getNDomainErrors(void) const {return n_domain_errors;};
 
     /**
-    * Devuelve el número de warnings detectados en el fichero de dominio
+    * Devuelve el nï¿½mero de warnings detectados en el fichero de dominio
     **/
     inline int getNDomainWarnings(void) const {return n_domain_warnings;};
 

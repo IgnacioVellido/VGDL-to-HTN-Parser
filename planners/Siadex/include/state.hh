@@ -1,34 +1,3 @@
-/*  ************************************************************************************
- * Copyright (C) 2003, 2004, 2005  Luis Castillo Vidal,  Juan Fernandez Olivares,
- * Oscar Jesus Garcia Perez, Francisco Carlos Palao Reines.
- *
- * More information about SIADEX project:
- * http://siadex.ugr.es
- * siadexwww@decsai.ugr.es
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or any later version.
- *
- * Please cite the authors above in your publications or in your
- * software when you made use of this software.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- * ********************************************************************************** */
-
-/* **************************************************************
- * Created by oscar oscar@decsai.ugr.es: mar 06 abr, 2004 14:13
- * Last modified: vie 24 mar, 2006  07:05
- * ************************************************************** */
-
 #ifndef STATE_HH
 #define STATE_HH
 
@@ -46,16 +15,16 @@ class State
 {
 public:
   /**
-   * @brief Añade un predicado a la tabla. No hace una copia, sólo asigna el puntero, cuidadín con esto
-   * @param symbol el literal a añadir.
+   * @brief Aï¿½ade un predicado a la tabla. No hace una copia, sï¿½lo asigna el puntero, cuidadï¿½n con esto
+   * @param symbol el literal a aï¿½adir.
    * @return true si se ha asignado correctamente. False en otro caso (es decir, si ya existe)
    */
   isit addLiteral(Literal * symbol);
 
   /**
-   * @brief Cuenta el número de predicados existentes con el nombre dado.
+   * @brief Cuenta el nï¿½mero de predicados existentes con el nombre dado.
    * @param El nombre del predicado
-   * @return El número de predicados
+   * @return El nï¿½mero de predicados
    */
   int countElements(int id) const;
 
@@ -63,7 +32,7 @@ public:
    * @brief Devuelve los iteradores necesarios para recorrer los predicados con
    * un determinado nombre (clave).
    * @description Puede haber varios predicados con el mismo nombre pero distinto
-   * número de argumentos. Esta función sirve para recorrerlos.
+   * nï¿½mero de argumentos. Esta funciï¿½n sirve para recorrerlos.
    * @return el rango.
    */
   ISTable_range getRange(int id) const;
@@ -72,7 +41,7 @@ public:
 
   /**
    * @brief Devuelve un iterador con el contenido del primer predicado.
-   * @param range El rango devuelto por la función getRange
+   * @param range El rango devuelto por la funciï¿½n getRange
    * @see getLiteral
    * @see getRange
    * @return un iterador
@@ -85,8 +54,8 @@ public:
   inline iscit getEndLiteral(void) const {return Literaltable.end();};
 
   /**
-   * @brief Devuelve un iterador con el contenido del i-ésimo predicado.
-   * @param range El rango devuelto por la función getRange
+   * @brief Devuelve un iterador con el contenido del i-ï¿½simo predicado.
+   * @param range El rango devuelto por la funciï¿½n getRange
    * @param it, el iterador devuelto por una llamada anterior a getFirstLiteral o
    * a getNextLiteral
    * @see getLiteral
@@ -102,14 +71,14 @@ public:
    * La memoria es liberada por la tabla de predicados.
    * @param it el iterador que deseamos referenciar 
    * @see getFirstLiteral
-   * @return 0 en caso de que no haya predicado, o que sea el último,
-   * en otro caso un puntero a él.
+   * @return 0 en caso de que no haya predicado, o que sea el ï¿½ltimo,
+   * en otro caso un puntero a ï¿½l.
    */
   const Literal * getLiteral(iscit it) const;
 
   /**
    * @brief No deterministicamente devuelve un predicado de la tabla de predicados que
-   * coincida con el nombre, si éste existe.
+   * coincida con el nombre, si ï¿½ste existe.
    * @description Hay que mantener especial cuidado de no alterar el puntero.
    * La memoria es liberada por la tabla de predicados.
    * @param name la clave del predicado
@@ -127,7 +96,7 @@ public:
   inline void deleteLiteral(isit it) {Literaltable.erase(it);};
 
   /**
-   * @brief Devuelve el número de elementos en la tabla de predicados
+   * @brief Devuelve el nï¿½mero de elementos en la tabla de predicados
    */
   inline int size(void) {return Literaltable.size();}
 
@@ -155,7 +124,7 @@ public:
   inline ISTable * getLiteralTable(void) {return &Literaltable;};
 
   /*
-   * Esta función no hace nada. Simplemente recorre todos los elementos
+   * Esta funciï¿½n no hace nada. Simplemente recorre todos los elementos
    * del estado. Sirve para comprobar que los valores que se encuentran
    * en la tabla de literales son correctos, y detectar posibles fallos
    */

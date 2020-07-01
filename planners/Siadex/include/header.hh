@@ -1,20 +1,3 @@
-/* ************************************************************************************
- * Copyright (C) IACTIVE Intelligent Solutions,
- *
- * http://www.iactive.es
- *
- * Este fichero es propiedad intelectual de IACTIVE Intelligent Solutions
- * y queda protegido por las leyes de propiedad intelectual aplicables.
- * Queda totalmente prohibido, su copia, modificación, distribución y lectura
- * Sin el consentimiento explícito y por escrito de IACTIVE Intelligent Solutions
- *
- * ********************************************************************************** */
-
-/* **************************************************************
- * Created by oscar oscar@decsai.ugr.es: jue 25 ago, 2005  10:59
- * Last modified: vie 09 sep, 2005  05:58
- * ************************************************************** */
-
 #ifndef HEADER_HH
 #define HEADER_HH
 

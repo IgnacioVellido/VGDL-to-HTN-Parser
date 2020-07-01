@@ -1,12 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
-/* **************************************************************
- * Created by o.garcia o.garcia@iactive.es: lun 25 jul, 2005  05:46
- * Last modified: o.garcia lun 15 sep, 2008  01:33
- * ************************************************************** */
-
 #include "unifier.hh"
 #include "papi.hh"
 #include "termTable.hh"

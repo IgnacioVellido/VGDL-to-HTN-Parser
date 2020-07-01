@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 #ifndef TASKNETWORK_HH
 #define TASKNETWORK_HH
 
@@ -64,42 +60,42 @@ public:
   TaskNetwork(const TaskNetwork * other);
 
   /**
-    @brief Añade una nueva tarea a la red de tareas.
+    @brief Aï¿½ade una nueva tarea a la red de tareas.
     @param t Puntero a la tarea
     \deprecated
    */
   int addTask(Task *t);
 
   /**
-    @brief Tras construir la red de tareas con los métodos addTask y link
-    es necesario llamar a este método para que fije los puntos de inicio
-    y de fin (nodos falsos antes de las primeras tareas y después de las
-    últimas)
+    @brief Tras construir la red de tareas con los mï¿½todos addTask y link
+    es necesario llamar a este mï¿½todo para que fije los puntos de inicio
+    y de fin (nodos falsos antes de las primeras tareas y despuï¿½s de las
+    ï¿½ltimas)
     \deprecated
   */
   void fixTaskNetwork(void);
 
   /*!
    * Une con this la red de tareas dada como argumento, de forma secuencial.
-   * No se realiza ningún tipo de clonación, por lo que hay que mantener
+   * No se realiza ningï¿½n tipo de clonaciï¿½n, por lo que hay que mantener
    * un especial cuidado al utilizar las estructuras de datos de other, que
-   * serán destruidas.
+   * serï¿½n destruidas.
    * @param other la red de tareas a unir
    */
   void join(TaskNetwork * other);
 
   /*!
    * Une con this la red de tareas dada como argumento, de forma paralela.
-   * No se realiza ningún tipo de clonación, por lo que hay que mantener
+   * No se realiza ningï¿½n tipo de clonaciï¿½n, por lo que hay que mantener
    * un especial cuidado al utilizar las estructuras de datos de other, que
-   * serán destruidas.
+   * serï¿½n destruidas.
    * \param other la red de tareas a unir
    */
   void merge(TaskNetwork * other);
 
   /**
-    @brief Devuelve una tarea a partir de su índice.
-    El índice no puede estar fuera de rango o el programa abortara
+    @brief Devuelve una tarea a partir de su ï¿½ndice.
+    El ï¿½ndice no puede estar fuera de rango o el programa abortara
   */
   inline const Task * getTask(int index) const {assert(index > -1 && index < (int) tasklist.size()); return tasklist[index];};
 
@@ -111,7 +107,7 @@ public:
   inline tasklistcit getBeginTask(void) const {return tasklist.begin();};
 
   /**
-    @brief Devuelve un iterador uno después del último elemento de la
+    @brief Devuelve un iterador uno despuï¿½s del ï¿½ltimo elemento de la
     tabla tasklist
   */
   inline tasklistcit getEndTask(void) const {return tasklist.end();};
@@ -122,7 +118,7 @@ public:
   inline tasklistit getModificableBeginTask(void) {return tasklist.begin();};
 
   /**
-    @brief Devuelve un iterador uno después del último elemento de la
+    @brief Devuelve un iterador uno despuï¿½s del ï¿½ltimo elemento de la
     tabla tasklist
   */
   inline tasklistit getModificableEndTask(void) {return tasklist.end();};
@@ -164,7 +160,7 @@ public:
 
   /**
     @brief Reemplaza una cabecera de tarea por una tarea primitiva.
-    @param indexTask el índice de la tarea abstracta que se desea sustituir.
+    @param indexTask el ï¿½ndice de la tarea abstracta que se desea sustituir.
     @param newTask La tarea primitiva que se pasa, tener en cuenta de que NO se
     clona, sin embargo this, la libera al destruirse, con lo que hay que tener
     un especial cuidado. Lo que se intenta es evitar clonaciones que realmente
@@ -172,9 +168,9 @@ public:
 
     El algoritmo hace lo siguiente.
     1. Invalida la entrada indexTask de las tablas de sucesores y de predecesores.
-    2. Añade newTask a la lista de tareas, se crea una entrada en todas las tablas para
+    2. Aï¿½ade newTask a la lista de tareas, se crea una entrada en todas las tablas para
     la nueva tarea.
-    3. Se añaden los sucesores y predecesores de indexTask a newTask.
+    3. Se aï¿½aden los sucesores y predecesores de indexTask a newTask.
     4. En added y deleted se guardan los datos necesarios para poder deshacer posteriormente
     los cambios. Estos dos vectores deben estar reservados antes de hacer la llamada.
   */
@@ -182,21 +178,21 @@ public:
 
   /**
     @brief Reemplaza una cabecera de tarea por una red de tareas.
-    La fusión de la red de tareas, automáticamente
-    mueve índices y asigna enlaces.
-    @param indexTask El índice del TaskHeader que queremos sustituir.
+    La fusiï¿½n de la red de tareas, automï¿½ticamente
+    mueve ï¿½ndices y asigna enlaces.
+    @param indexTask El ï¿½ndice del TaskHeader que queremos sustituir.
     @param newTN la nueva red de tareas a poner en lugar de indexTask.
   */
    void replaceTN(int indexTask, TaskNetwork * newTN, vector<pair<int, bool> > * agenda, vector<pair<bool,pair<int,int> > > * added, vector<pair<bool,pair<int,int> > > * deleted);
 
    /**
-     @brief esta es la función inversa al replace de las tareas primitiva y compuesta. Deshace
-     la última sustitución en la red de tareas.
+     @brief esta es la funciï¿½n inversa al replace de las tareas primitiva y compuesta. Deshace
+     la ï¿½ltima sustituciï¿½n en la red de tareas.
     */
    void undoReplace(int oldsize, vector<pair<bool,pair<int,int> > > * lAdded, vector<pair<bool,pair<int,int> > > * lDeleted);
 
   /**
-    @brief Devuelve el número de nodos en la matriz de tareas
+    @brief Devuelve el nï¿½mero de nodos en la matriz de tareas
   */
   inline int getNumOfNodes(void) const {return tasklist.size();};
 
@@ -269,39 +265,39 @@ public:
   tasklistcit searchLabel(const char * l, tasklistcit b, tasklistcit e) const;
 
   /** comprobar si todas las taskheaders que contiene la red de tareas, son
-   alcanzables, es decir existe al menos una acción que me permite realizarla.
+   alcanzables, es decir existe al menos una acciï¿½n que me permite realizarla.
    changes indica que se han realizado cambios sobre la red de tareas.
-   \param err es el flujo en el cual se generarán mensajes de error en el caso
-   de que algún elemento no esté bien definiso.
+   \param err es el flujo en el cual se generarï¿½n mensajes de error en el caso
+   de que algï¿½n elemento no estï¿½ bien definiso.
   */
   bool isWellDefined(ostream * err, bool * changes) const;
 
 
-  /** Quita los últimos n elementos de la red de tareas.
-   Es útil cuando sabemos que los punteros a los que apunta  el resto de
+  /** Quita los ï¿½ltimos n elementos de la red de tareas.
+   Es ï¿½til cuando sabemos que los punteros a los que apunta  el resto de
    elementos de dicho vector han sido eliminados en otro lugar.
    (De uso interno)
-   \param n el número de elementos a quitar por la cola
+   \param n el nï¿½mero de elementos a quitar por la cola
   */
   void clearLast(int n) {tasklist.erase(tasklist.end() -n, tasklist.end());};
 
   /**
-   * Añade una precondición que será necesaria mantener por todos las
+   * Aï¿½ade una precondiciï¿½n que serï¿½ necesaria mantener por todos las
    * tareas pertenecientes a esta red de tareas.
-   * \param g la precondición a mantener.
+   * \param g la precondiciï¿½n a mantener.
    */
 //  void addMaintain(Goal * g);
 
   /*!
-   * Devuelve si la tarea e se debe de ejecutar inmediatamente después
-   * de la ejecución de sus predecesoras.
+   * Devuelve si la tarea e se debe de ejecutar inmediatamente despuï¿½s
+   * de la ejecuciï¿½n de sus predecesoras.
    * \param indice de la tarea
    */
   inline int isInmediate(int index) const {return inmediate[index];};
 
   /*!
    * Establece si la tarea se ejecuta inmediatamente despues de la
-   * ejecución de sus predecesoras.
+   * ejecuciï¿½n de sus predecesoras.
    * \param i, identificador de la tarea.
    * \param v por defecto true
    */
@@ -327,29 +323,29 @@ public:
   /*!
    * Devuelve true si la tarea con indice a se debe de ejecutar
    * antes que b en la red de tareas.
-   * \param a el índice de la primera tarea
-   * \param b el índice de la segunsa
+   * \param a el ï¿½ndice de la primera tarea
+   * \param b el ï¿½ndice de la segunsa
    */
   bool before(int a, int b) const;
 
   /**
-   * Devuelve el índice asociado a la tarea en la red de tareas.
+   * Devuelve el ï¿½ndice asociado a la tarea en la red de tareas.
    * @param t la tarea a buscar.
    * @return -1 si no se encuentra
    */
   int getIndexOf(const Task * t) const;
 
   /*
-   * Pone nuevas restricciónes temporales sobre todas las tareas de la red de tareas.
-   * @param v La restricciones a añadir.
+   * Pone nuevas restricciï¿½nes temporales sobre todas las tareas de la red de tareas.
+   * @param v La restricciones a aï¿½adir.
    */
   void addTConstraint(TCTR & v);
 
   /**
-   * No llamar a esta función a no ser que sepas lo que estas haciendo.
-   * Esta función restaura la red de tareas hasta el estado en el que tenía
+   * No llamar a esta funciï¿½n a no ser que sepas lo que estas haciendo.
+   * Esta funciï¿½n restaura la red de tareas hasta el estado en el que tenï¿½a
    * n elementos.
-   * Esta función es llamada desde el undo
+   * Esta funciï¿½n es llamada desde el undo
    */
   void restoreTo(int n);
 
@@ -360,20 +356,20 @@ protected:
    * Lista de tareas que forman parte de la red de tareas.
    * Las tareas que aparecen en esta lista no tienen porque estar siendo usadas
    * actualmente en la red de tareas. Pueden haber sido sustituidas en un paso
-   * previo, en ese caso aparecerán marcadas como inválidas. */
+   * previo, en ese caso aparecerï¿½n marcadas como invï¿½lidas. */
   TaskList tasklist;
   /**
-   * Este vector mantiene los índices de los sucesores de la tarea i-esima.
-   * Los índices no coinciden exactamente con los usados en TaskNetwork::tasklist.
-   * El índice 0 no se corresponde con ninguna tarea de las que se encuentran en
-   * TaskNetwork::tasklist, tiene un significado especial los sucesores de 0 serán
-   * aquellas tareas que no tienen ningún predecesor. Así pues el índice 1 se
-   * corresponde con el índice 0 en TaskNetwork::tasklist
+   * Este vector mantiene los ï¿½ndices de los sucesores de la tarea i-esima.
+   * Los ï¿½ndices no coinciden exactamente con los usados en TaskNetwork::tasklist.
+   * El ï¿½ndice 0 no se corresponde con ninguna tarea de las que se encuentran en
+   * TaskNetwork::tasklist, tiene un significado especial los sucesores de 0 serï¿½n
+   * aquellas tareas que no tienen ningï¿½n predecesor. Asï¿½ pues el ï¿½ndice 1 se
+   * corresponde con el ï¿½ndice 0 en TaskNetwork::tasklist
    */
   vector<vector<int> * > succ;
   /**
    * Es el vector de predecesores de una tarea. Es el inverso del vector de sucesores
-   * ver TaskNetwork::pred para obtener información mas detallada.
+   * ver TaskNetwork::pred para obtener informaciï¿½n mas detallada.
    */
   vector<vector<int> * > pred;
   /**
@@ -381,7 +377,7 @@ protected:
    */
   vector<bool> inmediate;
   /**
-   * Las tareas marcadas como inválidas (true) en este vector no deberán ser tenidas
+   * Las tareas marcadas como invï¿½lidas (true) en este vector no deberï¿½n ser tenidas
    * en cuenta. Solo se mantienen por motivo de eficiencia al hacer el "undo"
    */
   vector<bool> invalid;
@@ -390,21 +386,21 @@ protected:
    */
   vector<bool> backtracking;
   /**
-   * Una red de tareas puede tener una clausula maintain que actuará como una especie
-   * de vínculo causal que debe mantener.
-   * El índice i-esimo contendrá las precondiciones que se deben de mantener por la
+   * Una red de tareas puede tener una clausula maintain que actuarï¿½ como una especie
+   * de vï¿½nculo causal que debe mantener.
+   * El ï¿½ndice i-esimo contendrï¿½ las precondiciones que se deben de mantener por la
    * tarea i-esima. Observar que tanto el vector, como los elementos que contienen
    * pueden ser null.
    */
 //  vector< vector<Goal *> > * maintain;
 
   /**
-   * Este vector almacena las restricciones sobre la duración de las tareas de la red de tareas.
+   * Este vector almacena las restricciones sobre la duraciï¿½n de las tareas de la red de tareas.
    */
   vector<TCTR> tconstraints;
   /**
-   * Aqui se almacenan las referencias a las restricciones. Si en la posición 0 aparecen por ejemplo
-   * 1 y 2, significa que las tareas con id 1 y 2 de la red de tareas tienen la restricción indicada en
+   * Aqui se almacenan las referencias a las restricciones. Si en la posiciï¿½n 0 aparecen por ejemplo
+   * 1 y 2, significa que las tareas con id 1 y 2 de la red de tareas tienen la restricciï¿½n indicada en
    * 0
    */
   vector<vector<int> * > constraintref;
@@ -424,8 +420,8 @@ private:
   bool * leftKey;
 
   /**
-   * Esta función sirve para detectar posibles errores en la estructura de predecesores
-   * y de sucesores, solo se usa para tareas de depuración.
+   * Esta funciï¿½n sirve para detectar posibles errores en la estructura de predecesores
+   * y de sucesores, solo se usa para tareas de depuraciï¿½n.
    */
   void comprobarEstructura(void);
 

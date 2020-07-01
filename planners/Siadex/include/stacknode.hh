@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 #ifndef STACKNODE_HH
 #define STACKNODE_HH
 
@@ -26,7 +22,7 @@ typedef vector<int>::const_iterator vintcit;
 typedef VLinks::const_iterator vlit;
 typedef vector<pair<int,int> > VIntervals;
 
-/** Tipo para almacenar los índices de la red de tareas que representan
+/** Tipo para almacenar los ï¿½ndices de la red de tareas que representan
  * las tareas que van a formar parte del plan. */
 typedef list<int> TPlan;
 typedef TPlan::iterator planite;
@@ -34,32 +30,32 @@ typedef TPlan::const_iterator plancite;
 
 
  /**
-  * A grandes rasgos podemos distinguir la información que se guarda en un nodo de la pila
-  * en dos grandes grupos información que mantiene el "estado actual (contexto)" e información
-  * para poder volver al contexto anterior (información de undo)
+  * A grandes rasgos podemos distinguir la informaciï¿½n que se guarda en un nodo de la pila
+  * en dos grandes grupos informaciï¿½n que mantiene el "estado actual (contexto)" e informaciï¿½n
+  * para poder volver al contexto anterior (informaciï¿½n de undo)
   */
 /*!
-    Esta clase es de uso interno, almacena la información necesaria para poder hacer backtrack
-    durante el proceso de búsqueda. El proceso de búsqueda en profundidad es "incremental", este
-    nodo guarda información del incremento. Se guarda también en la clase información del contexto
-    en el que queda la función Problem::solve para poder recuperarse correctamente tras un backtracking.\n
-    Aunque por comodidad todos los miembros de la clase son públicos, se debe guardar especial
-    cuidado con la alteración de los mismos.\n
+    Esta clase es de uso interno, almacena la informaciï¿½n necesaria para poder hacer backtrack
+    durante el proceso de bï¿½squeda. El proceso de bï¿½squeda en profundidad es "incremental", este
+    nodo guarda informaciï¿½n del incremento. Se guarda tambiï¿½n en la clase informaciï¿½n del contexto
+    en el que queda la funciï¿½n Problem::solve para poder recuperarse correctamente tras un backtracking.\n
+    Aunque por comodidad todos los miembros de la clase son pï¿½blicos, se debe guardar especial
+    cuidado con la alteraciï¿½n de los mismos.\n
     A grandes rasgos podemos distinguir los miembros de la clase StackNode que se almacenan en la pila
     Problem::Stack
-    en dos grandes grupos información que mantiene el "estado actual (contexto)" e información
-    para poder volver al contexto anterior (información de undo).
+    en dos grandes grupos informaciï¿½n que mantiene el "estado actual (contexto)" e informaciï¿½n
+    para poder volver al contexto anterior (informaciï¿½n de undo).
  */
 class StackNode
 {
     public:
 	// -------------------------------------------------------------------
-	// DECLARACIÓN DE VARIABLES
+	// DECLARACIï¿½N DE VARIABLES
 	// -------------------------------------------------------------------
 
-	// INFORMACIÓN DE UNDO
+	// INFORMACIï¿½N DE UNDO
 
-        /*! estructura para guardar información sobre los vínculos cambiados en la
+        /*! estructura para guardar informaciï¿½n sobre los vï¿½nculos cambiados en la
         red de tareas */
         VLinks lAdded;
         VLinks lDeleted;
@@ -68,7 +64,7 @@ class StackNode
         /*! estructura para hacer el "undo" de las unificaciones. */
         VUndo undoApply;
 
-        /*! estructura para hacer el "undo" en la tabla de vínculos causales. */
+        /*! estructura para hacer el "undo" en la tabla de vï¿½nculos causales. */
         VUndo undoCL;
 
 	/*! undo de las sustituciones de variables en las tareas */
@@ -79,7 +75,7 @@ class StackNode
 	/** Vector con las intersecciones calculadas en el timeline */
 	VIntervals * intervals;
 
-	/** Posición en la cual encontramos la última inersección válida */
+	/** Posiciï¿½n en la cual encontramos la ï¿½ltima inersecciï¿½n vï¿½lida */
 	int tcnpos;
 
 	/** Tope de la pila de la  red de tareas antes de aplicar las restricciones
@@ -90,10 +86,10 @@ class StackNode
 	 * cualquier restriccion*/
 	int tcnStackSize;
 
-	/*! estructura para guardar información sobre los cambios en el estado */
+	/*! estructura para guardar informaciï¿½n sobre los cambios en el estado */
 	VUndo stateChanges;
 
-	// INFORMACIÓN DEL CONTEXTO ACTUAL
+	// INFORMACIï¿½N DEL CONTEXTO ACTUAL
 
         /*! Agenda de tareas pendientes */
         VAgenda agenda;
@@ -110,7 +106,7 @@ class StackNode
         /*! El nodo se ejecuta como inmediate */
         int inmediate;
 
-        /*! Lista de tareas que han unificado y que aún quedan por expandir */
+        /*! Lista de tareas que han unificado y que aï¿½n quedan por expandir */
         vector<Task *> * offspring;
 
         /*! De esa lista de tareas, la tarea por la que voy */
@@ -122,30 +118,30 @@ class StackNode
         /*! Lista de unificaciones encontradas para task */
         UnifierTable * utable;
 
-        /*! Lista de métodos no expandidos si task es una tarea compuesta */
+        /*! Lista de mï¿½todos no expandidos si task es una tarea compuesta */
         VMethods * methods;
 
-        /*! De la lista de métodos... por el que voy */
+        /*! De la lista de mï¿½todos... por el que voy */
         int mpos;
 
         /*! Flag para controlar que no se caiga en un bucle infintio cuando una tarea no
            tiene precondiciones */
         bool done;
 
-	/** Tamaño de la termtable */
+	/** Tamaï¿½o de la termtable */
 	int ttsize;
 
 	// -------------------------------------------------------------------
-	// DECLARACIÓN DE FUNCIONES
+	// DECLARACIï¿½N DE FUNCIONES
 	// -------------------------------------------------------------------
 
 	// Inicializar las estructuras de datos.
         StackNode(void);
 
 	/**
-	 * Constructor de copia. Tener cuidado con él, no se debería usar si no sabes
-	 * lo que estás haciendo. No realiza una copia completa del contexto. ¡OJO!, solo
-	 * de los puntos de decisión.
+	 * Constructor de copia. Tener cuidado con ï¿½l, no se deberï¿½a usar si no sabes
+	 * lo que estï¿½s haciendo. No realiza una copia completa del contexto. ï¿½OJO!, solo
+	 * de los puntos de decisiï¿½n.
 	 */
 	StackNode(const StackNode * o);
 
@@ -155,7 +151,7 @@ class StackNode
         ~StackNode(void);
 
 	// --------------------------------------------------------------------
-	// INFORMACIÓN DE UNDO
+	// INFORMACIï¿½N DE UNDO
 	// --------------------------------------------------------------------
 
 	/*! Realiza el undo "completo" para retornar al contexto anterior, cuando
@@ -165,21 +161,21 @@ class StackNode
 	void undo(TaskNetwork * tasknetwork, TPlan * plan, STP * stp);
 
 	/**
-	 * Restaura todos los puntos de decisión como si todavía no se
-	 * hubiese realizado ninguna selección.
+	 * Restaura todos los puntos de decisiï¿½n como si todavï¿½a no se
+	 * hubiese realizado ninguna selecciï¿½n.
 	 */
 	void restoreAllDP(void);
 
 	/**
 	 * Deshace los cambios provocados sobre la red de restricciones temporales
-	 * @param l Si se deja a -1 (por defecto) se restaurará hasta el nivel guardado
+	 * @param l Si se deja a -1 (por defecto) se restaurarï¿½ hasta el nivel guardado
 	 * en la pila de contextos
 	 */
 	void undoSTP(STP * stp, int l=-1);
 
 	// --------------------------------------------------------------------
 
-	/// deshace los efectos producidos por una acción primitiva
+	/// deshace los efectos producidos por una acciï¿½n primitiva
 	void undoEffects(void);
 
 	void clearUndoEffects(void);
@@ -204,13 +200,13 @@ class StackNode
 
         void clearUndoTask(void);
 
-	// t normalmente coincidirá con this->task
+	// t normalmente coincidirï¿½ con this->task
 	void undoTaskSelection(int t);
 
 	void undoPlan(TPlan * plan, TaskNetwork * tasknetwork);
 
 	// --------------------------------------------------------------------
-	// INFORMACIÓN DEL CONTEXTO ACTUAL
+	// INFORMACIï¿½N DEL CONTEXTO ACTUAL
 	// --------------------------------------------------------------------
 
 	/// eliminar la tarea i-esima porque ya ha sido explorada

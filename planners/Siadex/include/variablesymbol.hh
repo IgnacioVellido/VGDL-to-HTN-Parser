@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 #ifndef VARIABLESYMBOL_HH
 #define VARIABLESYMBOL_HH
 
@@ -15,9 +11,9 @@ using namespace std;
 #include "undoChangeType.hh"
 
 /**
- * Símbolo de variable. 
- * Las variables son símbolos que se deciden en tiempo de planificación
- * tras realizar una unificación.
+ * Sï¿½mbolo de variable. 
+ * Las variables son sï¿½mbolos que se deciden en tiempo de planificaciï¿½n
+ * tras realizar una unificaciï¿½n.
  */
 class VariableSymbol: public Term, public TypeChangeable {
     public:
@@ -47,7 +43,7 @@ class VariableSymbol: public Term, public TypeChangeable {
         virtual Term * clone(void) const;
 
         /**
-          @brief Imprime la descripción de la variable en un flujo por defecto el estándar 
+          @brief Imprime la descripciï¿½n de la variable en un flujo por defecto el estï¿½ndar 
           */
         virtual void print(ostream * os, int indent=0) const;
 
@@ -71,7 +67,7 @@ class VariableSymbol: public Term, public TypeChangeable {
         }
 
         /**
-          Dejo la estructura abierta por comodidad, ¡¡ Cuidado con lo que haces !!
+          Dejo la estructura abierta por comodidad, ï¿½ï¿½ Cuidado con lo que haces !!
          **/
         VReferences references;
 

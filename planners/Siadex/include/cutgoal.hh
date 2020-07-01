@@ -1,20 +1,3 @@
-/*  ************************************************************************************
- *  Copyright (C) IACTIVE Intelligent Solutions,
- *
- * http://www.iactive.es
- *
- * Este fichero es propiedad intelectual de IACTIVE Intelligent Solutions
- * y queda protegido por las leyes de propiedad intelectual aplicables.
- * Queda totalmente prohibido, su copia, modificación, distribución y lectura
- * Sin el consentimiento explícito y por escrito de IACTIVE Intelligent Solutions
- *
- * ********************************************************************************** */
-
-/* *************************************************************************************
- * Created by oscar@decsai.ugr.es: mié 22 feb, 2006  10:31
- * Last modified: o.garcia vie 30 nov, 2007  01:11
- * ********************************************************************************** */
-
 #ifndef CUTGOAL
 #define CUTGOAL
 

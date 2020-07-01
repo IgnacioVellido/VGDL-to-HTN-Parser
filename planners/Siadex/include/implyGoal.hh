@@ -1,34 +1,3 @@
-/* ************************************************************************************
- * Copyright (C) 2003, 2004, 2005  Luis Castillo Vidal,  Juan Fernandez Olivares,
- * Oscar Jesus Garcia Perez, Francisco Carlos Palao Reines.
- *
- * More information about SIADEX project:
- * http://siadex.ugr.es
- * siadexwww@decsai.ugr.es
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or any later version.
- *
- * Please cite the authors above in your publications or in your
- * software when you made use of this software.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- * ********************************************************************************** */
-
-/* *************************************************************************************
- * Created by oscar@decsai.ugr.es: mié 22 feb, 2006  10:56
- * Last modified: mié 22 feb, 2006  10:57
- * ********************************************************************************** */
-
 #ifndef IMPLYGOAL
 #define IMPLYGOAL
 
@@ -53,14 +22,14 @@ class ImplyGoal: public Goal
 	virtual Expression* clone(void) const;
 	/**
 	 * Calcula los unificadores para un imply.
-	 * Realmente un imply no generará unificaciones. Cuando falle devolverá null, cuando el
-	 * imply sea cierto, se devolverá una tabla de unificadores con un solo unificador que estará
-	 * vacío en el caso de que u sea null o un clon de u. 
-	 * En el caso de que se necesiten almacenar los vínculos causales, en el unificador
-	 * devuelto se almacenará la estructura que registra los vínculos causales que fueron necesarios
-	 * para llervar a término el imply.
+	 * Realmente un imply no generarï¿½ unificaciones. Cuando falle devolverï¿½ null, cuando el
+	 * imply sea cierto, se devolverï¿½ una tabla de unificadores con un solo unificador que estarï¿½
+	 * vacï¿½o en el caso de que u sea null o un clon de u. 
+	 * En el caso de que se necesiten almacenar los vï¿½nculos causales, en el unificador
+	 * devuelto se almacenarï¿½ la estructura que registra los vï¿½nculos causales que fueron necesarios
+	 * para llervar a tï¿½rmino el imply.
 	 * @param state Es el estado actual del mundo.
-	 * @param u Es el contexto actual de unificación.
+	 * @param u Es el contexto actual de unificaciï¿½n.
 	 * @param polarity Es la polaridad heredada, sirve para llevar la cuenta de los not.
 	 * @return Lee arriba
 	 */

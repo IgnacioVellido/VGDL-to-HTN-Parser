@@ -1,34 +1,3 @@
-/*  ************************************************************************************
- * Copyright (C) 2003, 2004, 2005  Luis Castillo Vidal,  Juan Fernandez Olivares,
- * Oscar Jesus Garcia Perez, Francisco Carlos Palao Reines.
- *
- * More information about SIADEX project:
- * http://siadex.ugr.es
- * siadexwww@decsai.ugr.es
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or any later version.
- *
- * Please cite the authors above in your publications or in your
- * software when you made use of this software.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- * ********************************************************************************** */
-
-/* **************************************************************
- * Created by oscar oscar@decsai.ugr.es: jue 01 sep, 2005  10:51
- * Last modified: vie 20 oct, 2006  05:08
- * ************************************************************** */
-
 #include "fluentEffect.hh"
 #include "undoARLiteralState.hh"
 #include "undoChangeTime.hh"
@@ -59,7 +28,7 @@ FluentEffect::FluentEffect(const FluentEffect * fo)
 
 bool FluentEffect::apply(State *sta, VUndo * undo, Unifier * uf)
 {
-    // evaluar la expresión
+    // evaluar la expresiï¿½n
     Unifier context;
     pkey ret = exp->eval(sta,&context);
 
@@ -67,12 +36,12 @@ bool FluentEffect::apply(State *sta, VUndo * undo, Unifier * uf)
     UndoChangeValue * uc;
 
     Function * ref;
-    // buscar la función en el estado
+    // buscar la funciï¿½n en el estado
     ISTable_mrange range = sta->getModificableRange(f->getId());
     isit i;
     if((i=find_if(range.first,range.second,EqualLit(f->getParameters()))) == range.second){
-	// no se encontró una función que unifique, en el estado...
-	// la añadimos
+	// no se encontrï¿½ una funciï¿½n que unifique, en el estado...
+	// la aï¿½adimos
 	ref =  new Function(f->getId(),f->getMetaId(),false,0,f->getParameters());
 	// comprobar que no se cuelen variables libres.
 	if(f->hasVariables())

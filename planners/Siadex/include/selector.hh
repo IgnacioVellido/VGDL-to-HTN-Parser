@@ -1,19 +1,3 @@
-/* ************************************************************************************
- * Copyright (C) IACTIVE Intelligent Solutions,
- *
- * http://www.iactive.es
- *
- * Este fichero es propiedad intelectual de IACTIVE Intelligent Solutions
- * y queda protegido por las leyes de propiedad intelectual aplicables.
- * Queda totalmente prohibido, su copia, modificación, distribución y lectura
- * Sin el consentimiento explícito y por escrito de IACTIVE Intelligent Solutions
- *
- * ********************************************************************************** */
-
-/* *************************************************************************************
- * Created by o.garcia@iactive.es: mar 08 nov, 2005  01:32
- * Last modified: o.garcia lun 15 sep, 2008  10:52
- * ********************************************************************************** */
 #ifndef SELECTOR_HH
 #define SELECTOR_HH
 

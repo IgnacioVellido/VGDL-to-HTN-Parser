@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 #include "plan.hh"
 #include <string>
 #include <iostream>
@@ -317,6 +313,7 @@ bool Plan::mainLoop(void) {
             stack.pop_back();
             if (stack.empty()) {
                 //delete next;
+                *errflow << "\n[Error]: Empty stack\n";
                 plan.clear();
                 return false;
             }

@@ -200,7 +200,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 208 "yacc/parser.yy" /* yacc.c:1909  */
+#line 204 "yacc/parser.yy" /* yacc.c:1909  */
 
         void * otype;
         const void * cotype;

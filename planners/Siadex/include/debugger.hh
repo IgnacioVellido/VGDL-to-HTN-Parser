@@ -1,12 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
-/* **************************************************************
- * Created by oscar o.garcia@iactive.es: lun 05 ene, 2004  09:23
- * Last modified: o.garcia mié 17 sep, 2008  04:20
- * ************************************************************** */
-
 #ifndef DEBUGGER_HH
 #define DEBUGGER_HH 
 
@@ -144,7 +135,7 @@ class Debugger: public Selector
 	// Variables de uso interno, no tocar.
 	// ---------------------------------------
         // flag para hacer que el debuger termine y continue
-        // la ejecución
+        // la ejecuciï¿½n
         bool cont;
 
         // flag para comprobar si se ejecuto la orden next
@@ -163,7 +154,7 @@ class Debugger: public Selector
 
     private:
         /*
-            Gestión de las entradas del usuario
+            Gestiï¿½n de las entradas del usuario
         */
         istream * preprocessLine(void);
 
@@ -181,10 +172,10 @@ class Debugger: public Selector
 	Plan * plan;
 
 	/**
-	 * Este puntero a función se utiliza por el debugger para capturar una órden,
-	 * desde la línea de comandos o desde cualquier otro lugar. La función recibe como
+	 * Este puntero a funciï¿½n se utiliza por el debugger para capturar una ï¿½rden,
+	 * desde la lï¿½nea de comandos o desde cualquier otro lugar. La funciï¿½n recibe como
 	 * argumentos el prompt, y espera recibir una cadena con la orden escrita.
-	 * Por defecto usa la librería readline para hacer la captura.
+	 * Por defecto usa la librerï¿½a readline para hacer la captura.
 	 **/
 	char * (* read_line) (const char *);
 };

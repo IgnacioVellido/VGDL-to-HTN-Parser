@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 #ifndef PRIMITIVETASK_HH
 #define PRIMITIVETASK_HH
 #include "constants.hh"
@@ -50,7 +46,7 @@ class PrimitiveTask: public Task
 
         /**
         * @brief Realiza una copia exacta de este objeto.
-        * @description La memoria debe ser liberada por la función llamadora con delete.
+        * @description La memoria debe ser liberada por la funciï¿½n llamadora con delete.
         * @author oscar
         */
         virtual Expression * clone(void) const;
@@ -64,7 +60,7 @@ class PrimitiveTask: public Task
         virtual void vcprint(ostream * os, int indent=0) const {print(os,indent);};
 
         /**
-        * Escribe en un documento xml la información sobre la tarea.
+        * Escribe en un documento xml la informaciï¿½n sobre la tarea.
         * @param writer El objeto en el que escribir.
         **/
         virtual void toxml(XmlWriter * writer) const {toxml(writer,true);};
@@ -82,9 +78,9 @@ class PrimitiveTask: public Task
         void prettyPrint(ostream * os, pair<unsigned int,unsigned int> tpoints, const vector<pair<time_t,time_t> > * sched) const;
 
         /**
-        @brief Añade una nueva precondición a la tarea.
-        @description g se añade por referencia al objeto.
-        @param g La precondición a añadir.
+        @brief Aï¿½ade una nueva precondiciï¿½n a la tarea.
+        @description g se aï¿½ade por referencia al objeto.
+        @param g La precondiciï¿½n a aï¿½adir.
         @author oscar
         */
         inline void setPrecondition(Goal * g) {precondition = g;};
@@ -92,8 +88,8 @@ class PrimitiveTask: public Task
         inline Goal * getPrecondition(void) {return precondition;};
 
         /**
-        @brief Añade un efecto a la lista de efectos.
-        @param e Puntero al efecto a añadir.
+        @brief Aï¿½ade un efecto a la lista de efectos.
+        @param e Puntero al efecto a aï¿½adir.
         */
         inline void setEffect(Effect * e) {effect = e;};
 
@@ -105,21 +101,21 @@ class PrimitiveTask: public Task
         /**
         * Aplica los efectos de esta tarea primitiva al estado dado.
         * @param sta El estado sobre el que aplicaremos los efectos.
-        * @param undo Vector que contendrá información necesaria para poder
+        * @param undo Vector que contendrï¿½ informaciï¿½n necesaria para poder
         * deshacer los cambios realizados.
-        * @param uf Unificador en el que almacenaremos los vínculos causales
+        * @param uf Unificador en el que almacenaremos los vï¿½nculos causales
         * de los que dependen algunos efectos, por ejemplo el when. Si se pone
-        * a null no se tendrá en consideración.
-        * @return true en caso de éxito al aplicar los efectos, false en otro
-        * caso en cuyo caso deberán deshacerse los cambios provocados por la
-        * aplicación de los efectos y realizar un backtrack.
+        * a null no se tendrï¿½ en consideraciï¿½n.
+        * @return true en caso de ï¿½xito al aplicar los efectos, false en otro
+        * caso en cuyo caso deberï¿½n deshacerse los cambios provocados por la
+        * aplicaciï¿½n de los efectos y realizar un backtrack.
         */
         bool applyEffects(State * sta, VUndo * undo, Unifier * uf);
 
         /**
         * Aplica los efectos almacenados en el vector de undo.
         * @param undo Vector que contiene los efectos por aplicar.
-        * @param producer Quien será el responsable de los efectos.
+        * @param producer Quien serï¿½ el responsable de los efectos.
         */
         static void commitEffects(State * sta, VUndo * undo, const PrimitiveTask * producer);
 
@@ -142,8 +138,8 @@ class PrimitiveTask: public Task
         virtual bool provides(const Literal * l) const;
 
         /**
-        * Comprueba si la acción es durativa.
-        * @return true en caso de que la acción sea durativa
+        * Comprueba si la acciï¿½n es durativa.
+        * @return true en caso de que la acciï¿½n sea durativa
         */
         inline bool isDurative(void) const {return tconstraints != 0;};
 
@@ -157,9 +153,9 @@ class PrimitiveTask: public Task
         inline void setTConstraints(vector<TCTR> * constraints) {this->tconstraints = constraints;};
 
         /**
-         * Evalúa las expresiones contenidas en el vector de restricciones
+         * Evalï¿½a las expresiones contenidas en el vector de restricciones
          * temporales tconstraitns y devuelve un vector con el operador y
-         * el resultado de la evaluación para poder añadirlo a la STN
+         * el resultado de la evaluaciï¿½n para poder aï¿½adirlo a la STN
          * Liberar la memoria del vector devuelto
          * @return null en caso de error
          */
@@ -167,7 +163,7 @@ class PrimitiveTask: public Task
                         const State * state,
                         const Unifier * context) const;
     protected:
-    /** La precondición de la tarea, si dispone de alguna */
+    /** La precondiciï¿½n de la tarea, si dispone de alguna */
         Goal * precondition;
         /** El efecto */
         Effect * effect;
@@ -175,12 +171,12 @@ class PrimitiveTask: public Task
         int inlinet;
 
         /**
-         * Este vector almacena las restricciones sobre la duración
+         * Este vector almacena las restricciones sobre la duraciï¿½n
          */
         vector<TCTR> * tconstraints;
 
         /**
-        * Índice que marca el contexto en el que se aplicaron los efectos de esta acción.
+        * ï¿½ndice que marca el contexto en el que se aplicaron los efectos de esta acciï¿½n.
         **/
         int contextIndex;
 

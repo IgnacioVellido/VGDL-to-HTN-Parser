@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 #include <iostream>
 #include <queue>
 #include <stack>
@@ -90,7 +86,7 @@ pair<constr,constr> STP::Query(int i){
 
 constr STP::Query(int i, int j){
   if (j != 0) {
-    cerr << "*** ERROR *** Llamada errónea a la antigua función Query (" << i << ", " << j << ");" << endl;
+    cerr << "*** ERROR *** Llamada errï¿½nea a la antigua funciï¿½n Query (" << i << ", " << j << ");" << endl;
     exit(1);
   }
   else
@@ -135,7 +131,7 @@ bool STP::ReviseConstraints(size_t constraint, bool &bi, bool &bj) {
   constraint_row c=Constraints[constraint];
 
   bi=false; bj = false;
-  // Explora los límites inferiores
+  // Explora los lï¿½mites inferiores
   if (TimePoints[c.j].lower < TimePoints[c.i].lower+c.lower) {
     bj = true;
     if (TimePoints[c.j].lb != NIL) {
@@ -155,7 +151,7 @@ bool STP::ReviseConstraints(size_t constraint, bool &bi, bool &bj) {
       TimePoints[c.i].lb = constraint;
       Constraints[constraint].lb=c.i;
     }
-  // Explora los límites superiores
+  // Explora los lï¿½mites superiores
   if (TimePoints[c.j].upper > TimePoints[c.i].upper+c.upper) {
     bj = true;
     if (TimePoints[c.j].ub != NIL) {
@@ -209,7 +205,7 @@ bool STP::Closure(queue <size_t> & source) {
       constraints_processed++;
       // Hace copia de seguridad de los valores de la red
       // Si la restriccion c da una inconsistencia
-      // Será posible recuperar la red muy rápido
+      // Serï¿½ posible recuperar la red muy rï¿½pido
       Backup();
       from_source=true;
     }
@@ -258,7 +254,7 @@ bool STP::Closure(queue <size_t> & source) {
 bool STP::Follow_lb(size_t node, vector <bool> &visited) {
   bool found = false;
   size_t c;
-  // Comprueba que node no está visitado
+  // Comprueba que node no estï¿½ visitado
   found = visited[node];
   // Explora sus hijos en la lista de sucesores
   if (!found) {
@@ -280,7 +276,7 @@ bool STP::Follow_lb(size_t node, vector <bool> &visited) {
 bool STP::Follow_ub(size_t node, vector <bool> &visited) {
   bool found = false;
   size_t c;
-  // Comprueba que node no está visitado
+  // Comprueba que node no estï¿½ visitado
   found = visited[node];
   // Explora sus hijos en la lista de sucesores
   if (!found) {
@@ -306,7 +302,7 @@ bool STP::ReviseSchedule(size_t constraint, bool &bi, bool &bj) {
   constraint_row c=Constraints[constraint];
 
   bi=false; bj = false;
-  // Explora los límites inferiores
+  // Explora los lï¿½mites inferiores
   if (TimePoints[c.j].earliest < TimePoints[c.i].earliest+c.lower) {
     bj = true;
     TimePoints[c.j].earliest = TimePoints[c.i].earliest+c.lower;
@@ -316,7 +312,7 @@ bool STP::ReviseSchedule(size_t constraint, bool &bi, bool &bj) {
       bi = true;
       TimePoints[c.i].earliest = TimePoints[c.j].earliest-c.upper;
     }
-  // Explora los límites superiores
+  // Explora los lï¿½mites superiores
   if (TimePoints[c.j].latest > TimePoints[c.i].latest+c.upper) {
     bj = true;
     TimePoints[c.j].latest = TimePoints[c.i].latest+c.upper;
@@ -360,7 +356,7 @@ bool STP::ClosureSchedule(queue <size_t> & q) {
 bool STP::Schedule(vector <pair<constr, constr> > &solution) {
   size_t i, j;
   bool result=true;
-  queue <size_t> q; // Cola de restricciones afectadas por la (posible) asignación
+  queue <size_t> q; // Cola de restricciones afectadas por la (posible) asignaciï¿½n
 
   // Si no se pasa una solucion parcial, se genera una nueva
   if (solution.empty()) {
@@ -372,14 +368,14 @@ bool STP::Schedule(vector <pair<constr, constr> > &solution) {
   // El punto inicial es siempre la referencia absoluta 0
   solution[0]=pair<constr,constr>(0,0);
   // Selecciona los arcos que pueden verse alterados
-  // Por cada punto fijo en solution[] se añaden a la cola de propagación
+  // Por cada punto fijo en solution[] se aï¿½aden a la cola de propagaciï¿½n
   // Todos los arcos que acaben o empiecen en un punto fijo
-  // O solo los arcos que estén activos para el valor que se haya fijado
+  // O solo los arcos que estï¿½n activos para el valor que se haya fijado
   for (i=1; i<Size(); i++)
     if (solution[i].first >= 0) { // Si es un punto fijo
       // Pasarlo al schedule
       TimePoints[i].earliest = TimePoints[i].latest = solution[i].first;
-      // Añade todas las restricciones que sean adyacentes y que estén activas
+      // Aï¿½ade todas las restricciones que sean adyacentes y que estï¿½n activas
       for(j=0; j<Constraints.size(); j++)
     if (Constraints[j].i == (int) i || Constraints[j].j == (int) i)
     q.push(j);
@@ -433,7 +429,7 @@ void STP::UnSetLevel() {
       Constraints.pop_back();
     }
     // Una vez restaurada al estado anterior a la inconsistencia
-    // proceder al undo según DYNASTP sobre una red consistente
+    // proceder al undo segï¿½n DYNASTP sobre una red consistente
     while (Constraints.size() > history.back().second)
       PopConstraint();
     while (TimePoints.size() > history.back().first)
@@ -461,7 +457,7 @@ void STP::PopConstraint() {
 //     cerr << endl << "***(387) [" << Query(387).first << ", " << Query(387).second << "]" << endl;
 //     cerr << "PopConstraint(): ";
 //     cerr << Constraints[c].lb << " " << Constraints[c].ub << endl;
-    // Si la constraint está activa
+    // Si la constraint estï¿½ activa
     if (lb != NIL || ub != NIL) {
       Constraints.pop_back();
       if (lb != NIL) {
@@ -475,7 +471,7 @@ void STP::PopConstraint() {
     sub_net_arc_ub((size_t) ub,sub_net_arcs);
       }
 
-//       PintaCola("Cola de revisión: ", sub_net_arcs);
+//       PintaCola("Cola de revisiï¿½n: ", sub_net_arcs);
       UpdateSubNetwork(sub_net_arcs);
 //       cerr << "***(387) [" << Query(387).first << ", " << Query(387).second << "]" << endl;
 
@@ -596,13 +592,13 @@ void STP::toxml(ostream &co) const {
 }
 
 void STP::toxml(XmlWriter * writer) const{
-    // Marcamos el inicio de la descripción XML de la red
+    // Marcamos el inicio de la descripciï¿½n XML de la red
     writer->startTag("tcnm")
     ->addAttrib("size",(int)Size())
     ->addAttrib("pos_inf",(int)POS_INF)
     ->addAttrib("neg_inf",(int)NEG_INF);
 
-    // Añadimos todas las restricciones que han sido impuestas en la red
+    // Aï¿½adimos todas las restricciones que han sido impuestas en la red
     for(size_t i=0;i<Constraints.size();i++) {
     writer->startTag("constraint")
         ->addAttrib("p1",(int)Constraints[i].i)
@@ -612,7 +608,7 @@ void STP::toxml(XmlWriter * writer) const{
         ->endTag();
     }
 
-    // Marcamos el final de la descripción XML de la red
+    // Marcamos el final de la descripciï¿½n XML de la red
     writer->endTag();
 }
 

@@ -1,20 +1,3 @@
-/*  ************************************************************************************
- *  Copyright (C) IACTIVE Intelligent Solutions,
- *
- * http://www.iactive.es
- *
- * Este fichero es propiedad intelectual de IACTIVE Intelligent Solutions
- * y queda protegido por las leyes de propiedad intelectual aplicables.
- * Queda totalmente prohibido, su copia, modificación, distribución y lectura
- * Sin el consentimiento explícito y por escrito de IACTIVE Intelligent Solutions
- *
- * ********************************************************************************** */
-
-/* *************************************************************************************
- * Created by oscar oscar@decsai.ugr.es: jue 01 sep, 2005  10:05
- * Last modified: o.garcia mar 27 nov, 2007  02:47
- * ********************************************************************************** */
-
 #ifndef LITERALEFFECT_H
 #define LITERALEFFECT_H
 
@@ -92,7 +75,7 @@ class LiteralEffect : public Effect, public Literal, public TimeStamped
 
         /**
         @brief Imprime el contenido del objeto.
-        @param indent el número de espacios a dejar antes de la cadena.
+        @param indent el nï¿½mero de espacios a dejar antes de la cadena.
         @param os Un flujo de salida por defecto la salida estandard.
         */
         virtual void print(ostream * os, int indent=0) const;

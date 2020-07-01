@@ -62,7 +62,7 @@
 
 
 /* Copy the first part of user declarations.  */
-#line 5 "yacc/parser.yy" /* yacc.c:339  */
+#line 1 "yacc/parser.yy" /* yacc.c:339  */
 
     using namespace std;
 
@@ -448,7 +448,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 208 "yacc/parser.yy" /* yacc.c:355  */
+#line 204 "yacc/parser.yy" /* yacc.c:355  */
 
         void * otype;
         const void * cotype;
@@ -786,50 +786,50 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   440,   440,   441,   442,   445,   452,   457,   458,   461,
-     462,   465,   466,   469,   470,   473,   474,   477,   478,   481,
-     482,   485,   515,   518,   530,   533,   545,   555,   558,   561,
-     562,   563,   566,   568,   570,   572,   574,   576,   578,   580,
-     582,   584,   586,   588,   590,   592,   594,   596,   601,   607,
-     624,   629,   630,   654,   654,   654,   685,   689,   690,   693,
-     710,   731,   755,   759,   765,   771,   785,   802,   831,   837,
-     845,   848,   849,   853,   852,   903,   907,   906,   965,   972,
-     972,   975,   976,   991,  1019,  1029,  1031,  1035,  1034,  1104,
-    1110,  1115,  1116,  1130,  1131,  1134,  1135,  1136,  1144,  1145,
-    1150,  1176,  1148,  1205,  1203,  1257,  1264,  1269,  1276,  1282,
-    1288,  1294,  1300,  1307,  1311,  1317,  1323,  1329,  1335,  1341,
-    1347,  1353,  1359,  1365,  1373,  1379,  1387,  1388,  1392,  1397,
-    1402,  1408,  1409,  1415,  1417,  1418,  1412,  1472,  1476,  1483,
-    1486,  1495,  1494,  1523,  1525,  1527,  1532,  1531,  1561,  1560,
-    1592,  1591,  1623,  1627,  1652,  1658,  1666,  1670,  1676,  1702,
-    1718,  1741,  1754,  1777,  1793,  1794,  1798,  1800,  1807,  1813,
-    1806,  1833,  1832,  1847,  1853,  1860,  1859,  1871,  1875,  1882,
-    1888,  1881,  1897,  1903,  1896,  1911,  1927,  1937,  1943,  1936,
-    1960,  1968,  1959,  1984,  1986,  1990,  2007,  2010,  2014,  2020,
-    2021,  2024,  2032,  2033,  2043,  2045,  2055,  2054,  2118,  2117,
-    2181,  2182,  2185,  2211,  2221,  2256,  2267,  2269,  2272,  2276,
-    2280,  2284,  2290,  2328,  2340,  2346,  2352,  2358,  2364,  2370,
-    2378,  2384,  2402,  2427,  2431,  2447,  2470,  2471,  2475,  2477,
-    2479,  2483,  2488,  2493,  2498,  2569,  2568,  2687,  2686,  2749,
-    2750,  2754,  2757,  2756,  2767,  2771,  2797,  2805,  2795,  2821,
-    2831,  2833,  2837,  2838,  2847,  2857,  2864,  2868,  2869,  2879,
-    2878,  2889,  2893,  2897,  2901,  2905,  2909,  2915,  2916,  2919,
-    2920,  2923,  2924,  2927,  2928,  2931,  2931,  2945,  2948,  2952,
-    2957,  2969,  2969,  2991,  3013,  3023,  3028,  3029,  3032,  3034,
-    3070,  3072,  3081,  3080,  3143,  3170,  3185,  3141,  3206,  3212,
-    3220,  3227,  3232,  3238,  3244,  3251,  3261,  3265,  3269,  3273,
-    3273,  3273,  3286,  3285,  3297,  3312,  3330,  3330,  3330,  3334,
-    3340,  3344,  3345,  3349,  3350,  3351,  3352,  3353,  3354,  3355,
-    3356,  3357,  3358,  3362,  3366,  3371,  3375,  3379,  3385,  3395,
-    3401,  3406,  3419,  3432,  3437,  3443,  3449,  3459,  3472,  3479,
-    3486,  3493,  3500,  3509,  3514,  3523,  3527,  3527,  3527,  3535,
-    3539,  3543,  3547,  3551,  3555,  3561,  3567,  3567,  3567,  3577,
-    3583,  3589,  3593,  3597,  3605,  3609,  3614,  3621,  3625,  3629,
-    3633,  3637,  3641,  3645,  3649,  3656,  3660,  3660,  3660,  3666,
-    3670,  3674,  3678,  3678,  3678,  3696,  3699,  3704,  3704,  3704,
-    3712,  3712,  3712,  3721,  3721,  3721,  3734,  3733,  3815,  3818,
-    3819,  3822,  3823,  3826,  3830,  3834,  3838,  3842,  3851,  3862,
-    3866,  3870,  3874,  3878,  3882
+       0,   436,   436,   437,   438,   441,   448,   453,   454,   457,
+     458,   461,   462,   465,   466,   469,   470,   473,   474,   477,
+     478,   481,   511,   514,   526,   529,   541,   551,   554,   557,
+     558,   559,   562,   564,   566,   568,   570,   572,   574,   576,
+     578,   580,   582,   584,   586,   588,   590,   592,   597,   603,
+     620,   625,   626,   650,   650,   650,   681,   685,   686,   689,
+     706,   727,   751,   755,   761,   767,   781,   798,   827,   833,
+     841,   844,   845,   849,   848,   899,   903,   902,   961,   968,
+     968,   971,   972,   987,  1015,  1025,  1027,  1031,  1030,  1100,
+    1106,  1111,  1112,  1126,  1127,  1130,  1131,  1132,  1140,  1141,
+    1146,  1172,  1144,  1201,  1199,  1253,  1260,  1265,  1272,  1278,
+    1284,  1290,  1296,  1303,  1307,  1313,  1319,  1325,  1331,  1337,
+    1343,  1349,  1355,  1361,  1369,  1375,  1383,  1384,  1388,  1393,
+    1398,  1404,  1405,  1411,  1413,  1414,  1408,  1468,  1472,  1479,
+    1482,  1491,  1490,  1519,  1521,  1523,  1528,  1527,  1557,  1556,
+    1588,  1587,  1619,  1623,  1648,  1654,  1662,  1666,  1672,  1698,
+    1714,  1737,  1750,  1773,  1789,  1790,  1794,  1796,  1803,  1809,
+    1802,  1829,  1828,  1843,  1849,  1856,  1855,  1867,  1871,  1878,
+    1884,  1877,  1893,  1899,  1892,  1907,  1923,  1933,  1939,  1932,
+    1956,  1964,  1955,  1980,  1982,  1986,  2003,  2006,  2010,  2016,
+    2017,  2020,  2028,  2029,  2039,  2041,  2051,  2050,  2114,  2113,
+    2177,  2178,  2181,  2207,  2217,  2252,  2263,  2265,  2268,  2272,
+    2276,  2280,  2286,  2324,  2336,  2342,  2348,  2354,  2360,  2366,
+    2374,  2380,  2398,  2423,  2427,  2443,  2466,  2467,  2471,  2473,
+    2475,  2479,  2484,  2489,  2494,  2565,  2564,  2683,  2682,  2745,
+    2746,  2750,  2753,  2752,  2763,  2767,  2793,  2801,  2791,  2817,
+    2827,  2829,  2833,  2834,  2843,  2853,  2860,  2864,  2865,  2875,
+    2874,  2885,  2889,  2893,  2897,  2901,  2905,  2911,  2912,  2915,
+    2916,  2919,  2920,  2923,  2924,  2927,  2927,  2941,  2944,  2948,
+    2953,  2965,  2965,  2987,  3009,  3019,  3024,  3025,  3028,  3030,
+    3066,  3068,  3077,  3076,  3139,  3166,  3181,  3137,  3202,  3208,
+    3216,  3223,  3228,  3234,  3240,  3247,  3257,  3261,  3265,  3269,
+    3269,  3269,  3282,  3281,  3293,  3308,  3326,  3326,  3326,  3330,
+    3336,  3340,  3341,  3345,  3346,  3347,  3348,  3349,  3350,  3351,
+    3352,  3353,  3354,  3358,  3362,  3367,  3371,  3375,  3381,  3391,
+    3397,  3402,  3415,  3428,  3433,  3439,  3445,  3455,  3468,  3475,
+    3482,  3489,  3496,  3505,  3510,  3519,  3523,  3523,  3523,  3531,
+    3535,  3539,  3543,  3547,  3551,  3557,  3563,  3563,  3563,  3573,
+    3579,  3585,  3589,  3593,  3601,  3605,  3610,  3617,  3621,  3625,
+    3629,  3633,  3637,  3641,  3645,  3652,  3656,  3656,  3656,  3662,
+    3666,  3670,  3674,  3674,  3674,  3692,  3695,  3700,  3700,  3700,
+    3708,  3708,  3708,  3717,  3717,  3717,  3730,  3729,  3811,  3814,
+    3815,  3818,  3819,  3822,  3826,  3830,  3834,  3838,  3847,  3858,
+    3862,  3866,  3870,  3874,  3878
 };
 #endif
 
@@ -2225,13 +2225,13 @@ yyreduce:
   switch (yyn)
     {
         case 8:
-#line 459 "yacc/parser.yy" /* yacc.c:1646  */
+#line 455 "yacc/parser.yy" /* yacc.c:1646  */
     {parser_api->domain->addRequirement("strips");}
 #line 2231 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 486 "yacc/parser.yy" /* yacc.c:1646  */
+#line 482 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 // tras la declaraci�n de acciones
                                 // comprobar que las tareas definidad en la
@@ -2265,7 +2265,7 @@ yyreduce:
     break;
 
   case 23:
-#line 519 "yacc/parser.yy" /* yacc.c:1646  */
+#line 515 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                     if(parser_api->domain->loaded)
                                     {
@@ -2281,7 +2281,7 @@ yyreduce:
     break;
 
   case 25:
-#line 534 "yacc/parser.yy" /* yacc.c:1646  */
+#line 530 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                     if(!parser_api->domain || !parser_api->problem)
                                     {
@@ -2295,7 +2295,7 @@ yyreduce:
     break;
 
   case 26:
-#line 546 "yacc/parser.yy" /* yacc.c:1646  */
+#line 542 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                     if(strcmp(parser_api->domain->getName(),((string *)(yyvsp[-1].otype))->c_str()))
                                     {
@@ -2309,103 +2309,103 @@ yyreduce:
     break;
 
   case 32:
-#line 567 "yacc/parser.yy" /* yacc.c:1646  */
+#line 563 "yacc/parser.yy" /* yacc.c:1646  */
     { parser_api->domain->addRequirement(":strips");}
 #line 2315 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 569 "yacc/parser.yy" /* yacc.c:1646  */
+#line 565 "yacc/parser.yy" /* yacc.c:1646  */
     { parser_api->domain->addRequirement(":typing");}
 #line 2321 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 571 "yacc/parser.yy" /* yacc.c:1646  */
+#line 567 "yacc/parser.yy" /* yacc.c:1646  */
     { parser_api->domain->addRequirement(":negative-preconditions");}
 #line 2327 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 573 "yacc/parser.yy" /* yacc.c:1646  */
+#line 569 "yacc/parser.yy" /* yacc.c:1646  */
     { parser_api->domain->addRequirement(":disjuntive-preconditions");}
 #line 2333 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 575 "yacc/parser.yy" /* yacc.c:1646  */
+#line 571 "yacc/parser.yy" /* yacc.c:1646  */
     { parser_api->domain->addRequirement(":equality");}
 #line 2339 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 577 "yacc/parser.yy" /* yacc.c:1646  */
+#line 573 "yacc/parser.yy" /* yacc.c:1646  */
     { parser_api->domain->addRequirement(":existential-preconditions");}
 #line 2345 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 579 "yacc/parser.yy" /* yacc.c:1646  */
+#line 575 "yacc/parser.yy" /* yacc.c:1646  */
     { parser_api->domain->addRequirement(":universal-preconditions");}
 #line 2351 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 581 "yacc/parser.yy" /* yacc.c:1646  */
+#line 577 "yacc/parser.yy" /* yacc.c:1646  */
     { parser_api->domain->addRequirement(":quantified-preconditions");}
 #line 2357 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 583 "yacc/parser.yy" /* yacc.c:1646  */
+#line 579 "yacc/parser.yy" /* yacc.c:1646  */
     { parser_api->domain->addRequirement(":conditional-effects");}
 #line 2363 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 585 "yacc/parser.yy" /* yacc.c:1646  */
+#line 581 "yacc/parser.yy" /* yacc.c:1646  */
     { parser_api->domain->addRequirement(":fluents");}
 #line 2369 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 587 "yacc/parser.yy" /* yacc.c:1646  */
+#line 583 "yacc/parser.yy" /* yacc.c:1646  */
     { parser_api->domain->addRequirement(":adl");}
 #line 2375 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 589 "yacc/parser.yy" /* yacc.c:1646  */
+#line 585 "yacc/parser.yy" /* yacc.c:1646  */
     { parser_api->domain->addRequirement(":durative-actions");}
 #line 2381 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 591 "yacc/parser.yy" /* yacc.c:1646  */
+#line 587 "yacc/parser.yy" /* yacc.c:1646  */
     { parser_api->domain->addRequirement(":derived-predicates");}
 #line 2387 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 593 "yacc/parser.yy" /* yacc.c:1646  */
+#line 589 "yacc/parser.yy" /* yacc.c:1646  */
     { parser_api->domain->addRequirement(":timed-initial-literals");}
 #line 2393 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 595 "yacc/parser.yy" /* yacc.c:1646  */
+#line 591 "yacc/parser.yy" /* yacc.c:1646  */
     { parser_api->domain->addRequirement(":metatags");}
 #line 2399 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 597 "yacc/parser.yy" /* yacc.c:1646  */
+#line 593 "yacc/parser.yy" /* yacc.c:1646  */
     { parser_api->domain->addRequirement(":htn-expansion");}
 #line 2405 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 48:
-#line 602 "yacc/parser.yy" /* yacc.c:1646  */
+#line 598 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.otype) = new string((yyvsp[0].type_string));
                                 }
@@ -2413,7 +2413,7 @@ yyreduce:
     break;
 
   case 49:
-#line 608 "yacc/parser.yy" /* yacc.c:1646  */
+#line 604 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                     if(!parser_api->domain->errtyping && !parser_api->domain->hasRequirement(":typing"))
                                     {
@@ -2432,13 +2432,13 @@ yyreduce:
     break;
 
   case 51:
-#line 629 "yacc/parser.yy" /* yacc.c:1646  */
+#line 625 "yacc/parser.yy" /* yacc.c:1646  */
     {(yyval.otype) = 0;}
 #line 2438 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 631 "yacc/parser.yy" /* yacc.c:1646  */
+#line 627 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 vector<Type *> * ptrTypes = (vector<Type *> *) (yyvsp[0].otype);
                                 vector<Type *>::iterator i,e;
@@ -2466,19 +2466,19 @@ yyreduce:
     break;
 
   case 53:
-#line 654 "yacc/parser.yy" /* yacc.c:1646  */
+#line 650 "yacc/parser.yy" /* yacc.c:1646  */
     {errtypes=false;}
 #line 2472 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 654 "yacc/parser.yy" /* yacc.c:1646  */
+#line 650 "yacc/parser.yy" /* yacc.c:1646  */
     {errtypes=true;}
 #line 2478 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 55:
-#line 655 "yacc/parser.yy" /* yacc.c:1646  */
+#line 651 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 vector<Type *> * ptrTypes = (vector<Type *> *) (yyvsp[-5].otype);
                                 vector<Type *> * ptrParents = (vector<Type *> *) (yyvsp[-2].otype);
@@ -2513,19 +2513,19 @@ yyreduce:
     break;
 
   case 56:
-#line 686 "yacc/parser.yy" /* yacc.c:1646  */
+#line 682 "yacc/parser.yy" /* yacc.c:1646  */
     {(yyval.otype)=0;}
 #line 2519 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 691 "yacc/parser.yy" /* yacc.c:1646  */
+#line 687 "yacc/parser.yy" /* yacc.c:1646  */
     {delete (vector<ConstantSymbol *> *) (yyvsp[0].otype);}
 #line 2525 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 59:
-#line 694 "yacc/parser.yy" /* yacc.c:1646  */
+#line 690 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 vector<ConstantSymbol *> * ptr = (vector<ConstantSymbol *> *) (yyvsp[-3].otype);
                                 vector<Type *> * types = (vector<Type *> *) (yyvsp[-1].otype);
@@ -2544,7 +2544,7 @@ yyreduce:
     break;
 
   case 60:
-#line 711 "yacc/parser.yy" /* yacc.c:1646  */
+#line 707 "yacc/parser.yy" /* yacc.c:1646  */
     { vector<ConstantSymbol *> * ptr = new vector<ConstantSymbol *>;
                                   ConstantSymbol * n = new ConstantSymbol((yyvsp[0].type_string));
                                   // comprobamos que la constante no se encuentre ya definida
@@ -2569,7 +2569,7 @@ yyreduce:
     break;
 
   case 61:
-#line 732 "yacc/parser.yy" /* yacc.c:1646  */
+#line 728 "yacc/parser.yy" /* yacc.c:1646  */
     { vector<ConstantSymbol *> * ptr = (vector<ConstantSymbol *> *) (yyvsp[-1].otype);
                                   ConstantSymbol * n = new ConstantSymbol((yyvsp[0].type_string));
                                   // comprobamos que la constante no se encuentre ya definida
@@ -2594,7 +2594,7 @@ yyreduce:
     break;
 
   case 62:
-#line 756 "yacc/parser.yy" /* yacc.c:1646  */
+#line 752 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.otype) = (yyvsp[-1].otype);
                                 }
@@ -2602,7 +2602,7 @@ yyreduce:
     break;
 
   case 63:
-#line 760 "yacc/parser.yy" /* yacc.c:1646  */
+#line 756 "yacc/parser.yy" /* yacc.c:1646  */
     { vector<Type *> * ptr = new vector<Type *> ;
                                 if((yyvsp[0].otype))
                                 ptr->push_back((Type *)(yyvsp[0].otype));
@@ -2612,7 +2612,7 @@ yyreduce:
     break;
 
   case 64:
-#line 766 "yacc/parser.yy" /* yacc.c:1646  */
+#line 762 "yacc/parser.yy" /* yacc.c:1646  */
     { vector<Type *> * ptr = new vector<Type *> ;
                                   (yyval.otype)=ptr;
                                 }
@@ -2620,7 +2620,7 @@ yyreduce:
     break;
 
   case 65:
-#line 772 "yacc/parser.yy" /* yacc.c:1646  */
+#line 768 "yacc/parser.yy" /* yacc.c:1646  */
     { vector<Type *> * ptr = new vector<Type *>;
                                 if(strcasecmp((yyvsp[0].type_string),"object")==0){
                                 snprintf(parerr,256,"`object' is a built-in type and can't be redefined.");
@@ -2638,7 +2638,7 @@ yyreduce:
     break;
 
   case 66:
-#line 786 "yacc/parser.yy" /* yacc.c:1646  */
+#line 782 "yacc/parser.yy" /* yacc.c:1646  */
     { vector<Type *> * ptr = (vector<Type *> *) (yyvsp[-1].otype);
                                 if(strcasecmp((yyvsp[0].type_string),"object")==0){
                                 snprintf(parerr,256,"`object' is a built-in type and can't be redefined.");
@@ -2656,7 +2656,7 @@ yyreduce:
     break;
 
   case 67:
-#line 803 "yacc/parser.yy" /* yacc.c:1646  */
+#line 799 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 // buscamos la referencia al tipo en el dominio
                                 string * s = (string *) (yyvsp[0].otype);
@@ -2687,7 +2687,7 @@ yyreduce:
     break;
 
   case 68:
-#line 832 "yacc/parser.yy" /* yacc.c:1646  */
+#line 828 "yacc/parser.yy" /* yacc.c:1646  */
     { vector<const Type *> * ptr = new vector<const Type *> ;
                                 if((yyvsp[0].otype))
                                     ptr->push_back((const Type *)(yyvsp[0].otype));
@@ -2697,7 +2697,7 @@ yyreduce:
     break;
 
   case 69:
-#line 838 "yacc/parser.yy" /* yacc.c:1646  */
+#line 834 "yacc/parser.yy" /* yacc.c:1646  */
     { vector<const Type *> * ptr = (vector<const Type *> *) (yyvsp[-1].otype);
                                   if((yyvsp[0].otype))
                                 ptr->push_back((const Type *)(yyvsp[0].otype));
@@ -2707,7 +2707,7 @@ yyreduce:
     break;
 
   case 73:
-#line 853 "yacc/parser.yy" /* yacc.c:1646  */
+#line 849 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                   string * nameLit = (string *) (yyvsp[0].otype);
                                   LiteralEffect * lit=0;
@@ -2733,7 +2733,7 @@ yyreduce:
     break;
 
   case 74:
-#line 875 "yacc/parser.yy" /* yacc.c:1646  */
+#line 871 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                   LiteralEffect * lit= (LiteralEffect *) container;
                                   container = 0;
@@ -2766,7 +2766,7 @@ yyreduce:
     break;
 
   case 76:
-#line 907 "yacc/parser.yy" /* yacc.c:1646  */
+#line 903 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                   string * nameLit = (string *) (yyvsp[0].otype);
                                   Axiom * lit=0;
@@ -2792,7 +2792,7 @@ yyreduce:
     break;
 
   case 77:
-#line 929 "yacc/parser.yy" /* yacc.c:1646  */
+#line 925 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                   Axiom * lit= (Axiom *) container;
                                   container = 0;
@@ -2833,7 +2833,7 @@ yyreduce:
     break;
 
   case 78:
-#line 966 "yacc/parser.yy" /* yacc.c:1646  */
+#line 962 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                   (yyval.otype) =0;
                                 }
@@ -2841,13 +2841,13 @@ yyreduce:
     break;
 
   case 79:
-#line 972 "yacc/parser.yy" /* yacc.c:1646  */
+#line 968 "yacc/parser.yy" /* yacc.c:1646  */
     {contador = 0;}
 #line 2847 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 82:
-#line 977 "yacc/parser.yy" /* yacc.c:1646  */
+#line 973 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                   // si tenemos un contenedor donde meter la variable
                                   // la a�adimos
@@ -2866,7 +2866,7 @@ yyreduce:
     break;
 
   case 83:
-#line 992 "yacc/parser.yy" /* yacc.c:1646  */
+#line 988 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                   if(!container)
                                       *errflow << "(mensaje recordatorio) (-- Aqui deber�a haber un container --)" << endl;
@@ -2896,7 +2896,7 @@ yyreduce:
     break;
 
   case 84:
-#line 1020 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1016 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                     if(!parser_api->domain->errfluents && !parser_api->domain->hasRequirement(":fluents"))
                                     {
@@ -2908,7 +2908,7 @@ yyreduce:
     break;
 
   case 87:
-#line 1035 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1031 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 string * nameLit = (string *) (yyvsp[0].otype);
                                 PyDefFunction * lit=0;
@@ -2936,7 +2936,7 @@ yyreduce:
     break;
 
   case 88:
-#line 1059 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1055 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 PyDefFunction * lit= (PyDefFunction *) container;
                                 container = 0;
@@ -2983,7 +2983,7 @@ yyreduce:
     break;
 
   case 89:
-#line 1104 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1100 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 Type * number = parser_api->domain->getModificableType("number");
                                 vector<Type *> * vt = new vector<Type *>;
@@ -2994,19 +2994,19 @@ yyreduce:
     break;
 
   case 90:
-#line 1111 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1107 "yacc/parser.yy" /* yacc.c:1646  */
     {(yyval.otype)=(yyvsp[0].otype);}
 #line 3000 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 91:
-#line 1115 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1111 "yacc/parser.yy" /* yacc.c:1646  */
     {(yyval.type_string) = 0;}
 #line 3006 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 92:
-#line 1117 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1113 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                     static string code = "";
                                 code = (yyvsp[0].type_string);
@@ -3022,7 +3022,7 @@ yyreduce:
     break;
 
   case 97:
-#line 1137 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1133 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                   if(!parser_api->domain->errder && !parser_api->domain->hasRequirement(":derived-predicates"))
                                   {
@@ -3034,7 +3034,7 @@ yyreduce:
     break;
 
   case 100:
-#line 1150 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1146 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 context = new LDictionary;
                                 string * name = (string *) (yyvsp[0].otype);
@@ -3063,7 +3063,7 @@ yyreduce:
     break;
 
   case 101:
-#line 1176 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1172 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                         // si hay alg�n tag
                                         if((yyvsp[0].otype)){
@@ -3082,7 +3082,7 @@ yyreduce:
     break;
 
   case 102:
-#line 1193 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1189 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 PrimitiveTask * priTask= (PrimitiveTask *) (yyvsp[-9].otype);
                                 priTask->setPrecondition((Goal *) (yyvsp[-2].otype));
@@ -3095,7 +3095,7 @@ yyreduce:
     break;
 
   case 103:
-#line 1205 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1201 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 context = new LDictionary;
                                 string * name = (string *) (yyvsp[0].otype);
@@ -3124,7 +3124,7 @@ yyreduce:
     break;
 
   case 104:
-#line 1233 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1229 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 if((yyvsp[-2].otype)){
                                         TagVector * tv = (TagVector *) (yyvsp[-2].otype);
@@ -3150,7 +3150,7 @@ yyreduce:
     break;
 
   case 105:
-#line 1258 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1254 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 vector<TCTR> * v = new vector<TCTR>;
                                 TCTR * ele = (TCTR *) (yyvsp[0].otype);
@@ -3161,7 +3161,7 @@ yyreduce:
     break;
 
   case 106:
-#line 1265 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1261 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 vector<TCTR> * v = (vector<TCTR> *) (yyvsp[-1].otype);
                                 (yyval.otype)= v;
@@ -3170,7 +3170,7 @@ yyreduce:
     break;
 
   case 107:
-#line 1270 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1266 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 vector<TCTR> * v = new vector<TCTR>;
                                 (yyval.otype)= v;
@@ -3179,7 +3179,7 @@ yyreduce:
     break;
 
   case 108:
-#line 1277 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1273 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                     static TCTR p;
                                     p = make_pair(EQ_DUR,(Evaluable *)(yyvsp[-1].otype));
@@ -3189,7 +3189,7 @@ yyreduce:
     break;
 
   case 109:
-#line 1283 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1279 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                     static TCTR p;
                                     p = make_pair(LEQ_DUR,(Evaluable *)(yyvsp[-1].otype));
@@ -3199,7 +3199,7 @@ yyreduce:
     break;
 
   case 110:
-#line 1289 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1285 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                     static TCTR p;
                                     p = make_pair(GEQ_DUR,(Evaluable *)(yyvsp[-1].otype));
@@ -3209,7 +3209,7 @@ yyreduce:
     break;
 
   case 111:
-#line 1295 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1291 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                     static TCTR p;
                                     p = make_pair(LESS_DUR,(Evaluable *)(yyvsp[-1].otype));
@@ -3219,7 +3219,7 @@ yyreduce:
     break;
 
   case 112:
-#line 1301 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1297 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                     static TCTR p;
                                     p = make_pair(GRE_DUR,(Evaluable *)(yyvsp[-1].otype));
@@ -3229,7 +3229,7 @@ yyreduce:
     break;
 
   case 113:
-#line 1308 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1304 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                     (yyval.otype) = (yyvsp[0].otype);
                                 }
@@ -3237,7 +3237,7 @@ yyreduce:
     break;
 
   case 114:
-#line 1312 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1308 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 static TCTR p;
                                 p = make_pair(EQ_START,(Evaluable *)(yyvsp[-1].otype));
@@ -3247,7 +3247,7 @@ yyreduce:
     break;
 
   case 115:
-#line 1318 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1314 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 static TCTR p;
                                 p = make_pair(LEQ_START,(Evaluable *)(yyvsp[-1].otype));
@@ -3257,7 +3257,7 @@ yyreduce:
     break;
 
   case 116:
-#line 1324 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1320 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 static TCTR p;
                                 p = make_pair(GEQ_START,(Evaluable *)(yyvsp[-1].otype));
@@ -3267,7 +3267,7 @@ yyreduce:
     break;
 
   case 117:
-#line 1330 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1326 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 static TCTR p;
                                 p = make_pair(LESS_START,(Evaluable *)(yyvsp[-1].otype));
@@ -3277,7 +3277,7 @@ yyreduce:
     break;
 
   case 118:
-#line 1336 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1332 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 static TCTR p;
                                 p = make_pair(GRE_START,(Evaluable *)(yyvsp[-1].otype));
@@ -3287,7 +3287,7 @@ yyreduce:
     break;
 
   case 119:
-#line 1342 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1338 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 static TCTR p;
                                 p = make_pair(EQ_END,(Evaluable *)(yyvsp[-1].otype));
@@ -3297,7 +3297,7 @@ yyreduce:
     break;
 
   case 120:
-#line 1348 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1344 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 static TCTR p;
                                 p = make_pair(LEQ_END,(Evaluable *)(yyvsp[-1].otype));
@@ -3307,7 +3307,7 @@ yyreduce:
     break;
 
   case 121:
-#line 1354 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1350 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 static TCTR p;
                                 p = make_pair(GEQ_END,(Evaluable *)(yyvsp[-1].otype));
@@ -3317,7 +3317,7 @@ yyreduce:
     break;
 
   case 122:
-#line 1360 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1356 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 static TCTR p;
                                 p = make_pair(LESS_END,(Evaluable *)(yyvsp[-1].otype));
@@ -3327,7 +3327,7 @@ yyreduce:
     break;
 
   case 123:
-#line 1366 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1362 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 static TCTR p;
                                 p = make_pair(GRE_END,(Evaluable *)(yyvsp[-1].otype));
@@ -3337,7 +3337,7 @@ yyreduce:
     break;
 
   case 124:
-#line 1374 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1370 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 vector<pair<int,Evaluable *> > * v = new vector<pair<int,Evaluable *> >;
                                 v->push_back(*((pair<int,Evaluable *> *) (yyvsp[0].otype)));
@@ -3347,7 +3347,7 @@ yyreduce:
     break;
 
   case 125:
-#line 1380 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1376 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 vector<pair<int,Evaluable *> > * v = (vector<pair<int,Evaluable *> > *) (yyvsp[-1].otype);
                                 v->push_back(*((pair<int,Evaluable *> *) (yyvsp[0].otype)));
@@ -3357,7 +3357,7 @@ yyreduce:
     break;
 
   case 127:
-#line 1389 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1385 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 cbuilding->setFirst();
                                 }
@@ -3365,7 +3365,7 @@ yyreduce:
     break;
 
   case 128:
-#line 1393 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1389 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 cbuilding->setFirst();
                                 cbuilding->setRandom();
@@ -3374,7 +3374,7 @@ yyreduce:
     break;
 
   case 129:
-#line 1398 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1394 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 cbuilding->setFirst();
                                 cbuilding->setRandom();
@@ -3383,7 +3383,7 @@ yyreduce:
     break;
 
   case 130:
-#line 1403 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1399 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 cbuilding->setRandom();
                                 }
@@ -3391,19 +3391,19 @@ yyreduce:
     break;
 
   case 133:
-#line 1415 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1411 "yacc/parser.yy" /* yacc.c:1646  */
     {container=cbuilding;}
 #line 3397 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 134:
-#line 1417 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1413 "yacc/parser.yy" /* yacc.c:1646  */
     {container=0;}
 #line 3403 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 135:
-#line 1418 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1414 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 string * name = (string *) (yyvsp[-3].otype);
                                 // comprobar que el m�todo no se haya definido con anterioridad
@@ -3447,7 +3447,7 @@ yyreduce:
     break;
 
   case 136:
-#line 1460 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1456 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 Method * method = (Method *) (yyvsp[-4].otype);
                                 method->setPrecondition((Goal *) (yyvsp[-3].otype));
@@ -3461,7 +3461,7 @@ yyreduce:
     break;
 
   case 137:
-#line 1472 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1468 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.otype) = 0;
                                 }
@@ -3469,7 +3469,7 @@ yyreduce:
     break;
 
   case 138:
-#line 1477 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1473 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.otype) = (yyvsp[-1].otype);
                                 }
@@ -3477,7 +3477,7 @@ yyreduce:
     break;
 
   case 139:
-#line 1483 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1479 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.otype) = new TagVector();
                                 }
@@ -3485,7 +3485,7 @@ yyreduce:
     break;
 
   case 140:
-#line 1487 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1483 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 TagVector * tv = (TagVector *) (yyvsp[-1].otype);
                                 tv->push_back((Tag *)(yyvsp[0].otype));
@@ -3495,7 +3495,7 @@ yyreduce:
     break;
 
   case 141:
-#line 1495 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1491 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 const char * name = (const char *) (yyvsp[0].type_string);
                                 TextTag * mt = new TextTag(name);
@@ -3505,7 +3505,7 @@ yyreduce:
     break;
 
   case 142:
-#line 1501 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1497 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 TextTag * mt = (TextTag *) (yyvsp[-2].otype);
                                     string text = (const char *) (yyvsp[-1].type_string);
@@ -3530,25 +3530,25 @@ yyreduce:
     break;
 
   case 143:
-#line 1524 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1520 "yacc/parser.yy" /* yacc.c:1646  */
     {(yyval.otype)=(yyvsp[0].otype);}
 #line 3536 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 144:
-#line 1526 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1522 "yacc/parser.yy" /* yacc.c:1646  */
     {(yyval.otype)=0; *errflow << "No implementado achieve" << endl;}
 #line 3542 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 145:
-#line 1528 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1524 "yacc/parser.yy" /* yacc.c:1646  */
     {(yyval.otype) =(yyvsp[0].otype);}
 #line 3548 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 146:
-#line 1532 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1528 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 PrimitiveTask * priTask=0;
                                 Meta * mt = 0;
@@ -3574,7 +3574,7 @@ yyreduce:
     break;
 
   case 147:
-#line 1554 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1550 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                         PrimitiveTask * priTask= (PrimitiveTask *) (yyvsp[-3].otype);
                                         priTask->setPrecondition((Goal *) (yyvsp[-2].otype));
@@ -3585,7 +3585,7 @@ yyreduce:
     break;
 
   case 148:
-#line 1561 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1557 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 PrimitiveTask * priTask=0;
                                 Meta * mt = 0;
@@ -3611,7 +3611,7 @@ yyreduce:
     break;
 
   case 149:
-#line 1583 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1579 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                         PrimitiveTask * priTask= (PrimitiveTask *) (yyvsp[-3].otype);
                                         priTask->setPrecondition((Goal *) (yyvsp[-2].otype));
@@ -3622,7 +3622,7 @@ yyreduce:
     break;
 
   case 150:
-#line 1592 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1588 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 string * name = (string *) (yyvsp[0].otype);
                                 TaskHeader * th=0;
@@ -3648,7 +3648,7 @@ yyreduce:
     break;
 
   case 151:
-#line 1614 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1610 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 // se deja para una comprobaci�n posterior el ver
                                 // si el th se corresponde con alguna tarea del dominio
@@ -3660,7 +3660,7 @@ yyreduce:
     break;
 
   case 152:
-#line 1624 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1620 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.otype) = (yyvsp[0].otype);
                                 }
@@ -3668,7 +3668,7 @@ yyreduce:
     break;
 
   case 153:
-#line 1628 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1624 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 // esto es una noop
                                 Meta * mt = 0;
@@ -3694,7 +3694,7 @@ yyreduce:
     break;
 
   case 154:
-#line 1653 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1649 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 vector<TaskNetwork *> * vt = (vector<TaskNetwork *> *) (yyvsp[-1].otype);
                                 vt->push_back((TaskNetwork *) (yyvsp[0].otype));
@@ -3704,7 +3704,7 @@ yyreduce:
     break;
 
   case 155:
-#line 1659 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1655 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 vector<TaskNetwork *> * vt = new vector<TaskNetwork *>;
                                 vt->push_back((TaskNetwork *) (yyvsp[0].otype));
@@ -3714,7 +3714,7 @@ yyreduce:
     break;
 
   case 156:
-#line 1667 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1663 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.otype) = new TaskNetwork((Task *) (yyvsp[0].otype));
                                 }
@@ -3722,7 +3722,7 @@ yyreduce:
     break;
 
   case 157:
-#line 1671 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1667 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 TaskNetwork * tn = new TaskNetwork((Task *) (yyvsp[0].otype));
                                 tn->setInmediate(0,true);
@@ -3732,7 +3732,7 @@ yyreduce:
     break;
 
   case 158:
-#line 1677 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1673 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 vector<TCTR> * v = (vector<TCTR> *) (yyvsp[-2].otype);
                                 vector<TCTR>::iterator iv, ev = v->end();
@@ -3762,7 +3762,7 @@ yyreduce:
     break;
 
   case 159:
-#line 1703 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1699 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 vector<TaskNetwork *> * vt = (vector<TaskNetwork *> *) (yyvsp[-1].otype);
 
@@ -3782,7 +3782,7 @@ yyreduce:
     break;
 
   case 160:
-#line 1719 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1715 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 vector<TCTR> * v = (vector<TCTR> *) (yyvsp[-2].otype);
                                 vector<TCTR>::iterator iv, ev = v->end();
@@ -3809,7 +3809,7 @@ yyreduce:
     break;
 
   case 161:
-#line 1742 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1738 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 vector<TaskNetwork *> * vt = (vector<TaskNetwork *> *) (yyvsp[-1].otype);
 
@@ -3826,7 +3826,7 @@ yyreduce:
     break;
 
   case 162:
-#line 1755 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1751 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 vector<TCTR> * v = (vector<TCTR> *) (yyvsp[-2].otype);
                                 vector<TCTR>::iterator iv, ev = v->end();
@@ -3853,7 +3853,7 @@ yyreduce:
     break;
 
   case 163:
-#line 1778 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1774 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 vector<TaskNetwork *> * vt = (vector<TaskNetwork *> *) (yyvsp[-1].otype);
 
@@ -3870,25 +3870,25 @@ yyreduce:
     break;
 
   case 164:
-#line 1793 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1789 "yacc/parser.yy" /* yacc.c:1646  */
     { (yyval.otype) = 0;}
 #line 3876 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 165:
-#line 1795 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1791 "yacc/parser.yy" /* yacc.c:1646  */
     { (yyval.otype) = (yyvsp[0].otype);}
 #line 3882 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 166:
-#line 1799 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1795 "yacc/parser.yy" /* yacc.c:1646  */
     { (yyval.otype) = 0;}
 #line 3888 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 167:
-#line 1801 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1797 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 CutGoal * cg = new CutGoal();
                                 cg->setGoal((Goal *)(yyvsp[-1].otype));
@@ -3898,7 +3898,7 @@ yyreduce:
     break;
 
   case 168:
-#line 1807 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1803 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 SortGoal * sg = new SortGoal();
                                 container = sg;
@@ -3908,7 +3908,7 @@ yyreduce:
     break;
 
   case 169:
-#line 1813 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1809 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 container = 0;
                                 }
@@ -3916,7 +3916,7 @@ yyreduce:
     break;
 
   case 170:
-#line 1817 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1813 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 SortGoal * sg = (SortGoal *) (yyvsp[-4].otype);
                                 Goal * g = (Goal *) (yyvsp[-1].otype);
@@ -3936,7 +3936,7 @@ yyreduce:
     break;
 
   case 171:
-#line 1833 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1829 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.otype) = new FluentVar((pkey *)(yyvsp[0].termtype));
                                 }
@@ -3944,7 +3944,7 @@ yyreduce:
     break;
 
   case 172:
-#line 1837 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1833 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 FluentVar * fv = (FluentVar *) (yyvsp[-2].otype);
                                 BoundGoal * bg = new BoundGoal(fv,(Evaluable *)(yyvsp[-1].otype));
@@ -3959,7 +3959,7 @@ yyreduce:
     break;
 
   case 173:
-#line 1848 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1844 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 PrintGoal * pg = new PrintGoal();
                                 pg->setGoal((Goal *) (yyvsp[-1].otype));
@@ -3969,7 +3969,7 @@ yyreduce:
     break;
 
   case 174:
-#line 1854 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1850 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 PrintGoal * pg = new PrintGoal();
                                 pg->setStr((yyvsp[-1].type_string));
@@ -3979,7 +3979,7 @@ yyreduce:
     break;
 
   case 175:
-#line 1860 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1856 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 PrintGoal * pg = new PrintGoal();
                                 container = pg;
@@ -3990,7 +3990,7 @@ yyreduce:
     break;
 
   case 176:
-#line 1867 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1863 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 container = 0;
                                 (yyval.otype) = (yyvsp[-2].otype);
@@ -3999,7 +3999,7 @@ yyreduce:
     break;
 
   case 177:
-#line 1872 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1868 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.otype) = (yyvsp[0].otype);
                                 }
@@ -4007,7 +4007,7 @@ yyreduce:
     break;
 
   case 178:
-#line 1876 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1872 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.otype) = (yyvsp[0].otype);
                                 }
@@ -4015,7 +4015,7 @@ yyreduce:
     break;
 
   case 179:
-#line 1882 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1878 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 AndGoal * ag = new AndGoal();
                                 gcontainer.push_back(ag);
@@ -4025,7 +4025,7 @@ yyreduce:
     break;
 
   case 180:
-#line 1888 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1884 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 gcontainer.pop_back();
                                 }
@@ -4033,7 +4033,7 @@ yyreduce:
     break;
 
   case 181:
-#line 1892 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1888 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 AndGoal * ag = (AndGoal *) (yyvsp[-3].otype);
                                 (yyval.otype) = ag;
@@ -4042,7 +4042,7 @@ yyreduce:
     break;
 
   case 182:
-#line 1897 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1893 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 OrGoal * ag = new OrGoal();
                                 gcontainer.push_back(ag);
@@ -4052,7 +4052,7 @@ yyreduce:
     break;
 
   case 183:
-#line 1903 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1899 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 gcontainer.pop_back();
                                 }
@@ -4060,7 +4060,7 @@ yyreduce:
     break;
 
   case 184:
-#line 1907 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1903 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 OrGoal * ag = (OrGoal *) (yyvsp[-3].otype);
                                 (yyval.otype) = ag;
@@ -4069,7 +4069,7 @@ yyreduce:
     break;
 
   case 185:
-#line 1912 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1908 "yacc/parser.yy" /* yacc.c:1646  */
     { Goal * g = (Goal *) (yyvsp[-1].otype);
                                 if(g){
                                 if(g->getPolarity())
@@ -4089,7 +4089,7 @@ yyreduce:
     break;
 
   case 186:
-#line 1928 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1924 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.otype) = new ImplyGoal((Goal *) (yyvsp[-2].otype), (Goal *) (yyvsp[-1].otype));
                                     if(!parser_api->domain->errdisjuntive && !parser_api->domain->hasRequirement(":disjuntive-preconditions"))
@@ -4102,7 +4102,7 @@ yyreduce:
     break;
 
   case 187:
-#line 1937 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1933 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 ExistsGoal * fag = new ExistsGoal();
                                 container = fag;
@@ -4112,7 +4112,7 @@ yyreduce:
     break;
 
   case 188:
-#line 1943 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1939 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 container = 0;
                                 }
@@ -4120,7 +4120,7 @@ yyreduce:
     break;
 
   case 189:
-#line 1947 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1943 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 ExistsGoal * fag = (ExistsGoal *) (yyvsp[-6].otype);
                                 Goal * g = (Goal *) (yyvsp[-1].otype);
@@ -4137,7 +4137,7 @@ yyreduce:
     break;
 
   case 190:
-#line 1960 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1956 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 // creamos el forall, y lo ponemos como
                                 // el elemento que va a contener a las variables
@@ -4149,7 +4149,7 @@ yyreduce:
     break;
 
   case 191:
-#line 1968 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1964 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 container = 0;
                                 }
@@ -4157,7 +4157,7 @@ yyreduce:
     break;
 
   case 192:
-#line 1972 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1968 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 ForallGoal * fag = (ForallGoal *) (yyvsp[-6].otype);
                                 Goal * g = (Goal *) (yyvsp[-1].otype);
@@ -4174,19 +4174,19 @@ yyreduce:
     break;
 
   case 193:
-#line 1985 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1981 "yacc/parser.yy" /* yacc.c:1646  */
     { (yyval.otype) = (yyvsp[0].otype);}
 #line 4180 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 194:
-#line 1987 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1983 "yacc/parser.yy" /* yacc.c:1646  */
     { (yyval.otype) = (LiteralGoal *) (yyvsp[0].otype);}
 #line 4186 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 195:
-#line 1991 "yacc/parser.yy" /* yacc.c:1646  */
+#line 1987 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 Goal * g = (Goal *) (yyvsp[-1].otype);
                                 TimeInterval * ti = (TimeInterval *) (yyvsp[-2].otype);
@@ -4205,7 +4205,7 @@ yyreduce:
     break;
 
   case 196:
-#line 2007 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2003 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.type_int) = DEFAULT_CRITERIA;
                                 }
@@ -4213,7 +4213,7 @@ yyreduce:
     break;
 
   case 197:
-#line 2011 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2007 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.type_int) = SASC;
                                 }
@@ -4221,7 +4221,7 @@ yyreduce:
     break;
 
   case 198:
-#line 2015 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2011 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.type_int) = SDESC;
                                 }
@@ -4229,7 +4229,7 @@ yyreduce:
     break;
 
   case 201:
-#line 2025 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2021 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 pkey ret = *(yyvsp[-1].termtype);
                                 SortGoal * sg = (SortGoal *) container;
@@ -4240,7 +4240,7 @@ yyreduce:
     break;
 
   case 203:
-#line 2034 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2030 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 if((yyvsp[0].otype)){
                                 ContainerGoal * lc = (ContainerGoal *) gcontainer.back();
@@ -4252,13 +4252,13 @@ yyreduce:
     break;
 
   case 204:
-#line 2044 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2040 "yacc/parser.yy" /* yacc.c:1646  */
     { (yyval.otype) = (LiteralEffect *) (yyvsp[0].otype);}
 #line 4258 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 205:
-#line 2046 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2042 "yacc/parser.yy" /* yacc.c:1646  */
     { LiteralEffect * lit = (LiteralEffect *) (yyvsp[-1].otype);
                                 lit->setMaintain(true);
                                 (yyval.otype) = lit;
@@ -4267,7 +4267,7 @@ yyreduce:
     break;
 
   case 206:
-#line 2055 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2051 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 string * nameLit = (string *) (yyvsp[0].otype);
                                 LiteralEffect * lit=0;
@@ -4295,7 +4295,7 @@ yyreduce:
     break;
 
   case 207:
-#line 2079 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2075 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 LiteralEffect * lit= (LiteralEffect *) container;
                                 container = 0;
@@ -4336,7 +4336,7 @@ yyreduce:
     break;
 
   case 208:
-#line 2118 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2114 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 string * nameLit = (string *) (yyvsp[0].otype);
                                 LiteralGoal * lit=0;
@@ -4364,7 +4364,7 @@ yyreduce:
     break;
 
   case 209:
-#line 2142 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2138 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 LiteralGoal * lit= (LiteralGoal *) container;
                                 container = 0;
@@ -4405,7 +4405,7 @@ yyreduce:
     break;
 
   case 212:
-#line 2186 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2182 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 string * c = (string *) (yyvsp[0].otype);
                                 if(!container)
@@ -4435,7 +4435,7 @@ yyreduce:
     break;
 
   case 213:
-#line 2212 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2208 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 if(!container)
                                 *errflow << "(mensaje recordatorio) (-- Aqui deber�a haber un container --)" << endl;
@@ -4449,7 +4449,7 @@ yyreduce:
     break;
 
   case 214:
-#line 2222 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2218 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 if(!container)
                                 *errflow << "(mensaje recordatorio) (-- Aqui deber�a haber un container --)" << endl;
@@ -4488,7 +4488,7 @@ yyreduce:
     break;
 
   case 215:
-#line 2257 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2253 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 if(!container)
                                 *errflow << "(mensaje recordatorio) (-- Aqui deber�a haber un container --)" << endl;
@@ -4501,19 +4501,19 @@ yyreduce:
     break;
 
   case 216:
-#line 2268 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2264 "yacc/parser.yy" /* yacc.c:1646  */
     {(yyval.type_number)=(yyvsp[0].type_number);}
 #line 4507 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 217:
-#line 2270 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2266 "yacc/parser.yy" /* yacc.c:1646  */
     {(yyval.type_number)=(yyvsp[0].type_number);}
 #line 4513 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 218:
-#line 2273 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2269 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.type_string) = (yyvsp[0].type_string);
                                 }
@@ -4521,7 +4521,7 @@ yyreduce:
     break;
 
   case 219:
-#line 2277 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2273 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.type_string) =(yyvsp[0].type_string);
                                 }
@@ -4529,7 +4529,7 @@ yyreduce:
     break;
 
   case 220:
-#line 2281 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2277 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.type_string) = (yyvsp[0].type_string);
                                 }
@@ -4537,7 +4537,7 @@ yyreduce:
     break;
 
   case 221:
-#line 2285 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2281 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.type_string) = (yyvsp[0].type_string);
                                 }
@@ -4545,7 +4545,7 @@ yyreduce:
     break;
 
   case 222:
-#line 2291 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2287 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                   // miramos si la variable se define en un contexto en concreto
                                   // para dar el mismo identificador, por ejemplo en el literal
@@ -4585,7 +4585,7 @@ yyreduce:
     break;
 
   case 223:
-#line 2329 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2325 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 ComparationGoal * cg = (ComparationGoal *) (yyvsp[-3].otype);
                                 Evaluable * first, * second;
@@ -4599,7 +4599,7 @@ yyreduce:
     break;
 
   case 224:
-#line 2341 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2337 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 ComparationGoal * cg =  new ComparationGoal();
                                 cg->setComparator(CGREATHER);
@@ -4609,7 +4609,7 @@ yyreduce:
     break;
 
   case 225:
-#line 2347 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2343 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 ComparationGoal * cg =  new ComparationGoal();
                                 cg->setComparator(CLESS);
@@ -4619,7 +4619,7 @@ yyreduce:
     break;
 
   case 226:
-#line 2353 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2349 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 ComparationGoal * cg =  new ComparationGoal();
                                 cg->setComparator(CEQUAL);
@@ -4629,7 +4629,7 @@ yyreduce:
     break;
 
   case 227:
-#line 2359 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2355 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 ComparationGoal * cg =  new ComparationGoal();
                                 cg->setComparator(CGREATHER_EQUAL);
@@ -4639,7 +4639,7 @@ yyreduce:
     break;
 
   case 228:
-#line 2365 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2361 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 ComparationGoal * cg =  new ComparationGoal();
                                 cg->setComparator(CLESS_EQUAL);
@@ -4649,7 +4649,7 @@ yyreduce:
     break;
 
   case 229:
-#line 2371 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2367 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 ComparationGoal * cg =  new ComparationGoal();
                                 cg->setComparator(CDISTINCT);
@@ -4659,7 +4659,7 @@ yyreduce:
     break;
 
   case 230:
-#line 2379 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2375 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 FluentNumber * f = new FluentNumber((yyvsp[0].type_number));
                                 isNumber = true;
@@ -4669,7 +4669,7 @@ yyreduce:
     break;
 
   case 231:
-#line 2385 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2381 "yacc/parser.yy" /* yacc.c:1646  */
     { FluentOperator * fo = (FluentOperator *) (yyvsp[-3].otype);
                                 Evaluable * first, * second;
                                 first = (Evaluable *) (yyvsp[-2].otype);
@@ -4691,7 +4691,7 @@ yyreduce:
     break;
 
   case 232:
-#line 2403 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2399 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 FluentOperator * fo = new FluentOperator((Operation)(yyvsp[-3].type_int));
                                 Evaluable * first, * second;
@@ -4720,7 +4720,7 @@ yyreduce:
     break;
 
   case 233:
-#line 2428 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2424 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.otype) = (FluentLiteral *) (yyvsp[0].otype);
                                 }
@@ -4728,7 +4728,7 @@ yyreduce:
     break;
 
   case 234:
-#line 2432 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2428 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 FluentVar * v = new FluentVar((yyvsp[0].termtype));
                                 // comprobar que la variable sea de tipo number
@@ -4748,7 +4748,7 @@ yyreduce:
     break;
 
   case 235:
-#line 2448 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2444 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 string * c = (string *) (yyvsp[0].otype);
                                 FluentConstant * f;
@@ -4772,37 +4772,37 @@ yyreduce:
     break;
 
   case 236:
-#line 2470 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2466 "yacc/parser.yy" /* yacc.c:1646  */
     {(yyval.otype)=0;}
 #line 4778 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 237:
-#line 2472 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2468 "yacc/parser.yy" /* yacc.c:1646  */
     {(yyval.otype)=(yyvsp[0].otype);}
 #line 4784 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 238:
-#line 2476 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2472 "yacc/parser.yy" /* yacc.c:1646  */
     {(yyval.type_int)=(int)OSUBSTRACT;}
 #line 4790 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 239:
-#line 2478 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2474 "yacc/parser.yy" /* yacc.c:1646  */
     {(yyval.type_int)=(int)UABS;}
 #line 4796 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 240:
-#line 2480 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2476 "yacc/parser.yy" /* yacc.c:1646  */
     {(yyval.type_int)=(int)USQRT;}
 #line 4802 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 241:
-#line 2484 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2480 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 FluentOperator * fo = new FluentOperator(OADD);
                                 (yyval.otype) = fo;
@@ -4811,7 +4811,7 @@ yyreduce:
     break;
 
   case 242:
-#line 2489 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2485 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 FluentOperator * fo = new FluentOperator(OTIMES);
                                 (yyval.otype) = fo;
@@ -4820,7 +4820,7 @@ yyreduce:
     break;
 
   case 243:
-#line 2494 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2490 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 FluentOperator * fo = new FluentOperator(ODIVIDE);
                                 (yyval.otype) = fo;
@@ -4829,7 +4829,7 @@ yyreduce:
     break;
 
   case 244:
-#line 2499 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2495 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 FluentOperator * fo = new FluentOperator(OPOW);
                                 (yyval.otype) = fo;
@@ -4838,7 +4838,7 @@ yyreduce:
     break;
 
   case 245:
-#line 2569 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2565 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 string * nameLit = (string *) (yyvsp[0].otype);
                                 Function * lit=0;
@@ -4864,7 +4864,7 @@ yyreduce:
     break;
 
   case 246:
-#line 2591 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2587 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 Function * lit= (Function *) container;
                                 container = 0;
@@ -4909,7 +4909,7 @@ yyreduce:
     break;
 
   case 247:
-#line 2687 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2683 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 string * nameLit = (string *) (yyvsp[0].otype);
                                 FluentLiteral * lit=0;
@@ -4935,7 +4935,7 @@ yyreduce:
     break;
 
   case 248:
-#line 2709 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2705 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 FluentLiteral * lit= (FluentLiteral *) container;
                                 container = 0;
@@ -4976,25 +4976,25 @@ yyreduce:
     break;
 
   case 249:
-#line 2749 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2745 "yacc/parser.yy" /* yacc.c:1646  */
     {(yyval.otype) = 0;}
 #line 4982 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 250:
-#line 2751 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2747 "yacc/parser.yy" /* yacc.c:1646  */
     {(yyval.otype) =(yyvsp[0].otype);}
 #line 4988 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 251:
-#line 2755 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2751 "yacc/parser.yy" /* yacc.c:1646  */
     {(yyval.otype)=0;}
 #line 4994 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 252:
-#line 2757 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2753 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 AndEffect * ae = new AndEffect();
                                 econtainer.push_back(ae);
@@ -5003,7 +5003,7 @@ yyreduce:
     break;
 
   case 253:
-#line 2762 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2758 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 AndEffect * ae = (AndEffect *) econtainer.back();
                                 econtainer.pop_back();
@@ -5013,13 +5013,13 @@ yyreduce:
     break;
 
   case 254:
-#line 2768 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2764 "yacc/parser.yy" /* yacc.c:1646  */
     { (yyval.otype)= (yyvsp[0].otype);}
 #line 5019 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 255:
-#line 2772 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2768 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 Effect * e = (Effect *) (yyvsp[-1].otype);
                                 Evaluable * ti = (Evaluable *) (yyvsp[-2].otype);
@@ -5045,7 +5045,7 @@ yyreduce:
     break;
 
   case 256:
-#line 2797 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2793 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 // creamos el forall, y lo ponemos como
                                 // el elemento que va a contener a las variables
@@ -5057,7 +5057,7 @@ yyreduce:
     break;
 
   case 257:
-#line 2805 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2801 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 container = 0;
                                 }
@@ -5065,7 +5065,7 @@ yyreduce:
     break;
 
   case 258:
-#line 2810 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2806 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 ForallEffect * fae = (ForallEffect *) (yyvsp[-6].otype);
                                 Effect * e = (Effect *) (yyvsp[-1].otype);
@@ -5081,7 +5081,7 @@ yyreduce:
     break;
 
   case 259:
-#line 2822 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2818 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 WhenEffect * we = new WhenEffect((Goal *)(yyvsp[-2].otype),(Effect *)(yyvsp[-1].otype));
                                     if(!parser_api->domain->errconditionals && !parser_api->domain->hasRequirement(":conditional-effects"))
@@ -5095,19 +5095,19 @@ yyreduce:
     break;
 
   case 260:
-#line 2832 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2828 "yacc/parser.yy" /* yacc.c:1646  */
     {(yyval.otype) = (yyvsp[0].otype);}
 #line 5101 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 261:
-#line 2834 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2830 "yacc/parser.yy" /* yacc.c:1646  */
     { (yyval.otype)= (yyvsp[0].otype);}
 #line 5107 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 263:
-#line 2839 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2835 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 if((yyvsp[0].otype)){
                                 ContainerEffect * lc = (ContainerEffect *) econtainer.back();
@@ -5118,7 +5118,7 @@ yyreduce:
     break;
 
   case 264:
-#line 2848 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2844 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 FluentEffect * fe = new FluentEffect((FOperation)(yyvsp[-3].type_int),(FluentLiteral *)(yyvsp[-2].otype),(Evaluable *)(yyvsp[-1].otype));
                                     if(!parser_api->domain->errfluents && !parser_api->domain->hasRequirement(":fluents"))
@@ -5132,7 +5132,7 @@ yyreduce:
     break;
 
   case 265:
-#line 2858 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2854 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 LiteralEffect * le = (LiteralEffect *) (yyvsp[-1].otype);
                                 if(le->getPolarity())
@@ -5143,13 +5143,13 @@ yyreduce:
     break;
 
   case 266:
-#line 2865 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2861 "yacc/parser.yy" /* yacc.c:1646  */
     {(yyval.otype)=(yyvsp[0].otype);}
 #line 5149 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 268:
-#line 2870 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2866 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 if((yyvsp[0].otype)){
                                 ContainerEffect * lc = (ContainerEffect *) econtainer.back();
@@ -5160,7 +5160,7 @@ yyreduce:
     break;
 
   case 269:
-#line 2879 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2875 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 AndEffect * ae = new AndEffect();
                                 econtainer.push_back(ae);
@@ -5169,7 +5169,7 @@ yyreduce:
     break;
 
   case 270:
-#line 2884 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2880 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 AndEffect * ae = (AndEffect *) econtainer.back();
                                 econtainer.pop_back();
@@ -5179,13 +5179,13 @@ yyreduce:
     break;
 
   case 271:
-#line 2890 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2886 "yacc/parser.yy" /* yacc.c:1646  */
     {(yyval.otype) = (yyvsp[0].otype);}
 #line 5185 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 272:
-#line 2894 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2890 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.type_int) = (int) FASSIGN;
                                 }
@@ -5193,7 +5193,7 @@ yyreduce:
     break;
 
   case 273:
-#line 2898 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2894 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.type_int) = (int) FSCALEUP;
                                 }
@@ -5201,7 +5201,7 @@ yyreduce:
     break;
 
   case 274:
-#line 2902 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2898 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.type_int) = (int) FSCALEDOWN;
                                 }
@@ -5209,7 +5209,7 @@ yyreduce:
     break;
 
   case 275:
-#line 2906 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2902 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.type_int) = (int) FINCREASE;
                                 }
@@ -5217,7 +5217,7 @@ yyreduce:
     break;
 
   case 276:
-#line 2910 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2906 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.type_int) = (int) FDECREASE;
                                 }
@@ -5225,19 +5225,19 @@ yyreduce:
     break;
 
   case 285:
-#line 2931 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2927 "yacc/parser.yy" /* yacc.c:1646  */
     {context = new LDictionary;}
 #line 5231 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 286:
-#line 2931 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2927 "yacc/parser.yy" /* yacc.c:1646  */
     {delete context; context=0;}
 #line 5237 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 289:
-#line 2953 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2949 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 parser_api->problem->addToInitialState((LiteralEffect *)(yyvsp[0].otype));
                                 //parser_api->problem->getInitialContext()->stateChanges.push_back(new UndoARLiteralState((Literal *)$1,true));
@@ -5246,7 +5246,7 @@ yyreduce:
     break;
 
   case 290:
-#line 2958 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2954 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 Function * f = (Function *) (yyvsp[-2].otype);
                                 f->setValue((yyvsp[-1].type_number));
@@ -5262,13 +5262,13 @@ yyreduce:
     break;
 
   case 291:
-#line 2969 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2965 "yacc/parser.yy" /* yacc.c:1646  */
     {isNumber = false;}
 #line 5268 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 292:
-#line 2970 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2966 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 /* Comprobar que la expresi�n dada por el time specifier
                                 * es un n�mero */
@@ -5294,7 +5294,7 @@ yyreduce:
     break;
 
   case 293:
-#line 2996 "yacc/parser.yy" /* yacc.c:1646  */
+#line 2992 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 LiteralEffect * l = (LiteralEffect *) (yyvsp[-1].otype);
                                 TimeLineLiteralEffect * tl = new TimeLineLiteralEffect(l->getId(),l->getMetaId(),l->getParameters(),l->getPolarity());
@@ -5314,7 +5314,7 @@ yyreduce:
     break;
 
   case 294:
-#line 3014 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3010 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 if((yyvsp[0].type_number) < 0){
                                         yyerror("Expecting a positive number.");
@@ -5327,7 +5327,7 @@ yyreduce:
     break;
 
   case 295:
-#line 3023 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3019 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.type_number) = 0;
                                 }
@@ -5335,13 +5335,13 @@ yyreduce:
     break;
 
   case 298:
-#line 3033 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3029 "yacc/parser.yy" /* yacc.c:1646  */
     { *errflow << "Los goal 'planos' de pddl no est�n soportados." << endl;}
 #line 5341 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 299:
-#line 3039 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3035 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 parser_api->problem->setInitialGoal((TaskNetwork *)(yyvsp[-1].otype));
                                    if(!parser_api->domain->errhtn && !parser_api->domain->hasRequirement(":htn-expansion"))
@@ -5375,13 +5375,13 @@ yyreduce:
     break;
 
   case 300:
-#line 3071 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3067 "yacc/parser.yy" /* yacc.c:1646  */
     {(yyval.otype) = (LiteralEffect *) (yyvsp[0].otype);}
 #line 5381 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 301:
-#line 3073 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3069 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 LiteralEffect * lit = (LiteralEffect *) (yyvsp[-1].otype);
                                 lit->setPolarity(false);
@@ -5391,7 +5391,7 @@ yyreduce:
     break;
 
   case 302:
-#line 3081 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3077 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 string * nameLit = (string *) (yyvsp[0].otype);
                                 LiteralEffect * lit=0;
@@ -5419,7 +5419,7 @@ yyreduce:
     break;
 
   case 303:
-#line 3105 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3101 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 LiteralEffect * lit= (LiteralEffect *) container;
                                 container = 0;
@@ -5458,7 +5458,7 @@ yyreduce:
     break;
 
   case 304:
-#line 3143 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3139 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 context = new LDictionary;
                                 string * name = (string *) (yyvsp[0].otype);
@@ -5488,7 +5488,7 @@ yyreduce:
     break;
 
   case 305:
-#line 3170 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3166 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                     container = 0;
                                     // si hay alg�n tag
@@ -5507,7 +5507,7 @@ yyreduce:
     break;
 
   case 306:
-#line 3185 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3181 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                  if((yyvsp[0].otype)){
                                      ((PrimitiveTask *) (yyvsp[-8].otype))->setTConstraints((vector<TCTR> *) (yyvsp[0].otype));
@@ -5517,7 +5517,7 @@ yyreduce:
     break;
 
   case 307:
-#line 3193 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3189 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                  isDurative = false;
                                  PrimitiveTask * priTask= (PrimitiveTask *) (yyvsp[-14].otype);
@@ -5535,7 +5535,7 @@ yyreduce:
     break;
 
   case 308:
-#line 3207 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3203 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 vector<pair<int,Evaluable *> > * v = new vector<pair<int,Evaluable *> >;
                                 v->push_back(*((pair<int,Evaluable *> *) (yyvsp[0].otype)));
@@ -5545,7 +5545,7 @@ yyreduce:
     break;
 
   case 309:
-#line 3213 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3209 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 vector<pair<int,Evaluable *> > * v = (vector<pair<int,Evaluable *> > *) (yyvsp[-1].otype);
                                 v->push_back(*((pair<int,Evaluable *> *) (yyvsp[0].otype)));
@@ -5555,7 +5555,7 @@ yyreduce:
     break;
 
   case 310:
-#line 3221 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3217 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                  vector<TCTR> * v = new vector<TCTR>;
                                  TCTR * ele = (TCTR *) (yyvsp[0].otype);
@@ -5566,7 +5566,7 @@ yyreduce:
     break;
 
   case 311:
-#line 3228 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3224 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                  vector<TCTR> * v = (vector<TCTR> *) (yyvsp[-1].otype);
                                  (yyval.otype)= v;
@@ -5575,7 +5575,7 @@ yyreduce:
     break;
 
   case 312:
-#line 3233 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3229 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                  vector<TCTR> * v = new vector<TCTR>;
                                  (yyval.otype)= v;
@@ -5584,7 +5584,7 @@ yyreduce:
     break;
 
   case 313:
-#line 3239 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3235 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 TimeInterval * ti = new TimeInterval();
                                 ti->setStart((Evaluable *)(yyvsp[0].otype));
@@ -5594,7 +5594,7 @@ yyreduce:
     break;
 
   case 314:
-#line 3245 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3241 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 TimeInterval * ti = new TimeInterval();
                                 ti->setStart((double)ATSTART);
@@ -5605,7 +5605,7 @@ yyreduce:
     break;
 
   case 315:
-#line 3252 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3248 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 TimeInterval * ti = new TimeInterval();
                                 ti->setStart((Evaluable *)(yyvsp[-2].otype));
@@ -5617,7 +5617,7 @@ yyreduce:
     break;
 
   case 316:
-#line 3262 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3258 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.otype) = new FluentNumber((double)ATSTART);
                                 }
@@ -5625,7 +5625,7 @@ yyreduce:
     break;
 
   case 317:
-#line 3266 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3262 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.otype) = new FluentNumber((double)ATEND);
                                 }
@@ -5633,25 +5633,25 @@ yyreduce:
     break;
 
   case 318:
-#line 3270 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3266 "yacc/parser.yy" /* yacc.c:1646  */
     { (yyval.otype) = (yyvsp[0].otype);}
 #line 5639 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 319:
-#line 3273 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3269 "yacc/parser.yy" /* yacc.c:1646  */
     {AtExpected = true;}
 #line 5645 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 320:
-#line 3273 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3269 "yacc/parser.yy" /* yacc.c:1646  */
     {AtExpected = false;}
 #line 5651 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 321:
-#line 3274 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3270 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 Evaluable * c = (Evaluable *) (yyvsp[0].otype);
                                 const Type * number = parser_api->domain->getType("number");
@@ -5665,7 +5665,7 @@ yyreduce:
     break;
 
   case 322:
-#line 3286 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3282 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 context = new LDictionary;
                                 }
@@ -5673,7 +5673,7 @@ yyreduce:
     break;
 
   case 323:
-#line 3290 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3286 "yacc/parser.yy" /* yacc.c:1646  */
     {
 
                                 delete context;
@@ -5683,7 +5683,7 @@ yyreduce:
     break;
 
   case 324:
-#line 3298 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3294 "yacc/parser.yy" /* yacc.c:1646  */
     {
 
                                 if((yyvsp[-1].otype))
@@ -5702,7 +5702,7 @@ yyreduce:
     break;
 
   case 325:
-#line 3313 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3309 "yacc/parser.yy" /* yacc.c:1646  */
     {
 
                                 if((yyvsp[-1].otype))
@@ -5720,19 +5720,19 @@ yyreduce:
     break;
 
   case 326:
-#line 3330 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3326 "yacc/parser.yy" /* yacc.c:1646  */
     {inDebugContext=true;}
 #line 5726 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 327:
-#line 3330 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3326 "yacc/parser.yy" /* yacc.c:1646  */
     {inDebugContext=false;}
 #line 5732 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 328:
-#line 3331 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3327 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 YYACCEPT;
                         }
@@ -5740,7 +5740,7 @@ yyreduce:
     break;
 
   case 329:
-#line 3335 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3331 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 YYABORT;
                         }
@@ -5748,7 +5748,7 @@ yyreduce:
     break;
 
   case 330:
-#line 3341 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3337 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 exit(EXIT_SUCCESS);
                             }
@@ -5756,7 +5756,7 @@ yyreduce:
     break;
 
   case 332:
-#line 3346 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3342 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 debugger->cont = true;
                             }
@@ -5764,7 +5764,7 @@ yyreduce:
     break;
 
   case 342:
-#line 3359 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3355 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 debugger->next = true;
                             }
@@ -5772,7 +5772,7 @@ yyreduce:
     break;
 
   case 343:
-#line 3363 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3359 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 debugger->nexp = true;
                             }
@@ -5780,7 +5780,7 @@ yyreduce:
     break;
 
   case 344:
-#line 3367 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3363 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 struct mallinfo myinfo=mallinfo();
                                 cerr << "Memory allocated (bytes): " << myinfo.hblkhd << " Memory chunks occupied: " << myinfo.uordblks << endl;
@@ -5789,7 +5789,7 @@ yyreduce:
     break;
 
   case 345:
-#line 3372 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3368 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 debugger->select((int)(yyvsp[0].type_number));
                             }
@@ -5797,7 +5797,7 @@ yyreduce:
     break;
 
   case 346:
-#line 3376 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3372 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 current_plan->FLAG_VERBOSE = 1;
                             }
@@ -5805,7 +5805,7 @@ yyreduce:
     break;
 
   case 347:
-#line 3380 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3376 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 current_plan->FLAG_VERBOSE = 0;
                             }
@@ -5813,7 +5813,7 @@ yyreduce:
     break;
 
   case 348:
-#line 3386 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3382 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 cerr << "Type `help <command>' to obtain detailed information about a command." << endl;
                                 cerr << "Avaliable commands:" <<endl;
@@ -5827,7 +5827,7 @@ yyreduce:
     break;
 
   case 349:
-#line 3396 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3392 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 cerr << "Command: `continue'. Shortcut: `c'" << endl << endl;
                                 cerr << "Description: Continues the execution until a breakpoint or the end of the program is reached." << endl;
@@ -5837,7 +5837,7 @@ yyreduce:
     break;
 
   case 350:
-#line 3402 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3398 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 cerr << "Command: `quit' or `exit'" << endl << endl;
                                 cerr << "Description: Terminates the program execution." << endl;
@@ -5846,7 +5846,7 @@ yyreduce:
     break;
 
   case 351:
-#line 3407 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3403 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 cerr << "Command: `print'. Shortcut: `p'" << endl << endl;
                                 cerr << "Description: Prints information about the planning context." << endl;
@@ -5863,7 +5863,7 @@ yyreduce:
     break;
 
   case 352:
-#line 3420 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3416 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 cerr << "Command: `display'. Shortcut `d'." << endl << endl;
                                 cerr << "Description: Display information about the current planning context every step until is undisplayed." << endl;
@@ -5880,7 +5880,7 @@ yyreduce:
     break;
 
   case 353:
-#line 3433 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3429 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 cerr << "Command: `undisplay <number>'." << endl << endl;
                                 cerr << "Description: Deactivates the display of given number." << endl;
@@ -5889,7 +5889,7 @@ yyreduce:
     break;
 
   case 354:
-#line 3438 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3434 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 cerr << "Command: `next'. ShortCut: `n'" << endl << endl;
                                 cerr << "Description: Advance one more step." << endl;
@@ -5899,7 +5899,7 @@ yyreduce:
     break;
 
   case 355:
-#line 3444 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3440 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 cerr << "Command: `nexp' (next expansion). ShortCut: `ne'" << endl << endl;
                                 cerr << "Description: Advance until a new task is chosen." << endl;
@@ -5909,7 +5909,7 @@ yyreduce:
     break;
 
   case 356:
-#line 3450 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3446 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 cerr << "Command: `plot'." << endl << endl;
                                 cerr << "Description: Graphically shows information about the current plan." << endl;
@@ -5923,7 +5923,7 @@ yyreduce:
     break;
 
   case 357:
-#line 3460 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3456 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 cerr << "Command: `set'." << endl << endl;
                                 cerr << "Description: Sets some environment variables." << endl;
@@ -5940,7 +5940,7 @@ yyreduce:
     break;
 
   case 358:
-#line 3473 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3469 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 cerr << "Command: `describe'." << endl << endl;
                                 cerr << "Description: Shows detailed information about a structure defined in the domain." << endl;
@@ -5951,7 +5951,7 @@ yyreduce:
     break;
 
   case 359:
-#line 3480 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3476 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 cerr << "Command: `enable <number>'." << endl << endl;
                                 cerr << "Description: Reactivates a previously disabled breakpoint or watch." << endl;
@@ -5962,7 +5962,7 @@ yyreduce:
     break;
 
   case 360:
-#line 3487 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3483 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 cerr << "Command: `disable <number>'." << endl << endl;
                                 cerr << "Description: Deactivates a breakpoint or watch." << endl;
@@ -5973,7 +5973,7 @@ yyreduce:
     break;
 
   case 361:
-#line 3494 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3490 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 cerr << "Command: `watch <precondition>'. Shortcut `s'" << endl << endl;
                                 cerr << "Description: Defines a condition where the debugger will stop." << endl;
@@ -5984,7 +5984,7 @@ yyreduce:
     break;
 
   case 362:
-#line 3501 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3497 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 cerr << "Command: `break'. Shortcut `b'" << endl << endl;
                                 cerr << "Description: Manages the stablished breakpoints." << endl;
@@ -5997,7 +5997,7 @@ yyreduce:
     break;
 
   case 363:
-#line 3510 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3506 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 cerr << "Command: `eval <precondition>'." << endl << endl;
                                 cerr << "Description: Evaluates the given expression and prints the produced unifications." << endl;
@@ -6006,7 +6006,7 @@ yyreduce:
     break;
 
   case 364:
-#line 3515 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3511 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 cerr << "Command: `apply <effect>'." << endl << endl;
                                 cerr << "Description: Applies the given effect." << endl;
@@ -6017,7 +6017,7 @@ yyreduce:
     break;
 
   case 365:
-#line 3524 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3520 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 debugger->printState();
                             }
@@ -6025,19 +6025,19 @@ yyreduce:
     break;
 
   case 366:
-#line 3527 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3523 "yacc/parser.yy" /* yacc.c:1646  */
     {inDebugContext=false;context=new LDictionary();}
 #line 6031 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 367:
-#line 3527 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3523 "yacc/parser.yy" /* yacc.c:1646  */
     {inDebugContext=true; delete context; context=0;}
 #line 6037 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 368:
-#line 3528 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3524 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 LiteralGoal * lg = (LiteralGoal *) (yyvsp[-1].otype);
                                 if((yyvsp[-1].otype)){
@@ -6049,7 +6049,7 @@ yyreduce:
     break;
 
   case 369:
-#line 3536 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3532 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 debugger->printAgenda();
                             }
@@ -6057,7 +6057,7 @@ yyreduce:
     break;
 
   case 370:
-#line 3540 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3536 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 debugger->printPlan();
                             }
@@ -6065,7 +6065,7 @@ yyreduce:
     break;
 
   case 371:
-#line 3544 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3540 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 debugger->printOptions();
                             }
@@ -6073,7 +6073,7 @@ yyreduce:
     break;
 
   case 372:
-#line 3548 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3544 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 debugger->printTermtable();
                             }
@@ -6081,7 +6081,7 @@ yyreduce:
     break;
 
   case 373:
-#line 3552 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3548 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 debugger->printTasks();
                         }
@@ -6089,7 +6089,7 @@ yyreduce:
     break;
 
   case 374:
-#line 3556 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3552 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 debugger->printPredicates();
                         }
@@ -6097,7 +6097,7 @@ yyreduce:
     break;
 
   case 375:
-#line 3562 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3558 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 DisplayElement * de = new DisplayElement();
                                 de->name = "state";
@@ -6107,19 +6107,19 @@ yyreduce:
     break;
 
   case 376:
-#line 3567 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3563 "yacc/parser.yy" /* yacc.c:1646  */
     {inDebugContext=false;context= new LDictionary();}
 #line 6113 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 377:
-#line 3567 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3563 "yacc/parser.yy" /* yacc.c:1646  */
     {inDebugContext=true; delete context; context=0;}
 #line 6119 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 378:
-#line 3568 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3564 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 DisplayElement * de = new DisplayElement();
                                 if((yyvsp[-1].otype)){
@@ -6133,7 +6133,7 @@ yyreduce:
     break;
 
   case 379:
-#line 3578 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3574 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 DisplayElement * de = new DisplayElement();
                                 de->name = "agenda";
@@ -6143,7 +6143,7 @@ yyreduce:
     break;
 
   case 380:
-#line 3584 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3580 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 DisplayElement * de = new DisplayElement();
                                 de->name = "plan";
@@ -6153,7 +6153,7 @@ yyreduce:
     break;
 
   case 381:
-#line 3590 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3586 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 debugger->printDisplays();
                             }
@@ -6161,7 +6161,7 @@ yyreduce:
     break;
 
   case 382:
-#line 3594 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3590 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 debugger->display((int)(yyvsp[0].type_number));
                             }
@@ -6169,7 +6169,7 @@ yyreduce:
     break;
 
   case 383:
-#line 3598 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3594 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 DisplayElement * de = new DisplayElement();
                                 de->name = "termtable";
@@ -6179,7 +6179,7 @@ yyreduce:
     break;
 
   case 384:
-#line 3606 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3602 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 debugger->plotPlan();
                             }
@@ -6187,7 +6187,7 @@ yyreduce:
     break;
 
   case 385:
-#line 3610 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3606 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 debugger->plotCausal();
                             }
@@ -6195,7 +6195,7 @@ yyreduce:
     break;
 
   case 386:
-#line 3615 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3611 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 debugger->undisplay((int)(yyvsp[0].type_number));
                             }
@@ -6203,7 +6203,7 @@ yyreduce:
     break;
 
   case 387:
-#line 3622 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3618 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 cerr << debugger->viewerCommand << endl;
                             }
@@ -6211,7 +6211,7 @@ yyreduce:
     break;
 
   case 388:
-#line 3626 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3622 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 debugger->viewerCommand = (yyvsp[0].type_string);
                             }
@@ -6219,7 +6219,7 @@ yyreduce:
     break;
 
   case 389:
-#line 3630 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3626 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 cerr << debugger->tmpdir << endl;
                             }
@@ -6227,7 +6227,7 @@ yyreduce:
     break;
 
   case 390:
-#line 3634 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3630 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 debugger->tmpdir = (yyvsp[0].type_string);
                             }
@@ -6235,7 +6235,7 @@ yyreduce:
     break;
 
   case 391:
-#line 3638 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3634 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 cerr << debugger->dotPath << endl;
                             }
@@ -6243,7 +6243,7 @@ yyreduce:
     break;
 
   case 392:
-#line 3642 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3638 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 debugger->dotPath = (yyvsp[0].type_string);
                             }
@@ -6251,7 +6251,7 @@ yyreduce:
     break;
 
   case 393:
-#line 3646 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3642 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 cerr << current_plan->FLAG_VERBOSE << endl;
                         }
@@ -6259,7 +6259,7 @@ yyreduce:
     break;
 
   case 394:
-#line 3650 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3646 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 if((yyvsp[0].type_number) >= 0 && (yyvsp[0].type_number) <= 3)
                                 current_plan->FLAG_VERBOSE = (int) (yyvsp[0].type_number);
@@ -6268,7 +6268,7 @@ yyreduce:
     break;
 
   case 395:
-#line 3657 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3653 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 debugger->printBreakpoints();
                             }
@@ -6276,19 +6276,19 @@ yyreduce:
     break;
 
   case 396:
-#line 3660 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3656 "yacc/parser.yy" /* yacc.c:1646  */
     {inDebugContext=false;context= new LDictionary();}
 #line 6282 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 397:
-#line 3660 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3656 "yacc/parser.yy" /* yacc.c:1646  */
     {inDebugContext=true;delete context; context=0;}
 #line 6288 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 398:
-#line 3661 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3657 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 DisplayElement * de = new DisplayElement();
                                 de->goal = (Goal *) (yyvsp[-1].otype);
@@ -6298,7 +6298,7 @@ yyreduce:
     break;
 
   case 399:
-#line 3667 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3663 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 debugger->printBreakpoint((int)(yyvsp[0].type_number));
                             }
@@ -6306,7 +6306,7 @@ yyreduce:
     break;
 
   case 400:
-#line 3671 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3667 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 debugger->enableBreakpoint((int) (yyvsp[0].type_number));
                         }
@@ -6314,7 +6314,7 @@ yyreduce:
     break;
 
   case 401:
-#line 3675 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3671 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 debugger->disableBreakpoint((int) (yyvsp[0].type_number));
                         }
@@ -6322,19 +6322,19 @@ yyreduce:
     break;
 
   case 402:
-#line 3678 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3674 "yacc/parser.yy" /* yacc.c:1646  */
     {inDebugContext=false;context= new LDictionary();}
 #line 6328 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 403:
-#line 3678 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3674 "yacc/parser.yy" /* yacc.c:1646  */
     {inDebugContext=true; delete context; context=0;}
 #line 6334 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 404:
-#line 3679 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3675 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 DisplayElement * de = new DisplayElement();
                                 de->goal = (Goal *) (yyvsp[-2].otype);
@@ -6353,7 +6353,7 @@ yyreduce:
     break;
 
   case 405:
-#line 3696 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3692 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.otype) = 0;
                         }
@@ -6361,7 +6361,7 @@ yyreduce:
     break;
 
   case 406:
-#line 3700 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3696 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.otype) = new string((yyvsp[0].type_string));
                         }
@@ -6369,19 +6369,19 @@ yyreduce:
     break;
 
   case 407:
-#line 3704 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3700 "yacc/parser.yy" /* yacc.c:1646  */
     {inDebugContext=false;context= new LDictionary();}
 #line 6375 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 408:
-#line 3704 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3700 "yacc/parser.yy" /* yacc.c:1646  */
     {inDebugContext=true;delete context; context=0;}
 #line 6381 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 409:
-#line 3705 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3701 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 debugger->eval((Goal *) (yyvsp[-1].otype));
                                 if((yyvsp[-1].otype))
@@ -6391,19 +6391,19 @@ yyreduce:
     break;
 
   case 410:
-#line 3712 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3708 "yacc/parser.yy" /* yacc.c:1646  */
     {inDebugContext=false;context= new LDictionary();}
 #line 6397 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 411:
-#line 3712 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3708 "yacc/parser.yy" /* yacc.c:1646  */
     {inDebugContext=true;delete context; context=0;}
 #line 6403 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 412:
-#line 3713 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3709 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 debugger->apply((Effect *) (yyvsp[-1].otype));
                                 if((yyvsp[-1].otype))
@@ -6413,19 +6413,19 @@ yyreduce:
     break;
 
   case 413:
-#line 3721 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3717 "yacc/parser.yy" /* yacc.c:1646  */
     {inDebugContext=false;context = new LDictionary();}
 #line 6419 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 414:
-#line 3721 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3717 "yacc/parser.yy" /* yacc.c:1646  */
     {inDebugContext=true; delete context; context=0;}
 #line 6425 "src/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 415:
-#line 3722 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3718 "yacc/parser.yy" /* yacc.c:1646  */
     {
 
                                 DisplayElement * de = new DisplayElement();
@@ -6439,7 +6439,7 @@ yyreduce:
     break;
 
   case 416:
-#line 3734 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3730 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 string * nameLit = (string *) (yyvsp[0].otype);
                                 LiteralGoal * lit=0;
@@ -6469,7 +6469,7 @@ yyreduce:
     break;
 
   case 417:
-#line 3760 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3756 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 LiteralGoal * lit= (LiteralGoal *) container;
                                 container = 0;
@@ -6527,7 +6527,7 @@ yyreduce:
     break;
 
   case 423:
-#line 3827 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3823 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 parser_api->setFlagTUnit((TimeUnit) (yyvsp[-1].type_number));
                                 }
@@ -6535,7 +6535,7 @@ yyreduce:
     break;
 
   case 424:
-#line 3831 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3827 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 parser_api->setTFormat((yyvsp[-1].type_string));
                                 }
@@ -6543,7 +6543,7 @@ yyreduce:
     break;
 
   case 425:
-#line 3835 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3831 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 parser_api->setMTHorizon((int) rint((yyvsp[-1].type_number)));
                                 }
@@ -6551,7 +6551,7 @@ yyreduce:
     break;
 
   case 426:
-#line 3839 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3835 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 parser_api->setRTHorizon((int) rint((yyvsp[-1].type_number)));
                                 }
@@ -6559,7 +6559,7 @@ yyreduce:
     break;
 
   case 427:
-#line 3843 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3839 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 if(parser_api->getTStart() != 0){
                                         snprintf(parerr,256,":time-start redefinition.");
@@ -6571,7 +6571,7 @@ yyreduce:
     break;
 
   case 428:
-#line 3852 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3848 "yacc/parser.yy" /* yacc.c:1646  */
     {
 #ifdef PYTHON_FOUND
                                 if(parser_api->wpython.loadStr((yyvsp[-1].type_string))){
@@ -6585,7 +6585,7 @@ yyreduce:
     break;
 
   case 429:
-#line 3863 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3859 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.type_number) = TU_HOURS;
                                 }
@@ -6593,7 +6593,7 @@ yyreduce:
     break;
 
   case 430:
-#line 3867 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3863 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.type_number) = TU_MINUTES;
                                 }
@@ -6601,7 +6601,7 @@ yyreduce:
     break;
 
   case 431:
-#line 3871 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3867 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.type_number) = TU_SECONDS;
                                 }
@@ -6609,7 +6609,7 @@ yyreduce:
     break;
 
   case 432:
-#line 3875 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3871 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.type_number) = TU_DAYS;
                                 }
@@ -6617,7 +6617,7 @@ yyreduce:
     break;
 
   case 433:
-#line 3879 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3875 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.type_number) = TU_YEARS;
                                 }
@@ -6625,7 +6625,7 @@ yyreduce:
     break;
 
   case 434:
-#line 3883 "yacc/parser.yy" /* yacc.c:1646  */
+#line 3879 "yacc/parser.yy" /* yacc.c:1646  */
     {
                                 (yyval.type_number) = TU_MONTHS;
                                 }
@@ -6861,5 +6861,5 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 3887 "yacc/parser.yy" /* yacc.c:1906  */
+#line 3883 "yacc/parser.yy" /* yacc.c:1906  */
 

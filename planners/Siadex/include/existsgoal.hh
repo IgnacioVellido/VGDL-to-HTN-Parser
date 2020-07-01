@@ -1,20 +1,3 @@
-/*  ************************************************************************************
- *  Copyright (C) IACTIVE Intelligent Solutions,
- *
- * http://www.iactive.es
- *
- * Este fichero es propiedad intelectual de IACTIVE Intelligent Solutions
- * y queda protegido por las leyes de propiedad intelectual aplicables.
- * Queda totalmente prohibido, su copia, modificación, distribución y lectura
- * Sin el consentimiento explícito y por escrito de IACTIVE Intelligent Solutions
- *
- * ********************************************************************************** */
-
-/* *************************************************************************************
- * Created by oscar@decsai.ugr.es: mié 22 feb, 2006  10:57
- * Last modified: o.garcia vie 30 nov, 2007  05:13
- * ********************************************************************************** */
-
 #ifndef EXISTSGOAL_H
 #define EXISTSGOAL_H
 
@@ -69,7 +52,7 @@ class ExistsGoal : public Goal, public ParameterContainer
 
         /**
           @brief Imprime el contenido del objeto.
-          @param indent el número de espacios a dejar antes de la cadena.
+          @param indent el nï¿½mero de espacios a dejar antes de la cadena.
           @param os Un flujo de salida por defecto la salida estandard.
          */
         virtual void print(ostream * os, int indent=0) const;
@@ -95,11 +78,11 @@ class ExistsGoal : public Goal, public ParameterContainer
         /**< @brief Estructura del forall: (forall <parameters> <goal>) */
 
         Goal *goal;         /**< @brief Objetivo que deben cumplir en un estado todos los objetos
-                              que tengan los mismos tipos que los parámetros del forall */
+                              que tengan los mismos tipos que los parï¿½metros del forall */
 
         /**
           @brief Devuelve todas las unificaciones posibles de las variables del forall con el
-          estado sta (se mira el tipo de los parámetros)
+          estado sta (se mira el tipo de los parï¿½metros)
          */
 	void test(const State * sta, Unifier * context, UnifierTable * ut, bool inheritPolarity, Protection * p, int pos) const;
 

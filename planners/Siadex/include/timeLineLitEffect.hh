@@ -1,35 +1,3 @@
-/*  ************************************************************************************
- *  Copyright (C) 2003, 2004, 2005, 2006
- *  Luis Castillo Vidal, Juan Fernandez Olivares,
- *  Oscar Jesus Garcia Perez, Francisco Carlos Palao Reines.
- *
- * More information about SIADEX project:
- * http://siadex.ugr.es
- * siadexwww@decsai.ugr.es
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or any later version.
- *
- * Please cite the authors above in your publications or in your
- * software when you made use of this software.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- * ********************************************************************************** */
-
-/* *************************************************************************************
- * Created by oscar@decsai.ugr.es: mié 22 feb, 2006  02:12
- * Last modified: mar 31 oct, 2006  10:52
- * ********************************************************************************** */
-
 #ifndef TIMELINE_LITERALEFFECT_HH
 #define TIMELINE_LITERALEFFECT_HH
 
@@ -71,7 +39,7 @@ class TimeLineLiteralEffect : public LiteralEffect
 
         /**
         @brief Imprime el contenido del objeto.
-        @param indent el número de espacios a dejar antes de la cadena.
+        @param indent el nï¿½mero de espacios a dejar antes de la cadena.
         @param os Un flujo de salida por defecto la salida estandard.
         */
         virtual void print(ostream * os, int indent=0) const;
@@ -104,16 +72,16 @@ class TimeLineLiteralEffect : public LiteralEffect
 	inline int getGap(void) const {return gap;};
 	
 	/** 
-	 * Realiza la intersección de dos series de intervalos
+	 * Realiza la intersecciï¿½n de dos series de intervalos
 	 * determinado.
-	 * @param other El intervalo con el que intersectar, estará vacio la primera vez.
-	 * @param min El valor mínimo para el intervalo.
-	 * @param max El valor máximo para el intervalo.
+	 * @param other El intervalo con el que intersectar, estarï¿½ vacio la primera vez.
+	 * @param min El valor mï¿½nimo para el intervalo.
+	 * @param max El valor mï¿½ximo para el intervalo.
 	 */
 	void merge(VIntervals & other,int  min, int max);
 
 	/**
-	 * Devuelve el índice del intervalo que corresponde
+	 * Devuelve el ï¿½ndice del intervalo que corresponde
 	 * al tiempo t.
 	 */
 	int getIndexInterval(int t) const;
@@ -126,13 +94,13 @@ class TimeLineLiteralEffect : public LiteralEffect
 
 	/**
 	 * Registra un tp contra el literal del tl.
-	 * @param n el índice del intervalo contra el que vamos a registrar.
-	 * @param tp el índice del timepoint
+	 * @param n el ï¿½ndice del intervalo contra el que vamos a registrar.
+	 * @param tp el ï¿½ndice del timepoint
 	 */
 	void addTPoint(int n, pair<int,int> tp);
 
 	/**
-	 * Borra todos los timepoints con índice mayor que el dado.
+	 * Borra todos los timepoints con ï¿½ndice mayor que el dado.
 	 */
 	void eraseTPoint(int t);
 

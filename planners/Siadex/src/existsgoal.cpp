@@ -1,20 +1,3 @@
-/* ************************************************************************************
- * Copyright (C) IACTIVE Intelligent Solutions,
- *
- * http://www.iactive.es
- *
- * Este fichero es propiedad intelectual de IACTIVE Intelligent Solutions
- * y queda protegido por las leyes de propiedad intelectual aplicables.
- * Queda totalmente prohibido, su copia, modificación, distribución y lectura
- * Sin el consentimiento explícito y por escrito de IACTIVE Intelligent Solutions
- *
- * ********************************************************************************** */
-
-/* *************************************************************************************
- * Created by o.garcia: vie 30 nov, 2007  02:30
- * Last modified: o.garcia lun 10 dic, 2007  05:54
- * ********************************************************************************** */
-
 #include "existsgoal.hh"
 #include <sstream>
 #include "variablesymbol.hh"
@@ -171,7 +154,7 @@ UnifierTable *ExistsGoal::getUnifiers(const State * sta, const Unifier *context,
 
 void ExistsGoal::test(const State * sta, Unifier * context, UnifierTable * ut, bool inheritPolarity, Protection *  p, int pos) const{
     Unifier * nc;
-    // Condición de parada de la recursividad
+    // Condiciï¿½n de parada de la recursividad
     if(pos >= (int) parameters.size())
     {
 	//cerr << "probando" << endl;

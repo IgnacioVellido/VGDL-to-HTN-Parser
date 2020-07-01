@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 #include "comparationGoal.hh"
 #include "function.hh"
 #include "papi.hh"
@@ -227,7 +223,7 @@ UnifierTable * ComparationGoal::getUnifiers(const State * state, const Unifier *
         else
             u = new Unifier();
         UnifierTable * ut = new UnifierTable();
-        // Registrar vi­nculos
+        // Registrar viï¿½nculos
         u->createCLTable();
         if(f1 != 0){
             c = new Causal((Function *)f1,protection);

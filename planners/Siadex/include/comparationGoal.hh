@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 #ifndef COMPARATIONGOAL_HH
 #define COMPARATIONGOAL_HH
 
@@ -36,8 +32,8 @@ struct Compare
 using namespace std;
 
 /**
- * Esta clase realiza la comparación entre dos elementos
- * generalmente numéricos.
+ * Esta clase realiza la comparaciï¿½n entre dos elementos
+ * generalmente numï¿½ricos.
  */
 class ComparationGoal :public Goal
 {
@@ -50,14 +46,14 @@ class ComparationGoal :public Goal
 
     /**
      * @brief Crea una copia exacta del objeto.
-     * @description Todos los herederos deben implementar este método.
+     * @description Todos los herederos deben implementar este mï¿½todo.
      * @author oscar
     */
     virtual Expression * clone(void) const;
 
     /**
      @brief Imprime el contenido del objeto por la salida estandard.
-     @param indent el número de espacios a dejar antes de la cadena.
+     @param indent el nï¿½mero de espacios a dejar antes de la cadena.
     */
     virtual void print(ostream * os, int indent) const;
 
@@ -70,22 +66,22 @@ class ComparationGoal :public Goal
     virtual UnifierTable * getUnifiers(const State * state, const Unifier * context, bool inheritPolarity, pair<unsigned int,unsigned int> * protection) const;
 
     /**
-     @brief establece el primer elemento para hacer la comparación
+     @brief establece el primer elemento para hacer la comparaciï¿½n
     */
     virtual void setFirst(Evaluable * f) {assert(f); assert(!first); first = f;};
 
     /**
-     @brief establece el segundo elemento para hacer la comparación
+     @brief establece el segundo elemento para hacer la comparaciï¿½n
     */
     virtual void setSecond(Evaluable * s) {assert(s); assert(!second); this->second = s;};
 
     /**
-     @brief establece el primer elemento para hacer la comparación
+     @brief establece el primer elemento para hacer la comparaciï¿½n
     */
     virtual const Evaluable *  getFirst(void) const {return first;};
 
     /**
-     @brief establece el segundo elemento para hacer la comparación
+     @brief establece el segundo elemento para hacer la comparaciï¿½n
     */
     virtual const Evaluable * getSecond(void) const {return second;};
 

@@ -1,20 +1,3 @@
-/*  ************************************************************************************
- *  Copyright (C) IACTIVE Intelligent Solutions,
- *
- * http://www.iactive.es
- *
- * Este fichero es propiedad intelectual de IACTIVE Intelligent Solutions
- * y queda protegido por las leyes de propiedad intelectual aplicables.
- * Queda totalmente prohibido, su copia, modificación, distribución y lectura
- * Sin el consentimiento explícito y por escrito de IACTIVE Intelligent Solutions
- *
- * ********************************************************************************** */
-
-/* *************************************************************************************
- * Created by oscar oscar@decsai.ugr.es: lun 25 jul, 2005  04:50
- * Last modified: o.garcia sáb 20 sep, 2008  01:25
- * ********************************************************************************** */
-
 #include "causal.hh"
 #include "literal.hh"
 #include "literaleffect.hh"

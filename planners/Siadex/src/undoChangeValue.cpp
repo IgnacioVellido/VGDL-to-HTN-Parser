@@ -1,35 +1,3 @@
-/*  ************************************************************************************
- *  Copyright (C) 2003, 2004, 2005, 2006
- *  Luis Castillo Vidal, Juan Fernandez Olivares,
- *  Oscar Jesus Garcia Perez, Francisco Carlos Palao Reines.
- *
- * More information about SIADEX project:
- * http://siadex.ugr.es
- * siadexwww@decsai.ugr.es
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or any later version.
- *
- * Please cite the authors above in your publications or in your
- * software when you made use of this software.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- * ********************************************************************************** */
-
-/* *************************************************************************************
- * Created by oscar@decsai.ugr.es: vie 24 feb, 2006  12:01
- * Last modified: vie 03 mar, 2006  05:50
- * ********************************************************************************** */
-
 #include "undoChangeValue.hh"
 #include "variablesymbol.hh"
 #include "parameterContainer.hh"
@@ -47,8 +15,8 @@ void UndoChangeValue::undo(void)
     if(val.first < -1)
 	parser_api->termtable->getVariable(val.first)->addReference(this);
     // Las variables tienen un mecanismo de referencias inversas para acelerar
-    // el proceso de sustitución. En el caso de que el término a sustituir fuera
-    // una variable al hacer el undo volvemos a añadir la referencia.
+    // el proceso de sustituciï¿½n. En el caso de que el tï¿½rmino a sustituir fuera
+    // una variable al hacer el undo volvemos a aï¿½adir la referencia.
     //cerr << "==================================================================" << endl;
     //parser_api->termtable->print(&cerr);
     //cerr << "==================================================================" << endl;

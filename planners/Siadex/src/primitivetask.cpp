@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 #include "primitivetask.hh"
 #include <math.h>
 #include "state.hh"
@@ -83,8 +79,8 @@ void PrimitiveTask::print(ostream * os, int indent) const {
     string s(indent,' ');
 
     if(getInline()){
-        // El código comentado lo he cambiado ya que da errores al escribir el dominio poniendo !inline
-        // donde tendría que poner inline
+        // El cï¿½digo comentado lo he cambiado ya que da errores al escribir el dominio poniendo !inline
+        // donde tendrï¿½a que poner inline
         /*            if(isInline())
          *os << s << "(:!inline " << endl;
          else
@@ -241,11 +237,11 @@ void PrimitiveTask::toxml(XmlWriter * writer, bool complete) const
             writer->endTag();
         }
 
-        // obtener la definición de la tarea del dominio, para sacar los parámetros sin instanciar
+        // obtener la definiciï¿½n de la tarea del dominio, para sacar los parï¿½metros sin instanciar
         const Task * def = current_plan->getDomain()->getTaskMetaID(getId(),getMetaId());
 
         writer->startTag("parameters");
-        // imprimir los parámetros
+        // imprimir los parï¿½metros
         pkey parameter,def_parameter;
         string name;
         ToXMLKey w(writer);
@@ -262,7 +258,7 @@ void PrimitiveTask::toxml(XmlWriter * writer, bool complete) const
         }
         writer->endTag();
 
-        // Añado las tareas predecesoras y sucesoras
+        // Aï¿½ado las tareas predecesoras y sucesoras
         const Task * t;
         // Predecesoras desde la red de tareas
         int indx = tn->getIndexOf(this);
@@ -308,7 +304,7 @@ void PrimitiveTask::toxml(XmlWriter * writer, bool complete) const
                 }
             }
         }
-        // Obtener un listado de los efectos producidos por esta accón
+        // Obtener un listado de los efectos producidos por esta accï¿½n
         if(contextIndex != -1){
             writer->startTag("effect");
             const StackNode * context = current_plan->getContext(contextIndex);
@@ -521,11 +517,11 @@ const char * PrimitiveTask::replaceVars(string s, const pair<unsigned int,unsign
         }
     }
 
-    // sustitución de las variables
+    // sustituciï¿½n de las variables
     Unifier * u = getUnifier();
     if (u){
 
-        // hay que llevar las sustituciones en dos cadenas de forma simultánea
+        // hay que llevar las sustituciones en dos cadenas de forma simultï¿½nea
         // para controlar que el planner no es case-sensitive
         string upper_output;
         unsigned int len;
@@ -796,15 +792,15 @@ bool PrimitiveTask::applyEffects(State * sta, VUndo * undo, Unifier * uf)
 
 void PrimitiveTask::commitEffects(State * sta, VUndo * undo, const PrimitiveTask * producer)
 {
-    // los efectos no insertan nada en el estado sólo eliminan, esto es
-    // así porque he detectado errores cuando la inserción se realiza
+    // los efectos no insertan nada en el estado sï¿½lo eliminan, esto es
+    // asï¿½ porque he detectado errores cuando la inserciï¿½n se realiza
     // antes del borrado. Se pueden borrar cosas que acabas de insertar
-    // Supón por ejemplo el siguiente efecto
+    // Supï¿½n por ejemplo el siguiente efecto
     // (and (literal ?a) (not literal ?b))
     // si ?a y ?b han unificado a la misma constante llamese c,
-    // si la inserción se hace antes del borrado (lo que ocurría con el
-    // antiguo algoritmo recursivo que resolvía los efectos por orden)
-    // puedes eliminar (literal c) lo que no esperas en la mayoría
+    // si la inserciï¿½n se hace antes del borrado (lo que ocurrï¿½a con el
+    // antiguo algoritmo recursivo que resolvï¿½a los efectos por orden)
+    // puedes eliminar (literal c) lo que no esperas en la mayorï¿½a
     // de los casos cuando escribes el dominio.
     ISTable_mrange range;
     Literal * l;
@@ -818,7 +814,7 @@ void PrimitiveTask::commitEffects(State * sta, VUndo * undo, const PrimitiveTask
                     l = ((UndoARLiteralState *) *i)->getLiteral();
                     range = sta->getModificableRange(l->getId());
                     j=find_if(range.first,range.second,EqualLit(l->getParameters()));
-                    /* El literal no está en el estado,  lo añado */
+                    /* El literal no estï¿½ en el estado,  lo aï¿½ado */
                     while((j=find_if(range.first,range.second,EqualLit(l->getParameters()))) != range.second){
                         if((*j).second->isLEffect()){
                             if(((LiteralEffect *)(*j).second)->isMaintain())
@@ -860,7 +856,7 @@ void PrimitiveTask::commitEffects(State * sta, VUndo * undo, const PrimitiveTask
                 // necesito registrar los cambios de productor de las funciones
                 // para posteriormente deshacerlos. Al contrario que los literales
                 // que se generan/borran cada vez que se introducen en el estado, las
-                // funciones (fluents) permanecen durante toda la ejecución, por eso
+                // funciones (fluents) permanecen durante toda la ejecuciï¿½n, por eso
                 // es importante restaurarlas completamente a sus estado original tras
                 // un backtracking.
                 undos2Add.push_back(new UndoChangeProducer(l,l->getProducer()));
@@ -875,7 +871,7 @@ void PrimitiveTask::commitEffects(State * sta, VUndo * undo, const PrimitiveTask
                 l = ((UndoARLiteralState *) *e)->getLiteral();
                 if(!((UndoARLiteralState *) *e)->wasAdded()) {
                     range = sta->getModificableRange(l->getId());
-                    // si no se ha añadido nada que anule la negación del literal
+                    // si no se ha aï¿½adido nada que anule la negaciï¿½n del literal
                     if((j=find_if(range.first,range.second,EqualLit(l->getParameters()))) == range.second){
                         LiteralEffect * notl = (LiteralEffect *) ((LiteralEffect *)l)->clone();
                         notl->setPolarity(false);

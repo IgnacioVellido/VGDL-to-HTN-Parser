@@ -1,5 +1,5 @@
 # Compile ANTLR grammar
-compile:
+compile-grammar:
 	antlr4 -Dlanguage=Python3 Vgdl.g4
 
 # ------------------------------------------------------------------------------
@@ -19,7 +19,7 @@ help:
 # ------------------------------------------------------------------------------
 
 compile-planner:
-	cd ./planners/Siadex/planner && cmake . && make -j
+	cd ./planners/Siadex && cmake . && make -j
 
 # Call planner
 run:

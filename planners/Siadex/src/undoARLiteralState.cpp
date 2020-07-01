@@ -1,20 +1,3 @@
-/*  ************************************************************************************
- *  Copyright (C) IACTIVE Intelligent Solutions,
- *
- * http://www.iactive.es
- *
- * Este fichero es propiedad intelectual de IACTIVE Intelligent Solutions
- * y queda protegido por las leyes de propiedad intelectual aplicables.
- * Queda totalmente prohibido, su copia, modificación, distribución y lectura
- * Sin el consentimiento explícito y por escrito de IACTIVE Intelligent Solutions
- *
- * ********************************************************************************** */
-
-/* *************************************************************************************
- * Created by oscar oscar@decsai.ugr.es: mar 30 ago, 2005  10:15
- * Last modified: o.garcia mié 28 nov, 2007  11:38
- * ********************************************************************************** */
-
 #include "papi.hh"
 #include "state.hh"
 #include "problem.hh"
@@ -66,7 +49,7 @@ void UndoARLiteralState::toxml(XmlWriter * writer) const{
 
 void UndoARLiteralState::undo(void)
 {
-    // si fue añadido eliminar del estado
+    // si fue aï¿½adido eliminar del estado
     if(wasAdded()){
 	current_plan->deleteFromState(ref);
 	//deleted=true;
@@ -75,8 +58,8 @@ void UndoARLiteralState::undo(void)
 	current_plan->addToState(ref);
 };
 
-// Si yo lo añado yo lo quito.
-// Si yo lo quito que lo quite el que lo añadió ;)
+// Si yo lo aï¿½ado yo lo quito.
+// Si yo lo quito que lo quite el que lo aï¿½adiï¿½ ;)
 UndoARLiteralState::~UndoARLiteralState(void) 
 {
     if(wasAdded()) {

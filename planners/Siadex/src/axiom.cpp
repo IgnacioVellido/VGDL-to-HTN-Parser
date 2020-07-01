@@ -1,20 +1,3 @@
-/*  ************************************************************************************
- *  Copyright (C) IACTIVE Intelligent Solutions,
- *
- * http://www.iactive.es
- *
- * Este fichero es propiedad intelectual de IACTIVE Intelligent Solutions
- * y queda protegido por las leyes de propiedad intelectual aplicables.
- * Queda totalmente prohibido, su copia, modificación, distribución y lectura
- * Sin el consentimiento explícito y por escrito de IACTIVE Intelligent Solutions
- *
- * ********************************************************************************** */
-
-/* *************************************************************************************
- * Created by o.garcia@iactive.es: vie 30 sep, 2005  09:49
- * Last modified: o.garcia mié 09 ene, 2008  10:13
- * ********************************************************************************** */
-
 #include "axiom.hh"
 
 extern bool PRINT_NUMBERTYPE;

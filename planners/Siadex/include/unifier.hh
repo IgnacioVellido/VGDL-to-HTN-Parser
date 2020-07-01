@@ -1,34 +1,3 @@
-/*  ************************************************************************************
- * Copyright (C) 2003, 2004, 2005  Luis Castillo Vidal,  Juan Fernandez Olivares,
- * Oscar Jesus Garcia Perez, Francisco Carlos Palao Reines.
- *
- * More information about SIADEX project:
- * http://siadex.ugr.es
- * siadexwww@decsai.ugr.es
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or any later version.
- *
- * Please cite the authors above in your publications or in your
- * software when you made use of this software.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- * ********************************************************************************** */
-
-/* **************************************************************
- * Created by oscar oscar@decsai.ugr.es: lun 25 jul, 2005  05:51
- * Last modified: mar 30 ago, 2005  03:49
- * ************************************************************** */
-
 #ifndef UNIFIER_H
 #define UNIFIER_H
 
@@ -85,35 +54,35 @@ class Unifier
 	Unifier * clone(void) const;
 
 	/**
-	 * Devuelve la substitución de una variable.
-	 * @param i el índice de la variable
+	 * Devuelve la substituciï¿½n de una variable.
+	 * @param i el ï¿½ndice de la variable
 	 * @param p una estructura donde almacenar el valor devuelto.
-	 * @return true en caso de que exista sustitución, falso en otro caso.
+	 * @return true en caso de que exista sustituciï¿½n, falso en otro caso.
 	 */
 	bool getSubstitution(int i, pkey * p) const;
 
 	/**
-	 * Devuelve la substitución de una variable.
+	 * Devuelve la substituciï¿½n de una variable.
 	 * @param v el nombre de la variable 
 	 * @param p una estructura donde almacenar el valor devuelto.
-	 * @return true en caso de que exista sustitución, falso en otro caso.
+	 * @return true en caso de que exista sustituciï¿½n, falso en otro caso.
 	 */
 	bool getSubstitution(const char * v, pkey * p) const;
 
 	/**
-	 * Añade una sustitución a la tabla de sustituciones.
-	 * ¡¡Comprobar que previamente no exista!!,
-	 * En otro caso petará.
-	 * @param i El índice de la variable.
+	 * Aï¿½ade una sustituciï¿½n a la tabla de sustituciones.
+	 * ï¿½ï¿½Comprobar que previamente no exista!!,
+	 * En otro caso petarï¿½.
+	 * @param i El ï¿½ndice de la variable.
 	 * @param p La pkey por la que sustituimos.
 	 */
 	void addSubstitution(int i, pkey p);
 
 	/**
-	 * Añade una sustitución a la tabla de sustituciones.
+	 * Aï¿½ade una sustituciï¿½n a la tabla de sustituciones.
 	 * Identica a la anterior, pero machaca si hay una
-	 * sustitución previa.
-	 * @param i El índice de la variable.
+	 * sustituciï¿½n previa.
+	 * @param i El ï¿½ndice de la variable.
 	 * @param p La pkey por la que sustituimos.
 	 */
 	void addFSubstitution(int i, pkey p);
@@ -125,63 +94,63 @@ class Unifier
 	void applyTypeSubstitutions(VUndo * undoApply) const;
 
 	/**
-	 * Añade una type sustitución a la tabla de sustituciones de tipos.
-	 * @param i El índice de la variable.
+	 * Aï¿½ade una type sustituciï¿½n a la tabla de sustituciones de tipos.
+	 * @param i El ï¿½ndice de la variable.
 	 * @param p El vector de tipos que deseamos asignar.
 	 */
 	void addTSubstitution(int i, vector<Type *> * p);
 
 	/**
-	 * Añade una type sustitución a la tabla de sustituciones de tipos.
-	 * @param i El índice de la variable.
+	 * Aï¿½ade una type sustituciï¿½n a la tabla de sustituciones de tipos.
+	 * @param i El ï¿½ndice de la variable.
 	 * @param p El vector de tipos que deseamos asignar.
 	 */
 	void addTSubstitution2(int i, const vector<Type *> * p);
 
 	/**
-	 * Esta función añade a this los unificadores contenidos en u.
+	 * Esta funciï¿½n aï¿½ade a this los unificadores contenidos en u.
 	 * Puede alterar el contenido de u.
-	 * @param u El unificador del que queremos extraer la información.
+	 * @param u El unificador del que queremos extraer la informaciï¿½n.
 	 */
 	void merge(Unifier * u);
 
 	/** 
-	 * Reserva mermoria para la tabla de vínculos causales. Si la
+	 * Reserva mermoria para la tabla de vï¿½nculos causales. Si la
 	 * memoria ya se encuentra reservada entonces no hace nada
 	 */
 	inline void createCLTable(void) {if(!cltable) cltable = new CLTable;};
 
 	/**
-	 * Registra un vínculo causal en la tabla correspondiente.
+	 * Registra un vï¿½nculo causal en la tabla correspondiente.
 	 * @param l El literal al cual queremos enlazar.
 	 */
 	inline void addCL(Causal * c) {cltable->push_back(c);};
 
 	/**
-	 * Registra una acción como consumidora de los vínculos generados
-	 * durante la unificación.
-	 * @param consumer la tarea, normalmente una primitiva aunque también
-	 * podría ser una tarea compuesta.
+	 * Registra una acciï¿½n como consumidora de los vï¿½nculos generados
+	 * durante la unificaciï¿½n.
+	 * @param consumer la tarea, normalmente una primitiva aunque tambiï¿½n
+	 * podrï¿½a ser una tarea compuesta.
 	 */
 	void setCLConsumer(const Task * consumer);
 
 	/** 
-	 * Añade los elementos almacenados en la tabla de vínculos de other
+	 * Aï¿½ade los elementos almacenados en la tabla de vï¿½nculos de other
 	 * a this.
-	 * @param other unificador del que se desean extraer los vínculos
+	 * @param other unificador del que se desean extraer los vï¿½nculos
 	 * causales.
 	 */
 	void addCLTable(Unifier * other);
 
 	/**
-	 * Devuelve la tabla de vínculos causales, asociados a esta
-	 * unificación.
+	 * Devuelve la tabla de vï¿½nculos causales, asociados a esta
+	 * unificaciï¿½n.
 	 */
 	inline const CLTable * getCLTable(void) const {return cltable;};
 
 	/**
-	 * Devuelve la tabla de vínculos causales, asociados a esta
-	 * unificación.
+	 * Devuelve la tabla de vï¿½nculos causales, asociados a esta
+	 * unificaciï¿½n.
 	 */
 	inline CLTable * getModifiableCLTable(void) const {return cltable;};
 
@@ -195,7 +164,7 @@ class Unifier
 	/** 
 	 * Imprime el contenido del unificador.
 	 * @param os el flujo donde escribiremos
-	 * @param indent la indentación a usar
+	 * @param indent la indentaciï¿½n a usar
 	 */
 	void print(ostream * os, int indent=0) const;
 
@@ -203,7 +172,7 @@ class Unifier
 	 * Aplica todas las sustituciones pendientes.
 	 * Los cambios se almacenan en el vector de undo.
 	 * @param undoApply estructora para almacenar los cambios
-	 * provocados por la unificación
+	 * provocados por la unificaciï¿½n
 	 * @return true on success
 	 */
 	bool apply(VUndo * undoApply=0);
@@ -212,22 +181,22 @@ class Unifier
 	 * Aplica las sustituciones que afectan a los tipos de la variable..
 	 * Los cambios se almacenan en el vector de undo.
 	 * @param undoApply estructora para almacenar los cambios
-	 * provocados por la unificación
+	 * provocados por la unificaciï¿½n
 	 * @return true on success
 	 */
 	bool applyTypeSubstitutions(VUndo * undoApply=0);
 
 	/**
-	 * Aplica todas las sustituciones variable término pendientes.
+	 * Aplica todas las sustituciones variable tï¿½rmino pendientes.
 	 * Los cambios se almacenan en el vector de undo.
 	 * @param undoApply estructora para almacenar los cambios
-	 * provocados por la unificación
+	 * provocados por la unificaciï¿½n
 	 * @return true on success
 	 */
 	bool applyVarSubstitutions(VUndo * undoApply=0);
 
 	/**
-	 * Devuelve el número de sustituciones de variables
+	 * Devuelve el nï¿½mero de sustituciones de variables
 	 */
 	inline int size(void) const {return substitutions.size();};
 
@@ -237,12 +206,12 @@ class Unifier
 	void erase(int n);
 
 	/**
-	 * Devuelve un iterador a la primera sustitución. 
+	 * Devuelve un iterador a la primera sustituciï¿½n. 
 	 */
 	inline subsit begin(void) {return substitutions.begin();};
 
 	/**
-	 * Devuelve un iterador a la última sustitución. 
+	 * Devuelve un iterador a la ï¿½ltima sustituciï¿½n. 
 	 */
 	inline subsit end(void)  {return substitutions.end();};
 
@@ -252,11 +221,11 @@ class Unifier
 	bool equal(const Unifier * other) const;
 
     protected:
-	/** Estructura para almacenar las substituciones de variable por término */
+	/** Estructura para almacenar las substituciones de variable por tï¿½rmino */
 	vSubstitutions substitutions;
 	/** Vector para almacenar en el caso de que se produzcan, sustituciones de tipos */
 	vTSubstitutions * typeSubstitutions;
-	/** Tabla de vínculos causales consumidos durante la unificación */
+	/** Tabla de vï¿½nculos causales consumidos durante la unificaciï¿½n */
 	CLTable * cltable;
 };
 #endif

@@ -1,34 +1,3 @@
-/* ************************************************************************************
- * Copyright (C) 2003, 2004, 2005  Luis Castillo Vidal,  Juan Fernandez Olivares,
- * Oscar Jesus Garcia Perez, Francisco Carlos Palao Reines.
- *
- * More information about SIADEX project:
- * http://siadex.ugr.es
- * siadexwww@decsai.ugr.es
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or any later version.
- *
- * Please cite the authors above in your publications or in your
- * software when you made use of this software.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- * ********************************************************************************** */
-
-/* *************************************************************************************
- * Created by oscar@decsai.ugr.es: mié 22 feb, 2006  10:34
- * Last modified: vie 24 feb, 2006  12:11
- * ********************************************************************************** */
-
 #ifndef SORTGOAL
 #define SORTGOAL
 
@@ -48,7 +17,7 @@ typedef vector<SortType> VCriteria;
 typedef VCriteria::const_iterator criteriacit;
 typedef VCriteria::iterator criteriait;
 
-// función que realiza la ordenación entre dos unificadores,
+// funciï¿½n que realiza la ordenaciï¿½n entre dos unificadores,
 // teniendo en cuenta una variable
 struct CriteriaF
 {
@@ -76,7 +45,7 @@ struct CriteriaF
 	//b->print(&cerr);
 	for(int c=0;c<s;i++,c++)
 	{
-	    // escogemos el parámetro que nos toque y que estemos
+	    // escogemos el parï¿½metro que nos toque y que estemos
 	    // usando para ordenar.
 	    //cerr << s << " " << c;
 	    try{
@@ -99,7 +68,7 @@ struct CriteriaF
 	    }
 
 	    // Usar criterio por defecto (Ascendente)
-	    // es un número
+	    // es un nï¿½mero
 	    if(e1.first == -1) {
 		if(e2.first == -1) {
 		    if(e1.second != e2.second){
@@ -119,7 +88,7 @@ struct CriteriaF
 		}
 	    }
 	    else {
-		// es un término, ordenación lexicográfica por defecto.
+		// es un tï¿½rmino, ordenaciï¿½n lexicogrï¿½fica por defecto.
 		if(e2.first == -1) {
 		    *errflow << "Runtime error (2): (sortby) Triying to compare number with term." << endl;
 		    //cerr << "false" << endl;

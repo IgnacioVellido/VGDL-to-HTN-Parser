@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 #ifndef PARAMETERCONTAINER_HH
 #define PARAMETERCONTAINER_HH
 
@@ -30,11 +26,11 @@ extern bool PRINTING_PARAMETERS;
 
 extern bool PRINT_NUMBERTYPE;
 
-// Definición de funciones genéricas.
+// Definiciï¿½n de funciones genï¿½ricas.
 // De esta forma tengo los algoritmos centralizados y accesibles desde
-// cualquier parte del código. La idea es evitar tener el mismo trozo
-// de código replicado en muchos lugares. De esta forma la corrección
-// de un error se hace sobre todos los objetos simultáneamente. 
+// cualquier parte del cï¿½digo. La idea es evitar tener el mismo trozo
+// de cï¿½digo replicado en muchos lugares. De esta forma la correcciï¿½n
+// de un error se hace sobre todos los objetos simultï¿½neamente. 
 struct PrintKey {
     PrintKey(ostream * os) {this->os=os;};
     void operator()(pkey k) const
@@ -131,7 +127,7 @@ class ParameterContainer: public ValueChangeable
         inline keylistcit beginp(void) const {return parameters.begin();};
 
         /**
-        @brief Devuelve un iterador constante un elemento después del último de los argumentos
+        @brief Devuelve un iterador constante un elemento despuï¿½s del ï¿½ltimo de los argumentos
         para recorrer los mismos
         */
         inline keylistcit endp(void) const {return parameters.end();};
@@ -143,8 +139,8 @@ class ParameterContainer: public ValueChangeable
         inline int sizep(void) const {return parameters.size();};
 
         /**
-          @brief Anade un nuevo parámetro a la cabecera.
-          @param name el nombre del parámetro. 
+          @brief Anade un nuevo parï¿½metro a la cabecera.
+          @param name el nombre del parï¿½metro. 
          */
         inline void addParameter(pkey k) {parameters.push_back(k); };
 

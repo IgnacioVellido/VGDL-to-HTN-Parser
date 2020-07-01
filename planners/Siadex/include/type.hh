@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 #ifndef TYPE_H
 #define TYPE_H
 #include "constants.hh"
@@ -52,14 +48,14 @@ class Type {
 
     /**
       @brief Imprime el contenido del objeto por la salida estandard.
-      @param indent el número de espacios a dejar antes de la cadena.
+      @param indent el nï¿½mero de espacios a dejar antes de la cadena.
       */
     virtual void print(ostream * os, int indent=0) const { string s(indent,' '); *os << s << name;};
 
     virtual void printSuperTypes(ostream * os) const;
 
     /**
-     * Devuelve en un documento xml la descripción de la tarea.
+     * Devuelve en un documento xml la descripciï¿½n de la tarea.
      * @param os El flujo en el que escribir.
      **/
     virtual void toxml(ostream * os, bool super = false, bool sub= false) const{
@@ -70,7 +66,7 @@ class Type {
     };
 
     /**
-     * Devuelve en un documento xml la descripción de la tarea.
+     * Devuelve en un documento xml la descripciï¿½n de la tarea.
      * @param writer El objeto en donde escribir.
      **/
     virtual void toxml(XmlWriter * writer, bool super=false,bool sub = false) const;
@@ -116,7 +112,7 @@ class Type {
     vector<Type *> children;
     // este vector sirve para mantener referencias inversas de objetos (constantes) que
     // tienen asociado este tipo. De esta forma si tengo por ejemplo (forall (?x - tipo))
-    // puedo encontrar rápidamente las constantes que son de tipo "tipo"
+    // puedo encontrar rï¿½pidamente las constantes que son de tipo "tipo"
     vconstants referencedBy;
     string name;
     int id;
@@ -124,7 +120,7 @@ class Type {
     int fileId;
 
     /**
-     * Añade un subtipo a un tipo determinado.
+     * Aï¿½ade un subtipo a un tipo determinado.
      */
     void addSubType(Type * t);
 };

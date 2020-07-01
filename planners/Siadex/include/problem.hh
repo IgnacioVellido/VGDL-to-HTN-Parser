@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 #ifndef PROBLEM_H
 #define PROBLEM_H
 #include "constants.hh"
@@ -46,11 +42,11 @@ class Problem
 	inline const TaskNetwork * getInitialGoal(void) const {return tasknetwork;};
 
 	/**
-	 * Metainformación asociada al problema
+	 * Metainformaciï¿½n asociada al problema
 	 **/
 	Meta meta;
 
-	// Distintas banderas de configuración.
+	// Distintas banderas de configuraciï¿½n.
 
 	/** Unidad de tiempo seleccionada */
 	TimeUnit FLAG_TIME_UNIT;
@@ -58,7 +54,7 @@ class Problem
 	/** Cuando comienza el plan */
 	time_t FLAG_TIME_START;
 
-	/** Que formato de tiempo se usa para la impresión */
+	/** Que formato de tiempo se usa para la impresiï¿½n */
 	string TFORMAT;
 
 	/** Control del time-horizon */
@@ -69,7 +65,7 @@ class Problem
 	/** Estructura para el estado inicial */
 	State * state;
 
-	/** Estructura que mantiene información sobre la red de tareas inicial */
+	/** Estructura que mantiene informaciï¿½n sobre la red de tareas inicial */
 	TaskNetwork * tasknetwork;
 
 	/** Nombre del problema */

@@ -1,8 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
-
 #ifndef TASK_H
 #define TASK_H
 
@@ -65,7 +60,7 @@ class Task : public Expression, public Header
          */
         inline virtual bool isGoalTask(void) const {return false;};
         /**
-         * @brief La función es una descripción de acción
+         * @brief La funciï¿½n es una descripciï¿½n de acciï¿½n
          */
         inline virtual bool isTaskHeader(void) const {return false;};
 
@@ -78,9 +73,9 @@ class Task : public Expression, public Header
         virtual void printHead(ostream * os) const = 0;
 
         /**
-        * Ampliamos los parámetros que se le pueden pasar a la función toxml.
-        * Se puede obtener una descripción mas simple (sólo cabecera) o completa.
-        * @param complete marca si se quiere una descripción detallada.
+        * Ampliamos los parï¿½metros que se le pueden pasar a la funciï¿½n toxml.
+        * Se puede obtener una descripciï¿½n mas simple (sï¿½lo cabecera) o completa.
+        * @param complete marca si se quiere una descripciï¿½n detallada.
         **/
         virtual void toxml(XmlWriter * writer, bool complete) const = 0;
 
@@ -90,93 +85,93 @@ class Task : public Expression, public Header
 
         /**
         * Testea si una vez cargado el dominio y el problema,
-        * puede haber alguna precondición que no sea alcanzable.
-        * Es un análisis muy simple pero puede ayudar a descubrir algunos
+        * puede haber alguna precondiciï¿½n que no sea alcanzable.
+        * Es un anï¿½lisis muy simple pero puede ayudar a descubrir algunos
         * errores.
         */
         virtual bool isReachable(ostream * err) const = 0;
 
         /**
-        * Comprueba si eventualmente una acción podría proporcionar
+        * Comprueba si eventualmente una acciï¿½n podrï¿½a proporcionar
         * un literal dado.
         */
         virtual bool provides(const Literal * l) const = 0;
 
         /**
-        * Devuelve la tarea que generó a this.
+        * Devuelve la tarea que generï¿½ a this.
         * null en caso de que no exista.
         */
         inline CompoundTask * getParent(void) const {return parent;};
 
         /**
-        * Establece la tarea que generó a this.
+        * Establece la tarea que generï¿½ a this.
         */
         inline void setParent(CompoundTask * t) {parent= t;};
 
         /**
-        * Devuelve el método de la tarea padre que generó a this.
+        * Devuelve el mï¿½todo de la tarea padre que generï¿½ a this.
         * null en caso de que no exista.
         */
         inline Method * getParentMethod(void) const {return parentMethod;};
 
         /**
-        * Establece el método de la tarea padre que generó a this.
+        * Establece el mï¿½todo de la tarea padre que generï¿½ a this.
         */
         inline void setParentMethod(Method * m) {parentMethod= m;};
 
         /**
-        * Devuelve la cabecera a la que sustituí en la red de tareas.
+        * Devuelve la cabecera a la que sustituï¿½ en la red de tareas.
         * null en caso de que no exista.
         */
         inline TaskHeader * getParentHeader(void) const {return parentHeader;};
 
         /**
-        * Establece la cabecera a la que sustituí en la red de tareas.
+        * Establece la cabecera a la que sustituï¿½ en la red de tareas.
         */
         inline void setParentHeader(TaskHeader * h) {parentHeader= h;};
 
         /**
-        * Devuelve el unificador que se utilizó para sustituir a mis variables
-        * en caso de que esté totalemente instanciada
+        * Devuelve el unificador que se utilizï¿½ para sustituir a mis variables
+        * en caso de que estï¿½ totalemente instanciada
         * null en caso de que no exista.
         */
         inline Unifier * getUnifier(void) const {return uni;};
 
         /**
-        * Establece el unificador que se utilizó para sustituir a mis variables
-        * en caso de que esté totalemente instanciada
+        * Establece el unificador que se utilizï¿½ para sustituir a mis variables
+        * en caso de que estï¿½ totalemente instanciada
         * null en caso de que no exista.
         */
         inline void setUnifier(Unifier * u) {uni = u;};
 
     protected:
-        /** Lista de vínculos protegidos que el planificador debe mantener
-        * durante la expansión de las tareas.
+        /** Lista de vï¿½nculos protegidos que el planificador debe mantener
+        * durante la expansiï¿½n de las tareas.
         * En el caso de que el maintain se encuentre en una tarea compuesta
         * las tareas que se encuentren en su red de tareas asociada, heredaran
-        * los vínculos a mantener.
+        * los vï¿½nculos a mantener.
         * En el caso de que el maintain llegue a una tarea primitiva, previa
         * herencia desde una tarea compuesta, la tarea primitiva al aplicar
         * los efectos debe de verificar que los maintains no son violados. */
 //        vGoal * maintainList;
 
         /**
-        * Quien es la tarea que me genero o null si no me generó nadie.
+        * Quien es la tarea que me genero o null si no me generï¿½ nadie.
         */
         CompoundTask * parent;
 
         /**
-        * El método por cuya expansión me generé.
+        * El mï¿½todo por cuya expansiï¿½n me generï¿½.
         */
         Method * parentMethod;
 
         /**
-        * La TaskHeader a la que sustituí en la red de tareas.
+        * La TaskHeader a la que sustituï¿½ en la red de tareas.
         */
         TaskHeader * parentHeader;
 
         /**
-        * El unificador que se utilizó para hacer la sustitución de mis variables.
+        * El unificador que se utilizï¿½ para hacer la sustituciï¿½n de mis variables.
         */
         Unifier * uni;
 

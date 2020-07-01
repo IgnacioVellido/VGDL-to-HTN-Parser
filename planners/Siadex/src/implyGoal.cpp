@@ -1,29 +1,3 @@
-/*  ************************************************************************************
- * Copyright (C) 2003, 2004, 2005  Luis Castillo Vidal,  Juan Fernandez Olivares,
- * Oscar Jesus Garcia Perez, Francisco Carlos Palao Reines.
- *
- * More information about SIADEX project:
- * http://siadex.ugr.es
- * siadexwww@decsai.ugr.es
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or any later version.
- *
- * Please cite the authors above in your publications or in your
- * software when you made use of this software.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- * ********************************************************************************** */
-
 #include "implyGoal.hh"
 #include "problem.hh"
 #include "papi.hh"
@@ -133,7 +107,7 @@ Expression* ImplyGoal::clone(void) const
 UnifierTable* ImplyGoal::getUnifiers(const State* state, const Unifier* u, bool polarity, Protection * protection) const
 {
     bool pol = true;
-    // determinar si el predicado está negado
+    // determinar si el predicado estï¿½ negado
     if((!getPolarity() || !polarity) && (!(!getPolarity() && !polarity)))
         pol = false;
 
@@ -146,7 +120,7 @@ UnifierTable* ImplyGoal::getUnifiers(const State* state, const Unifier* u, bool 
 
     if(pol)
     {
-	// La única condición con la cual el imply falla
+	// La ï¿½nica condiciï¿½n con la cual el imply falla
 	// es cuando se da a y no b. Es lo que compruebo.
 	Unifier * uf;
 	if(u)
@@ -160,7 +134,7 @@ UnifierTable* ImplyGoal::getUnifiers(const State* state, const Unifier* u, bool 
 	    ret = condition->getUnifiers(state,u,true,protection);
 
 	// Cuando el antecedente sea cierto el consecuente 
-	// también lo debe ser.
+	// tambiï¿½n lo debe ser.
 	if(ret && !ret->isEmpty()){
 	    if(goal){
 		UnifierTable * aux;
@@ -191,8 +165,8 @@ UnifierTable* ImplyGoal::getUnifiers(const State* state, const Unifier* u, bool 
 	return ret; 
     }
     else {
-	// La unica situación en que el imply falla cuando este está
-	// negado es que se dé b y no a 
+	// La unica situaciï¿½n en que el imply falla cuando este estï¿½
+	// negado es que se dï¿½ b y no a 
 	Unifier * uf;
 	if(u)
 	    uf= u->clone();
@@ -200,7 +174,7 @@ UnifierTable* ImplyGoal::getUnifiers(const State* state, const Unifier* u, bool 
 	    uf = new Unifier();
 
 	// comprobar cuando el consecuente es cierto
-	// el antecedente también lo debe ser 
+	// el antecedente tambiï¿½n lo debe ser 
 	UnifierTable * ret=0;
 	if(goal)
 	    ret = goal->getUnifiers(state,u,true,protection);
@@ -213,7 +187,7 @@ UnifierTable* ImplyGoal::getUnifiers(const State* state, const Unifier* u, bool 
 		{
 		    aux = condition->getUnifiers(state,*j,true,protection);
 		    if(aux == 0 || aux->isEmpty()){
-			// esta es la situación de fallo
+			// esta es la situaciï¿½n de fallo
 			delete aux;
 			delete ret;
 			delete uf;
@@ -238,7 +212,7 @@ UnifierTable* ImplyGoal::getUnifiers(const State* state, const Unifier* u, bool 
 bool ImplyGoal::isReachable(ostream* err, bool p) const
 {
     bool pol = true,r=true;
-    // determinar si el predicado está negado
+    // determinar si el predicado estï¿½ negado
     if((!getPolarity() || !p) && (!(!getPolarity() && !p)))
         pol = false;
 

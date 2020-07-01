@@ -1,19 +1,3 @@
-/*  ************************************************************************************
- * Copyright (C) IACTIVE Intelligent Solutions
- * 
- * http://www.iactive.es
- * 
- * Este fichero está protegido por las leyes de propiedad intelectual.
- * Queda prohíbida la copia, distribución, modificación o lectura sin autorización
- * previa por escrito de IACTIVE INTELLIGENT SOLUTIONS.
- * 
- * ********************************************************************************** */
-
-/* **************************************************************
- * Created by oscar oscar@decsai.ugr.es: lun 25 jul, 2005  04:55
- * Last modified: o.garcia sáb 20 sep, 2008  11:37
- * ************************************************************** */
-
 #ifndef CAUSALTABLE_HH
 #define CAUSALTABLE_HH   
 

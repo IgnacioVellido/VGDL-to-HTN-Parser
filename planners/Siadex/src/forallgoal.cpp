@@ -1,7 +1,3 @@
-/*  ***************************************************************************
- * Copyright (C) 2008 IActive Intelligent Solutions S.L. http://www.iactive.es
- * ************************************************************************* */
-
 #include "forallgoal.hh"
 #include <sstream>
 #include "variablesymbol.hh"
@@ -181,7 +177,7 @@ UnifierTable *ForallGoal::getUnifiers(const State * sta, const Unifier *context,
 
 bool ForallGoal::test(const State * sta, Unifier * context, bool inheritPolarity, Protection * p, int pos) const
 {
-    // Condición de parada de la recursividad
+    // Condiciï¿½n de parada de la recursividad
     if(pos >= (int) parameters.size())
     {
     //cerr << "probando" << endl;

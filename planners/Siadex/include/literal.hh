@@ -1,20 +1,3 @@
-/* ************************************************************************************
- * Copyright (C) IACTIVE Intelligent Solutions,
- *
- * http://www.iactive.es
- *
- * Este fichero es propiedad intelectual de IACTIVE Intelligent Solutions
- * y queda protegido por las leyes de propiedad intelectual aplicables.
- * Queda totalmente prohibido, su copia, modificación, distribución y lectura
- * Sin el consentimiento explícito y por escrito de IACTIVE Intelligent Solutions
- *
- * ********************************************************************************** */
-
-/* **************************************************************
- * Created by oscar oscar@decsai.ugr.es: vie 26 ago, 2005  11:37
- * Last modified: o.garcia lun 15 sep, 2008  12:57
- * ************************************************************** */
-
 #ifndef LITERAL_HH
 #define LITERAL_HH
 

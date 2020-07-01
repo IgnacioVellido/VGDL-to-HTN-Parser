@@ -1,20 +1,3 @@
-/* ************************************************************************************
- * Copyright (C) IACTIVE Intelligent Solutions,
- *
- * http://www.iactive.es
- *
- * Este fichero es propiedad intelectual de IACTIVE Intelligent Solutions
- * y queda protegido por las leyes de propiedad intelectual aplicables.
- * Queda totalmente prohibido, su copia, modificación, distribución y lectura
- * Sin el consentimiento explícito y por escrito de IACTIVE Intelligent Solutions
- *
- * ********************************************************************************** */
-
-/* *************************************************************************************
- * Created by o.garcia@iactive.es: mar 21 feb, 2006  05:02
- * Last modified: o.garcia lun 15 sep, 2008  12:53
- * ********************************************************************************** */
-
 #ifndef EXPANSIONTREE_HH
 #define EXPANSIONTREE_HH   
 

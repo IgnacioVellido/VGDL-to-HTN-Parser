@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 #ifndef AXIOM_H
 #define AXIOM_H
 
@@ -78,29 +74,29 @@ class Axiom: public Header
     /**
      * Dado un estado y contexto de unificaciones, verifica si el
      * axioma es valido.
-     * @param state El estado contra el que se verificará el axioma.
-     * @param context El contexto de unificación.
-     * @param pol La polaridad si es negativa se supondrá un (not axioma)
-     * @return Una tabla de unificaciones no vacía en caso de éxito al evaluar el
-     * axioma, null o una tabla vacía en otro caso.
+     * @param state El estado contra el que se verificarï¿½ el axioma.
+     * @param context El contexto de unificaciï¿½n.
+     * @param pol La polaridad si es negativa se supondrï¿½ un (not axioma)
+     * @return Una tabla de unificaciones no vacï¿½a en caso de ï¿½xito al evaluar el
+     * axioma, null o una tabla vacï¿½a en otro caso.
      */
     virtual UnifierTable * test(const State * state, const Unifier * context, bool pol, Protection * p);
 
     /**
-     * Devuelve true si el axioma está codificado con python
+     * Devuelve true si el axioma estï¿½ codificado con python
      */
     inline bool isPython(void) const {return (code != 0);};
 
     /**
-     * Establece el código python necesario para ejecutar el
+     * Establece el cï¿½digo python necesario para ejecutar el
      * axioma.
-     * @param c el código a compilar.
+     * @param c el cï¿½digo a compilar.
      */
     bool setCode(const char * c);
 
     protected:
-    Goal *goal;     /**< @brief Antecedente: Objetivo que tendrá que cumplirse para que el axioma pueda aplicarse */
-    /** Objeto python que almacena el código a ajecutar */
+    Goal *goal;     /**< @brief Antecedente: Objetivo que tendrï¿½ que cumplirse para que el axioma pueda aplicarse */
+    /** Objeto python que almacena el cï¿½digo a ajecutar */
     PyObject * code;
 };
 

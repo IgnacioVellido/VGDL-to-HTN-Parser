@@ -1,20 +1,3 @@
-/*  ************************************************************************************
- *  Copyright (C) IACTIVE Intelligent Solutions,
- *
- * http://www.iactive.es
- *
- * Este fichero es propiedad intelectual de IACTIVE Intelligent Solutions
- * y queda protegido por las leyes de propiedad intelectual aplicables.
- * Queda totalmente prohibido, su copia, modificación, distribución y lectura
- * Sin el consentimiento explícito y por escrito de IACTIVE Intelligent Solutions
- *
- * ********************************************************************************** */
-
-/* *************************************************************************************
- * Created by oscar oscar@decsai.ugr.es: lun 29 ago, 2005  01:42
- * Last modified: o.garcia lun 14 ene, 2008  02:42
- * ********************************************************************************** */
-
 #include "stacknode.hh"
 #include "function.hh"
 #include "papi.hh"
@@ -99,7 +82,7 @@ StackNode::StackNode(const StackNode * o)
 	if(o->utable)
 	    utable =  new UnifierTable(o->utable);
 
-        /*! Lista de métodos no expandidos si task es una tarea compuesta */
+        /*! Lista de mï¿½todos no expandidos si task es una tarea compuesta */
 	methods = 0;
 	if(o->methods)
 	    methods = new VMethods(*(o->methods));
@@ -121,8 +104,8 @@ void StackNode::undoApplyUnification(void)
     if(current_plan->FLAG_VERBOSE == 3) {
         *errflow << "(uuu) Undoing unification." << endl;
     }
-    // antes de deshacer la unificación me aseguro que la
-    // tabla de vínculos causales no quede inconsistente
+    // antes de deshacer la unificaciï¿½n me aseguro que la
+    // tabla de vï¿½nculos causales no quede inconsistente
 
 //    const Unifier * uf = 0;
 //    if(this->utable)
@@ -168,7 +151,7 @@ void StackNode::clearUndoEffects(void)
 void StackNode::undoTaskNetwork(TaskNetwork * tasknetwork, TPlan * plan)
 {
     if(!lAdded.empty() && !lDeleted.empty()) {
-	// Si lo último que añadimos a la red de tareas fue una tarea primitiva
+	// Si lo ï¿½ltimo que aï¿½adimos a la red de tareas fue una tarea primitiva
 	// es necesario eliminarla del plan
 //	VLinks::iterator i;
 //	for(i=lAdded.begin();i!=lAdded.end();i++) {

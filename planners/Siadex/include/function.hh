@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 #ifndef FUNCTION_HH
 #define FUNCTION_HH
 
@@ -45,7 +41,7 @@ struct EqualPair
 
 /**
  * Esta clase define las funciones fluent que se almacenan en el estado de
- * planificación.
+ * planificaciï¿½n.
  */
 class Function: public LiteralEffect
 {
@@ -65,30 +61,30 @@ class Function: public LiteralEffect
        * @param mid el metaidentificador
        * @param p La polaridad
        * @param val El valor almacenado. 
-       * @param parameters La lista de parámetros del fluent.
+       * @param parameters La lista de parï¿½metros del fluent.
        */
       Function(int id, int mid, bool p, double val,const KeyList * parameters);
 
       /**
        * El constructor de copia
-       * @param c La función a clonar
+       * @param c La funciï¿½n a clonar
        */
       Function(const Function *c);
 
       /**
-       * Saber si el objeto es una función
+       * Saber si el objeto es una funciï¿½n
        * @return siempre true.
        */
       virtual bool isFunction(void) const {return true;};
 
       /**
-       * Establecer un nuevo valor contenido por la función.
+       * Establecer un nuevo valor contenido por la funciï¿½n.
        * @param v El valor.
        */
       inline void setValue(double v) {value.first=-1; value.second = v;};
 
       /**
-       * Establecer un nuevo valor contenido por la función.
+       * Establecer un nuevo valor contenido por la funciï¿½n.
        * @param v El valor.
        */
       inline void setValue(pkey &nv) {value = nv;};
@@ -100,21 +96,21 @@ class Function: public LiteralEffect
       inline pkey getValue(void) const {return value;};
 
       /**
-       * Esta función es usada por los undo
+       * Esta funciï¿½n es usada por los undo
        */
       virtual void setVar(int pos, pkey &newval) {if(pos == -1) value = newval; else setParameter(pos,newval);}
 
       /**
-       * Obtener una descripción de la función como una cadena.
+       * Obtener una descripciï¿½n de la funciï¿½n como una cadena.
        * @return un puntero a cadena
        */
       virtual const char * toString(void) const {static string s; ostringstream os; printL(&os,0); s = os.str(); return s.c_str();}; 
 
       /**
-       * Función heredada de los literales, imprime una descripción de la
-       * función en un flujo de salida que se pasa como argumento.
+       * Funciï¿½n heredada de los literales, imprime una descripciï¿½n de la
+       * funciï¿½n en un flujo de salida que se pasa como argumento.
        * @param os El flujo donde escribiremos
-       * @param indent un número de espacios que se dejarán antes de imprimir
+       * @param indent un nï¿½mero de espacios que se dejarï¿½n antes de imprimir
        */
       virtual void printL(ostream * os, int indent=0) const;
 
@@ -124,31 +120,31 @@ class Function: public LiteralEffect
       virtual Literal * cloneL(void) const;
 
       /**
-       * Devuelve en un documento xml la descripción de la tarea.
+       * Devuelve en un documento xml la descripciï¿½n de la tarea.
        * @param writer el objeto donde escribir.
        **/
       virtual void toxml(XmlWriter * writer) const;
 
       /**
-       * Devuelve en un documento xml la descripción de la tarea.
+       * Devuelve en un documento xml la descripciï¿½n de la tarea.
        * @param writer el objeto donde escribir.
        **/
       virtual void toxmlL(XmlWriter * writer) const {toxml(writer);};
 
       /**
-       * Obtiene la polaridad de la función.
+       * Obtiene la polaridad de la funciï¿½n.
        */
       virtual bool getPol(void) const {return true;};
 
       /**
-       * Establece la polaridad de la función.
+       * Establece la polaridad de la funciï¿½n.
        */
       virtual void setPol(bool t) {};
 
       virtual void vcprint(ostream * os, int indent=0) const {printL(os,indent);};
 
   protected:
-      // la función si no es python debería tener asociado un valor
+      // la funciï¿½n si no es python deberï¿½a tener asociado un valor
       pkey value;
 };
 #endif

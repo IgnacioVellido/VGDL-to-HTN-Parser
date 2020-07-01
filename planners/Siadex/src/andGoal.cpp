@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 #include "andGoal.hh"
 #include <sstream>
 #include <string>
@@ -72,7 +68,7 @@ UnifierTable * AndGoal::getUnifiers(const State * state, const Unifier * context
     UnifierTable * ret2;
     
     bool pol = true;
-    // determinar si el predicado está negado
+    // determinar si el predicado estï¿½ negado
     if((!getPolarity() || !inheritPolarity) && (!(!getPolarity() && !inheritPolarity)))
         pol = false;
 
@@ -164,7 +160,7 @@ void AndGoal::renameVars(Unifier * u, VUndo * undo)
 bool AndGoal::isReachable(ostream * err, bool inheritPolarity) const
 {
     bool pol = true,r=true;
-    // determinar si el predicado está negado
+    // determinar si el predicado estï¿½ negado
     if((!getPolarity() || !inheritPolarity) && (!(!getPolarity() && !inheritPolarity)))
         pol = false;
 

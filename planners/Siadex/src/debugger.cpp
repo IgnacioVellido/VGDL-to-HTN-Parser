@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 #include "debugger.hh"
 #include <sstream>
 #include <fstream>
@@ -98,7 +94,7 @@ bool StrCmp(const string &s1, const char* s2)
 }
 
 /** 
- * Esta función realiza el autorellenado del comando al pulsar TAB en la línea
+ * Esta funciï¿½n realiza el autorellenado del comando al pulsar TAB en la lï¿½nea
  * de comandos del debugger.
  */
 char * command_generator (const char * text,int state)

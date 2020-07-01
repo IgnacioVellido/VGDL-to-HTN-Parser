@@ -1,7 +1,3 @@
-/*  ***************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 %option outfile="src/lexer.cpp" noyywrap caseless c++
 %{
 

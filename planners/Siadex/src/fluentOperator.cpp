@@ -1,34 +1,3 @@
-/*  ************************************************************************************
- * Copyright (C) 2003, 2004, 2005  Luis Castillo Vidal,  Juan Fernandez Olivares,
- * Oscar Jesus Garcia Perez, Francisco Carlos Palao Reines.
- *
- * More information about SIADEX project:
- * http://siadex.ugr.es
- * siadexwww@decsai.ugr.es
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or any later version.
- *
- * Please cite the authors above in your publications or in your
- * software when you made use of this software.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- * ********************************************************************************** */
-
-/* **************************************************************
- * Created by oscar oscar@decsai.ugr.es: jue 01 sep, 2005  09:38
- * Last modified: mié 22 nov, 2006  10:56
- * ************************************************************** */
-
 #include "fluentOperator.hh"
 #include <math.h>
 #include "constants.hh"
@@ -178,7 +147,7 @@ pkey FluentOperator::eval(const State * state, const Unifier * u) const
     //printEvaluable(&cerr,0);
     //cerr << "o[" << v1.first << "," << v1.second << "]" << endl;
     //cerr << "o[" << v2.first << "," << v2.second << "]" << endl;
-    // solo se operar con números
+    // solo se operar con nï¿½meros
     if(v1.first != -1 || v2.first != -1){
 	*errflow << "FluentOperator:: Error: Evaluating expression: ";
 	if(v1.first != -1)
@@ -229,14 +198,14 @@ pkey FluentOperator::evaltp(const State * state, const Unifier * u, pkey * tp, b
     static pkey result(INT_MAX,0);
     bool b1=true, b2=true;
 
-    // se evalúan los dos operandos
+    // se evalï¿½an los dos operandos
     pkey v1 = first->evaltp(state,u,&tp1,&b1);
     pkey v2(-1,0);
     if(second)
 	v2 = second->evaltp(state,u,&tp2,&b2);
 
     // hay diferentes posibilidades, de combinaciones de operaciones
-    // entre números y timepoints
+    // entre nï¿½meros y timepoints
 
     // si hay dos time points definitivamente no se como operar con ellos
     if(tp1.first != -1 && tp2.first != -1){
@@ -247,7 +216,7 @@ pkey FluentOperator::evaltp(const State * state, const Unifier * u, pkey * tp, b
     }
 
     // si hay un time point y se utiliza un operador distinto de la suma
-    // o la resta, tampoco se como operar con él.
+    // o la resta, tampoco se como operar con ï¿½l.
     if((tp1.first != -1 || tp2.first != -1) && (op != OADD && op != OSUBSTRACT)){
 	*errflow << "FluentOperator:: Error: unable to perform requested operation over a time point operator." << endl;
 	printEvaluable(errflow,0);
@@ -256,7 +225,7 @@ pkey FluentOperator::evaltp(const State * state, const Unifier * u, pkey * tp, b
     }
 
     // en otro caso estamos listos para operar
-    // primero operamos los números entre sí
+    // primero operamos los nï¿½meros entre sï¿½
 
     //printEvaluable(&cerr,0);
     //cerr << "o[" << v1.first << "," << v1.second << "]" << endl;
@@ -302,8 +271,8 @@ pkey FluentOperator::evaltp(const State * state, const Unifier * u, pkey * tp, b
 	    break;
     }
 
-    // en result tenemos el nuevo número
-    // mirar si también hay que devolver un time-point
+    // en result tenemos el nuevo nï¿½mero
+    // mirar si tambiï¿½n hay que devolver un time-point
     if(tp1.first != -1)
 	*tp = tp1;
 

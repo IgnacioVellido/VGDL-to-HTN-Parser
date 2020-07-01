@@ -1,20 +1,3 @@
-/*  ************************************************************************************
- * Copyright (C) IACTIVE Intelligent Solutions,
- *
- * http://www.iactive.es
- *
- * Este fichero es propiedad intelectual de IACTIVE Intelligent Solutions
- * y queda protegido por las leyes de propiedad intelectual aplicables.
- * Queda totalmente prohibido, su copia, modificación, distribución y lectura
- * Sin el consentimiento explícito y por escrito de IACTIVE Intelligent Solutions
- *
- * ********************************************************************************** */
-
-/* *************************************************************************************
- * Created by o.garcia: lun 10 dic, 2007  05:56
- * Last modified: o.garcia lun 10 dic, 2007  05:56
- * ********************************************************************************** */
-
 #include "foralleffect.hh"
 #include <sstream>
 #include "variablesymbol.hh"
@@ -133,7 +116,7 @@ bool ForallEffect::apply(State *sta, VUndo * undo, Unifier * uf)
 bool ForallEffect::assertl(State * sta, VUndo * undo, Unifier * context, int pos, Unifier * uf)
 {
     bool ret=false;
-    // Condición de parada de la recursividad
+    // Condiciï¿½n de parada de la recursividad
     if(pos >= (int) parameters.size())
     {
 	VUndo undoUni;

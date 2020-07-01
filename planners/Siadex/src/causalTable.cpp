@@ -1,20 +1,3 @@
-/* ************************************************************************************
- * Copyright (C) IACTIVE Intelligent Solutions,
- *
- * http://www.iactive.es
- *
- * Este fichero es propiedad intelectual de IACTIVE Intelligent Solutions
- * y queda protegido por las leyes de propiedad intelectual aplicables.
- * Queda totalmente prohibido, su copia, modificación, distribución y lectura
- * Sin el consentimiento explícito y por escrito de IACTIVE Intelligent Solutions
- *
- * ********************************************************************************** */
-
-/* **************************************************************
- * Created by o.garcia o.garcia@iactive.es: lun 25 jul, 2005  05:19
- * Last modified: o.garcia sáb 20 sep, 2008  02:17
- * ************************************************************** */
-
 #include "causalTable.hh"
 #include "task.hh"
 #include "primitivetask.hh"

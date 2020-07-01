@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 #include "tasknetwork.hh"
 #include <string>
 #include <iostream>
@@ -15,7 +11,7 @@ extern bool PRINTING_TASKSNETWORK;
 bool LAST_TASK_PRINT_SEC = false;
 
 TaskNetwork::TaskNetwork(void) {
-    // crear los 0s símbolos de inicio y de fin
+    // crear los 0s sï¿½mbolos de inicio y de fin
     succ.push_back(new vector<int> );
     pred.push_back(new vector<int> );
 }
@@ -43,7 +39,7 @@ TaskNetwork::TaskNetwork(vector<Task *> * vt, bool parallel) {
         succ.push_back(new vector<int> );
         pred.push_back(new vector<int> );
 
-        // se añaden las tareas desde el vector.
+        // se aï¿½aden las tareas desde el vector.
         for_each(vt->begin(), vt->end(), AddV<Task> (&tasklist));
 
         // como son paralelas todas parten del 0
@@ -62,7 +58,7 @@ TaskNetwork::TaskNetwork(vector<Task *> * vt, bool parallel) {
         inmediate.insert(inmediate.end(), s, false);
         backtracking.insert(backtracking.end(), s, false);
     } else {
-        // en el caso de que sean secuenciales unas se colocan detrás de
+        // en el caso de que sean secuenciales unas se colocan detrï¿½s de
         // las otras
         for_each(vt->begin(), vt->end(), AddV<Task> (&tasklist));
         int s = tasklist.size();
@@ -139,15 +135,15 @@ void TaskNetwork::join(TaskNetwork * other) {
     cerr << "--------------------------------" << endl;*/
     // unimos dos redes de tareas de forma secuencial
     // El punto de fin de this, se convierte en el punto de inicio de other.
-    // El punto de fin de this será el nuevo punto de fin.
+    // El punto de fin de this serï¿½ el nuevo punto de fin.
 
-    // guardo el tamaño antes de hacer la unión.
+    // guardo el tamaï¿½o antes de hacer la uniï¿½n.
     int s = tasklist.size();
     // copio la lista de tareas de other en this.
     for_each(other->tasklist.begin(), other->tasklist.end(), AddV<Task> (
             &tasklist));
 
-    // Copiamos reajustando los índices los predecesores y los
+    // Copiamos reajustando los ï¿½ndices los predecesores y los
     // sucesores de other en this. Exceptuando la marca de tarea inicial/final.
     intvit i, e;
     vector<vector<int> *>::iterator j, je;
@@ -176,10 +172,10 @@ void TaskNetwork::join(TaskNetwork * other) {
 
     // Los predecesores en this de 0 (la marca final) van a tener ahora como
     // sucesores las tareas iniciales de other (succesores de 0 marca inicial)
-    // (El 0 actua tanto como marca de inicio como de fín interpretandose según
+    // (El 0 actua tanto como marca de inicio como de fï¿½n interpretandose segï¿½n
     // hablemos de los predecesores o de los sucesores).
     //
-    // También ocurre a la inversa los predecesores de las tareas iniciales de
+    // Tambiï¿½n ocurre a la inversa los predecesores de las tareas iniciales de
     // other ahora son las tareas finales de this.
     intvit k, oe;
     e = pred[0]->end();
@@ -253,7 +249,7 @@ void TaskNetwork::merge(TaskNetwork * other) {
     // Por lo tanto hay que unir sus puntos de inicio y de fin
     // marcados por la tarea con id 0
     //
-    // Copiamos, reajustando los índices, los succesores de la tarea inicial
+    // Copiamos, reajustando los ï¿½ndices, los succesores de la tarea inicial
     // de la tarea con la que nos vamos a unir
     e = other->succ[0]->end();
     for (i = other->succ[0]->begin(); i != e; i++)
@@ -265,7 +261,7 @@ void TaskNetwork::merge(TaskNetwork * other) {
         pred[0]->push_back(s + *i);
 
     // ahora copiamos el resto de enlaces reajustando
-    // los índices
+    // los ï¿½ndices
     vector<vector<int> *>::iterator j, je;
 
     je = other->succ.end();
@@ -414,7 +410,7 @@ void TaskNetwork::replacePrimitive(int indexTask, PrimitiveTask * task,
             }
     }
 
-    // el proceso simétrico
+    // el proceso simï¿½trico
     v = pred[offset];
     e = pred[indexTask]->end();
     for (i = pred[indexTask]->begin(); i != e; i++) {
@@ -456,7 +452,7 @@ void TaskNetwork::replaceTN(int indexTask, TaskNetwork * newTN, vector<pair<
     tasklistcit e = newTN->getEndTask();
     tasklistcit i;
 
-    // Se añaden las nuevas tareas, observar que no se clonan.
+    // Se aï¿½aden las nuevas tareas, observar que no se clonan.
     // ESTA FUNCION ESTA PENSADA PARA APLICARSE A LA RED DE TAREAS QUE
     // REPRESENTA EL PLAN, NO PARA LAS REDES DE TAREAS CONTENIDAS EN
     // LOS METODOS.
@@ -494,9 +490,9 @@ void TaskNetwork::replaceTN(int indexTask, TaskNetwork * newTN, vector<pair<
     if (backtracking[indexTask])
         fill(backtracking.begin() + btsize, backtracking.end(), true);
 
-    // copiar las tablas de newTN, se supone que en newTN no hay inválidos
-    // por lo que no los tengo en cuenta. No se copia la posición 0. Se
-    // hace renombrado de índices.
+    // copiar las tablas de newTN, se supone que en newTN no hay invï¿½lidos
+    // por lo que no los tengo en cuenta. No se copia la posiciï¿½n 0. Se
+    // hace renombrado de ï¿½ndices.
 
     intvit ite, ee, ee2, ite2;
     vector<int> * v;
@@ -550,7 +546,7 @@ void TaskNetwork::replaceTN(int indexTask, TaskNetwork * newTN, vector<pair<
             v->push_back((*ite));
     }
 
-    // el simétrico
+    // el simï¿½trico
     ee2 = newTN->getPredEnd(0);
     for (ite2 = newTN->getPredBegin(0); ite2 != ee2; ite2++) {
         v = succ[(*ite2) + offset];
@@ -564,7 +560,7 @@ void TaskNetwork::replaceTN(int indexTask, TaskNetwork * newTN, vector<pair<
 
     //Borrar indexTask en las listas donde aparezca y sustituirlos
     //por los succesores y predecesores de 0 de newTN donde corresponda
-    //(acción de insertar la red e invalidar indexTask
+    //(acciï¿½n de insertar la red e invalidar indexTask
 
     ee = succ[indexTask]->end();
     for (ite = succ[indexTask]->begin(); ite != ee; ite++) {
@@ -588,7 +584,7 @@ void TaskNetwork::replaceTN(int indexTask, TaskNetwork * newTN, vector<pair<
         }
     }
 
-    // el simétrico
+    // el simï¿½trico
     ee = pred[indexTask]->end();
     for (ite = pred[indexTask]->begin(); ite != ee; ite++) {
         v = succ[(*ite)];
@@ -661,7 +657,7 @@ void TaskNetwork::undoReplace(int oldsize,
 
     actualsize = getNumOfNodes();
 
-    // los añadidos anterirmente son ahora eliminados.
+    // los aï¿½adidos anterirmente son ahora eliminados.
     vector<pair<bool, pair<int, int> > >::const_iterator i, e;
     vector<int>::iterator j, k;
 
@@ -690,7 +686,7 @@ void TaskNetwork::undoReplace(int oldsize,
 
     }
 
-    // los eliminados anteriormente ahora son añadidos
+    // los eliminados anteriormente ahora son aï¿½adidos
     e = lDeleted->end();
     for (i = lDeleted->begin(); i != e; i++) {
         //cerr << "del:[" << (*i).first << ",[" << (*i).second.first << "," << (*i).second.second << "]]" << endl;
@@ -818,7 +814,7 @@ vector<int> TaskNetwork::getConvergenceNodes(int id_root, int id_limit) const {
     for (i = 1; i < (int) succ.size(); i++) {
         //Si es un nodo convergente
         if (pred[i]->size() > 1) {
-            if (hasThisSuccesor(id_root, i) || i == 0) { //Añadimos i=0 para el caso que terminen en el nodo ficticio 0
+            if (hasThisSuccesor(id_root, i) || i == 0) { //Aï¿½adimos i=0 para el caso que terminen en el nodo ficticio 0
                 if (new_branchs == 0) {
                     convergence_nodes.push_back(i);
                 } else {
@@ -834,7 +830,7 @@ vector<int> TaskNetwork::getConvergenceNodes(int id_root, int id_limit) const {
     //con varios caminos todos ellos confluyen ficticiamente en el nodo 0
     //Si es un nodo convergente
     if (pred[0]->size() > 1) {
-        //if(hasThisSuccesor(id_root, 0)) { //Añadimos i=0 para el caso que terminen en el nodo ficticio 0
+        //if(hasThisSuccesor(id_root, 0)) { //Aï¿½adimos i=0 para el caso que terminen en el nodo ficticio 0
         if (new_branchs == 0) {
             convergence_nodes.push_back(i);
         }
@@ -1133,7 +1129,7 @@ void TaskNetwork::toxml(ostream * os, bool primitives, bool compound,
 
 void TaskNetwork::toxml(XmlWriter * writer, bool primitives, bool compound,
         bool inlines) const {
-    // añadimos ahora las tareas
+    // aï¿½adimos ahora las tareas
     writer->startTag("tasks");
 
     for (int j = 0; j != (int) tasklist.size(); j++)
@@ -1300,7 +1296,7 @@ struct NotWellDefined {
             if (mt->candidates.size() == 1) {
                 // si solo hay un posible candidato
                 // y la tarea es primitiva puedo adelantar
-                // ya la unificación
+                // ya la unificaciï¿½n
                 u = new Unifier();
                 //cerr << "==============================" << endl;
                 unify3(th->getParameters(), mt->candidates[0]->getParameters(),
@@ -1383,11 +1379,11 @@ bool TaskNetwork::before(int a, int b) const {
         return false;
     else if (a <= 0)
         return false;
-    // si el índice de a es mayor que b, a nunca va antes de b
+    // si el ï¿½ndice de a es mayor que b, a nunca va antes de b
     else if (a > b)
         return false;
 
-    // b tiene que ser algún sucesor de a para que a vaya antes que b
+    // b tiene que ser algï¿½n sucesor de a para que a vaya antes que b
     intvit i, e = succ[a]->end();
 
     for (i = succ[a]->begin(); i != e; i++) {
@@ -1481,13 +1477,13 @@ void TaskNetwork::comprobarEstructura(void) {
                 index = (*(succ[i]))[j];
                 if (index > 0 && index < current_size) {
                     if (invalid[index - 1]) {
-                        cerr << "Hay un inválido: " << index
+                        cerr << "Hay un invï¿½lido: " << index
                                 << " en sucesores de: " << i << endl;
                         exit(0);
                     }
                 } else if (index != 0) {
                     cerr << "Indice fuera de rango en sucesores[" << i << "]: "
-                            << index << " tamaño: " << current_size << endl;
+                            << index << " tamaï¿½o: " << current_size << endl;
                     exit(0);
                 }
             }
@@ -1501,13 +1497,13 @@ void TaskNetwork::comprobarEstructura(void) {
                 index = (*(pred[i]))[j];
                 if (index > 0 && index < current_size) {
                     if (invalid[index - 1]) {
-                        cerr << "Hay un inválido: " << index
+                        cerr << "Hay un invï¿½lido: " << index
                                 << " en predecesores de: " << i << endl;
                         exit(0);
                     }
                 } else if (index != 0) {
                     cerr << "Indice fuera de rango en predecesores[" << i
-                            << "]: " << index << " tamaño: " << current_size
+                            << "]: " << index << " tamaï¿½o: " << current_size
                             << endl;
                     exit(0);
                 }

@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 #include "unify.hh"
 #include "unifier.hh"
 #include "papi.hh"
@@ -149,12 +145,12 @@ struct EqualTerm2
 
     EqualTerm2(Unifier * u) {this->u = u;};
 
-    // Atención, este operador no unificará si en k2 se encuentra una variable, aunque puede
-    // que exista una unificación correcta.
+    // Atenciï¿½n, este operador no unificarï¿½ si en k2 se encuentra una variable, aunque puede
+    // que exista una unificaciï¿½n correcta.
     bool operator()(pkey k1, pkey k2) 
     {
 
-        // comprobar si hay alguna susititución previa de k1 en las
+        // comprobar si hay alguna susitituciï¿½n previa de k1 en las
         // unificaciones
         //cerr << k1.first << "," << k1.second << "," << k2.first << "," << k2.second << endl; 
         if(k1.first < -1){
@@ -164,16 +160,16 @@ struct EqualTerm2
         //aux->print(&cerr,0);
 
         if(k1.first >= 0){
-            // el primer términio es una constante
-            // sólo puede unificar con otra constante
+            // el primer tï¿½rminio es una constante
+            // sï¿½lo puede unificar con otra constante
             if(k1.first == k2.first)
                 return true;
             else
                 return false;
         }
         else if(k1.first == -1) {
-            // el primer elemento es un número
-            // sólo unificará con otro número
+            // el primer elemento es un nï¿½mero
+            // sï¿½lo unificarï¿½ con otro nï¿½mero
             if((k2.first == -1) && (k1.second == k2.second))
                 return true;
             else
@@ -182,7 +178,7 @@ struct EqualTerm2
         else{
             VariableSymbol * v = parser_api->termtable->getVariable(k1.first);
             if(k2.first == -1){
-                // solo puedo unificar si la variable con la que unifico es numérica.
+                // solo puedo unificar si la variable con la que unifico es numï¿½rica.
                 if(IsANumber(v)){
                     u->addSubstitution(k1.first,k2);
                     return true;
@@ -251,7 +247,7 @@ struct EqualTerm3
 
         if(k2.first <= -2){
             // El segundo es una variable.
-            // Si hay unificación se producirá substitución de tipos.
+            // Si hay unificaciï¿½n se producirï¿½ substituciï¿½n de tipos.
             t2 = parser_api->termtable->variables[-k2.first -2]->getTypes();
             if(t2->empty())
             {
@@ -264,7 +260,7 @@ struct EqualTerm3
             }
             else if(!t1->empty())
             {
-                // Los elementos que tocan de v1 y v2 están tipados 
+                // Los elementos que tocan de v1 y v2 estï¿½n tipados 
                 typecit i,e,ee,j;
                 e = t2->end();
                 i = t2->begin();
@@ -294,7 +290,7 @@ struct EqualTerm3
         }
         else {
             // esto no es verdad, pero es necesario para que la
-            // unificación funcione con los casos que quiero 
+            // unificaciï¿½n funcione con los casos que quiero 
             // que funcione
             if(t1->empty()){
                 u->addSubstitution(k1.first,k2);
@@ -365,19 +361,19 @@ struct EqualTerm4
 
         if(k1.first <= -2){
             // El primero es una variable.
-            // Si hay unificación se producirá intersección de tipos.
+            // Si hay unificaciï¿½n se producirï¿½ intersecciï¿½n de tipos.
             t1 = parser_api->termtable->variables[-k1.first -2]->getTypes();
 
-            // los dos son tipo object, hay unificación
+            // los dos son tipo object, hay unificaciï¿½n
             if(t1->empty() && t2->empty())
                 return true;
 
             if(t2->empty() || t1->empty())
             {
                 // Alguno de los dos es tipo object.
-                // La intersección será la de los tipos del que no sea tipo object.
+                // La intersecciï¿½n serï¿½ la de los tipos del que no sea tipo object.
                 if(!t2->empty())
-                    //cerr << "añadidos por vacio" << endl;
+                    //cerr << "aï¿½adidos por vacio" << endl;
                     u->addTSubstitution2(k1.first,t2);
 
                 return true;
@@ -385,8 +381,8 @@ struct EqualTerm4
             else 
             {
 
-                // Los elementos que tocan de v1 y v2 están tipados 
-                // Realizamos la intersección de los mismos
+                // Los elementos que tocan de v1 y v2 estï¿½n tipados 
+                // Realizamos la intersecciï¿½n de los mismos
                 typecit i,e,ee,j;
                 e = t2->end();
                 i = t2->begin();
@@ -439,7 +435,7 @@ struct EqualTerm4
                         delete ts;
                         return true;
                     }
-                    //cerr << "añadidos por unión" << endl;
+                    //cerr << "aï¿½adidos por uniï¿½n" << endl;
                     u->addTSubstitution(k1.first,ts);
                     return true;
                 }

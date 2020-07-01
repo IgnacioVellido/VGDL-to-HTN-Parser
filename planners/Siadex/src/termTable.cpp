@@ -1,12 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
-/* **************************************************************
- * Created by oscar o.garcia@iactive.es: mié 31 ago, 2005  12:31
- * Last modified: o.garcia mié 17 sep, 2008  04:09
- * ************************************************************** */
-
 #include "termTable.hh"
 #include "variablesymbol.hh"
 #include "constantsymbol.hh"

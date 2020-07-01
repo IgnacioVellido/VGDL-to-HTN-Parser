@@ -1,20 +1,3 @@
-/* ************************************************************************************
- * Copyright (C) IACTIVE Intelligent Solutions,
- *
- * http://www.iactive.es
- *
- * Este fichero es propiedad intelectual de IACTIVE Intelligent Solutions
- * y queda protegido por las leyes de propiedad intelectual aplicables.
- * Queda totalmente prohibido, su copia, modificación, distribución y lectura
- * Sin el consentimiento explícito y por escrito de IACTIVE Intelligent Solutions
- *
- * ********************************************************************************** */
-
-/* *************************************************************************************
- * Created by o.garcia: lun 10 dic, 2007  06:27
- * Last modified: o.garcia lun 10 dic, 2007  07:47
- * ********************************************************************************** */
-
 #include "orGoal.hh"
 #include <sstream>
 #include <string>
@@ -82,7 +65,7 @@ UnifierTable * OrGoal::getUnifiers(const State * state, const Unifier * context,
     UnifierTable * ret=0, * tmp=0;
     
     bool pol = true;
-    // determinar si el predicado está negado
+    // determinar si el predicado estï¿½ negado
     if((!getPolarity() || !inheritPolarity) && (!(!getPolarity() && !inheritPolarity)))
         pol = false;
 
@@ -185,7 +168,7 @@ void OrGoal::renameVars(Unifier * u, VUndo * undo)
 bool OrGoal::isReachable(ostream * err, bool inheritPolarity) const
 {
     bool pol = true,r=true;
-    // determinar si el predicado está negado
+    // determinar si el predicado estï¿½ negado
     if((!getPolarity() || !inheritPolarity) && (!(!getPolarity() && !inheritPolarity)))
         pol = false;
 

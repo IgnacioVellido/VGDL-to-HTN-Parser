@@ -1,36 +1,3 @@
-/*  ************************************************************************************
- * Copyright (C) 2003, 2004, 2005  Luis Castillo Vidal,  Juan Fernandez Olivares,
- * Oscar Jesus Garcia Perez, Francisco Carlos Palao Reines.
- *
- * More information about SIADEX project:
- * http://siadex.ugr.es
- * siadexwww@decsai.ugr.es
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or any later version.
- *
- * Please cite the authors above in your publications or in your
- * software when you made use of this software.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- * ********************************************************************************** */
-
-/* **************************************************************
- * This file is copyrighted by SIADEX project.
- * Visit http://siadex.ugr.es for more information.
- * Created by oscar oscar@decsai.ugr.es: mar 30 ago, 2005  10:49
- * Last modified: mié 22 feb, 2006  07:30
- * ************************************************************** */
-
 #include "wheneffect.hh"
 #include <sstream>
 #include "undoElement.hh"
@@ -130,9 +97,9 @@ bool WhenEffect::apply(State *sta, VUndo * undo, Unifier * uf)
 	  e=v->getUnifierEnd();
 	  VUndo vu;
 	  for (i=v->getUnifierBegin(); i != e && ret; i++) {
-	      // realizar la unificación
+	      // realizar la unificaciï¿½n
 	      (*i)->apply(&vu);
-	      // registro de los vínculos causales necesitados para alcanzar el goal
+	      // registro de los vï¿½nculos causales necesitados para alcanzar el goal
 	      if(uf)
 		  uf->addCLTable((*i));
 	      // aplicar el efecto

@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 #ifndef DOMAIN_H
 #define DOMAIN_H
 #include "method.hh"
@@ -61,7 +57,7 @@ class Domain
 	virtual void toxml(XmlWriter * writer) const;
 
 	/**
-	 * Escribe la jerarquía de tipos en formato xml.
+	 * Escribe la jerarquï¿½a de tipos en formato xml.
 	 **/
 	virtual void typeHierarchyToxml(XmlWriter * writer) const;
 
@@ -71,14 +67,14 @@ class Domain
 	virtual ~Domain(void);
 
 	/**
-	 * @brief Se añade una tarea a la tabla de tareas.
-	 * @param task la tarea a añadir, ¡ojo! se realiza una copia del puntero,
+	 * @brief Se aï¿½ade una tarea a la tabla de tareas.
+	 * @param task la tarea a aï¿½adir, ï¿½ojo! se realiza una copia del puntero,
 	 * el destructor de esta clase se encarga de liberar la memoria ocupada.
 	 * @author oscar
 	 */
 	void addTask(Task * task);
 	/**
-	 * @brief Cuenta el número de tareas con el nombre dado.
+	 * @brief Cuenta el nï¿½mero de tareas con el nombre dado.
 	 * @param name, el identificador de las tareas a contar.
 	 * @author oscar
 	 */
@@ -87,7 +83,7 @@ class Domain
 	 * @brief Devuelve los iteradores necesarios para recorrer las tareas con
 	 * un determinado nombre (clave).
 	 * @description Puede haber varias tareas con el mismo nombre pero distinto
-	 * número de argumentos. Esta función sirve para recorrerlas.
+	 * nï¿½mero de argumentos. Esta funciï¿½n sirve para recorrerlas.
 	 * Ejemplo: TaskTableRange r = getTaskRange("pepito");
 	 * for(taskHash::const_iterator it = r.first; it != r.second; ++i) {const Task * t = (*it).second;}
 	 * @return el rango.
@@ -96,7 +92,7 @@ class Domain
 	TaskTableRange getTaskRange(int id) const {return tasktable.equal_range(id);};
 	/**
 	 * @brief Devuelve un iterador con el contenido de la primera tarea.
-	 * @param range El rango devuelto por la función getTaskRange
+	 * @param range El rango devuelto por la funciï¿½n getTaskRange
 	 * @see getTask
 	 * @see getTaskRange
 	 * @return un iterador
@@ -108,7 +104,7 @@ class Domain
 
 	/**
 	 * @brief Devuelve un iterador con el contenido de la i-esima tarea.
-	 * @param range El rango devuelto por la función getTaskRange
+	 * @param range El rango devuelto por la funciï¿½n getTaskRange
 	 * @param it, el iterador devuelto por una llamada anterior a getFirstTask o
 	 * a getNextElement
 	 * @see getTask
@@ -132,7 +128,7 @@ class Domain
 	inline tasktablecit getBeginTask(void) const {return tasktable.begin();};
 
 	/**
-	  @brief Devuelve un iterador uno después del último elemento de la
+	  @brief Devuelve un iterador uno despuï¿½s del ï¿½ltimo elemento de la
 	  tabla de tipos
 	  */
 	inline tasktablecit getEndTask(void) const {return tasktable.end();};
@@ -191,10 +187,10 @@ class Domain
 
 
 	/**
-	  @brief Añade un nuevo tipo al arbol de tipos. Si ya existe devuelve
+	  @brief Aï¿½ade un nuevo tipo al arbol de tipos. Si ya existe devuelve
 	  un puntero al tipo existente.
 	  @param t el nombre del tipo
-	  @return el tipo añadido o encontrado
+	  @return el tipo aï¿½adido o encontrado
 	  */
 	const Type * addType(const char * t);
 
@@ -237,7 +233,7 @@ class Domain
 	inline typetablecit getBeginType(void) const {return typetable.begin();};
 
 	/**
-	  @brief Devuelve un iterador uno después del último elemento de la
+	  @brief Devuelve un iterador uno despuï¿½s del ï¿½ltimo elemento de la
 	  tabla de tipos
 	  */
 	inline typetablecit getEndType(void) const {return typetable.end();};
@@ -252,11 +248,11 @@ class Domain
 	/**
 	  @brief Devuelve una lista de tareas que unifiquen con el TaskHeader pasado como argumento.
 	  @description Se busca una Task cuya cabecera o purpose unifique con TaskHeader.
-	  Se clona la misma y se instancian los argumentos. Se añade a la lista devuleta.
+	  Se clona la misma y se instancian los argumentos. Se aï¿½ade a la lista devuleta.
 	  @param th El task header
-	  @return un puntero a un vector de tarea que deberá ser liberado por la función llamadora.
+	  @return un puntero a un vector de tarea que deberï¿½ ser liberado por la funciï¿½n llamadora.
 	  (Tanto el vector como los punteros contenidos).
-	  El vector estará vacío en el caso de que no se encuentre ninguna tarea que unifique.
+	  El vector estarï¿½ vacï¿½o en el caso de que no se encuentre ninguna tarea que unifique.
 	  */
 	vector<Task *> * getUnifyTask(TaskHeader * th, vector<VUndo *> * undo) const;
 
@@ -297,7 +293,7 @@ class Domain
 	/** Diccionario para los identificadores de las constantes */
 	LDictionary cdictionary;
 	// metainformacion de los elementos (variables, acciones, literales...
-	// pueden aparecer también en ldictionary).
+	// pueden aparecer tambiï¿½n en ldictionary).
 	MetaInfo metainfo;
 
 	inline const char * getMetaName(int mid) {assert(mid >= 0 && mid < (int) metainfo.size()); return metainfo[mid]->name.c_str();};
@@ -310,15 +306,15 @@ class Domain
 
 	/**
 	 * Construye la tabla de relaciones de herencia.
-	 * Para evitar recorrer continuamente el árbol de tipos durante la intersección de tipos
+	 * Para evitar recorrer continuamente el ï¿½rbol de tipos durante la intersecciï¿½n de tipos
 	 * en las unificaciones, lo cual puede
-	 * ser costoso si el árbol de tipos es profundo, o si una variable tiene múltiples tipos
+	 * ser costoso si el ï¿½rbol de tipos es profundo, o si una variable tiene mï¿½ltiples tipos
 	 * creamos la tabla de relaciones de herencia typerelations.
 	 */
 	void buildTypeRelations(void);
 
 	/**
-	 * Devuelve true si el tipo de índice i es subtipo del tipo de indice j.
+	 * Devuelve true si el tipo de ï¿½ndice i es subtipo del tipo de indice j.
 	 * @param i el primer tipo
 	 * @param j el segundo tipo
 	 * @return un valor booleano
@@ -327,7 +323,7 @@ class Domain
 
 	/**
 	 * Imprime la tabla de relaciones.
-	 * Puede ser útil para depurar.
+	 * Puede ser ï¿½til para depurar.
 	 * @param os flujo por el que escribir.
 	 */
 	void printTypeRelations(ostream * os) const;
@@ -338,7 +334,7 @@ class Domain
 	 */
 	inline bool isTimed(void) const {return istimed;};
 
-	// Distintas banderas de configuración.
+	// Distintas banderas de configuraciï¿½n.
 
 	/** Unidad de tiempo seleccionada */
 	TimeUnit FLAG_TIME_UNIT;
@@ -346,7 +342,7 @@ class Domain
 	/** Cuando comienza el plan */
 	time_t FLAG_TIME_START;
 
-	/** Que formato de tiempo se usa para la impresión */
+	/** Que formato de tiempo se usa para la impresiï¿½n */
 	string TFORMAT;
 
 	/** Control del time-horizon */
@@ -355,9 +351,9 @@ class Domain
 
     protected:
 
-	TaskTable tasktable; /**< Tabla hash para mantener la definición de todas las tareas
+	TaskTable tasktable; /**< Tabla hash para mantener la definiciï¿½n de todas las tareas
 			       primitivas o abstractas */
-	TypeTable typetable; /** Tabla hash para mantener el árbol de tipos */
+	TypeTable typetable; /** Tabla hash para mantener el ï¿½rbol de tipos */
 
 	/** Esta matriz almacena las relaciones de herencia entre dos clases.
 	 * Si i y j son dos identificadores de tipo i es subtipo de j si
@@ -367,7 +363,7 @@ class Domain
 
 	int ntypes;
 
-	LiteralTable literaltable; /**< Tabla hash para mantener la definición de todas los
+	LiteralTable literaltable; /**< Tabla hash para mantener la definiciï¿½n de todas los
 				     predicados usados en el dominio */
 	AxiomTable axiomtable;
 
@@ -376,12 +372,12 @@ class Domain
 	// los requerimientos sobre el planificador impuestos por el dominio
 	vector<string> requirements;
 
-	/** Determina si la resolución del problema va a necesitar de las
+	/** Determina si la resoluciï¿½n del problema va a necesitar de las
 	 * estructuras de datos temporales */
 	bool istimed;
 
 	/**
-	 * Función para hacer la inicialización de la estructura de tipos
+	 * Funciï¿½n para hacer la inicializaciï¿½n de la estructura de tipos
 	 */
 	void initTypes(void);
 };

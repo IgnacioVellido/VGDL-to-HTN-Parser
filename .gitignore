@@ -2,6 +2,7 @@
 .settings/*
 
 *.pyc
+output/*
 
 #############
 # From ANTLR
@@ -18,3 +19,10 @@ src/VgdlLexer.py
 # From testing
 
 *.stackdump
+
+#############
+# From Siadex planner
+planners/Siadex/planner
+planners/Siadex/CMakeFiles
+planners/Siadex/cmake_install.cmake
+planners/Siadex/CMakeCache.txt

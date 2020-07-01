@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 #include "constants.hh"
 #include "pythonWrapper.hh"
 bool FLAG_TRUSTED=true;
@@ -29,7 +25,7 @@ PythonWrapper::PythonWrapper(void)
     modules.push_back(PyImport_ImportModule("__main__"));
     modules.push_back(PyImport_ImportModule("siadex"));
     if(!FLAG_TRUSTED)
-        // activamos el modo de ejecución restringido
+        // activamos el modo de ejecuciï¿½n restringido
         modules.push_back(PyImport_ImportModule("rexec"));
 
     if(modules.front() == 0){
@@ -237,7 +233,7 @@ bool PythonWrapper::exec(PyObject * pCode, const Header * func, const Unifier * 
                     context->getSubstitution((*i).first,&aux);
                 if(termtable->isVariable(aux)){
                     // es una variable libre.
-                    // Buscamos si se le a asignado algún valor
+                    // Buscamos si se le a asignado algï¿½n valor
                     PyObject * pList = PyDict_GetItemString(pDict,var);
                     int us = u->countUnifiers();
                     if(pList){
@@ -273,7 +269,7 @@ bool PythonWrapper::addUnifier(PyObject * pObj, UnifierTable * ut, int v, int si
 {
     // esto es un metodo de uso interno.
 
-    // Comprobar el tipo de objeto que deseamos añadir a la tabla de unificaciones
+    // Comprobar el tipo de objeto que deseamos aï¿½adir a la tabla de unificaciones
     pair<int,double> key(-1,0);
 
     if(PyFloat_Check(pObj)){
@@ -290,7 +286,7 @@ bool PythonWrapper::addUnifier(PyObject * pObj, UnifierTable * ut, int v, int si
     }
     else if(PyString_Check(pObj)){
         string s = PyString_AsString(pObj);
-        // la constante debería haberse definido con anterioridad, en otro caso
+        // la constante deberï¿½a haberse definido con anterioridad, en otro caso
         // se trata de un error
         ldictionaryit posit = (domain->cdictionary).find(s.c_str());
         if(posit != (domain->ldictionary).end()) {
@@ -310,7 +306,7 @@ bool PythonWrapper::addUnifier(PyObject * pObj, UnifierTable * ut, int v, int si
         return false;
     }
 
-    // una vez que tenemos el objeto, lo añadimos
+    // una vez que tenemos el objeto, lo aï¿½adimos
     // a las unificaciones existentes
     if(!size) {
         // no hay unificaciones previas
@@ -322,15 +318,15 @@ bool PythonWrapper::addUnifier(PyObject * pObj, UnifierTable * ut, int v, int si
     e = b + size;
     for(b = ut->getUnifierBegin(); b!=e; b++){
         if(last) {
-            // esto es por motivos de eficiencia. Si soy el último que se
-            // va a añadir a la tabla de unificadores, entonces no es necesario
-            // clonar puedo reutilizar la unificación previa a la que
-            // me añado
+            // esto es por motivos de eficiencia. Si soy el ï¿½ltimo que se
+            // va a aï¿½adir a la tabla de unificadores, entonces no es necesario
+            // clonar puedo reutilizar la unificaciï¿½n previa a la que
+            // me aï¿½ado
             (*b)->addSubstitution(v,key);
         }
         else {
             // en otro caso debo clonar la estructura antes
-            // de añadirme
+            // de aï¿½adirme
             Unifier * u = (*b)->clone();
             u->addSubstitution(v,key);
             ut->addUnifier(u);

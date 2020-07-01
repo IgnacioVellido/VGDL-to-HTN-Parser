@@ -1,12 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
-/* **************************************************************
- * Created by o.garcia o.garcia@iactive.es: mié 14 sep, 2005  07:45
- * Last modified: o.garcia lun 15 sep, 2008  01:32
- * ************************************************************** */
-
 #include "pyDefFunction.hh"
 
 PyDefFunction::PyDefFunction(int id, int mid) 

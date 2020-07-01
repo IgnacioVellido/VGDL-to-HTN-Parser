@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 #include "papi.hh"
 #include <string>
 #include "MyLexer.hh"
@@ -9,8 +5,8 @@
 #include "domain.hh"
 
 char ver_str[] = ""
-"\nIActive Planner v 0.809 15 Sep 2008.\n\n"
-"(c) 2008 IActive Intelligent Solutions S.L. http\\\\www.iactive.es \n";
+"\nSiadex Planner\nOscar García, Luis Castillo, Juan Fdez-Olivares\n\n"
+"Parsing process: Ignacio Vellido\n";
 
 // el objeto que contiene el analizador l�xico
 MyLexer * lexer=0;

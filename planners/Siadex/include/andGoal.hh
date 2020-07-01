@@ -1,12 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
-/* *************************************************************************************
- * Created by o.garcia@iactive.es: mié 22 feb, 2006  10:56
- * Last modified: o.garcia mar 16 sep, 2008  02:30
- * ********************************************************************************** */
-
 #ifndef ANDGOAL_HH
 #define ANDGOAL_HH
 
@@ -41,14 +32,14 @@ class AndGoal :public ContainerGoal
 
            /**
             * @brief Crea una copia exacta del objeto.
-            * @description Todos los herederos deben implementar este método.
+            * @description Todos los herederos deben implementar este mï¿½todo.
             * @author oscar
             */
            virtual Expression * clone(void) const;
 
            /**
              @brief Imprime el contenido del objeto por la salida estandard.
-             @param indent el número de espacios a dejar antes de la cadena.
+             @param indent el nï¿½mero de espacios a dejar antes de la cadena.
             */
            virtual void print(ostream * os, int indent=0) const;
 

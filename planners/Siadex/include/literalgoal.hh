@@ -1,12 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
-/* *************************************************************************************
- * Created by o.garcia@iactive.es: jue 01 dic, 2005  04:41
- * Last modified: o.garcia lun 15 sep, 2008  01:16
- * ********************************************************************************** */
-
 #ifndef LITERALGOAL_HH
 #define LITERALGOAL_HH
 
@@ -64,8 +55,8 @@ class LiteralGoal : public Goal, public Literal
         /**
           @brief Dado un estado, se calculan todas las posibles unificaciones, de este literal con el estado.
           @param context, son sustituciones hechas con anterioridad, se puede dejar a null. Por ejemplo en el caso
-          de (and (l1 ?x ?y) (l2 ?x ?w)), la posible sustitución de ?x hecha durante la unificación de l1 debe de tenerse
-          en cuenta para la unificación de l2.
+          de (and (l1 ?x ?y) (l2 ?x ?w)), la posible sustituciï¿½n de ?x hecha durante la unificaciï¿½n de l1 debe de tenerse
+          en cuenta para la unificaciï¿½n de l2.
           @return El resultado se devuelve en una tabla de unificadores.
          */
         virtual UnifierTable * getUnifiers(const State * state, const Unifier * context, bool inheritPolarity, pair<unsigned int,unsigned int> * protection) const;

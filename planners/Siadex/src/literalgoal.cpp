@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 #include "literal.hh"
 #include "goal.hh"
 #include <sstream>
@@ -87,7 +83,7 @@ UnifierTable * LiteralGoal::getUnifiers(const State * state, const Unifier * con
     axiomtablecit ba, ea;
 
     bool pol = true;
-    // determinar si el predicado está negado
+    // determinar si el predicado estï¿½ negado
     if((!getPolarity() || !inheritPolarity) && (!(!getPolarity() && !inheritPolarity)))
         pol = false;
 
@@ -117,7 +113,7 @@ UnifierTable * LiteralGoal::getUnifiers(const State * state, const Unifier * con
                 if(unify(getParameters(),(*i).second->getParameters(),u)) {
                     //cerr << "OK!!" << endl;
 
-                    // registrar el vínculo causal
+                    // registrar el vï¿½nculo causal
                     u->createCLTable();
                     Causal * c = new Causal((LiteralEffect *)(*i).second,protection);
                     if(c->isNormalLink())
@@ -140,10 +136,10 @@ UnifierTable * LiteralGoal::getUnifiers(const State * state, const Unifier * con
         // recorremos los distintos axiomas del dominio
         ea = ra.second;
         for(ba = ra.first; ba!= ea; ba++){
-            // tenemos una unificación con uno de los axiomas.
+            // tenemos una unificaciï¿½n con uno de los axiomas.
             // Testeamos su veracidad
             if(unify(getParameters(),(*ba).second->getParameters())){
-                // forzamos la sustitución de las variables libres,
+                // forzamos la sustituciï¿½n de las variables libres,
                 // del axioma
                 // por las del literal
                 bool valid = true;
@@ -176,7 +172,7 @@ UnifierTable * LiteralGoal::getUnifiers(const State * state, const Unifier * con
                 }
                 if(valid){
                     ut2 = (((*ba).second)->test(state,u,true,protection));
-                    // añadimos las unificaciones que se han producido
+                    // aï¿½adimos las unificaciones que se han producido
                     // si las hay.
                     if(ut2) {
                         unifierit ite, itend;
@@ -241,7 +237,7 @@ UnifierTable * LiteralGoal::getUnifiers(const State * state, const Unifier * con
                 if(!(*i).second->getPol())
                 {
                     aux->createCLTable();
-                    // Se añade un vínculo causal con el literal negado
+                    // Se aï¿½ade un vï¿½nculo causal con el literal negado
                     Causal * c = new Causal((LiteralEffect *)(*i).second,protection);
                     if(c->isNormalLink())
                         c->setTime(((LiteralEffect *)(*i).second)->evalTime());
@@ -265,11 +261,11 @@ UnifierTable * LiteralGoal::getUnifiers(const State * state, const Unifier * con
         // recorremos los distintos axiomas del dominio
         ea = ra.second;
         for(ba = ra.first; ba!= ea; ba++){
-            // tenemos una unificación con uno de los axiomas.
+            // tenemos una unificaciï¿½n con uno de los axiomas.
             // Testeamos su veracidad
             bool unificaciones = false;
             if(unify(getParameters(),(*ba).second->getParameters())){
-                // forzamos la sustitución de las variables libres,
+                // forzamos la sustituciï¿½n de las variables libres,
                 // del axioma
                 // por las del literal
                 unificaciones = true;
@@ -306,7 +302,7 @@ UnifierTable * LiteralGoal::getUnifiers(const State * state, const Unifier * con
                     // testamos la veracidad del axioma
                     ut2 = (((*ba).second)->test(state,u,true,protection));
                     if(ut2) {
-                        // hay unificaciones, la negación es falsa
+                        // hay unificaciones, la negaciï¿½n es falsa
                         delete u;
                         u = 0;
                         delete ut2;
@@ -319,13 +315,13 @@ UnifierTable * LiteralGoal::getUnifiers(const State * state, const Unifier * con
                     }
                 }
                 else {
-                    // no hay unificación con el axioma porque los parámetros no coinciden
+                    // no hay unificaciï¿½n con el axioma porque los parï¿½metros no coinciden
                     delete u;
                     u=0;
                 }
             }
             if (unificaciones){
-                // no hay unificación la negación por tanto es cierta.
+                // no hay unificaciï¿½n la negaciï¿½n por tanto es cierta.
                 if(u) {
                     delete u;
                 }
@@ -345,10 +341,10 @@ UnifierTable * LiteralGoal::getUnifiers(const State * state, const Unifier * con
             u=0;
         }
         if(!aux->getCLTable() || aux->getCLTable()->empty()){
-            // Se ha hecho una unificación con un predicado negado del estado
+            // Se ha hecho una unificaciï¿½n con un predicado negado del estado
             // inicial, ese predicado no existe, por lo tanto no puedo hacer
-            // un vínculo causal con él. Para solucionarlo añado en tiempo de
-            // ejecución un nuevo literal negado al estado inicial.
+            // un vï¿½nculo causal con ï¿½l. Para solucionarlo aï¿½ado en tiempo de
+            // ejecuciï¿½n un nuevo literal negado al estado inicial.
             // Pero solo sino tiene variables libres
             // ESTO ES UN EFECTO COLATERAL !!
             if(!hasVariables()){
@@ -406,7 +402,7 @@ bool LiteralGoal::isReachable(ostream * err, bool inheritPolarity) const
     axiomtablecit ba, ea;
 
     bool pol = true;
-    // determinar si el predicado está negado
+    // determinar si el predicado estï¿½ negado
     if((!getPolarity() || !inheritPolarity) && (!(!getPolarity() && !inheritPolarity)))
         pol = false;
 
@@ -421,7 +417,7 @@ bool LiteralGoal::isReachable(ostream * err, bool inheritPolarity) const
         // recorremos los distintos axiomas del dominio
         ea = ra.second;
         for(ba = ra.first; ba!= ea; ba++){
-            // tenemos una unificación con uno de los axiomas.
+            // tenemos una unificaciï¿½n con uno de los axiomas.
             // Testeamos su veracidad
             if(unify(getParameters(),(*ba).second->getParameters()))
                 return true;

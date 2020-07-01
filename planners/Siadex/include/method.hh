@@ -1,7 +1,3 @@
-/* ****************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
 #ifndef METHOD_H
 #define METHOD_H
 #include "literal.hh"
@@ -15,12 +11,12 @@ class Method : public Unifiable, public ParameterContainer
     public:
 
 	/**
-	  @brief Constructor. Asocia el método a la tarea compuesta t. Los parámetros de
-	  la tarea t se asignan también al método, no se clonan, son los mismos.
-	  @param t La tarea compuesta a la que pertenece el método.
-	  @param tasknetwork (opcional defecto nulo). La red de tareas del método. La
+	  @brief Constructor. Asocia el mï¿½todo a la tarea compuesta t. Los parï¿½metros de
+	  la tarea t se asignan tambiï¿½n al mï¿½todo, no se clonan, son los mismos.
+	  @param t La tarea compuesta a la que pertenece el mï¿½todo.
+	  @param tasknetwork (opcional defecto nulo). La red de tareas del mï¿½todo. La
 	  red de tareas se pasa por referencia. Esto quiere decir que este objeto se hace
-	  cargo del puntero a todos los efectos de gestión de memoria.
+	  cargo del puntero a todos los efectos de gestiï¿½n de memoria.
 	  @see setTaskNetwork
 	  */
 	Method(int mid, const CompoundTask *t, TaskNetwork * tasknetwork=0);
@@ -36,10 +32,10 @@ class Method : public Unifiable, public ParameterContainer
 	virtual ~Method(void);
 
 	/**
-	  @brief Añade una nueva precondición al método.
-	  @description g Se añade por referencia al objeto, esto quiere decir que una vez
-	  pasado este objeto, el puntero no debería ser alterado ni liberado.
-	  @param g La precondición a añadir.
+	  @brief Aï¿½ade una nueva precondiciï¿½n al mï¿½todo.
+	  @description g Se aï¿½ade por referencia al objeto, esto quiere decir que una vez
+	  pasado este objeto, el puntero no deberï¿½a ser alterado ni liberado.
+	  @param g La precondiciï¿½n a aï¿½adir.
 	  @author oscar
 	  */
 	inline void setPrecondition(Goal * g) {precondition = g;};
@@ -47,21 +43,21 @@ class Method : public Unifiable, public ParameterContainer
 	inline Goal * getPrecondition(void) {return precondition;};
 
 	/**
-	  @brief Devuelve un puntero a la red de tareas del método
+	  @brief Devuelve un puntero a la red de tareas del mï¿½todo
 	  */
 	inline TaskNetwork * getTaskNetwork(void) const {return tasknetwork;};
 
 	/**
-	  @brief Edita la red de tareas del método
-	  @param tn: La nueva red de tareas del método
-	  Precondición: El método no puede tener ninguna red de tareas previamente asignada.
+	  @brief Edita la red de tareas del mï¿½todo
+	  @param tn: La nueva red de tareas del mï¿½todo
+	  Precondiciï¿½n: El mï¿½todo no puede tener ninguna red de tareas previamente asignada.
 	  @author oscar
 	*/
 	inline void setTaskNetwork(TaskNetwork *tn) {tasknetwork = tn;};
 
 	/**
-	  @brief Imprime en el flujo una cadena descriptiva con el contenido del método.
-	  Si el flujo es null (por defecto) se imprime en la salida estándar
+	  @brief Imprime en el flujo una cadena descriptiva con el contenido del mï¿½todo.
+	  Si el flujo es null (por defecto) se imprime en la salida estï¿½ndar
 	  */
 	void print(ostream * os, int indent=0) const;
 
@@ -74,8 +70,8 @@ class Method : public Unifiable, public ParameterContainer
 	virtual void vctoxml(XmlWriter * w) const {toxml(w);};
 
 	/**
-	  @brief Realiza la clonación de un método.
-	  Es extraño llamar a este método. Debería llamarse al clone de la clase
+	  @brief Realiza la clonaciï¿½n de un mï¿½todo.
+	  Es extraï¿½o llamar a este mï¿½todo. Deberï¿½a llamarse al clone de la clase
 	  Tarea compuesta.
 	  */
 	Method * clone(const CompoundTask * ct) const;
@@ -103,9 +99,9 @@ class Method : public Unifiable, public ParameterContainer
 	Goal * precondition;
 	TaskNetwork *tasknetwork;
 	int metaid;
-	/** Esto realiza un mapeado entre las variables del método
-	 * y las variables usadas como parámetro en la tarea compuesta
-	 * contenedora. El método y la tarea compuesta contenedora
+	/** Esto realiza un mapeado entre las variables del mï¿½todo
+	 * y las variables usadas como parï¿½metro en la tarea compuesta
+	 * contenedora. El mï¿½todo y la tarea compuesta contenedora
 	 * tienen contextos distintos
 	 */
 	vector<pair<int,int> > mapping;

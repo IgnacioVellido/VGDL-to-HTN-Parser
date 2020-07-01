@@ -1,8 +1,3 @@
-/*  ************************************************************************************
- * Copyright (C) 2008 IActive Intelligent Solutions S.L. http://www.iactive.es
- * ********************************************************************************** */
-
-
 #ifndef CONSTANTSYMBOL_H
 #define CONSTANTSYMBOL_H
 #include "constants.hh"

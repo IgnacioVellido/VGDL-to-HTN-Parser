@@ -1,12 +1,3 @@
-/*  ***************************************************************************
- * Copyright (C) 2008, IActive Intelligent Solutions S.L. http://www.iactive.es
- * ***************************************************************************/
-
-/* **************************************************************
- * Created by oscar o.garcia@iactive.es: jue 01 sep, 2005  10:04
- * Last modified: o.garcia lun 15 sep, 2008  12:01
- * ************************************************************** */
-
 #ifndef COMPOUNDTASK_H
 #define COMPOUNDTASK_H
 
@@ -39,50 +30,50 @@ class CompoundTask: public Task
 	virtual ~CompoundTask(void);
 
 	/**
-	  @brief Añade un nuevo método a la tarea.
-	  @description Añade a la tarea el método al que apunta el puntero m
-	  @param m Puntero al método a añadir.
+	  @brief Aï¿½ade un nuevo mï¿½todo a la tarea.
+	  @description Aï¿½ade a la tarea el mï¿½todo al que apunta el puntero m
+	  @param m Puntero al mï¿½todo a aï¿½adir.
 	  */
 	void addMethod(Method * m);
 
 	/**
-	 * @brief Devuelve un iterador apuntando al primer método de la tarea.
+	 * @brief Devuelve un iterador apuntando al primer mï¿½todo de la tarea.
 	 */
 	methodcit getBeginMethod(void) const {return methods.begin();}
 
 	/**
-	 * @brief Devuelve un iterador apuntando al elemento después del último método
+	 * @brief Devuelve un iterador apuntando al elemento despuï¿½s del ï¿½ltimo mï¿½todo
 	 */
 	methodcit getEndMethod(void) const {return methods.end();};
 
 	/**
-	 * @brief Devuelve un iterador apuntando al primer método de la tarea.
+	 * @brief Devuelve un iterador apuntando al primer mï¿½todo de la tarea.
 	 */
 	methodit beginMethod(void) {return methods.begin();}
 
 	/**
-	 * @brief Devuelve un iterador apuntando al elemento después del último método
+	 * @brief Devuelve un iterador apuntando al elemento despuï¿½s del ï¿½ltimo mï¿½todo
 	 */
 	methodit endMethod(void) {return methods.end();};
 
 	/**
-	 * @brief Devuelve un iterador apuntando al primer método de la tarea.
+	 * @brief Devuelve un iterador apuntando al primer mï¿½todo de la tarea.
 	 */
 	methodcrit getBeginRMethod(void) const {return methods.rbegin();}
 
 	/**
-	 * @brief Devuelve un iterador apuntando al elemento después del último método
+	 * @brief Devuelve un iterador apuntando al elemento despuï¿½s del ï¿½ltimo mï¿½todo
 	 */
 	methodcrit getEndRMethod(void) const {return methods.rend();};
 
 	/**
-	  @brief Devuelve el número de métodos de la tarea.
+	  @brief Devuelve el nï¿½mero de mï¿½todos de la tarea.
 	  */
 	int getNumOfMethods(void) const {return methods.size();}
 
 	/**
 	 * @brief Realiza una copia exacta de este objeto.
-	 * @description La memoria debe ser liberada por la función llamadora con delete.
+	 * @description La memoria debe ser liberada por la funciï¿½n llamadora con delete.
 	 */
 	virtual Expression * clone(void) const;
 
@@ -95,7 +86,7 @@ class CompoundTask: public Task
 	virtual void vcprint(ostream * os, int indent=0) const {print(os,indent);};
 
 	/**
-	 * Esta función escribe la información sobre la tarea compuesta
+	 * Esta funciï¿½n escribe la informaciï¿½n sobre la tarea compuesta
 	 * como un documento xml.
 	 * @param writer El objeto donde volcaremos el xml.
 	 **/
@@ -122,14 +113,14 @@ class CompoundTask: public Task
 	virtual bool provides(const Literal * l) const;
 
 	/**
-	 * Establece el flag de poda para los métodos.
+	 * Establece el flag de poda para los mï¿½todos.
 	 * Ver first.
 	 * /param v el nuevo valor.
 	 */
 	inline void setFirst(bool v = true) {first = v;};
 
         /**
-         * Selecciona los métodos a expandir de forma aleatoria en 
+         * Selecciona los mï¿½todos a expandir de forma aleatoria en 
          * lugar de por orden
          **/
 	inline void setRandom(bool v = true) {random = v;};
@@ -140,7 +131,7 @@ class CompoundTask: public Task
 	inline bool isFirst(void) const {return first;};
 
 	/**
-	 * Comprueba el flag de random en la selección de métodos 
+	 * Comprueba el flag de random en la selecciï¿½n de mï¿½todos 
 	 */
 	inline bool isRandom(void) const {return random;};
 
@@ -151,13 +142,13 @@ class CompoundTask: public Task
 
 
     protected:
-	/** Los métodos que contiene la tarea compuesta */
+	/** Los mï¿½todos que contiene la tarea compuesta */
 	vector<Method *> methods;
-	/** Este flag sirve para podar el resto de métodos cuando las
-	 * precondiciones de un método se han cumplido con éxito. */
+	/** Este flag sirve para podar el resto de mï¿½todos cuando las
+	 * precondiciones de un mï¿½todo se han cumplido con ï¿½xito. */
 	bool first;
         /**
-         * Modo ramdom en la selección de métodos
+         * Modo ramdom en la selecciï¿½n de mï¿½todos
          **/
         bool random;
 

@@ -1,20 +1,3 @@
-/* ************************************************************************************
- * Copyright (C) IACTIVE Intelligent Solutions,
- *
- * http://www.iactive.es
- *
- * Este fichero es propiedad intelectual de IACTIVE Intelligent Solutions
- * y queda protegido por las leyes de propiedad intelectual aplicables.
- * Queda totalmente prohibido, su copia, modificación, distribución y lectura
- * Sin el consentimiento explícito y por escrito de IACTIVE Intelligent Solutions
- *
- * ********************************************************************************** */
-
-/* **************************************************************
- * Created by o.garcia o.garcia@iactive.es: mié 31 ago, 2005  11:16
- * Last modified: o.garcia lun 15 sep, 2008  12:56
- * ************************************************************** */
-
 #ifndef TERMTABLE_H
 #define TERMTABLE_H
 
@@ -46,9 +29,9 @@ struct PrintPair{
 };
 
 /**
- * Esta clase almacena la información necesaria para gestionar tanto las
- * variables como las constantes que se están utilizando durante el proceso
- * de planificación.
+ * Esta clase almacena la informaciï¿½n necesaria para gestionar tanto las
+ * variables como las constantes que se estï¿½n utilizando durante el proceso
+ * de planificaciï¿½n.
  */
 class TermTable
 {
@@ -88,12 +71,12 @@ class TermTable
         void print(const pkey &key, ostream * out, int nindent=0 ) const;
 
 	/**
-	 * Lanza el recolector de basura contra la tabla de términos.
-	 * La tabla de términos va acumulando variables a medida que el plan va avanzando.
-	 * Cuando se realiza un backtracking las variables no son eliminadas automáticamente
+	 * Lanza el recolector de basura contra la tabla de tï¿½rminos.
+	 * La tabla de tï¿½rminos va acumulando variables a medida que el plan va avanzando.
+	 * Cuando se realiza un backtracking las variables no son eliminadas automï¿½ticamente
 	 * a no ser que se lance el recolector de basura. La idea es no realizar operaciones
 	 * innecesarias.
-	 * @param index Indice de la tabla te variables a partir del cual todo será eliminado.
+	 * @param index Indice de la tabla te variables a partir del cual todo serï¿½ eliminado.
 	 */
 	void performGarbageCollection(int index);
 

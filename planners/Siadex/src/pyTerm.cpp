@@ -1,19 +1,3 @@
-/* ************************************************************************************
- * Copyright (C) IACTIVE Intelligent Solutions,
- *
- * http://www.iactive.es
- *
- * Este fichero es propiedad intelectual de IACTIVE Intelligent Solutions
- * y queda protegido por las leyes de propiedad intelectual aplicables.
- * Queda totalmente prohibido, su copia, modificación, distribución y lectura
- * Sin el consentimiento explícito y por escrito de IACTIVE Intelligent Solutions
- *
- * ********************************************************************************** */
-
-/* *************************************************************************************
- * Created by oscar@decsai.ugr.es: jue 15 dic, 2005  11:40
- * Last modified: o.garcia vie 31 oct, 2008  01:04
- * ********************************************************************************** */
 // --------------------------------------------------------------------------------------------
 // Definición del tipo SdxTerm que equivale al Term para python.
 // --------------------------------------------------------------------------------------------
