@@ -26,3 +26,12 @@ planners/Siadex/planner
 planners/Siadex/CMakeFiles
 planners/Siadex/cmake_install.cmake
 planners/Siadex/CMakeCache.txt
+planners/Siadex/src/lexer.cpp
+planners/Siadex/src/parser.cpp
+planners/Siadex/src/parser.hpp
+planners/Siadex/Makefile
+
+#############
+# Temporary files
+output/domain.hpdl
+output/problem.hpdl

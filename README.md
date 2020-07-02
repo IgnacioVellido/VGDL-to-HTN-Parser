@@ -10,7 +10,14 @@ VGDL-to-HTN-Parser is a Python parser from VGDL game and level description into 
 - (For replanning only) Java JDK 8 (or superior)
 
 # Installation
-Compile Siadex planner:
+
+Install ANTLR4 Python3 runtime:
+```
+pip install antlr4-python3-runtime
+```
+
+
+Compile Siadex planner (see the [README](planners/Siadex/README.md) for requirements):
 ```bash
 $ make compile-planner
 ```
@@ -87,6 +94,8 @@ Options:
 ```
 
 ## Replanning module
+__NOTE__: Only works on Linux
+
 The replanning module is defined as a GVGAI agent, located [here](https://github.com/IgnacioVellido/VGDL-to-HTN-Parser/blob/master/replanning/GVGAI/src/main/Agent.java).
 It uses a version of the GVGAI framework, from the official [repo](https://github.com/GAIGResearch/GVGAI).
 
