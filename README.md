@@ -107,6 +107,8 @@ A basic configuration file is included under the ```replanning``` folder, where 
 
 To run the agent, set the game id ant the level on ```replanning/configuration.txt``` and launch the java class ```/master/replanning/GVGAI/src/tracks/singlePlayer/Test.java```
 
+You can also use an already defined domain setting the _KEEPDOMAIN_ variable in ```/master/replanning/GVGAI/src/main/Agent.java:20``` as __true__ and including it in the ```replanning/tmp``` folder with the name ```domain.hpdl```.
+
 # Results and experimentation
 
 All related documentation and experimentation can be found under the [doc](https://github.com/IgnacioVellido/VGDL-to-HTN-Parser/tree/master/doc) directory.
