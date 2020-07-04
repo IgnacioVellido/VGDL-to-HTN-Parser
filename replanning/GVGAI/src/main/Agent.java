@@ -17,7 +17,7 @@ import tools.ElapsedCpuTimer;
 
 public class Agent extends AbstractPlayer {
 
-  private static final boolean KEEPDOMAIN = true;
+  private static final boolean KEEPDOMAIN = false;
 
   private ArrayList<Types.ACTIONS> actions = new ArrayList<>();
 
@@ -271,4 +271,4 @@ public class Agent extends AbstractPlayer {
       e.printStackTrace();
     }
   }
-}
+}}

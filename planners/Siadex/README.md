@@ -1,6 +1,6 @@
 # Siadex_Planner
 
-Luis Castillo Vidal,  Juan Fernandez Olivares, Oscar Jesus Garcia Perez
+Fdez-Olivares, J., Castillo, L., García-Pérez, Ó., and Palao, F. (2006). Bringing Users and Planning Technology Together. Experiences in SIADEX. pages 11–20.
 
 ## Installation
 
