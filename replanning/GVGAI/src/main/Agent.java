@@ -96,10 +96,14 @@ public class Agent extends AbstractPlayer {
       }
     }
 
-    action = actions.get(0);
-    actions.remove(0);
+    if (!actions.isEmpty()) {
+      action = actions.get(0);
+      actions.remove(0);
+      return action;
+    }
 
-    return action;
+    System.out.println("\nPlanner could not find any action for the agent");
+    return Types.ACTIONS.ACTION_NIL;
   }
 
   // ---------------------------------------------------------------------------
@@ -198,7 +202,7 @@ public class Agent extends AbstractPlayer {
 
             case "USE":  actions.add(Types.ACTIONS.ACTION_USE);  break;
             case "NIL":  actions.add(Types.ACTIONS.ACTION_NIL);  break;
-            default: System.out.println(act + " is a not an available action for the avatar");
+            default: System.out.println("Ignoring action: " + act + " is a not an available action for the avatar");
                      break; // An non-avatar action passed through
           }
         }
