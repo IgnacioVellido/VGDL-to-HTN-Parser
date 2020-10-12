@@ -76,7 +76,6 @@ class AvatarActions:
         self.partner = partner
 
         self.actions = []
-        self.get_actions()
 
         # MAYBE NEEDS self BEFORE EACH FUNCTIONS
         # Dict with the functions needed for each avatar
@@ -111,7 +110,7 @@ class AvatarActions:
     # -------------------------------------------------------------------------
 
     def get_actions(self, action_list):
-      """ Return a list of actions depending of the avatar. """
+        """ Stores in self.actions the actions defined """
         for function in action_list:
             self.actions.append(function())
 
