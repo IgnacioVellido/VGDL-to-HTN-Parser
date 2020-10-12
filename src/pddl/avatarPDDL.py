@@ -28,15 +28,13 @@ class AvatarPDDL:
         self.hierarchy = hierarchy
         self.partner = partner
 
-        self.tasks = []
-        self.methods = []
+        self.tasks = []     # Empty
+        self.methods = []   # Empty
         self.actions = []
         self.predicates = []
         self.level_predicates = []
 
         self.get_actions()
-        self.get_methods()
-        self.get_tasks()
         self.get_predicates()
         self.get_level_predicates()
 
@@ -53,45 +51,8 @@ class AvatarPDDL:
 
     # -------------------------------------------------------------------------
 
-    def get_methods(self):
-        for action in self.actions:
-            name = action.name.lower()
-
-            # Getting the parameters (only the name, not the type)
-            parameters = ""
-            for p in action.parameters:
-                parameters += " ?" + p[0]
-
-            m_action = "(" + action.name + parameters + ")"
-
-            m = Method(name, [], [m_action])
-
-            self.methods.append(m)
-
-    # -------------------------------------------------------------------------
-
     def get_predicates(self):
         self.predicates = AvatarPredicates(self.avatar, self.partner).predicates
-
-    # -------------------------------------------------------------------------
-
-    def get_tasks(self):
-        """ Read parameters of each action and remove duplicates, produce task 
-        (only one) including previous methods """
-
-        # Getting the parameters from the actions
-        parameters = []
-        included_parameters = []  # To check for duplicates
-
-        for action in self.actions:
-            for p in action.parameters:
-                if p[1] not in included_parameters:
-                    included_parameters.append(p[1])
-
-                    parameters.append([p[0], p[1]])
-
-        self.task = Task("turn_avatar", parameters, self.methods)
-
 
 ###############################################################################
 # -----------------------------------------------------------------------------
