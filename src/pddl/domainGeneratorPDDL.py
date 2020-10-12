@@ -65,7 +65,7 @@ class DomainGeneratorPDDL:
     # -------------------------------------------------------------------------
 
     def search_partner(self) -> "Sprite":
-        """ If it has USE command, search his partner (produced sprite) """
+        """ If it has USE command, search its partner (produced sprite) """
 
         list_avatar_use = ["FlakAvatar", "AimedAvatar", "ShootAvatar"]
         if self.avatar.stype in list_avatar_use:
@@ -132,7 +132,6 @@ class DomainGeneratorPDDL:
 
     # -------------------------------------------------------------------------
 
-    # FROM GITHUB
     def invert_dict(self, d: dict) -> dict:
         """ Inverts the key with the values in a dictionary """
         inverse = dict()
@@ -149,7 +148,6 @@ class DomainGeneratorPDDL:
 
     # -------------------------------------------------------------------------
 
-    # FROM GITHUB
     def remove_duplicates(self, seq: list) -> list:
         """ Removes duplicates without changing the order """
         seen = set()
