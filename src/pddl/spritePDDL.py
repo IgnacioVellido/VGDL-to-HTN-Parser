@@ -47,7 +47,7 @@ class SpritePDDL:
     def get_methods(self) -> list:
         for action in self.actions:
             name = action.name.upper()
-            preconditions = []
+            prepreconditions = []
 
             # Getting the parameters (only the name, not the type)
             parameters = ""
@@ -90,7 +90,6 @@ class SpriteActions:
 
         self.actions = []
         
-        # MAYBE NEEDS self BEFORE EACH FUNCTIONS
         # Dict with the functions needed for each avatar
         sprite_action_list = {
             # Not clear what it does
@@ -156,7 +155,8 @@ class SpriteActions:
             "WalkerJumper": []
         }
 
-        get_actions(sprite_action_list[self.sprite.stype])
+        # MAYBE NEEDS self BEFORE EACH FUNCTIONS
+        get_actions(sprite_action_list[self.sprite.stype]())
 
     # -------------------------------------------------------------------------
 
@@ -168,56 +168,31 @@ class SpriteActions:
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
-
-    def move(self):
-        """ Move the sprite one position """
-        name = self.sprite.name.upper() + "_MOVE"
+	
+    def move_stop(self):
+        """ To finish MOVE sprite turn """
+        name = "STOP_" + self.sprite.name.upper() + "_MOVE"
         parameters = []
-        conditions = []
-        effects = [
-            """
-                    forall (?m - """
-            + self.sprite.stype
-            + """)
-					(and
-						(when
-							(orientation-up ?m)
+        preconditions = ["(turn-" + self.sprite.name + "-move)", 
+            "(forall (?x - " + self.sprite.name + ") (or (object-dead ?x) (" + self.sprite.name + "-moved ?x)))"]
 
-							(and
-								(assign (last_coordinate_y ?m) (coordinate_y ?m))
-								(decrease (coordinate_y ?m) 1)						
-							)
-						)
+        # Para FD habría que cambiar esto y quitar el forall
+        effects = ["(not (last-at ?c_last ?x))",
+                    "(last-at ?c_actual ?x)",
+                    "(not (at ?c_actual ?x))",
+                    "(at ?c_next ?x)",
+                    "(" + self.sprite.name + "-moved ?x)"]
 
-						(when
-							(orientation-down ?m)
+        return Action(name, parameters, conditions, effects)
 
-							(and
-								(assign (last_coordinate_y ?m) (coordinate_y ?m))
-								(increase (coordinate_y ?m) 1)						
-							)
-						)
-
-						(when
-							(orientation-left ?m)
-
-							(and
-								(assign (last_coordinate_x ?m) (coordinate_x ?m))
-								(decrease (coordinate_x ?m) 1)						
-							)
-						)
-
-						(when
-							(orientation-right ?m)
-
-							(and
-								(assign (last_coordinate_x ?m) (coordinate_x ?m))
-								(increase (coordinate_x ?m) 1)			
-							)
-						)
-					)
-"""
-        ]
+    def move_up(self):
+        """ Move the sprite one position """
+        name = self.sprite.name.upper() + "_MOVE_UP"
+        parameters = ["(?x - " + self.sprite.name + " ?c_actual ?c_last ?c_next - cell)"]
+        preconditions = ["(turn-" + self.sprite.name + "-move)", "(oriented-up ?x)", "(at ?f_actual ?x)", "(last-at ?c_last ?x)", "(connected-up ?c_actual ?c_next)"]
+        effects = ["(forall (?x - " + self.sprite.name + ") (not (" + self.sprite.name + "-moved ?x)))",
+			        "(not (turn-" + self.sprite.name + "-move))",
+			        "(finished-turn-" + self.sprite.name + "-move)"]
 
         return Action(name, parameters, conditions, effects)
 
@@ -231,7 +206,7 @@ class SpriteActions:
 
         name = self.sprite.name.upper() + "_EXPAND"
         parameters = [["s", self.sprite.stype]]
-        conditions = []
+        preconditions = []
         effects = []
 
         return Action(name, parameters, conditions, effects)
@@ -245,7 +220,7 @@ class SpriteActions:
         """
         name = self.sprite.name.upper() + "_PRODUCE"
         parameters = []
-        conditions = []
+        preconditions = []
 
         # If no type is defined, get the parents name
         partner_stype = (
@@ -283,7 +258,7 @@ class SpriteActions:
 
         name = self.sprite.name.upper() + "_DISAPPEAR"
         parameters = [["s", self.sprite.stype]]
-        conditions = []
+        preconditions = []
         effects = []
 
         return Action(name, parameters, conditions, effects)
@@ -298,7 +273,7 @@ class SpriteActions:
 
         name = self.sprite.name.upper() + "_CHASE"
         parameters = [["s", self.sprite.stype], ["p", partner.name]]
-        conditions = []
+        preconditions = []
         effects = []
 
         return Action(name, parameters, conditions, effects)
@@ -313,7 +288,7 @@ class SpriteActions:
 
         name = self.sprite.name.upper() + "_FLEE"
         parameters = [["s", self.sprite.stype], ["p", partner.name]]
-        conditions = []
+        preconditions = []
         effects = []
 
         return Action(name, parameters, conditions, effects)

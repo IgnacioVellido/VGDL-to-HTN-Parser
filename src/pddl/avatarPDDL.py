@@ -81,11 +81,11 @@ class AvatarActions:
         # Dict with the functions needed for each avatar
         avatar_action_list = {
             # Can't move but can use object
-            "AimedAvatar" : [turn_up, turn_down, turn_left, turn_right, use, nil],
+            "AimedAvatar" : [turn_up, turn_down, turn_left, turn_right, use_up, use_down, use_left, use_right, nil],
 
             # This avatar should have ammo !!!!!!!!!!
             # Always same orientation, can move horizontally and use object  
-            "FlakAvatar"  : [move_left, move_right, use, nil],
+            "FlakAvatar"  : [move_left, move_right, use_up, use_down, use_left, use_right, nil],
 
             # Always same orientation, can only move left or right
             "HorizontalAvatar": [move_left, move_right, nil],
@@ -98,13 +98,13 @@ class AvatarActions:
             "OrientedAvatar" : [move_up, move_down, move_left, move_right, turn_up, turn_down, turn_left, turn_right, nil],
 
             # Can move and aim in any direction, can use object
-            "ShootAvatar" : [move_up, move_down, move_left, move_right, turn_up, turn_down, turn_left, turn_right, use, nil],
+            "ShootAvatar" : [move_up, move_down, move_left, move_right, turn_up, turn_down, turn_left, turn_right, use_up, use_down, use_left, use_right, nil],
 
             # Always same orientation, can only move up or down
             "VerticalAvatar" : [move_up, move_down]
         }
 
-        get_actions(avatar_action_list[self.avatar.stype])
+        get_actions(avatar_action_list[self.avatar.stype]())
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
