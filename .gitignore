@@ -5,6 +5,13 @@
 output/*
 
 #############
+# Planners
+
+planners/FastDownward/*
+planners/Metric-FF-v2.1/*
+planners/Madagascar/*
+
+#############
 # From ANTLR
 
 /**/.antlr/*

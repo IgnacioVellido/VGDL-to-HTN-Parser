@@ -117,134 +117,114 @@ class AvatarActions:
         self.actions = []
         self.get_actions()
 
-    # -------------------------------------------------------------------------
-    # -------------------------------------------------------------------------
+        # MAYBE NEEDS self BEFORE EACH FUNCTIONS
+        # Dict with the functions needed for each avatar
+        avatar_action_list = {
+            # Can't move but can use object
+            "AimedAvatar" : [turn_up, turn_down, turn_left, turn_right, use, nil],
 
-    def get_actions(self):
-        """ Return a list of actions depending of the avatar.
-        
-        partner:    If ACTION_USE is available for the avatar, 'partner' is the 
-                    sprite that is produced
-        """
-        # Can't move but can use object
-        if self.avatar.stype == "AimedAvatar":
-            self.actions.append(self.turn_up())
-            self.actions.append(self.turn_down())
-            self.actions.append(self.turn_left())
-            self.actions.append(self.turn_right())
-            self.actions.append(self.use())
+            # This avatar should have ammo !!!!!!!!!!
+            # Always same orientation, can move horizontally and use object  
+            "FlakAvatar"  : [move_left, move_right, use, nil],
 
-        # This avatar should have ammo !!!!!!!!!!
-        # Always same orientation, can move horizontally and use object
-        if self.avatar.stype == "FlakAvatar":
-            self.actions.append(self.move_left())
-            self.actions.append(self.move_right())
-            self.actions.append(self.use())
+            # Always same orientation, can only move left or right
+            "HorizontalAvatar": [move_left, move_right, nil],
 
-        # Always same orientation, can only move left or right
-        if self.avatar.stype == "HorizontalAvatar":
-            self.actions.append(self.move_left())
-            self.actions.append(self.move_right())
-
-        # Always same orientation, can move in any direction
-        if self.avatar.stype == "MovingAvatar":
-            self.actions.append(self.move_up())
-            self.actions.append(self.move_down())
-            self.actions.append(self.move_left())
-            self.actions.append(self.move_right())
-
+            # Always same orientation, can move in any direction
             # This avatar don't have orientation, so it can move freely
-            self.actions.append(self.turn_up())
-            self.actions.append(self.turn_down())
-            self.actions.append(self.turn_left())
-            self.actions.append(self.turn_right())
+            "MovingAvatar" : [move_up, move_down, move_left, move_right, turn_up, turn_down, turn_left, turn_right, nil],
 
-        # ONLY GVGAI
-        if self.avatar.stype == "OngoingShootAvatar":
-            pass
+            # ONLY GVGAI
+            "OngoingShootAvatar": [],
 
-        # ONLY GVGAI
-        if self.avatar.stype == "OngoingTurningAvatar":
-            pass
+            # ONLY GVGAI
+            "OngoingTurningAvatar" : [],
 
-        # Can move and aim in any direction, can't use object
-        if self.avatar.stype == "OrientedAvatar":
-            self.actions.append(self.move_up())
-            self.actions.append(self.move_down())
-            self.actions.append(self.move_left())
-            self.actions.append(self.move_right())
-            self.actions.append(self.turn_up())
-            self.actions.append(self.turn_down())
-            self.actions.append(self.turn_left())
-            self.actions.append(self.turn_right())
+            # Can move and aim in any direction, can't use object
+            "OrientedAvatar" : [move_up, move_down, move_left, move_right, turn_up, turn_down, turn_left, turn_right, nil],
 
-        # Can move and aim in any direction, can use object
-        if self.avatar.stype == "ShootAvatar":
-            self.actions.append(self.move_up())
-            self.actions.append(self.move_down())
-            self.actions.append(self.move_left())
-            self.actions.append(self.move_right())
-            self.actions.append(self.turn_up())
-            self.actions.append(self.turn_down())
-            self.actions.append(self.turn_left())
-            self.actions.append(self.turn_right())
-            self.actions.append(self.use())
+            # Can move and aim in any direction, can use object
+            "ShootAvatar" : [move_up, move_down, move_left, move_right, turn_up, turn_down, turn_left, turn_right, use, nil],
 
-        # Always same orientation, can only move up or down
-        if self.avatar.stype == "VerticalAvatar":
-            self.actions.append(self.move_up())
-            self.actions.append(self.move_down())
+            # Always same orientation, can only move up or down
+            "VerticalAvatar" : [move_up, move_down]
+        }
 
-        self.actions.append(self.nil())  # As last resource, don't do anything
+        get_actions(avatar_action_list[self.avatar.stype])
+
+    # -------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
+
+    def get_actions(self, action_list):
+      """ Return a list of actions depending of the avatar. """
+        for function in action_list:
+            self.actions.append(function())
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
 
     def move_up(self):
         name = "AVATAR_MOVE_UP"
-        parameters = [["a", self.avatar.stype]]
+        parameters = [["a", self.avatar.stype], ["c_actual", "cell"], ["c_last", "cell"], ["c_next", "cell"]]
 
         # can-move indicates that te avatar has the ability to move in that direction
-        conditions = ["(can-move-up ?a)", "(orientation-up ?a)"]
-        effects = ["(decrease (coordinate_x ?a) 1)"]
+        preconditions = ["(turn-avatar)", "(can-move-up ?a)", "(oriented-up ?a)", 
+                         "(at ?c_actual ?a)", "(last-at ?c_last ?a)",
+                         "(connected-up ?c_actual ?c_next)"]
 
-        return Action(name, parameters, conditions, effects)
+        effects = ["(not (last-at ?c_last ?a))", "(last-at ?c_actual ?a)",
+                    "(not (at ?c_actual ?a))", "(at ?c_next ?a)", 
+                    "(not (turn-avatar)", "(turn-sprites)"]
+
+        return Action(name, parameters, preconditions, effects)
 
     # -------------------------------------------------------------------------
 
     def move_down(self):
         name = "AVATAR_MOVE_DOWN"
-        parameters = [["a", self.avatar.stype]]
+        parameters = [["a", self.avatar.stype], ["c_actual", "cell"], ["c_last", "cell"], ["c_next", "cell"]]
 
         # can-move indicates that te avatar has the ability to move in that direction
-        conditions = ["(can-move-down ?a)", "(orientation-down ?a)"]
-        effects = ["(increase (coordinate_x ?a) 1)"]
+        preconditions = ["(turn-avatar)", "(can-move-down ?a)", "(oriented-down ?a)", 
+                         "(at ?c_actual ?a)", "(last-at ?c_last ?a)",
+                         "(connected-down ?c_actual ?c_next)"]
+        effects = ["(not (last-at ?c_last ?a))", "(last-at ?c_actual ?a)",
+                    "(not (at ?c_actual ?a))", "(at ?c_next ?a)", 
+                    "(not (turn-avatar)", "(turn-sprites)"]
 
-        return Action(name, parameters, conditions, effects)
+        return Action(name, parameters, preconditions, effects)
 
     # -------------------------------------------------------------------------
 
     def move_left(self):
         name = "AVATAR_MOVE_LEFT"
-        parameters = [["a", self.avatar.stype]]
+        parameters = [["a", self.avatar.stype], ["c_actual", "cell"], ["c_last", "cell"], ["c_next", "cell"]]
 
         # can-move indicates that te avatar has the ability to move in that direction
-        conditions = ["(can-move-left ?a)", "(orientation-left ?a)"]
-        effects = ["(decrease (coordinate_y ?a) 1)"]
+        preconditions = ["(turn-avatar)", "(can-move-left ?a)", "(oriented-left ?a)", 
+                         "(at ?c_actual ?a)", "(last-at ?c_last ?a)",
+                         "(connected-left ?c_actual ?c_next)"]
+        effects = ["(not (last-at ?c_last ?a))", "(last-at ?c_actual ?a)",
+                    "(not (at ?c_actual ?a))", "(at ?c_next ?a)", 
+                    "(not (turn-avatar)", "(turn-sprites)"]
 
-        return Action(name, parameters, conditions, effects)
+        return Action(name, parameters, preconditions, effects)
 
     # -------------------------------------------------------------------------
 
     def move_right(self):
         name = "AVATAR_MOVE_RIGHT"
-        parameters = [["a", self.avatar.stype]]
+        parameters = [["a", self.avatar.stype], ["c_actual", "cell"], ["c_last", "cell"], ["c_next", "cell"]]
 
         # can-move indicates that te avatar has the ability to move in that direction
-        conditions = ["(can-move-right ?a)", "(orientation-right ?a)"]
-        effects = ["(increase (coordinate_y ?a) 1)"]
+        preconditions = ["(turn-avatar)", "(can-move-right ?a)", "(oriented-right ?a)", 
+                         "(at ?c_actual ?a)", "(last-at ?c_last ?a)",
+                         "(connected-right ?c_actual ?c_next)"]
+        effects = ["(not (last-at ?c_last ?a))", "(last-at ?c_actual ?a)",
+                    "(not (at ?c_actual ?a))", "(at ?c_next ?a)", 
+                    "(not (turn-avatar)", "(turn-sprites)"]
 
-        return Action(name, parameters, conditions, effects)
+        return Action(name, parameters, preconditions, effects)
 
     # -------------------------------------------------------------------------
 
@@ -254,28 +234,29 @@ class AvatarActions:
         parameters = [["a", self.avatar.stype]]
 
         # If not (can-change-orientation ?a), the avatar cannot use this action
-        # conditions = ["(can-change-orientation ?a)","(not (orientation-up ?a))"]
+        # preconditions = ["(turn-avatar)", "(can-change-orientation ?a)","(not (oriented-up ?a))"]
         # can-change-orientation maybe not needed
-        conditions = ["(not (orientation-up ?a))"]
+        preconditions = ["(turn-avatar)", "(not (oriented-up ?a))"]
 
         effect_down = """
                     (when
-                        (orientation-down ?a )
-                        (not (orientation-down ?a))
+                        (oriented-down ?a )
+                        (not (oriented-down ?a))
                     )"""
         effect_left = """
                     (when
-                        (orientation-left ?a )
-                        (not (orientation-left ?a))
+                        (oriented-left ?a )
+                        (not (oriented-left ?a))
                     )"""
         effect_right = """
                     (when
-                        (orientation-right ?a )
-                        (not (orientation-right ?a))
+                        (oriented-right ?a )
+                        (not (oriented-right ?a))
                     )"""
-        effects = [effect_down, effect_right, effect_left, "(orientation-up ?a)"]
 
-        return Action(name, parameters, conditions, effects)
+        effects = [effect_down, effect_right, effect_left, "(oriented-up ?a)", "(not (turn-avatar)", "(turn-sprites)"]
+
+        return Action(name, parameters, preconditions, effects)
 
     # -------------------------------------------------------------------------
 
@@ -284,28 +265,29 @@ class AvatarActions:
         parameters = [["a", self.avatar.stype]]
 
         # If not (can-change-orientation ?a), the avatar cannot use this action
-        # conditions = ["(can-change-orientation ?a)","(not (orientation-down ?a))"]
+        # preconditions = ["(turn-avatar)", "(can-change-orientation ?a)","(not (oriented-down ?a))"]
         # can-change-orientation maybe not needed
-        conditions = ["(not (orientation-down ?a))"]
+        preconditions = ["(turn-avatar)", "(not (oriented-down ?a))"]
 
         effect_up = """
                     (when
-                        (orientation-up ?a )
-                        (not (orientation-up ?a))
+                        (oriented-up ?a )
+                        (not (oriented-up ?a))
                     )"""
         effect_left = """
                     (when
-                        (orientation-left ?a )
-                        (not (orientation-left ?a))
+                        (oriented-left ?a )
+                        (not (oriented-left ?a))
                     )"""
         effect_right = """
                     (when
-                        (orientation-right ?a )
-                        (not (orientation-right ?a))
+                        (oriented-right ?a )
+                        (not (oriented-right ?a))
                     )"""
-        effects = [effect_left, effect_right, effect_up, "(orientation-down ?a)"]
 
-        return Action(name, parameters, conditions, effects)
+        effects = [effect_left, effect_right, effect_up, "(oriented-down ?a)", "(not (turn-avatar)", "(turn-sprites)"]
+
+        return Action(name, parameters, preconditions, effects)
 
     # -------------------------------------------------------------------------
 
@@ -314,28 +296,28 @@ class AvatarActions:
         parameters = [["a", self.avatar.stype]]
 
         # If not (can-change-orientation ?a), the avatar cannot use this action
-        # conditions = ["(can-change-orientation ?a)","(not (orientation-left ?a))"]
-        conditions = ["(not (orientation-left ?a))"]
+        # preconditions = ["(turn-avatar)", "(can-change-orientation ?a)","(not (oriented-left ?a))"]
+        preconditions = ["(turn-avatar)", "(not (oriented-left ?a))"]
 
         effect_down = """
                     (when
-                        (orientation-down ?a )
-                        (not (orientation-down ?a))
+                        (oriented-down ?a )
+                        (not (oriented-down ?a))
                     )"""
         effect_up = """
                     (when
-                        (orientation-up ?a )
-                        (not (orientation-up ?a))
+                        (oriented-up ?a )
+                        (not (oriented-up ?a))
                     )"""
         effect_right = """
                     (when
-                        (orientation-right ?a )
-                        (not (orientation-right ?a))
+                        (oriented-right ?a )
+                        (not (oriented-right ?a))
                     )"""
 
-        effects = [effect_down, effect_right, effect_up, "(orientation-left ?a)"]
+        effects = [effect_down, effect_right, effect_up, "(oriented-left ?a)", "(not (turn-avatar)", "(turn-sprites)"]
 
-        return Action(name, parameters, conditions, effects)
+        return Action(name, parameters, preconditions, effects)
 
     # -------------------------------------------------------------------------
 
@@ -344,90 +326,106 @@ class AvatarActions:
         parameters = [["a", self.avatar.stype]]
 
         # If not (can-change-orientation ?a), the avatar cannot use this action
-        # conditions = ["(can-change-orientation ?a)","(not (orientation-right ?a))"]
-        conditions = ["(not (orientation-right ?a))"]
+        # preconditions = ["(turn-avatar)", "(can-change-orientation ?a)","(not (oriented-right ?a))"]
+        preconditions = ["(turn-avatar)", "(not (oriented-right ?a))"]
 
         effect_down = """
                     (when
-                        (orientation-down ?a )
-                        (not (orientation-down ?a))
+                        (oriented-down ?a )
+                        (not (oriented-down ?a))
                     )"""
         effect_up = """
                     (when
-                        (orientation-up ?a )
-                        (not (orientation-up ?a))
+                        (oriented-up ?a )
+                        (not (oriented-up ?a))
                     )"""
         effect_left = """
                     (when
-                        (orientation-left ?a )
-                        (not (orientation-left ?a))
+                        (oriented-left ?a )
+                        (not (oriented-left ?a))
                     )"""
-        effects = [effect_down, effect_left, effect_up, "(orientation-right ?a)"]
 
-        return Action(name, parameters, conditions, effects)
+        effects = [effect_down, effect_left, effect_up, "(oriented-right ?a)", "(not (turn-avatar)", "(turn-sprites)"]
+
+        return Action(name, parameters, preconditions, effects)
 
     # -------------------------------------------------------------------------
 
     # can-use is a predicate that should not be active in case there is no ammo
-    def use(self):
-        """ Generates the partner object in front of the avatar
+    def use_up(self):
+        """ Generates the partner object in front of the avatar (UP)
 
         partner:     Sprite that is generated
         """
         if self.partner == None:
             raise TypeError('Argument "partner" is not defined')
 
-        name = "AVATAR_USE"
-        parameters = [["a", self.avatar.stype], ["p", self.partner.name]]
-        conditions = ["(can-use ?a ?p)"]
+        name = "AVATAR_USE_UP"
+        parameters = [["a", self.avatar.stype], ["p", self.partner.name], ["c_actual", "cell"], ["c_up", "cell"]]
+        preconditions = ["(turn-avatar)", "(can-use ?a ?p)", "(at ?c_actual ?a)", "(oriented-up ?a)", "(connected-up ?c_actual ?c_up)"]
 
-        # Generate the partner object in a position depending of the orientation of the avatar
-        partner_generation = """
-                    (when
-                        (orientation-up ?a)
+        effects = ["(at ?c_up ?p)", "(not (turn-avatar)", "(turn-sprites)"]
 
-                        (and
-                            (assign (coordinate_x ?p) (coordinate_x ?a))
-                            (assign (coordinate_y ?p) (coordinate_y ?a))
-                            (decrease (coordinate_y ?p) 1)						
-                        )
-                    )
+        return Action(name, parameters, preconditions, effects)
 
-                    (when
-                        (orientation-down ?a)
+    # -------------------------------------------------------------------------
 
-                        (and
-                            (assign (coordinate_x ?p) (coordinate_x ?a))
-                            (assign (coordinate_y ?p) (coordinate_y ?a))
-                            (increase (coordinate_y ?p) 1)						
-                        )
-                    )
+    # MAYBE SOME AVATAR DON'T HAVE ORIENTATION BUT CAN USE - CAREFULL
 
-                    (when
-                        (orientation-left ?a)
+    # can-use is a predicate that should not be active in case there is no ammo
+    def use_down(self):
+        """ Generates the partner object in front of the avatar (UP)
 
-                        (and
-                            (assign (coordinate_x ?p) (coordinate_x ?a))
-                            (assign (coordinate_y ?p) (coordinate_y ?a))
-                            (decrease (coordinate_x ?p) 1)						
-                        )
-                    )
+        partner:     Sprite that is generated
+        """
+        if self.partner == None:
+            raise TypeError('Argument "partner" is not defined')
 
-                    (when
-                        (orientation-right ?a)
+        name = "AVATAR_USE_DOWN"
+        parameters = [["a", self.avatar.stype], ["p", self.partner.name], ["c_actual", "cell"], ["c_down", "cell"]]
+        preconditions = ["(turn-avatar)", "(can-use ?a ?p)", "(at ?c_actual ?a)", "(oriented-down ?a)", "(connected-down ?c_actual ?c_down)"]
 
-                        (and
-                            (assign (coordinate_x ?p) (coordinate_x ?a))
-                            (assign (coordinate_y ?p) (coordinate_y ?a))
-                            (increase (coordinate_x ?p) 1)						
-                        )
-                    )"""
-        effects = [
-            "(increase (counter_" + self.partner.name + ") 1)",
-            partner_generation,
-        ]
+        effects = ["(at ?c_down ?p)", "(not (turn-avatar)", "(turn-sprites)"]
 
-        return Action(name, parameters, conditions, effects)
+        return Action(name, parameters, preconditions, effects)
+
+    # -------------------------------------------------------------------------
+
+    # can-use is a predicate that should not be active in case there is no ammo
+    def use_left(self):
+        """ Generates the partner object in front of the avatar (UP)
+
+        partner:     Sprite that is generated
+        """
+        if self.partner == None:
+            raise TypeError('Argument "partner" is not defined')
+
+        name = "AVATAR_USE_LEFT"
+        parameters = [["a", self.avatar.stype], ["p", self.partner.name], ["c_actual", "cell"], ["c_left", "cell"]]
+        preconditions = ["(turn-avatar)", "(can-use ?a ?p)", "(at ?c_actual ?a)", "(oriented-left ?a)", "(connected-left ?c_actual ?c_left)"]
+
+        effects = ["(at ?c_left ?p)", "(not (turn-avatar)", "(turn-sprites)"]
+
+        return Action(name, parameters, preconditions, effects)
+
+    # -------------------------------------------------------------------------
+
+    # can-use is a predicate that should not be active in case there is no ammo
+    def use_right(self):
+        """ Generates the partner object in front of the avatar (UP)
+
+        partner:     Sprite that is generated
+        """
+        if self.partner == None:
+            raise TypeError('Argument "partner" is not defined')
+
+        name = "AVATAR_USE_RIGHT"
+        parameters = [["a", self.avatar.stype], ["p", self.partner.name], ["c_actual", "cell"], ["c_right", "cell"]]
+        preconditions = ["(turn-avatar)", "(can-use ?a ?p)", "(at ?c_actual ?a)", "(oriented-right ?a)", "(connected-right ?c_actual ?c_right)"]
+
+        effects = ["(at ?c_right ?p)", "(not (turn-avatar)", "(turn-sprites)"]
+
+        return Action(name, parameters, preconditions, effects)
 
     # -------------------------------------------------------------------------
 
@@ -436,10 +434,10 @@ class AvatarActions:
         """ Avatar doesn't do anything """
         name = "AVATAR_NIL"
         parameters = [["a", self.avatar.stype]]
-        conditions = []
-        effects = []
+        preconditions = ["(turn-avatar)"]
+        effects = ["(not (turn-avatar)", "(turn-sprites)"]
 
-        return Action(name, parameters, conditions, effects)
+        return Action(name, parameters, preconditions, effects)
 
 
 ###############################################################################
@@ -543,7 +541,7 @@ class AvatarLevelPredicates:
 
     def get_level_predicates(self):
         """ Return a list of predicates depending of the avatar """
-        self.level_predicates.append("(orientation-up ?a)")
+        self.level_predicates.append("(oriented-up ?a)")
 
         # Can't move but can use object
         if self.avatar.stype == "AimedAvatar":

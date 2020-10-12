@@ -102,10 +102,10 @@ class ProblemWriterPDDL:
         goal: list of goals, in brackets
         """
         start_text = """
-\t; Goals -----------------------------------------------------------------
+\t; Goal ------------------------------------------------------------------
 
-\t(:tasks-goal
-\t\t:tasks("""
+\t(:goal
+\t\t(and"""
 
         end_text = """
 \t\t)

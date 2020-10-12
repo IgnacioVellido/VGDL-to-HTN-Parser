@@ -47,3 +47,41 @@ replan:
 	python3 ./src/main.py -gi $(gi) -li $(li) -go $(go) -lo $(lo)
 	./planners/Siadex/planner -d $(go) -p $(lo)
 	# ./planners/Siadex/planner -d $(go) -p $(lo) 2> /dev/null
+
+# ------------------------------------------------------------------------------
+# Fast Downward
+# ------------------------------------------------------------------------------
+
+compile-fd:
+	cd ./planners/FastDownward;	python3 ./build.py
+
+run-fd:
+	python3 ./planners/FastDownward/fast-downward.py ./output/pddl-domain.pddl ./output/pddl-problem.pddl --search "astar(lmcut())"
+
+run-fd2:
+	python3 ./planners/FastDownward/fast-downward.py --alias seq-sat-lama-2011 ./output/pddl-domain.pddl ./output/pddl-problem.pddl
+
+help-fd:
+	python3 ./planners/FastDownward/fast-downward.py --help
+
+# ------------------------------------------------------------------------------
+# Metric-FF
+# ------------------------------------------------------------------------------
+
+# -s 0 = NO optimization
+metric:
+	./planners/Metric-FF-v2.1/ff -o ./output/pddl-domain.pddl -f ./output/pddl-problem.pddl -s 0
+	#  -O -g 1 -h 1
+
+# ------------------------------------------------------------------------------
+# MADAGASCAR
+# ------------------------------------------------------------------------------
+
+madagascar1:
+	planners/Madagascar/MpC output/pddl-domain.pddl output/pddl-problem.pddl -o ./output/plan.txt
+
+madagascar2:
+	planners/Madagascar/Mp output/pddl-domain.pddl output/pddl-problem.pddl -o ./output/plan.txt
+
+madagascar3:
+	planners/Madagascar/M output/pddl-domain.pddl output/pddl-problem.pddl -o ./output/plan.txt
