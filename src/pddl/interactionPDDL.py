@@ -89,71 +89,71 @@ class InteractionActions:
         interaction_action_list = {
             # [GVGAI] Adds a certain quantity of health points
             "addHealthPoints":
-                [addHealthPoints],
+                [self.addHealthPoints],
 
             # [GVGAI] Puts health points to max
             "addHealthPointsToMax":
-                [addHealthPointsToMax],
+                [self.addHealthPointsToMax],
 
             # [GVGAI] Changes position and orientation of sprite to partner
             "align":
-                [align],
+                [self.align],
 
             # Randomly changesdirection of partner
             "attractGaze":
-                [attractGaze],
+                [self.attractGaze],
 
             # Not sure what it does, seems like the center of the object decides the direction
             "bounceDirection":
-                [bounceDirection],
+                [self.bounceDirection],
 
             # Sprite tries to move in the opposite direction of partner
             "bounceForward":
-                [bounceForward],
+                [self.bounceForward],
 
             # Change resource (sprite) in the object (partner) to a given
             "changeResource":
-                [changeResource],
+                [self.changeResource],
 
             # Creates a copy
             "cloneSprite":
-                [cloneSprite],
+                [self.cloneSprite],
 
             # Increment resource (sprite) in the object (partner)
             "collectResource":
-                [collectResource],
+                [self.collectResource],
 
             # [GVGAI] Decrease speed of all objects of the type of the sprite
             "decreaseSpeedToAll":
-                [decreaseSpeedToAll],
+                [self.decreaseSpeedToAll],
 
             # Changes to a random orientation
             "flipDirection":
-                [flipDirection],
+                [self.flipDirection],
 
             # [GVGAI] Increase speed of all objects of the sprite type
             "increaseSpeedToAll":
-                [increaseSpeedToAll],
+                [self.increaseSpeedToAll],
 
             # [GVGAI] Kill all sprite of the same type
             "killAll":
-                [killAll],
+                [self.killAll],
 
             # Sprite and partner dies
             "killBoth":
-                [killBoth],
+                [self.killBoth],
 
             # Kill sprite if partner is not destroyed by the collision
             "killIfAlive":
-                [killIfAlive],
+                [self.killIfAlive],
 
             # Kill sprite if partner is above him
             "killIfFromAbove":
-                [killIfFromAbove],
+                [self.killIfFromAbove],
 
             # If sprite has more resource than parameter (limit), kill it
             "killIfHasMore":
-                [killIfHasMore],
+                [self.killIfHasMore],
 
             # Not found in the GVGAI files
             # If sprite has less resource than parameter (limit), kill it
@@ -162,106 +162,106 @@ class InteractionActions:
 
             # Kill sprite if speed is higher than the given
             "killIfFast":
-                [killIfFast],
+                [self.killIfFast],
 
             # If partner has less resource than parameter (limit), kill sprite
             "killIfOtherHasLess":
-                [killIfOtherHasLess],
+                [self.killIfOtherHasLess],
 
             # If partner has more resource than parameter (limit), kill sprite
             "killIfOtherHasMore":
-                [killIfOtherHasMore],
+                [self.killIfOtherHasMore],
 
             # Kill sprite if speed is lower than the given
             "killIfSlow":
-                [killIfSlow],
+                [self.killIfSlow],
 
             # Sprite dies
             "killSprite":
-                [killSprite],
+                [self.killSprite],
 
             # Movement of partner is added to sprite (same quantity and direction)
             "pullWithIt":
-                [pullWithIt],
+                [self.pullWithIt],
 
             # [GVGAI] Changes score of the avatar
             "removeScore":
-                [removeScore],
+                [self.removeScore],
 
             # Changes orientation 180º
             "reverseDirection":
-                [reverseDirection],
+                [self.reverseDirection],
 
             # [GVGAI] Asigns a specific speed to the sprite
             "setSpeedToAll":
-                [setSpeedToAll],
+                [self.setSpeedToAll],
 
             # Creates sprite behind partner
             "spawnBehind":
-                [spawnBehind],
+                [self.spawnBehind],
 
             # If sprite has less resource than parameter (limit), create new sprite
             "spawnIfHasLess":
-                [spawnIfHasLess],
+                [self.spawnIfHasLess],
 
             # If sprite has more resource than parameter (limit), create new sprite
             "spawnIfHasMore":
-                [spawnIfHasMore],
+                [self.spawnIfHasMore],
 
             # Undo last movement
             "stepBack":
-                [stepBack],
+                [self.stepBack],
 
             # [GVGAI] Decrease a certain quantity of health points
             "substractHealthPoints":
-                [subsctractHealthPoints],
+                [self.subsctractHealthPoints],
 
             # Move sprite to partner position (must be a Portal, if not, destroy sprite)
             "teleportToExit":
-                [teleportToExit],
+                [self.teleportToExit],
 
             # [GVGAI] Changes sprite to stype if there are a certain quantity (stypeCount)
             "transformIfCount":
-                [transformIfCounts],
+                [self.transformIfCount],
 
             # Seems like it creates a new copy of sprite
             "transformTo":
-                [transformTo],
+                [self.transformTo],
 
             # [GVGAI] Transform sprite to one of his childs
             "transformToRandomChild":
-                [transformToRandomChild],
+                [self.transformToRandomChild],
 
             # [GVGAI] Transform all sprites of stype to stype_other in the same position
             "transformToSingleton":
-                [transformToSingleton],
+                [self.transformToSingleton],
 
             # Not sure what it does, in VGDL seems to call reverseDirection
             "turnAround":
-                [turnAround],
+                [self.turnAround],
 
             # Undo movement of every object in the game
             "undoAll":
-                [undoAll],
+                [self.undoAll],
 
             # [GVGAI] Changes the "spawn type" to SpawnPoint
             "updateSpawnType":
-                [updateSpawnType],
+                [self.updateSpawnType],
 
             # Bounce in a perpendicular direction from the wall
             "wallBounce":
-                [wallBounce],
+                [self.wallBounce],
 
             # Stops sprite in front of wall
             "wallStop":
-                [wallStop],
+                [self.wallStop],
 
             # Move sprite at the end of the screen in the orientation of sprite
             "wrapAround":
-                [wrapAround],
+                [self.wrapAround],
         }
 
-        get_actions(interaction_action_list[self.interaction.stype]())
+        self.get_actions(interaction_action_list[self.interaction.type])
 
     def get_actions(self, action_list):
         """ Stores in self.actions the actions defined """

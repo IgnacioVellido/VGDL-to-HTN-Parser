@@ -68,7 +68,7 @@ class SpriteActions:
         sprite_action_list = {
             # Not clear what it does
             # Missile that produces sprite at a specific ratio
-            "Bomber": [produce],
+            "Bomber": [self.produce],
 
             # Follows partner (or avatar ?) sprite
             "Chaser": [],
@@ -88,8 +88,11 @@ class SpriteActions:
             "Flicker": [],
                 # disappear())
 
+            # Doesn't do anything
+            "Immovable": [],
+
             # sprite that moves constantly in one direction
-            "Missile": [move_up, move_down, move_left, move_right, move_stop],
+            "Missile": [self.move_up, self.move_down, self.move_left, self.move_right, self.move_stop],
 
             # Maybe not needed here
             # Oriented sprite that dissapear after a moment
@@ -114,7 +117,7 @@ class SpriteActions:
             "RandomNPC": [],
 
             # Produces sprites following a specific ratio
-            "SpawnPoint": [produce],
+            "SpawnPoint": [self.produce],
 
             # Expands in 4 directions if not occupied
             "Spreader": [],
@@ -129,8 +132,7 @@ class SpriteActions:
             "WalkerJumper": []
         }
 
-        # MAYBE NEEDS self BEFORE EACH FUNCTION
-        get_actions(sprite_action_list[self.sprite.stype]())
+        self.get_actions(sprite_action_list.get(self.sprite.stype, []))
 
     # -------------------------------------------------------------------------
 
@@ -341,6 +343,9 @@ class SpritePredicates:
             # sprite that dissapear after a moment
             "Flicker": [],
 
+            # Doesn't do anything
+            "Immovable": [],
+
             # sprite that moves constantly in one direction
             "Missile": [
                 "(" + self.sprite.name + "-moved ?x - " + self.sprite.stype + ")",
@@ -389,7 +394,8 @@ class SpritePredicates:
             "WalkerJumper": []
         }
 
-        self.predicates.extend[sprite_predicates_list(self.sprite.stype)]
+        # "FIX", but butter try to include keys manually if possible
+        self.predicates.extend(sprite_predicates_list.get(self.sprite.stype, []))
 
 
 ###############################################################################
@@ -427,6 +433,9 @@ class SpriteLevelPredicates:
             # Maybe not needed here
             # sprite that dissapear after a moment
             "Flicker": [],
+
+            # Doesn't do anything
+            "Immovable": [],
 
             # sprite that moves constantly in one direction
             "Missile": [self.get_orientation()],
@@ -466,7 +475,7 @@ class SpriteLevelPredicates:
             "WalkerJumper": []
         }
 
-        self.level_predicates.extend[sprite_level_predicates_list(self.sprite.stype)]
+        self.level_predicates.extend(sprite_level_predicates_list.get(self.sprite.stype, []))
 
     # -------------------------------------------------------------------------
 

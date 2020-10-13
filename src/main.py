@@ -23,6 +23,10 @@ from grammar.VgdlListener import VgdlListener
 # To show parsed tree in terminal
 # from antlr4.tree.Trees import Trees
 
+# -----------------------------------------------------------------------------
+# HPDL
+# -----------------------------------------------------------------------------
+
 # HPDL domain generator
 from hpdl.domainGeneratorHPDL import DomainGeneratorHPDL
 from hpdl.domainWriterHPDL import DomainWriterHPDL
@@ -30,6 +34,19 @@ from hpdl.domainWriterHPDL import DomainWriterHPDL
 # Level parser
 from hpdl.problemGeneratorHPDL import ProblemGeneratorHPDL
 from hpdl.problemWriterHPDL import ProblemWriterHPDL
+
+# -----------------------------------------------------------------------------
+# PDDL
+# -----------------------------------------------------------------------------
+
+# PDDL domain generator
+from pddl.domainGeneratorPDDL import DomainGeneratorPDDL
+from pddl.domainWriterPDDL import DomainWriterPDDL
+
+# Level parser
+from pddl.problemGeneratorPDDL import ProblemGeneratorPDDL
+from pddl.problemWriterPDDL import ProblemWriterPDDL
+
 
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
@@ -158,7 +175,7 @@ def main(argv):
         description="Python parser that transform a VGDL game/level description into a PDDL/HPDL domain/problem",
     )
     argparser.add_argument(
-        "-l", "--language", choices=['pddl', 'hpdl'], action="store_true", help="Select output planning language"
+        "-l", "--language", choices=['pddl', 'hpdl'], required=True, help="Select output planning language"
     )
     argparser.add_argument(
         "-gi", "--gameInput", required=True, help="Input VGDL game file"
@@ -224,7 +241,7 @@ def main(argv):
         domainGenerator = DomainGeneratorHPDL(
             sprites, interactions, terminations, mappings, hierarchy, avatar
         )
-    else if args.language == "pddl":
+    elif args.language == "pddl":
         domainGenerator = DomainGeneratorPDDL(
             sprites, interactions, terminations, mappings, hierarchy, avatar
         )
@@ -240,7 +257,7 @@ def main(argv):
 
     if args.language == "hpdl":
         writer = DomainWriterHPDL(types, constants, functions, predicates, tasks, actions)
-    else if args.language == "pddl":
+    elif args.language == "pddl":
         writer = DomainWriterPDDL(types, constants, functions, predicates, tasks, actions)
 
     text_domain = writer.get_domain()
@@ -286,7 +303,7 @@ def main(argv):
                 avatarHPDL,
                 spritesHPDL,
             )
-        else if args.language == "pddl":
+        elif args.language == "pddl":
             problemGenerator = ProblemGeneratorPDDL(
                 level,
                 short_types,
@@ -305,7 +322,7 @@ def main(argv):
 
         if args.language == "hpdl":
             writer = ProblemWriterHPDL(objects, init, goals)
-        else if args.language == "pddl":
+        elif args.language == "pddl":
             writer = ProblemWriterPDDL(objects, init, goals)
         text_problem = writer.get_problem()
 

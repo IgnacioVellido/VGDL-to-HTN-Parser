@@ -77,34 +77,33 @@ class AvatarActions:
 
         self.actions = []
 
-        # MAYBE NEEDS self BEFORE EACH FUNCTIONS
         # Dict with the functions needed for each avatar
         avatar_action_list = {
             # Can't move but can use object
-            "AimedAvatar" : [turn_up, turn_down, turn_left, turn_right, use_up, use_down, use_left, use_right, nil],
+            "AimedAvatar" : [self.turn_up, self.turn_down, self.turn_left, self.turn_right, self.use_up, self.use_down, self.use_left, self.use_right, self.nil],
 
             # This avatar should have ammo !!!!!!!!!!
             # Always same orientation, can move horizontally and use object  
-            "FlakAvatar"  : [move_left, move_right, use_up, use_down, use_left, use_right, nil],
+            "FlakAvatar"  : [self.move_left, self.move_right, self.use_up, self.use_down, self.use_left, self.use_right, self.nil],
 
             # Always same orientation, can only move left or right
-            "HorizontalAvatar": [move_left, move_right, nil],
+            "HorizontalAvatar": [self.move_left, self.move_right, self.nil],
 
             # Always same orientation, can move in any direction
             # This avatar don't have orientation, so it can move freely
-            "MovingAvatar" : [move_up, move_down, move_left, move_right, turn_up, turn_down, turn_left, turn_right, nil],
+            "MovingAvatar" : [self.move_up, self.move_down, self.move_left, self.move_right, self.turn_up, self.turn_down, self.turn_left, self.turn_right, self.nil],
 
             # Can move and aim in any direction, can't use object
-            "OrientedAvatar" : [move_up, move_down, move_left, move_right, turn_up, turn_down, turn_left, turn_right, nil],
+            "OrientedAvatar" : [self.move_up, self.move_down, self.move_left, self.move_right, self.turn_up, self.turn_down, self.turn_left, self.turn_right, self.nil],
 
             # Can move and aim in any direction, can use object
-            "ShootAvatar" : [move_up, move_down, move_left, move_right, turn_up, turn_down, turn_left, turn_right, use_up, use_down, use_left, use_right, nil],
+            "ShootAvatar" : [self.move_up, self.move_down, self.move_left, self.move_right, self.turn_up, self.turn_down, self.turn_left, self.turn_right, self.use_up, self.use_down, self.use_left, self.use_right, self.nil],
 
             # Always same orientation, can only move up or down
-            "VerticalAvatar" : [move_up, move_down]
+            "VerticalAvatar" : [self.move_up, self.move_down]
         }
 
-        get_actions(avatar_action_list[self.avatar.stype]())
+        self.get_actions(avatar_action_list[self.avatar.stype])
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
@@ -418,14 +417,14 @@ class AvatarPredicates:
         # Dict with the predicates needed for each avatar
         avatar_predicates_list = {
             # Can't move but can use object
-            "AimedAvatar" : ["(can-use ?a - AimedAvatar ?p - " + self.partner.name + ")",
-                             "(can-change-orientation ?a - AimedAvatar)"],
+            # "AimedAvatar" : ["(can-use ?a - AimedAvatar ?p - " + self.partner.name + ")",
+            #                  "(can-change-orientation ?a - AimedAvatar)"],
 
             # This avatar should have ammo !!!!!!!!!!
             # Always same orientation, can move horizontally and use object  
-            "FlakAvatar"  : ["(can-move-left ?a - FlakAvatar)",
-                            "(can-move-right ?a - FlakAvatar)",
-                            "(can-use ?a - FlakAvatar ?p - " + self.partner.name + ")"],
+            # "FlakAvatar"  : ["(can-move-left ?a - FlakAvatar)",
+            #                 "(can-move-right ?a - FlakAvatar)",
+            #                 "(can-use ?a - FlakAvatar ?p - " + self.partner.name + ")"],
 
             # Always same orientation, can only move left or right
             "HorizontalAvatar": ["(can-move-left ?a - HorizontalAvatar)",
@@ -446,19 +445,19 @@ class AvatarPredicates:
                             # "(can-change-orientation ?a - OrientedAvatar)"],
 
             # Can move and aim in any direction, can use object
-            "ShootAvatar" : ["(can-move-up ?a - ShootAvatar)",
-                            "(can-move-down ?a - ShootAvatar)",
-                            "(can-move-left ?a - ShootAvatar)",
-                            "(can-move-right ?a - ShootAvatar)",
-                            # "(can-change-orientation ?a - ShootAvatar)"
-                            "(can-use ?a - ShootAvatar ?p - " + self.partner.name + ")"],
+            # "ShootAvatar" : ["(can-move-up ?a - ShootAvatar)",
+            #                 "(can-move-down ?a - ShootAvatar)",
+            #                 "(can-move-left ?a - ShootAvatar)",
+            #                 "(can-move-right ?a - ShootAvatar)",
+            #                 # "(can-change-orientation ?a - ShootAvatar)"
+            #                 "(can-use ?a - ShootAvatar ?p - " + self.partner.name + ")"],
 
             # Always same orientation, can only move up or down
             "VerticalAvatar" : ["(can-move-up ?a - VerticalAvatar)",
                             "(can-move-down ?a - VerticalAvatar)"]
         }
 
-        self.predicates.extend[avatar_predicates_list(self.avatar.stype)]
+        self.predicates.extend(avatar_predicates_list[self.avatar.stype])
 
 
 ###############################################################################
@@ -483,7 +482,7 @@ class AvatarLevelPredicates:
         """ Return a list of predicates depending of the avatar """
 
         # Generic orientation for all avatars
-        self.level_predicates.append["(oriented-up ?a)"]
+        self.level_predicates.append("(oriented-up ?a)")
 
         # Dict with the predicates needed for each avatar
         avatar_levelPredicates_list = {
@@ -517,4 +516,4 @@ class AvatarLevelPredicates:
             "VerticalAvatar" : ["(can-move-up ?a)", "(can-move-down ?a )"]
         }
 
-        self.level_predicates.extend[avatar_levelPredicates_list(self.avatar.stype)]
+        self.level_predicates.extend(avatar_levelPredicates_list[self.avatar.stype])

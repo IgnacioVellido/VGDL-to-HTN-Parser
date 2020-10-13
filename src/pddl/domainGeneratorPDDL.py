@@ -254,7 +254,7 @@ class DomainGeneratorPDDL:
         avatar = self.avatarPDDL.predicates
         self.predicates.extend(avatar)
 
-        for spPDDL in spritesPDDL:
+        for spPDDL in self.spritesPDDL:
             sprite = spPDDL.predicates
             self.predicates.extend(sprite)
 
@@ -333,14 +333,14 @@ class DomainGeneratorPDDL:
             [],
             ["(turn-sprites)"],
             turn_predicates
-        )
+        ))
 
         self.actions.append(Action(
             "END-TURN-SPRITES",
             [],
             finished_predicates,
             negated_finished_predicates
-        )
+        ))
 
 
         # Getting specific avatar actions
