@@ -155,7 +155,7 @@ class SpriteActions:
             "WalkerJumper": []
         }
 
-        # MAYBE NEEDS self BEFORE EACH FUNCTIONS
+        # MAYBE NEEDS self BEFORE EACH FUNCTION
         get_actions(sprite_action_list[self.sprite.stype]())
 
     # -------------------------------------------------------------------------
@@ -326,6 +326,97 @@ class SpriteActions:
 
         return Action(name, parameters, conditions, effects)
 
+###############################################################################
+# -----------------------------------------------------------------------------
+###############################################################################
+
+
+class SpritePredicates:
+    """ Returns different predicates depending of the sprite """
+
+    def __init__(self, sprite):
+        self.sprite = sprite
+
+        self.predicates = []
+        self.get_predicates()
+
+    # -------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
+
+    def get_predicates(self):
+        sprite_predicates_list = {
+            # Not clear what it does
+            # Missile that produces sprite at a specific ratio
+            "Bomber": [],
+
+            # Follows partner (or avatar ?) sprite
+            "Chaser": [],
+
+            # Missile that randomly changes direction
+            "ErraticMissile": [
+                "(" + self.sprite.name + "-moved ?x - " + self.sprite.stype + ")",
+                "(" + self.sprite.name + "-dead ?x - " + self.sprite.stype + ")",
+                "(turn-" + self.sprite.name + "-move)",
+                "(finished-turn-" + self.sprite.name + "-move)",
+            ],
+
+            # Try to make the greatest distance with the partner (or avatar) sprite
+            "Fleeing": [],
+
+            # Maybe not needed here
+            # sprite that dissapear after a moment
+            "Flicker": [],
+
+            # sprite that moves constantly in one direction
+            "Missile": [
+                "(" + self.sprite.name + "-moved ?x - " + self.sprite.stype + ")",
+                "(" + self.sprite.name + "-dead ?x - " + self.sprite.stype + ")",
+                "(turn-" + self.sprite.name + "-move)",
+                "(finished-turn-" + self.sprite.name + "-move)",
+            ],
+
+            # Maybe not needed here
+            # Oriented sprite that dissapear after a moment
+            "OrientedFlicker": [],
+                # [self.dissapear()],
+
+            # Acts like a Chaser but sometimes it makes a random move
+            # The same actions that Chaser, random moves don't need to be defined
+            "RandomAltChaser": [],
+
+            # Acts like a Bomber but randomly change direction
+            # The same actions that Bomber, random moves don't need to be defined
+            "RandomBomber": [],
+
+            # Acts like a Missile but randomly change direction
+            # The same actions that Missile, random moves don't need to be defined
+            "RandomMissile": [],
+
+            # Chooses randomly an action in each iteration
+            # We can't know wich action will he choose, probably this will be empty
+            # In case we want to add something, we should add each action of the NPC
+            "RandomNPC": [],
+
+            # Produces sprites following a specific ratio
+            "SpawnPoint": [],
+
+            # Expands in 4 directions if not occupied
+            "Spreader": [],
+
+            # Missile that if when it collides it change to a random direction
+            "Walker": [
+                "(" + self.sprite.name + "-moved ?x - " + self.sprite.stype + ")",
+                "(" + self.sprite.name + "-dead ?x - " + self.sprite.stype + ")",
+                "(turn-" + self.sprite.name + "-move)",
+                "(finished-turn-" + self.sprite.name + "-move)",
+            ],
+
+            # Not clear what it does
+            "WalkerJumper": []
+        }
+
+        self.predicates.extend[sprite_predicates_list(self.sprite.stype)]
+
 
 ###############################################################################
 # -----------------------------------------------------------------------------
@@ -345,85 +436,73 @@ class SpriteLevelPredicates:
     # -------------------------------------------------------------------------
 
     def get_level_predicates(self):
-        # Not clear what it does
-        # Missile that produces sprite at a specific ratio
-        "Bomber":
-            pass
+        sprite_level_predicates_list = {
+            # Not clear what it does
+            # Missile that produces sprite at a specific ratio
+            "Bomber": [],
 
-        # Follows partner (or avatar ?) sprite
-        "Chaser":
-            pass
+            # Follows partner (or avatar ?) sprite
+            "Chaser": [],
 
-        # Missile that randomly changes direction
-        "ErraticMissile":
-            self.level_predicates.append(self.get_orientation())
+            # Missile that randomly changes direction
+            "ErraticMissile": [self.get_orientation()],
 
-        # Try to make the greatest distance with the partner (or avatar) sprite
-        "Fleeing":
-            pass
+            # Try to make the greatest distance with the partner (or avatar) sprite
+            "Fleeing": [],
 
-        # Maybe not needed here
-        # sprite that dissapear after a moment
-        "Flicker":
-            pass
+            # Maybe not needed here
+            # sprite that dissapear after a moment
+            "Flicker": [],
 
-        # sprite that moves constantly in one direction
-        "Missile":
-            self.level_predicates.append(self.get_orientation())
+            # sprite that moves constantly in one direction
+            "Missile": [self.get_orientation()],
 
-        # Maybe not needed here
-        # Oriented sprite that dissapear after a moment
-        "OrientedFlicker":
-            # self.level_predicates.append(self.dissapear())
-            pass
+            # Maybe not needed here
+            # Oriented sprite that dissapear after a moment
+            "OrientedFlicker": [],
+                # [self.dissapear()],
 
-        # Acts like a Chaser but sometimes it makes a random move
-        "RandomAltChaser":
+            # Acts like a Chaser but sometimes it makes a random move
             # The same actions that Chaser, random moves don't need to be defined
-            pass
+            "RandomAltChaser": [],
 
-        # Acts like a Bomber but randomly change direction
-        "RandomBomber":
+            # Acts like a Bomber but randomly change direction
             # The same actions that Bomber, random moves don't need to be defined
-            pass
+            "RandomBomber": [],
 
-        # Acts like a Missile but randomly change direction
-        "RandomMissile":
+            # Acts like a Missile but randomly change direction
             # The same actions that Missile, random moves don't need to be defined
-            pass
+            "RandomMissile": [],
 
-        # Chooses randomly an action in each iteration
-        "RandomNPC":
+            # Chooses randomly an action in each iteration
             # We can't know wich action will he choose, probably this will be empty
             # In case we want to add something, we should add each action of the NPC
-            pass
+            "RandomNPC": [],
 
-        # Produces sprites following a specific ratio
-        "SpawnPoint":
-            pass
+            # Produces sprites following a specific ratio
+            "SpawnPoint": [],
 
-        # Expands in 4 directions if not occupied
-        "Spreader":
-            pass
+            # Expands in 4 directions if not occupied
+            "Spreader": [],
 
-        # Missile that if when it collides it change to a random direction
-        "Walker":
-            # If collides stop calculating until we know the new direction
-            self.level_predicates.append(self.get_orientation())
+            # Missile that if when it collides it change to a random direction
+            "Walker": [self.get_orientation()],
 
-        # Not clear what it does
-        "WalkerJumper":
-            pass
+            # Not clear what it does
+            "WalkerJumper": []
+        }
+
+        self.level_predicates.extend[sprite_level_predicates_list(self.sprite.stype)]
 
     # -------------------------------------------------------------------------
 
     def get_orientation(self) -> str:
-        orientation = [x for x in self.sprite.parameters if "orientation" in x]
+        orientation = [x for x in self.sprite.parameters if "oriented" in x]
 
         if len(orientation) > 1:
             orientation = orientation[0]
             orientation = orientation.split("=")[1]
 
-            return "(orientation-" + orientation.lower() + " ?o)"
+            return "(oriented-" + orientation.lower() + " ?o)"
         else:
-            return "(orientation-down ?o)"
+            return "(oriented-down ?o)"
