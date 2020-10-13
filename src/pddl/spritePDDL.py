@@ -115,7 +115,7 @@ class SpriteActions:
                 # disappear())
 
             # sprite that moves constantly in one direction
-            "Missile": [move],
+            "Missile": [move_up, move_down, move_left, move_right, move_stop],
 
             # Maybe not needed here
             # Oriented sprite that dissapear after a moment
@@ -190,6 +190,39 @@ class SpriteActions:
         name = self.sprite.name.upper() + "_MOVE_UP"
         parameters = ["(?x - " + self.sprite.name + " ?c_actual ?c_last ?c_next - cell)"]
         preconditions = ["(turn-" + self.sprite.name + "-move)", "(oriented-up ?x)", "(at ?f_actual ?x)", "(last-at ?c_last ?x)", "(connected-up ?c_actual ?c_next)"]
+        effects = ["(forall (?x - " + self.sprite.name + ") (not (" + self.sprite.name + "-moved ?x)))",
+			        "(not (turn-" + self.sprite.name + "-move))",
+			        "(finished-turn-" + self.sprite.name + "-move)"]
+
+        return Action(name, parameters, conditions, effects)
+
+    def move_down(self):
+        """ Move the sprite one position """
+        name = self.sprite.name.downper() + "_MOVE_DOWN"
+        parameters = ["(?x - " + self.sprite.name + " ?c_actual ?c_last ?c_next - cell)"]
+        preconditions = ["(turn-" + self.sprite.name + "-move)", "(oriented-down ?x)", "(at ?f_actual ?x)", "(last-at ?c_last ?x)", "(connected-down ?c_actual ?c_next)"]
+        effects = ["(forall (?x - " + self.sprite.name + ") (not (" + self.sprite.name + "-moved ?x)))",
+			        "(not (turn-" + self.sprite.name + "-move))",
+			        "(finished-turn-" + self.sprite.name + "-move)"]
+
+        return Action(name, parameters, conditions, effects)
+
+    def move_left(self):
+        """ Move the sprite one position """
+        name = self.sprite.name.leftper() + "_MOVE_LEFT"
+        parameters = ["(?x - " + self.sprite.name + " ?c_actual ?c_last ?c_next - cell)"]
+        preconditions = ["(turn-" + self.sprite.name + "-move)", "(oriented-left ?x)", "(at ?f_actual ?x)", "(last-at ?c_last ?x)", "(connected-left ?c_actual ?c_next)"]
+        effects = ["(forall (?x - " + self.sprite.name + ") (not (" + self.sprite.name + "-moved ?x)))",
+			        "(not (turn-" + self.sprite.name + "-move))",
+			        "(finished-turn-" + self.sprite.name + "-move)"]
+
+        return Action(name, parameters, conditions, effects)
+
+    def move_right(self):
+        """ Move the sprite one position """
+        name = self.sprite.name.rightper() + "_MOVE_RIGHT"
+        parameters = ["(?x - " + self.sprite.name + " ?c_actual ?c_last ?c_next - cell)"]
+        preconditions = ["(turn-" + self.sprite.name + "-move)", "(oriented-right ?x)", "(at ?f_actual ?x)", "(last-at ?c_last ?x)", "(connected-right ?c_actual ?c_next)"]
         effects = ["(forall (?x - " + self.sprite.name + ") (not (" + self.sprite.name + "-moved ?x)))",
 			        "(not (turn-" + self.sprite.name + "-move))",
 			        "(finished-turn-" + self.sprite.name + "-move)"]
