@@ -109,7 +109,7 @@ class InteractionActions:
 
             # Sprite tries to move in the opposite direction of partner
             "bounceForward":
-                [self.bounceForward],
+                [self.bounceForward_up, self.bounceForward_down, self.bounceForward_left, self.bounceForward_right],
 
             # Change resource (sprite) in the object (partner) to a given
             "changeResource":
@@ -241,8 +241,9 @@ class InteractionActions:
                 [self.turnAround],
 
             # Undo movement of every object in the game
-            "undoAll":
-                [self.undoAll],
+            # FOR NOW, NOTHING
+            "undoAll": [],
+                # [self.undoAll],
 
             # [GVGAI] Changes the "spawn type" to SpawnPoint
             "updateSpawnType":
@@ -353,53 +354,122 @@ class InteractionActions:
 
     # -------------------------------------------------------------------------
 
-    def bounceForward(self):
+    def bounceForward_up(self):
         """ Move in the same direction of partner """
         name = (
             self.sprite.name.upper()
             + "_"
             + self.partner.name.upper()
-            + "_BOUNCEFORWARD"
+            + "_BOUNCEFORWARD_UP"
         )
-        parameters = [["x", self.sprite.name], ["y", self.partner.name], ["c_actual", "cell"]]
+        parameters = [["x", self.sprite.name], ["y", self.partner.name], ["c_actual", "cell"], ["c_up", "cell"], ["c_last", "cell"]]
         preconditions = [
-            "(= (coordinate_x ?x) (coordinate_x ?y))",
-            "(= (coordinate_y ?x) (coordinate_y ?y))",
+            "(turn-interactions)",
+            "(not (= ?x ?y))",
+
+            "(oriented-up ?y)",
+
+            "(at ?c_actual ?x)",
+            "(at ?c_actual ?y)",
+            "(last-at ?c_last ?x)",
+
+            "(connected-up ?c_actual ?c_up)"
         ]
         effects = [
-            """
-                        (when
-                            (orientation-up ?y)
+            "(at ?c_up ?x)",
+            "(not (at ?c_actual ?x))",
+            "(not (at ?c_last ?x))",
+            "(last-at ?c_actual ?x)"
+        ]
 
-                            (and
-                                (assign (last_coordinate_y ?x) (coordinate_y ?x))
-                                (decrease (coordinate_y ?x) 1)
-                            )
-                        )
-                        (when
-                            (orientation-down ?y)
+        return Action(name, parameters, preconditions, effects)
 
-                            (and
-                                (assign (last_coordinate_y ?x) (coordinate_y ?x))
-                                (increase (coordinate_y ?x) 1)
-                            )
-                        )
-                        (when
-                            (orientation-left ?y)
+    def bounceForward_down(self):
+        """ Move in the same direction of partner """
+        name = (
+            self.sprite.name.upper()
+            + "_"
+            + self.partner.name.upper()
+            + "_BOUNCEFORWARD_DOWN"
+        )
+        parameters = [["x", self.sprite.name], ["y", self.partner.name], ["c_actual", "cell"], ["c_down", "cell"], ["c_last", "cell"]]
+        preconditions = [
+            "(turn-interactions)",
+            "(not (= ?x ?y))",
 
-                            (and
-                                (assign (last_coordinate_x ?x) (coordinate_x ?x))
-                                (decrease (coordinate_x ?x) 1)
-                            )
-                        )
-                        (when
-                            (orientation-right ?y)
+            "(oriented-down ?y)",
 
-                            (and
-                                (assign (last_coordinate_x ?x) (coordinate_x ?x))
-                                (increase (coordinate_x ?x) 1)
-                            )
-                        )"""
+            "(at ?c_actual ?x)",
+            "(at ?c_actual ?y)",
+            "(last-at ?c_last ?x)",
+
+            "(connected-down ?c_actual ?c_down)"
+        ]
+        effects = [
+            "(at ?c_down ?x)",
+            "(not (at ?c_actual ?x))",
+            "(not (at ?c_last ?x))",
+            "(last-at ?c_actual ?x)"
+        ]
+
+        return Action(name, parameters, preconditions, effects)
+
+    def bounceForward_left(self):
+        """ Move in the same direction of partner """
+        name = (
+            self.sprite.name.upper()
+            + "_"
+            + self.partner.name.upper()
+            + "_BOUNCEFORWARD_LEFT"
+        )
+        parameters = [["x", self.sprite.name], ["y", self.partner.name], ["c_actual", "cell"], ["c_left", "cell"], ["c_last", "cell"]]
+        preconditions = [
+            "(turn-interactions)",
+            "(not (= ?x ?y))",
+
+            "(oriented-left ?y)",
+
+            "(at ?c_actual ?x)",
+            "(at ?c_actual ?y)",
+            "(last-at ?c_last ?x)",
+
+            "(connected-left ?c_actual ?c_left)"
+        ]
+        effects = [
+            "(at ?c_left ?x)",
+            "(not (at ?c_actual ?x))",
+            "(not (at ?c_last ?x))",
+            "(last-at ?c_actual ?x)"
+        ]
+
+        return Action(name, parameters, preconditions, effects)
+
+    def bounceForward_right(self):
+        """ Move in the same direction of partner """
+        name = (
+            self.sprite.name.upper()
+            + "_"
+            + self.partner.name.upper()
+            + "_BOUNCEFORWARD_RIGHT"
+        )
+        parameters = [["x", self.sprite.name], ["y", self.partner.name], ["c_actual", "cell"], ["c_right", "cell"], ["c_last", "cell"]]
+        preconditions = [
+            "(turn-interactions)",
+            "(not (= ?x ?y))",
+
+            "(oriented-right ?y)",
+
+            "(at ?c_actual ?x)",
+            "(at ?c_actual ?y)",
+            "(last-at ?c_last ?x)",
+
+            "(connected-right ?c_actual ?c_right)"
+        ]
+        effects = [
+            "(at ?c_right ?x)",
+            "(not (at ?c_actual ?x))",
+            "(not (at ?c_last ?x))",
+            "(last-at ?c_actual ?x)"
         ]
 
         return Action(name, parameters, preconditions, effects)
@@ -703,7 +773,7 @@ class InteractionActions:
         # partner.stype or partner.name ?
         parameters = [["x", self.sprite.name], ["y", self.partner.name], ["c_actual", "cell"]] 
         preconditions = [
-            "(turn-evaluate-interactions)",
+            "(turn-interactions)",
             "(not (= ?x ?y))",
 
             "(at ?c_actual ?x)",
@@ -835,17 +905,20 @@ class InteractionActions:
 
     # -------------------------------------------------------------------------
 
-    # Finished
     def stepBack(self):
         name = self.sprite.name.upper() + "_" + self.partner.name.upper() + "_STEPBACK"
-        parameters = [["x", self.sprite.name], ["y", self.partner.name], ["c_actual", "cell"]]
+        parameters = [["x", self.sprite.name], ["y", self.partner.name], ["c_actual", "cell"], ["c_last", "cell"]]
         preconditions = [
-            "(= (coordinate_x ?x) (coordinate_x ?y))",
-            "(= (coordinate_y ?x) (coordinate_y ?y))",
+            "(turn-interactions)",
+            "(not (= ?x ?y))",
+
+            "(at ?c_actual ?x)",
+            "(at ?c_actual ?y)",
+            "(last-at ?c_last ?x)"
         ]
         effects = [
-            "(assign (coordinate_x ?x) (last_coordinate_x ?x))",
-            "(assign (coordinate_y ?x) (last_coordinate_y ?x))",
+            "(not (at ?c_actual ?x))",
+            "(at ?c_last ?x)"
         ]
 
         return Action(name, parameters, preconditions, effects)

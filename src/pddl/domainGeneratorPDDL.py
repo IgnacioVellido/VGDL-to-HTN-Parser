@@ -161,6 +161,9 @@ class DomainGeneratorPDDL:
         stypes = []
         names = []
 
+        # CELL OBJECT
+        self.types.append(["Immovable", "cell"])
+
         for sprite in self.sprites:
             names.append(sprite.name)
             self.stypes.add(sprite.name)
