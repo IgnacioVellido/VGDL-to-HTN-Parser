@@ -19,15 +19,13 @@ class SpritePDDL:
         self.hierarchy = hierarchy
         self.partner = partner
 
-        self.tasks = []
-        self.methods = []
+        self.tasks = []     # Empty
+        self.methods = []   # Empty
         self.actions = []
         self.predicates = []
         self.level_predicates = []
 
         self.get_actions()
-        self.get_methods()
-        self.get_tasks()
         self.get_predicates()
         self.get_level_predicates()
 
@@ -42,34 +40,10 @@ class SpritePDDL:
     def get_level_predicates(self) -> list:
         self.level_predicates = SpriteLevelPredicates(self.sprite).level_predicates
 
-    # --------------------------------------------------------------------------
-
-    def get_methods(self) -> list:
-        for action in self.actions:
-            name = action.name.upper()
-            prepreconditions = []
-
-            # Getting the parameters (only the name, not the type)
-            parameters = ""
-            for p in action.parameters:
-                parameters += " ?" + p[0]
-
-            m_action = "(" + action.name + parameters + ")"
-
-            m = Method(name, preconditions, [m_action])
-
-            self.methods.append(m)
-
     # -------------------------------------------------------------------------
 
     def get_predicates(self) -> list:
-        pass
-
-    # -------------------------------------------------------------------------
-
-    def get_tasks(self) -> list:
-        pass
-
+        self.predicates = SpritePredicates(self.sprite).predicates
 
 ###############################################################################
 # -----------------------------------------------------------------------------
@@ -355,7 +329,7 @@ class SpritePredicates:
             # Missile that randomly changes direction
             "ErraticMissile": [
                 "(" + self.sprite.name + "-moved ?x - " + self.sprite.stype + ")",
-                "(" + self.sprite.name + "-dead ?x - " + self.sprite.stype + ")",
+                # "(" + self.sprite.name + "-dead ?x - " + self.sprite.stype + ")",
                 "(turn-" + self.sprite.name + "-move)",
                 "(finished-turn-" + self.sprite.name + "-move)",
             ],
@@ -370,7 +344,7 @@ class SpritePredicates:
             # sprite that moves constantly in one direction
             "Missile": [
                 "(" + self.sprite.name + "-moved ?x - " + self.sprite.stype + ")",
-                "(" + self.sprite.name + "-dead ?x - " + self.sprite.stype + ")",
+                # "(" + self.sprite.name + "-dead ?x - " + self.sprite.stype + ")",
                 "(turn-" + self.sprite.name + "-move)",
                 "(finished-turn-" + self.sprite.name + "-move)",
             ],
@@ -406,7 +380,7 @@ class SpritePredicates:
             # Missile that if when it collides it change to a random direction
             "Walker": [
                 "(" + self.sprite.name + "-moved ?x - " + self.sprite.stype + ")",
-                "(" + self.sprite.name + "-dead ?x - " + self.sprite.stype + ")",
+                # "(" + self.sprite.name + "-dead ?x - " + self.sprite.stype + ")",
                 "(turn-" + self.sprite.name + "-move)",
                 "(finished-turn-" + self.sprite.name + "-move)",
             ],

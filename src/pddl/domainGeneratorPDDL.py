@@ -37,10 +37,10 @@ class DomainGeneratorPDDL:
 
         # String arrays
         self.types = []
-        self.constants = []
+        self.constants = []     # Empty
         self.predicates = []
-        self.functions = []
-        self.tasks = []
+        self.functions = []     # Empty
+        self.tasks = []         # Empty
         self.actions = []
 
         # For the level parser
@@ -56,10 +56,9 @@ class DomainGeneratorPDDL:
         self.spritesPDDL = []
 
         self.assign_types()
-        self.assign_constants()
+        # self.assign_constants()
         self.assign_predicates()
-        self.assign_functions()
-        self.assign_tasks()
+        # self.assign_functions()
         self.assign_actions()
 
     # -------------------------------------------------------------------------
@@ -245,139 +244,104 @@ class DomainGeneratorPDDL:
 
     def assign_predicates(self):
         """ Depends of the avatar - Probably more needed to undo operations """
-        self.predicates.append("(orientation-up ?o - Object)")
-        self.predicates.append("(orientation-down ?o - Object)")
-        self.predicates.append("(orientation-left ?o - Object)")
-        self.predicates.append("(orientation-right ?o - Object)")
+        self.predicates.extend(
+            ["(oriented-up ?o - Object)",
+                "(oriented-down ?o - Object)",
+                "(oriented-left ?o - Object)",
+                "(oriented-right ?o - Object)"]
+        )
 
         avatar = self.avatarPDDL.predicates
         self.predicates.extend(avatar)
 
-        self.predicates.append("(evaluate-interaction ?o1 ?o2 - Object)")
-        self.predicates.append("(regenerate-interaction ?o1 ?o2 - Object)")
+        for spPDDL in spritesPDDL:
+            sprite = spPDDL.predicates
+            self.predicates.extend(sprite)
+
+        self.predicates.extend(
+            ["(evaluate-interaction ?o1 ?o2 - Object)",
+                "(regenerate-interaction ?o1 ?o2 - Object)"]
+        )
+
+        # PDDL specific
+        self.predicates.extend(
+            ["; To maintain order",
+            "(turn-avatar)",
+            "(turn-sprites)",
+            "(turn-interactions)",
+
+            "; For tile connections",
+            "(connected-up ?c1 ?c2 - cell)",
+            "(connected-down ?c1 ?c2 - cell)",
+            "(connected-right ?c1 ?c2 - cell)",
+            "(connected-left ?c1 ?c2 - cell)",
+
+            "(at ?c - cell ?o - Object)",
+            "(last-at ?c - cell ?o - Object)",
+
+            "(object-dead ?o - Object)"]
+        )
 
     # -------------------------------------------------------------------------
 
     def assign_functions(self):
-        """ One for each coordinate; one counter for each type of object in the game 
-        and one counter for each resource """
-        self.functions.append("(coordinate_x ?o - Object)")
-        self.functions.append("(coordinate_y ?o - Object)")
-        self.functions.append("(last_coordinate_x ?o - Object)")
-        self.functions.append("(last_coordinate_y ?o - Object)")
-
-        for sprite in self.types:
-            # If resource, add an special counter for the avatar
-            if sprite[0] is not None and "Resource" in sprite[0]:
-                self.functions.append(
-                    "(resource_" + sprite[1] + " ?a - " + self.avatar.name + ")"
-                )
-
-        for t in self.hierarchy:
-            if t is not "":
-                self.functions.append("(counter_" + t + ")")
-
-        self.functions.append("(turn)")
-
-    # -------------------------------------------------------------------------
-
-    def assign_tasks(self):
-        # Main task ------------------------------------------------------------
-        finish = Method(
-            "finish_game", ["(= (turn) 1)"], []
-        )  # UNFINISHED PRECONDITIONS
-        if self.partner is not None:
-            turn = Method(
-                "turn",
-                [],
-                [
-                    "(turn_avatar ?a - "
-                    + self.avatar.stype
-                    + " ?p - "
-                    + self.partner.name
-                    + ")",
-                    "(turn_objects)",
-                    "(check-interactions)",
-                    "(create-interactions)",
-                    "(:inline () (increase (turn) 1))",
-                    "(Turn)",
-                ],
-            )
-        else:
-            turn = Method(
-                "turn",
-                [],
-                [
-                    "(turn_avatar ?a - " + self.avatar.stype + ")",
-                    "(turn_objects)",
-                    "(check-interactions)",
-                    "(create-interactions)",
-                    "(:inline () (increase (turn) 1))",
-                    "(Turn)",
-                ],
-            )
-        # undone = Method("turn_undone", [], ["(Turn)"])  # UNFINISHED TASKS
-
-        turn_task = Task("Turn", [], [finish, turn])
-        self.tasks.append(turn_task)
-
-        # Avatar turn ---------------------------------------------------------
-        self.tasks.append(self.avatarPDDL.task)
-
-        # Rest of objects turn ------------------------------------------------
-        object_tasks = []
-
-        for obj in self.sprites:
-            partner = self.find_partner(obj)
-            spritePDDL = SpritePDDL(obj, self.hierarchy, partner)
-            methods = spritePDDL.methods
-            self.spritesPDDL.append(spritePDDL)
-
-            for met in methods:
-                object_tasks.extend(met.task_predicates)
-
-        turn = Method("turn", [], object_tasks)
-        task_object = Task("turn_objects", [], [turn])
-
-        self.tasks.append(task_object)
-
-        # Create interactions -------------------------------------------------
-        create_interaction_methods = []
-        create_interaction_methods.append(
-            Method(
-                "create",
-                ["(not (evaluate-interaction ?o1 - Object ?o2 - Object))"],
-                ["(:inline () (evaluate-interaction ?o1 ?o2))"],
-            )
-        )
-
-        create_interaction_methods.append(Method("base_case", [], []))  # Base case
-        create_interac = Task("create-interactions", [], create_interaction_methods)
-
-        self.tasks.append(create_interac)
-
-        # Check interactions --------------------------------------------------
-        object_interac = []
-        object_methods = []
-
-        for interaction in self.interactions:
-            sprite = self.find_sprite_by_name(interaction.sprite_name)
-            partner = self.find_sprite_by_name(interaction.partner_name)
-            object_methods.extend(
-                InteractionMethods(interaction, sprite, partner, self.hierarchy).methods
-            )
-
-        base = Method("base_case", [], [])
-        object_methods.append(base)
-
-        check_interac = Task("check-interactions", [], object_methods)
-
-        self.tasks.append(check_interac)
+        pass
 
     # -------------------------------------------------------------------------
 
     def assign_actions(self):
         """ Calls the different actions generators """
+
+        # PDDL specific actions
+        end_turn_interactions = Action(
+            "END-TURN-INTERACTIONS", # Name
+            [], # Parameters
+            ["(turn-interactions)", 
+            """(not 
+				(exists (?x - Object ?y - Object ?c - cell) 
+					(and
+						(not (= ?x ?y))
+						(at ?c ?x)
+						(at ?c ?y)
+					)
+				)
+			)"""], # Preconditions
+            ["; Restart turn",
+            "(turn-avatar)",
+            "(not (turn-sprites))",
+			"(not (turn-interactions))"], # Effects
+        )
+        self.actions.append(end_turn_interactions)
+
+
+        predicates = []
+        for sp in self.spritesPDDL:
+            predicates.extend(sp.predicates)
+
+        # Get the sprites predicates (turn-...)
+        turn_predicates = [p for p in predicates if "(turn-" in p]
+
+        # Get the sprites predicates (finished-turn-...)
+        finished_predicates = [p for p in predicates if "(finished-turn-" in p]
+
+        # Negate them and append last predicate
+        negated_finished_predicates = ["(not " +  p + ")" for p in finished_predicates]
+        negated_finished_predicates.append("(turn-interactions)")
+
+        self.actions.append(Action(
+            "TURN-SPRITES",
+            [],
+            ["(turn-sprites)"],
+            turn_predicates
+        )
+
+        self.actions.append(Action(
+            "END-TURN-SPRITES",
+            [],
+            finished_predicates,
+            negated_finished_predicates
+        )
+
 
         # Getting specific avatar actions
         avatar_actions = self.avatarPDDL.actions
