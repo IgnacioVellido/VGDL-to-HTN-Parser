@@ -155,7 +155,10 @@ def main(argv):
     argparser = argparse.ArgumentParser(
         epilog=GetHelp(),
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        description="Python parser that transform a VGDL game/level description into a HPDL domain/problem",
+        description="Python parser that transform a VGDL game/level description into a PDDL/HPDL domain/problem",
+    )
+    argparser.add_argument(
+        "-l", "--language", choices=['pddl', 'hpdl'], action="store_true", help="Select output planning language"
     )
     argparser.add_argument(
         "-gi", "--gameInput", required=True, help="Input VGDL game file"
@@ -217,9 +220,14 @@ def main(argv):
     avatar = listener.avatar
 
     # Getting the domain
-    domainGenerator = DomainGeneratorHPDL(
-        sprites, interactions, terminations, mappings, hierarchy, avatar
-    )
+    if args.language == "hpdl":
+        domainGenerator = DomainGeneratorHPDL(
+            sprites, interactions, terminations, mappings, hierarchy, avatar
+        )
+    else if args.language == "pddl":
+        domainGenerator = DomainGeneratorPDDL(
+            sprites, interactions, terminations, mappings, hierarchy, avatar
+        )
 
     types = domainGenerator.types
     constants = domainGenerator.constants
@@ -230,7 +238,11 @@ def main(argv):
 
     # ----------------------------------------------------------------------
 
-    writer = DomainWriterHPDL(types, constants, functions, predicates, tasks, actions)
+    if args.language == "hpdl":
+        writer = DomainWriterHPDL(types, constants, functions, predicates, tasks, actions)
+    else if args.language == "pddl":
+        writer = DomainWriterPDDL(types, constants, functions, predicates, tasks, actions)
+
     text_domain = writer.get_domain()
 
     # ----------------------------------------------------------------------
@@ -261,23 +273,40 @@ def main(argv):
         # Parsing level
 
         level = read_file(args.levelInput)
-        problemGenerator = ProblemGeneratorHPDL(
-            level,
-            short_types,
-            long_types,
-            transformTo,
-            hierarchy,
-            stypes,
-            sprites,
-            avatarHPDL,
-            spritesHPDL,
-        )
+
+        if args.language == "hpdl":
+            problemGenerator = ProblemGeneratorHPDL(
+                level,
+                short_types,
+                long_types,
+                transformTo,
+                hierarchy,
+                stypes,
+                sprites,
+                avatarHPDL,
+                spritesHPDL,
+            )
+        else if args.language == "pddl":
+            problemGenerator = ProblemGeneratorPDDL(
+                level,
+                short_types,
+                long_types,
+                transformTo,
+                hierarchy,
+                stypes,
+                sprites,
+                avatarHPDL,
+                spritesHPDL,
+            )
 
         objects = problemGenerator.objects
         init = problemGenerator.init
         goals = problemGenerator.goals
 
-        writer = ProblemWriterHPDL(objects, init, goals)
+        if args.language == "hpdl":
+            writer = ProblemWriterHPDL(objects, init, goals)
+        else if args.language == "pddl":
+            writer = ProblemWriterPDDL(objects, init, goals)
         text_problem = writer.get_problem()
 
         # ----------------------------------------------------------------------
