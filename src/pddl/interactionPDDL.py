@@ -100,8 +100,8 @@ class InteractionActions:
                 [self.align],
 
             # Randomly changesdirection of partner
-            "attractGaze":
-                [self.attractGaze],
+            "attractGaze": [],
+                # [self.attractGaze],
 
             # Not sure what it does, seems like the center of the object decides the direction
             "bounceDirection":
@@ -970,48 +970,54 @@ class InteractionActions:
 
     # -------------------------------------------------------------------------
 
-    # UNFINISHED
+    # Maintain orientation of the partner object
     def transformTo(self):
         # Find object to tranform
-        # third_sprite =
+        parameters = [p for p in self.interaction.parameters if "stype=" in p]
+        resulting_sprite = parameters[0].replace("stype=",'')
 
         name = (
             self.sprite.name.upper() + "_" + self.partner.name.upper() + "_TRANSFORMTO"
         )
-        # + self.third_sprite_type.upper() FIND TYPE IN PARAMETERS OF ACTION
         parameters = [
             ["x", self.sprite.name],
             ["y", self.partner.stype],
-        ]  # , ["z", third_sprite_type]]
+            ["z", resulting_sprite],
+            ["c_actual", "cell"]
+        ]
         preconditions = [
-            "(= (coordinate_x ?x) (coordinate_x ?y))",
-            "(= (coordinate_y ?x) (coordinate_y ?y))",
+            "(turn-interactions)",
+            "(not (= ?x ?y))",
+            "(at ?c_actual ?x)",
+            "(at ?c_actual ?y)",
+            "(object-dead ?z)"
         ]
 
         effects = [
-            "(assign (last_coordinate_x ?x) (coordinate_x ?x))",
-            "(assign (last_coordinate_y ?x) (coordinate_y ?x))",
-            "(assign (last_coordinate_x ?y) (coordinate_x ?y))",
-            "(assign (coordinate_x ?x) -1)",
-            "(assign (coordinate_y ?x) -1)",
-            "(assign (coordinate_x ?y) -1)",
-            "(assign (coordinate_y ?y) -1)",
-            "(decrease (counter_" + self.sprite.stype + ") 1)",
-            "(decrease (counter_" + self.partner.stype + ") 1)",
-            # Last coordinate is -1, no need to assign (is non-existen object)
-            "(assign (coordinate_x ?z) (last_coordinate_x ?x))",
-            "(assign (coordinate_y ?z) (last_coordinate_y ?x))"
-            #    "(increase (counter_" + third_sprite_type + ") 1)"
+            "(not (at ?c_actual ?x))",
+            # "(not (at ?c_actual ?y))",
+            "(object-dead ?x)",
+            # "(object-dead ?y)",
+            "(at ?c_actual ?z)",
+            "(not (object-dead ?z))",
+            """(when
+                        (oriented-up ?y)
+                        (oriented-up ?z)
+                    )
+                    (when
+                        (oriented-down ?y)
+                        (oriented-down ?z)
+                    )
+                    (when
+                        (oriented-left ?y)
+                        (oriented-left ?z)
+                    )
+                    (when
+                        (oriented-right ?y)
+                        (oriented-right ?z)
+                    )
+            """
         ]
-
-        for parent in self.hierarchy[self.sprite.stype]:
-            effects.append("(decrease (counter_" + parent + ") 1)")
-
-        for parent in self.hierarchy[self.partner.stype]:
-            effects.append("(decrease (counter_" + parent + ") 1)")
-
-        # for parent in self.hierarchy[self.third_sprite_type]:
-        #     effects.append("(increase (counter_" + parent + ") 1)")
 
         return Action(name, parameters, preconditions, effects)
 
