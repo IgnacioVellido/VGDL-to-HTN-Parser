@@ -346,6 +346,7 @@ class DomainGeneratorPDDL:
 
         # Get the sprites predicates (turn-...)
         turn_predicates = [p for p in spPredicates if "(turn-" in p]
+        turn_predicates.append("(not (turn-sprites))")
 
         # Get the sprites predicates (finished-turn-...)
         finished_predicates = [p for p in spPredicates if "(finished-turn-" in p]

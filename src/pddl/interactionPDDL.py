@@ -999,6 +999,7 @@ class InteractionActions:
             "(object-dead ?x)",
             # "(object-dead ?y)",
             "(at ?c_actual ?z)",
+            "(last-at ?c_actual ?z)",
             "(not (object-dead ?z))",
             """(when
                         (oriented-up ?y)
