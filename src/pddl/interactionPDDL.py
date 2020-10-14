@@ -611,27 +611,18 @@ class InteractionActions:
         name = self.sprite.name.upper() + "_" + self.partner.name.upper() + "_KILLBOTH"
         parameters = [["x", self.sprite.name], ["y", self.partner.name], ["c_actual", "cell"]]
         preconditions = [
-            "(= (coordinate_x ?x) (coordinate_x ?y))",
-            "(= (coordinate_y ?x) (coordinate_y ?y))",
+            "(turn-interactions)",
+            "(not (= ?x ?y))",
+
+            "(at ?c_actual ?x)",
+            "(at ?c_actual ?y)"
         ]
         effects = [
-            "(assign (last_coordinate_x ?x) (coordinate_x ?x))",
-            "(assign (last_coordinate_y ?x) (coordinate_y ?x))",
-            "(assign (last_coordinate_x ?y) (coordinate_x ?y))",
-            "(assign (coordinate_x ?x) -1)",
-            "(assign (coordinate_y ?x) -1)",
-            "(assign (coordinate_x ?y) -1)",
-            "(assign (coordinate_y ?y) -1)",
-            "(decrease (counter_" + self.sprite.stype + ") 1)",
-            "(decrease (counter_" + self.partner.stype + ") 1)",
+            "(not (at ?c_actual ?x))",
+            "(not (at ?c_actual ?y))",
+            "(object-dead ?x)",
+            "(object-dead ?y)"
         ]
-
-        for parent in self.hierarchy[self.sprite.stype]:
-            effects.append("(decrease (counter_" + parent + ") 1)")
-
-        if not "Stype" in self.partner.stype:
-            for parent in self.hierarchy[self.partner.stype]:
-                effects.append("(decrease (counter_" + parent + ") 1)")
 
         return Action(name, parameters, preconditions, effects)
 

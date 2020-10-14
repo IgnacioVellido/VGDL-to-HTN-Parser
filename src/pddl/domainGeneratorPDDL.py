@@ -53,7 +53,12 @@ class DomainGeneratorPDDL:
 
         self.search_partner()
         self.avatarPDDL = AvatarPDDL(self.avatar, self.hierarchy, self.partner)
+
+        # Assign spritesPDDL
         self.spritesPDDL = []
+        for obj in self.sprites:
+            partner = self.find_partner(obj)
+            self.spritesPDDL.append(SpritePDDL(obj, self.hierarchy, partner))
 
         self.assign_types()
         # self.assign_constants()
@@ -261,11 +266,6 @@ class DomainGeneratorPDDL:
             sprite = spPDDL.predicates
             self.predicates.extend(sprite)
 
-        self.predicates.extend(
-            ["(evaluate-interaction ?o1 ?o2 - Object)",
-                "(regenerate-interaction ?o1 ?o2 - Object)"]
-        )
-
         # PDDL specific
         self.predicates.extend(
             ["; To maintain order",
@@ -316,16 +316,39 @@ class DomainGeneratorPDDL:
         )
         self.actions.append(end_turn_interactions)
 
+        # Getting specific avatar actions
+        avatar_actions = self.avatarPDDL.actions
+        self.actions.extend(avatar_actions)
 
-        predicates = []
+        # And one for each deterministic movable object
+        for obj in self.spritesPDDL:
+            actions = obj.actions
+
+            if actions:
+                self.actions.extend(actions)
+
+        # And one for each interaction
+        for interaction in self.interactions:
+            sprite = self.find_sprite_by_name(interaction.sprite_name)
+            partner = self.find_sprite_by_name(interaction.partner_name)
+            self.actions.extend(
+                InteractionActions(interaction, sprite, partner, self.hierarchy).actions
+            )
+
+
+        # --------------------------------------------
+        # Turn-sprites and end-turn-sprites actions
+        # --------------------------------------------
+
+        spPredicates = []
         for sp in self.spritesPDDL:
-            predicates.extend(sp.predicates)
+            spPredicates.extend(sp.predicates)
 
         # Get the sprites predicates (turn-...)
-        turn_predicates = [p for p in predicates if "(turn-" in p]
+        turn_predicates = [p for p in spPredicates if "(turn-" in p]
 
         # Get the sprites predicates (finished-turn-...)
-        finished_predicates = [p for p in predicates if "(finished-turn-" in p]
+        finished_predicates = [p for p in spPredicates if "(finished-turn-" in p]
 
         # Negate them and append last predicate
         negated_finished_predicates = ["(not " +  p + ")" for p in finished_predicates]
@@ -345,25 +368,5 @@ class DomainGeneratorPDDL:
             negated_finished_predicates
         ))
 
-
-        # Getting specific avatar actions
-        avatar_actions = self.avatarPDDL.actions
-        self.actions.extend(avatar_actions)
-
-        # And one for each deterministic movable object
-        for obj in self.sprites:
-            partner = self.find_partner(obj)
-            actions = SpritePDDL(obj, self.hierarchy, partner).actions
-
-            if actions:
-                self.actions.extend(actions)
-
-        # And one for each interaction
-        for interaction in self.interactions:
-            sprite = self.find_sprite_by_name(interaction.sprite_name)
-            partner = self.find_sprite_by_name(interaction.partner_name)
-            self.actions.extend(
-                InteractionActions(interaction, sprite, partner, self.hierarchy).actions
-            )
 
     # -------------------------------------------------------------------------
