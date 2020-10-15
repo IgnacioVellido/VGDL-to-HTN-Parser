@@ -90,9 +90,10 @@ public class Test {
 		// Brainman: 12
 		// Sokoban 87
 
-		// int gameIdx = 0;
-		// int levelIdx = 2; // level names from 0 to 4 (game_lvlN.txt).
-		parseGameData();
+		 int gameIdx = 13;
+		 int levelIdx = 2; // level names from 0 to 4 (game_lvlN.txt).
+		// REPLANNING
+//		parseGameData();
 
 		String gameName = games[gameIdx][1];
 		String game = games[gameIdx][0];
@@ -104,7 +105,8 @@ public class Test {
 						// where to record the actions
 						// executed. null if not to save.
 
-		boolean human = false;
+//		boolean human = false;
+		boolean human = true;
 		if (human)
 			ArcadeMachine.playOneGame(game, level1, recordActionsFile, seed);
 		else

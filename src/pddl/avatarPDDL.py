@@ -413,18 +413,24 @@ class AvatarPredicates:
 
     def get_predicates(self):
         """ Return a list of predicates depending of the avatar """
+        # To avoid errors in dict
+        if not self.partner:
+            partner_name = ""
+        else:
+            partner_name = self.partner.name
+
 
         # Dict with the predicates needed for each avatar
         avatar_predicates_list = {
             # Can't move but can use object
-            # "AimedAvatar" : ["(can-use ?a - AimedAvatar ?p - " + self.partner.name + ")",
+            "AimedAvatar" : ["(can-use ?a - AimedAvatar ?p - " + partner_name + ")"],
             #                  "(can-change-orientation ?a - AimedAvatar)"],
 
             # This avatar should have ammo !!!!!!!!!!
             # Always same orientation, can move horizontally and use object  
-            # "FlakAvatar"  : ["(can-move-left ?a - FlakAvatar)",
-            #                 "(can-move-right ?a - FlakAvatar)",
-            #                 "(can-use ?a - FlakAvatar ?p - " + self.partner.name + ")"],
+            "FlakAvatar"  : ["(can-move-left ?a - FlakAvatar)",
+                            "(can-move-right ?a - FlakAvatar)",
+                            "(can-use ?a - FlakAvatar ?p - " + partner_name + ")"],
 
             # Always same orientation, can only move left or right
             "HorizontalAvatar": ["(can-move-left ?a - HorizontalAvatar)",
@@ -450,7 +456,7 @@ class AvatarPredicates:
                             "(can-move-left ?a - ShootAvatar)",
                             "(can-move-right ?a - ShootAvatar)",
                             # "(can-change-orientation ?a - ShootAvatar)"
-                            "(can-use ?a - ShootAvatar ?p - " + self.partner.name + ")"],
+                            "(can-use ?a - ShootAvatar ?p - " + partner_name + ")"],
 
             # Always same orientation, can only move up or down
             "VerticalAvatar" : ["(can-move-up ?a - VerticalAvatar)",

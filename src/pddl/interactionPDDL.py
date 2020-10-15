@@ -155,10 +155,9 @@ class InteractionActions:
             "killIfHasMore":
                 [self.killIfHasMore],
 
-            # Not found in the GVGAI files
             # If sprite has less resource than parameter (limit), kill it
-            # "killIfHasLess":
-            # pass
+            "killIfHasLess":
+                [self.killIfHasLess],
 
             # Kill sprite if speed is higher than the given
             "killIfFast":
@@ -495,16 +494,32 @@ class InteractionActions:
 
     # -------------------------------------------------------------------------
 
+    # Clone sprite (partner dies by another interaction, carefull)
     def cloneSprite(self):
         name = (
             self.sprite.name.upper() + "_" + self.partner.name.upper() + "_CLONESPRITE"
         )
-        parameters = [["x", self.sprite.name], ["y", self.partner.name], ["c_actual", "cell"]]
+        # parameters = [["x", self.sprite.name], ["y", self.partner.name], ["c_actual", "cell"], ["z", self.sprite.name]]
+        parameters = [["x", self.sprite.name], ["y", self.partner.name], ["c_actual", "cell"], ["z", self.sprite.name], ["c_last", "cell"]]
         preconditions = [
-            "(= (coordinate_x ?x) (coordinate_x ?y))",
-            "(= (coordinate_y ?x) (coordinate_y ?y))",
+            "(turn-interactions)",
+            "(not (= ?x ?y))",
+            "(at ?c_actual ?x)",
+            "(at ?c_actual ?y)",
+            # If we remove this predicate it would be sent to a random cell ?
+            # But we should be carefull with stepBack or undoAll
+            "(at ?c_last x)",
+
+            "(object-dead ?z)"
         ]
-        effects = []  # UNFINISHED
+        effects = [
+            "(not (object-dead ?z))",
+            # This can generate infinite loops
+            # "(at ?c_actual ?z)",
+            # "(last-at ?c_actual ?z)"
+            "(at ?c_last ?z)",
+            "(last-at ?c_last ?z)"
+        ]
 
         return Action(name, parameters, preconditions, effects)
 
@@ -663,19 +678,87 @@ class InteractionActions:
 
     # -------------------------------------------------------------------------
 
+    # Kill sprite if sprite has more
+
+    # ASSUMING SPRITE IS AN AVATAR, THE ACTION IS THE SAME AS KILLIFOTHERHASMORE
     def killIfHasMore(self):
+        # Get resource name
+        parameters = [p for p in self.interaction.parameters if "resource=" in p]
+        resource = parameters[0].replace("resource=",'')
+
+        # Get number needed
+        parameters = [p for p in self.interaction.parameters if "limit=" in p]
+        number = parameters[0].replace("limit=",'')
+        number = int(number)
+
         name = (
             self.sprite.name.upper()
             + "_"
             + self.partner.name.upper()
-            + "_KILLIFHASMORE"
+            + "_KILLIFOTHERHASMORE"
         )
+        
         parameters = [["x", self.sprite.name], ["y", self.partner.name], ["c_actual", "cell"]]
         preconditions = [
-            "(= (coordinate_x ?x) (coordinate_x ?y))",
-            "(= (coordinate_y ?x) (coordinate_y ?y))",
+            "(turn-interactions)",
+            "(not (= ?x ?y))",
+            "(at ?c_actual ?x)",
+            "(at ?c_actual ?y)"
         ]
-        effects = []  # UNFINISHED
+
+        effects = [
+            "(object-dead ?x)"
+        ]
+
+
+        # Add number-sprites to parameters
+        for i in range(number):
+            parameters.append(["r" + str(i), resource])
+
+        # Add number-preconditions
+        for i in range(number):
+            preconditions.append("(got-resource-" + resource + " ?r" + str(i) + ")")
+
+        return Action(name, parameters, preconditions, effects)
+
+    # -------------------------------------------------------------------------
+
+    # Kill sprite if sprite has less
+    def killIfHasLess(self):
+        # Get resource name
+        parameters = [p for p in self.interaction.parameters if "resource=" in p]
+        resource = parameters[0].replace("resource=",'')
+
+        # Get number needed
+        parameters = [p for p in self.interaction.parameters if "limit=" in p]
+        number = parameters[0].replace("limit=",'')
+        number = int(number)
+
+        name = (
+            self.sprite.name.upper() + "_" + self.partner.name.upper()
+            + "_KILLIFOTHERHASLESS"
+        )
+        
+        parameters = [["x", self.sprite.name], ["y", self.partner.name], ["c_actual", "cell"]]
+        preconditions = [
+            "(turn-interactions)",
+            "(not (= ?x ?y))",
+            "(at ?c_actual ?x)",
+            "(at ?c_actual ?y)"
+        ]
+
+        effects = [
+            "(object-dead ?x)"
+        ]
+
+
+        # Add number-sprites to parameters
+        for i in range(number):
+            parameters.append(["r" + str(i), resource])
+
+        # Add number-preconditions
+        for i in range(number):
+            preconditions.append("(got-resource-" + resource + " ?r" + str(i) + ")")
 
         return Action(name, parameters, preconditions, effects)
 
@@ -714,6 +797,11 @@ class InteractionActions:
 
     # -------------------------------------------------------------------------
 
+    # Other = partner
+    # Kill sprite if partner has more
+
+    # MAYBE NEED TO INCLUDE IN THE PREDICATE THE SECOND OBJECT
+    # RIGHT NOW WE ARE MAKING THE ASSUMPTION THAT IT IS THE AVATAR
     def killIfOtherHasMore(self):
         # Get resource name
         parameters = [p for p in self.interaction.parameters if "resource=" in p]
