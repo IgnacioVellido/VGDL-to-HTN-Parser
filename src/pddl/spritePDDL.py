@@ -114,7 +114,7 @@ class SpriteActions:
             # Chooses randomly an action in each iteration
             # We can't know wich action will he choose, probably this will be empty
             # In case we want to add something, we should add each action of the NPC
-            "RandomNPC": [],
+            "RandomNPC": [],            
 
             # Produces sprites following a specific ratio
             "SpawnPoint": [self.produce],
@@ -382,6 +382,9 @@ class SpritePredicates:
             # In case we want to add something, we should add each action of the NPC
             "RandomNPC": [],
 
+            # Keep track of this object
+            "Resource": ["(got-resource" + self.sprite.name + " ?x)"],
+
             # Produces sprites following a specific ratio
             "SpawnPoint": [],
 
@@ -400,7 +403,7 @@ class SpritePredicates:
             "WalkerJumper": []
         }
 
-        # "FIX", but butter try to include keys manually if possible
+        # "FIX", but better try to include all keys manually if possible
         self.predicates.extend(sprite_predicates_list.get(self.sprite.stype, []))
 
 

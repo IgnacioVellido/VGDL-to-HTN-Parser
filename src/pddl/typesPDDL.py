@@ -108,7 +108,8 @@ class Action:
         for p in self.parameters:
             text += "?" + p[0] + " - " + p[1] + " "
 
-        return text
+        # Delete last empty space
+        return text[:-1]
 
     # --------------------------------------------------------------------------
 

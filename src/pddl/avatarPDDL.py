@@ -445,12 +445,12 @@ class AvatarPredicates:
                             # "(can-change-orientation ?a - OrientedAvatar)"],
 
             # Can move and aim in any direction, can use object
-            # "ShootAvatar" : ["(can-move-up ?a - ShootAvatar)",
-            #                 "(can-move-down ?a - ShootAvatar)",
-            #                 "(can-move-left ?a - ShootAvatar)",
-            #                 "(can-move-right ?a - ShootAvatar)",
-            #                 # "(can-change-orientation ?a - ShootAvatar)"
-            #                 "(can-use ?a - ShootAvatar ?p - " + self.partner.name + ")"],
+            "ShootAvatar" : ["(can-move-up ?a - ShootAvatar)",
+                            "(can-move-down ?a - ShootAvatar)",
+                            "(can-move-left ?a - ShootAvatar)",
+                            "(can-move-right ?a - ShootAvatar)",
+                            # "(can-change-orientation ?a - ShootAvatar)"
+                            "(can-use ?a - ShootAvatar ?p - " + self.partner.name + ")"],
 
             # Always same orientation, can only move up or down
             "VerticalAvatar" : ["(can-move-up ?a - VerticalAvatar)",

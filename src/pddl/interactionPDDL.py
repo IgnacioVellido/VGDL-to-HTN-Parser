@@ -242,7 +242,8 @@ class InteractionActions:
 
             # Undo movement of every object in the game
             # FOR NOW, NOTHING
-            "undoAll": [],
+            "undoAll": 
+                [],
                 # [self.undoAll],
 
             # [GVGAI] Changes the "spawn type" to SpawnPoint
@@ -509,7 +510,6 @@ class InteractionActions:
 
     # -------------------------------------------------------------------------
 
-    # UNFINISHED
     def collectResource(self):
         name = (
             self.sprite.name.upper()
@@ -519,22 +519,15 @@ class InteractionActions:
         )
         parameters = [["x", self.sprite.name], ["y", self.partner.name], ["c_actual", "cell"]]
         preconditions = [
-            "(= (coordinate_x ?x) (coordinate_x ?y))",
-            "(= (coordinate_y ?x) (coordinate_y ?y))",
+            "(turn-interactions)",
+            "(not (= ?x ?y))",
+            "(at ?c_actual ?x)",
+            "(at ?c_actual ?y)"
         ]
         effects = [
-            "(assign (last_coordinate_y ?x) (coordinate_x ?x))",
-            "(assign (last_coordinate_y ?x) (coordinate_y ?x))",
-            "(assign (coordinate_x ?x) -1)",
-            "(assign (coordinate_y ?x) -1)",
-            "(decrease (counter_" + self.sprite.stype + ") 1)",
-            "(decrease (counter_Resource) 1)",
-            "(decrease (counter_Object) 1)",
-            "(increase (resource_" + self.sprite.name + " ?y) 1)",
+            "(object-dead ?x)",
+            "(got-resource-" + self.sprite.name + "?x)"
         ]
-
-        for parent in self.hierarchy[self.sprite.stype]:
-            effects.append("(decrease (counter_" + parent + ") 1)")
 
         return Action(name, parameters, preconditions, effects)
 
@@ -650,23 +643,21 @@ class InteractionActions:
             + self.partner.name.upper()
             + "_KILLIFFROMABOVE"
         )
-        parameters = [["x", self.sprite.name], ["y", self.partner.name], ["c_actual", "cell"]]
+        parameters = [["x", self.sprite.name], ["y", self.partner.name], ["c_actual", "cell"], ["c_last", "cell"]]
         preconditions = [
-            "(= (coordinate_x ?x) (coordinate_x ?y))",
-            "(= (coordinate_y ?x) (coordinate_y ?y))",
-            "(= (last_coordinate_y ?y) (- (coordinate_y ?y) 1))",
+            "(turn-interactions)",
+            "(not (= ?x ?y))",
+
+            "(at ?c_actual ?x)",
+            "(at ?c_actual ?y)",
+
+            "(last-at ?c_last ?y)",
+            "(connected-up ?c_actual ?c_last)"
         ]
         effects = [
-            "(assign (last_coordinate_y ?a) (coordinate_x ?a))",
-            "(assign (last_coordinate_y ?a) (coordinate_y ?a))",
-            "(assign (coordinate_x ?a) -1)",
-            "(assign (coordinate_y ?a) -1)",
-            "(decrease (counter_" + self.sprite.stype + ") 1)",
-            "(decrease (counter_Object) 1)",
+            "(not (at ?c_actual ?x))",
+            "(object-dead ?x)",
         ]
-
-        for parent in self.hierarchy[self.sprite.stype]:
-            effects.append("(decrease (counter_" + parent + ") 1)")
 
         return Action(name, parameters, preconditions, effects)
 
@@ -724,19 +715,42 @@ class InteractionActions:
     # -------------------------------------------------------------------------
 
     def killIfOtherHasMore(self):
+        # Get resource name
+        parameters = [p for p in self.interaction.parameters if "resource=" in p]
+        resource = parameters[0].replace("resource=",'')
+
+        # Get number needed
+        parameters = [p for p in self.interaction.parameters if "limit=" in p]
+        number = parameters[0].replace("limit=",'')
+        number = int(number)
+
         name = (
             self.sprite.name.upper()
             + "_"
             + self.partner.name.upper()
             + "_KILLIFOTHERHASMORE"
         )
-        # + self.third_sprite_type.upper() FIND TYPE IN PARAMETERS OF ACTION
+        
         parameters = [["x", self.sprite.name], ["y", self.partner.name], ["c_actual", "cell"]]
         preconditions = [
-            "(= (coordinate_x ?x) (coordinate_x ?y))",
-            "(= (coordinate_y ?x) (coordinate_y ?y))",
+            "(turn-interactions)",
+            "(not (= ?x ?y))",
+            "(at ?c_actual ?x)",
+            "(at ?c_actual ?y)"
         ]
-        effects = []  # UNFINISHED
+
+        effects = [
+            "(object-dead ?x)"
+        ]
+
+
+        # Add number-sprites to parameters
+        for i in range(number):
+            parameters.append(["r" + str(i), resource])
+
+        # Add number-preconditions
+        for i in range(number):
+            preconditions.append("got-resource-" + resource + " r" + str(i) + ")")
 
         return Action(name, parameters, preconditions, effects)
 
@@ -1080,11 +1094,12 @@ class InteractionActions:
         name = self.sprite.name.upper() + "_" + self.partner.name.upper() + "_UNDOALL"
         parameters = [["x", self.sprite.name], ["y", self.partner.name], ["c_actual", "cell"]]
         preconditions = [
-            "(= (coordinate_x ?x) (coordinate_x ?y))",
-            "(= (coordinate_y ?x) (coordinate_y ?y))",
-            "(not (= (coordinate_y ?x) (coordinate_y ?y)))",
+            "(turn-interactions)",
+            "(not (= ?x ?y))",
+            "(at ?c_actual ?x)",
+            "(at ?c_actual ?y)"
         ]
-        effects = []
+        effects = ["(not (turn-interactions))"]
 
         return Action(name, parameters, preconditions, effects)
 

@@ -295,6 +295,27 @@ class DomainGeneratorPDDL:
     def assign_actions(self):
         """ Calls the different actions generators """
 
+        # Getting specific avatar actions
+        avatar_actions = self.avatarPDDL.actions
+        self.actions.extend(avatar_actions)
+
+        # And one for each deterministic movable object
+        for obj in self.spritesPDDL:
+            actions = obj.actions
+
+            if actions:
+                self.actions.extend(actions)
+
+        # And one for each interaction
+        for interaction in self.interactions:
+            sprite = self.find_sprite_by_name(interaction.sprite_name)
+            partner = self.find_sprite_by_name(interaction.partner_name)
+            self.actions.extend(
+                InteractionActions(interaction, sprite, partner, self.hierarchy).actions
+            )
+
+
+
         # PDDL specific actions
         end_turn_interactions = Action(
             "END-TURN-INTERACTIONS", # Name
@@ -315,25 +336,6 @@ class DomainGeneratorPDDL:
 			"(not (turn-interactions))"], # Effects
         )
         self.actions.append(end_turn_interactions)
-
-        # Getting specific avatar actions
-        avatar_actions = self.avatarPDDL.actions
-        self.actions.extend(avatar_actions)
-
-        # And one for each deterministic movable object
-        for obj in self.spritesPDDL:
-            actions = obj.actions
-
-            if actions:
-                self.actions.extend(actions)
-
-        # And one for each interaction
-        for interaction in self.interactions:
-            sprite = self.find_sprite_by_name(interaction.sprite_name)
-            partner = self.find_sprite_by_name(interaction.partner_name)
-            self.actions.extend(
-                InteractionActions(interaction, sprite, partner, self.hierarchy).actions
-            )
 
 
         # --------------------------------------------
