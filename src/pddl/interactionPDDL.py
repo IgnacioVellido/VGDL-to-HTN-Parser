@@ -526,7 +526,7 @@ class InteractionActions:
         ]
         effects = [
             "(object-dead ?x)",
-            "(got-resource-" + self.sprite.name + "?x)"
+            "(got-resource-" + self.sprite.name + " ?x)"
         ]
 
         return Action(name, parameters, preconditions, effects)
@@ -750,7 +750,7 @@ class InteractionActions:
 
         # Add number-preconditions
         for i in range(number):
-            preconditions.append("got-resource-" + resource + " r" + str(i) + ")")
+            preconditions.append("(got-resource-" + resource + " ?r" + str(i) + ")")
 
         return Action(name, parameters, preconditions, effects)
 
