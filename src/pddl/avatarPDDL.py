@@ -103,7 +103,7 @@ class AvatarActions:
             "VerticalAvatar" : [self.move_up, self.move_down]
         }
 
-        self.get_actions(avatar_action_list[self.avatar.stype])
+        self.get_actions(avatar_action_list.get(self.avatar.stype, []))
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
@@ -463,7 +463,7 @@ class AvatarPredicates:
                             "(can-move-down ?a - VerticalAvatar)"]
         }
 
-        self.predicates.extend(avatar_predicates_list[self.avatar.stype])
+        self.predicates.extend(avatar_predicates_list.get(self.avatar.stype, []))
 
 
 ###############################################################################
@@ -522,4 +522,4 @@ class AvatarLevelPredicates:
             "VerticalAvatar" : ["(can-move-up ?a)", "(can-move-down ?a )"]
         }
 
-        self.level_predicates.extend(avatar_levelPredicates_list[self.avatar.stype])
+        self.level_predicates.extend(avatar_levelPredicates_list.get(self.avatar.stype, []))

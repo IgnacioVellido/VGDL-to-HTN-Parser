@@ -83,10 +83,8 @@ class SpriteActions:
             "Fleeing": [],
                 # flee(partner))
 
-            # Maybe not needed here
             # sprite that dissapear after a moment
-            "Flicker": [],
-                # disappear())
+            "Flicker": [self.disappear, self.disappear_stop],
 
             # Doesn't do anything
             "Immovable": [],
@@ -94,10 +92,8 @@ class SpriteActions:
             # sprite that moves constantly in one direction
             "Missile": [self.move_up, self.move_down, self.move_left, self.move_right, self.move_stop],
 
-            # Maybe not needed here
             # Oriented sprite that dissapear after a moment
-            "OrientedFlicker": [],
-                # [disappear]
+            "OrientedFlicker": [self.disappear, self.disappear_stop],
 
             # Acts like a Chaser but sometimes it makes a random move
             # The same actions that Chaser, random moves don't need to be defined
@@ -266,15 +262,26 @@ class SpriteActions:
 
     # -------------------------------------------------------------------------
 
-    # UNFINISHED
+    def disappear_stop(self):
+        """ To finish DISAPPEAR sprite turn """
+        name = "STOP_" + self.sprite.name.upper() + "_DISSAPEAR"
+        parameters = []
+        preconditions = ["(turn-" + self.sprite.name + "-disappear)", 
+            "(forall (?x - " + self.sprite.name + ") (or (object-dead ?x) (" + self.sprite.name + "-disappeared ?x)))"]
+
+        # Para FD habría que cambiar esto y quitar el forall
+        effects = ["(forall (?x - " + self.sprite.name + ") (not (" + self.sprite.name + "-disappeared ?x)))",
+			        "(not (turn-" + self.sprite.name + "-disappear))",
+			        "(finished-turn-" + self.sprite.name + "-disappear)"]
+
+        return Action(name, parameters, preconditions, effects)
+
     def disappear(self):
         """ Eliminates the sprite """
-        pass
-
         name = self.sprite.name.upper() + "_DISAPPEAR"
-        parameters = [["s", self.sprite.stype]]
-        preconditions = []
-        effects = []
+        parameters = [["x", self.sprite.name], ["c_actual", "cell"]]
+        preconditions = ["(turn-" + self.sprite.name + "-disappear)", "(at ?c_actual ?x)"]
+        effects = ["(not (at ?c_actual ?x)", "(object-dead ?x)", "(" + self.sprite.name + "-disappeared ?x)"]
 
         return Action(name, parameters, preconditions, effects)
 
@@ -337,7 +344,6 @@ class SpritePredicates:
             # Missile that randomly changes direction
             "ErraticMissile": [
                 "(" + self.sprite.name + "-moved ?x - " + self.sprite.stype + ")",
-                # "(" + self.sprite.name + "-dead ?x - " + self.sprite.stype + ")",
                 "(turn-" + self.sprite.name + "-move)",
                 "(finished-turn-" + self.sprite.name + "-move)",
             ],
@@ -345,9 +351,12 @@ class SpritePredicates:
             # Try to make the greatest distance with the partner (or avatar) sprite
             "Fleeing": [],
 
-            # Maybe not needed here
-            # sprite that dissapear after a moment
-            "Flicker": [],
+            # Sprite that dissapear after a moment
+            "Flicker": [
+                "(" + self.sprite.name + "-disappeared ?x - " + self.sprite.stype + ")",
+                "(turn-" + self.sprite.name + "-disappear)",
+                "(finished-turn-" + self.sprite.name + "-disappear)",
+            ],
 
             # Doesn't do anything
             "Immovable": [],
@@ -362,8 +371,11 @@ class SpritePredicates:
 
             # Maybe not needed here
             # Oriented sprite that dissapear after a moment
-            "OrientedFlicker": [],
-                # [self.dissapear()],
+            "OrientedFlicker": [
+                "(" + self.sprite.name + "-disappeared ?x - " + self.sprite.stype + ")",
+                "(turn-" + self.sprite.name + "-disappear)",
+                "(finished-turn-" + self.sprite.name + "-disappear)",
+            ],                
 
             # Acts like a Chaser but sometimes it makes a random move
             # The same actions that Chaser, random moves don't need to be defined
