@@ -235,7 +235,7 @@ class InteractionActions:
             "transformToSingleton":
                 [self.transformToSingleton],
 
-            # Not sure what it does, in VGDL seems to call reverseDirection
+            # Invert orientation
             "turnAround":
                 [self.turnAround],
 
@@ -1162,16 +1162,24 @@ class InteractionActions:
 
     # -------------------------------------------------------------------------
 
+    # Invert orientation of sprite
     def turnAround(self):
         name = (
             self.sprite.name.upper() + "_" + self.partner.name.upper() + "_TURNAROUND"
         )
         parameters = [["x", self.sprite.name], ["y", self.partner.name], ["c_actual", "cell"]]
         preconditions = [
-            "(= (coordinate_x ?x) (coordinate_x ?y))",
-            "(= (coordinate_y ?x) (coordinate_y ?y))",
+            "(turn-interactions)",
+            "(not (= ?x ?y))",
+            "(at ?c_actual ?x)",
+            "(at ?c_actual ?y)"
         ]
-        effects = []  # UNFINISHED
+        effects = [
+            "(when (oriented-up ?x) (and (not-oriented-up ?x) (oriented-down ?x))",
+            "(when (oriented-down ?x) (and (not-oriented-down ?x) (oriented-up ?x))",
+            "(when (oriented-left ?x) (and (not-oriented-left ?x) (oriented-right ?x))",
+            "(when (oriented-right ?x) (and (not-oriented-right ?x) (oriented-left ?x))"
+        ]
 
         return Action(name, parameters, preconditions, effects)
 

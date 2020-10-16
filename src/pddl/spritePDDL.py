@@ -68,7 +68,7 @@ class SpriteActions:
         sprite_action_list = {
             # Not clear what it does
             # Missile that produces sprite at a specific ratio
-            "Bomber": [self.produce],
+            "Bomber": [self.spawn, self.spawn_stop],
 
             # Follows partner (or avatar ?) sprite
             "Chaser": [],
@@ -113,7 +113,7 @@ class SpriteActions:
             "RandomNPC": [],            
 
             # Produces sprites following a specific ratio
-            "SpawnPoint": [self.produce],
+            "SpawnPoint": [self.spawn, self.spawn_stop],
 
             # Expands in 4 directions if not occupied
             "Spreader": [],
@@ -224,38 +224,42 @@ class SpriteActions:
 
     # -------------------------------------------------------------------------
 
-    # UNFINISHED -> INCREASE counters
-    def produce(self):
-        """ Generate an sprite - IN WICH POSITION ?? Down ?? 
-        It should depend of the partner orientation <-
-        """
-        name = self.sprite.name.upper() + "_PRODUCE"
+    def spawn_stop(self):
+        """ To finish SPAWN sprite turn """
+        name = "STOP_" + self.sprite.name.upper() + "_SPAWN"
         parameters = []
-        preconditions = []
+        preconditions = ["(turn-" + self.sprite.name + "-spawn)", 
+            "(forall (?x - " + self.sprite.name + ") (or (object-dead ?x) (" + self.sprite.name + "-spawned ?x)))"]
 
+        # Para FD habría que cambiar esto y quitar el forall
+        effects = ["(forall (?x - " + self.sprite.name + ") (not (" + self.sprite.name + "-spawned ?x)))",
+			        "(not (turn-" + self.sprite.name + "-spawn))",
+			        "(finished-turn-" + self.sprite.name + "-spawn)"]
+
+        return Action(name, parameters, preconditions, effects)
+
+    # WHAT ABOUT ORIENTATION ?
+    # NOW IT IS PRODUCTION RATIO OF 1, BUT DIFFERS FROM GAME
+    def spawn(self):
+        """ Generate an sprite in the same cell """
+        # Find object to spawn
         # If no type is defined, get the parents name
-        partner_stype = (
+        spawned_object = (
             self.partner.father if self.partner.stype is None else self.partner.stype
         )
 
+        name = self.sprite.name.upper() + "_SPAWN"
+        parameters = [["x", self.sprite.name], ["y", spawned_object], ["c_actual", "cell"]]
+        preconditions = [
+            "(turn-" + self.sprite.name + "-spawn)",
+            "(at ?c_actual ?x)",
+            "(object-dead ?y)"
+        ]
         effects = [
-            """
-                    forall (?s - """
-            + self.sprite.stype
-            + """ ?p - """
-            + partner_stype
-            + """)
-					(and
-                        (when
-                            (= (coordinate_x ?p) -1)
-                            (and                            
-                                (assign (coordinate_x ?p) (coordinate_x ?s))
-                                (assign (coordinate_y ?p) (coordinate_y ?s))
-                                (increase (coordinate_y ?p) 1)
-                            )                  
-                        )
-					)
-"""
+            "(not (object-dead ?y))",
+            "(at ?c_actual ?y)",
+            "(last-at ?c_actual ?y)"
+            ""
         ]
 
         return Action(name, parameters, preconditions, effects)
@@ -336,7 +340,11 @@ class SpritePredicates:
         sprite_predicates_list = {
             # Not clear what it does
             # Missile that produces sprite at a specific ratio
-            "Bomber": [],
+            "Bomber": [
+                "(" + self.sprite.name + "-spawned ?x - " + self.sprite.stype + ")",
+                "(turn-" + self.sprite.name + "-spawn)",
+                "(finished-turn-" + self.sprite.name + "-spawn)"
+            ],
 
             # Follows partner (or avatar ?) sprite
             "Chaser": [],
@@ -398,7 +406,11 @@ class SpritePredicates:
             "Resource": ["(got-resource-" + self.sprite.name + " ?x - " + self.sprite.name + ")"],
 
             # Produces sprites following a specific ratio
-            "SpawnPoint": [],
+            "SpawnPoint": [
+                "(" + self.sprite.name + "-spawned ?x - " + self.sprite.stype + ")",
+                "(turn-" + self.sprite.name + "-spawn)",
+                "(finished-turn-" + self.sprite.name + "-spawn)"
+            ],
 
             # Expands in 4 directions if not occupied
             "Spreader": [],

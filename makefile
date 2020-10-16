@@ -62,7 +62,8 @@ pddl:
 
 	# python3 ./src/main.py -l=pddl -gi ./resources/games/boulderdash.txt -go ./output/domain.pddl
 	# python3 ./src/main.py -l=pddl -gi ./resources/games/butterflies.txt -go ./output/domain.pddl
-	python3 ./src/main.py -l=pddl -gi ./resources/games/zelda.txt -go ./output/domain.pddl
+	# python3 ./src/main.py -l=pddl -gi ./resources/games/zelda.txt -go ./output/domain.pddl
+	python3 ./src/main.py -l=pddl -gi ./resources/games/aliens.txt -go ./output/domain.pddl
 
 
 # ------------------------------------------------------------------------------
