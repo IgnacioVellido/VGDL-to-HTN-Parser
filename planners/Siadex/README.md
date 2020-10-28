@@ -18,6 +18,7 @@ And an executable called _planner_ will be produced.
 - __cmake__
 - __flex__
 - __bison__
+- __g++__
 - __python-dev__ (a restart will probably be required)
 - __libreadline-dev__ (a restart will probably be required)
 
