@@ -60,7 +60,8 @@ replan:
 # ------------------------------------------------------------------------------
 
 pddl-game:
-	python3 ./src/main.py -l pddl -gi ./resources/games/brainman.txt -go ./output/domain.pddl
+	python3 ./src/main.py -l pddl -gi $(gi) -go ./output/domain.pddl
+	# python3 ./src/main.py -l pddl -gi ./resources/games/brainman.txt -go ./output/domain.pddl
 	# planners/Madagascar/MpC output/domain.pddl output/problem.pddl
 
 	# python3 ./src/main.py -l=pddl -gi ./resources/games/sokoban.txt -go ./output/domain.pddl
