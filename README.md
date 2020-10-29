@@ -1,5 +1,7 @@
 # VGDL to HTN Parser
 
+__Note__: PDDL functionality is not yet completed, but domains in PPDL2.1 can be produced.
+
 VGDL-to-HTN-Parser is a Python parser from VGDL game and level description into HPDL domains and problems.
 
 ``` This research is being developed and partially funded by the Spanish MINECO R&D Project TIN2015-71618-R and RTI2018-098460-B-I00 ```
@@ -19,38 +21,44 @@ pip install antlr4-python3-runtime
 
 Compile Siadex planner (see the [README](planners/Siadex/README.md) for requirements):
 ```bash
-$ make compile-planner
+$ make siadex-planner
 ```
 
 # Usage
 
-With the exception of the replanning module, all functionally can be called from the  makefile.
+With the exception of the replanning module, all functionally can be called from the makefile.
 
-```
 The available options, with their parameters, are:
-
-- parse-game: Parse only the VGDL description into a HPDL domain.
-    gi: VGDL game description path.
-
-- parse-level: Parse the VGDL description and a level
-    gi: VGDL game description path.
-    li: VGDL level path.
-
+```
 - help: Show help
 
-- compile-planner: Compile Siadex planner
+For HPDL:
+- hpdl-game: Parse only the VGDL description into a HPDL domain.
+    gi: VGDL game description path.
 
-- run: Call planner
-    d: HPDL domain path
-    p: HPDL problem path
-
-- verbose: Call planner in verbose mode
-    d: HPDL domain path
-    p: HPDL problem path
-
-- parse-and-run: Parse and call planner
+- hpdl-level: Parse the VGDL description and a level
     gi: VGDL game description path.
     li: VGDL level path.
+
+
+For HPDL execution with SIADEX:
+- siadex-compile: Compile Siadex planner
+
+- siadex-run: Call planner
+    d: HPDL domain path
+    p: HPDL problem path
+
+- siadex-verbose: Call planner in verbose mode
+    d: HPDL domain path
+    p: HPDL problem path
+
+- siadex-parse-and-run: Parse and call planner
+    gi: VGDL game description path.
+    li: VGDL level path.
+
+For PDDL:
+- pddl-game: Parse only the VGDL description into a PDDL domain
+    gi: VGDL game description path.
 ```
 
 
@@ -58,10 +66,17 @@ The available options, with their parameters, are:
 For domain and problem generation, you can use the makefile provided or directly the ```src/main.py``` script.
 
 ```bash
-usage: main.py [-h] -gi GAMEINPUT [-li LEVELINPUT] [-go GAMEOUTPUT] [-lo LEVELOUTPUT] [-vh]
+usage: main.py [-h] -l {pddl,hpdl} 
+                    -gi GAMEINPUT 
+                    [-li LEVELINPUT] 
+                    [-go GAMEOUTPUT] 
+                    [-lo LEVELOUTPUT] 
+                    [-vh]
 
 optional arguments:
   -h, --help            Show help message and exit
+  -l {pddl,hpdl}, --language {pddl,hpdl}
+                        Select output planning language
   -gi GAMEINPUT,    --gameInput GAMEINPUT
                         Input VGDL game file
   -li LEVELINPUT,   --levelInput LEVELINPUT

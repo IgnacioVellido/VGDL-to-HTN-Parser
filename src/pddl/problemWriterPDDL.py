@@ -1,14 +1,14 @@
 ###############################################################################
-# problemWriterHPDL.py
+# problemWriterPDDL.py
 # Ignacio Vellido Expósito
-# 09/12/2019
+# 28/09/2020
 #
-# Produces a HPDL problem receiving each part separately
+# Produces a PDDL problem receiving each part separately
 ###############################################################################
 
 
-class ProblemWriterHPDL:
-    """ Produces a string with a HPDL domain 
+class ProblemWriterPDDL:
+    """ Produces a string with a PDDL domain 
 
         Arguments:
             objects     List of strings
@@ -33,7 +33,7 @@ class ProblemWriterHPDL:
         """ Returns a string containing the domain definition """
         text = """
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; HPDL problem for a VGDL game
+;;; PDDL problem for a VGDL game
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (problem VGDLProblem) (:domain VGDLGame)
@@ -102,10 +102,10 @@ class ProblemWriterHPDL:
         goal: list of goals, in brackets
         """
         start_text = """
-\t; Goals -----------------------------------------------------------------
+\t; Goal ------------------------------------------------------------------
 
-\t(:tasks-goal
-\t\t:tasks("""
+\t(:goal
+\t\t(and"""
 
         end_text = """
 \t\t)
