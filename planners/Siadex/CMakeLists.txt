@@ -175,4 +175,4 @@ list(APPEND SOURCES src/tcnm-ac3.cpp)
 #Add a binary executable
 add_executable(planner nodes/iactive_planner.cpp ${BISON_parser_OUTPUTS} ${FLEX_lexer_OUTPUTS} ${SOURCES})
 #And link it
-target_link_libraries(planner readline ${EXTRALIBS} ${PYTHON_EXTRA_LIBS})
+target_link_libraries(planner python2.7 readline ${EXTRALIBS} ${PYTHON_EXTRA_LIBS})

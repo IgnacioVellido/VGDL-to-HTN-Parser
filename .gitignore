@@ -10,6 +10,9 @@ output/*
 planners/FastDownward/*
 planners/Metric-FF-v2.1/*
 planners/Madagascar/*
+planners/SMTPlan/*
+planners/UPMurphi/*
+planners/ENHSP/*
 
 #############
 # From ANTLR
