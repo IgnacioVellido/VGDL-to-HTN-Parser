@@ -420,7 +420,7 @@ class SpriteLevelPredicates:
     def get_orientation(self) -> str:
         orientation = [x for x in self.sprite.parameters if "orientation" in x]
 
-        if len(orientation) > 1:
+        if len(orientation) > 0:
             orientation = orientation[0]
             orientation = orientation.split("=")[1]
 
