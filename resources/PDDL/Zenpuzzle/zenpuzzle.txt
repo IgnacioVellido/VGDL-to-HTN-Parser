@@ -1,0 +1,22 @@
+BasicGame
+    SpriteSet
+        avatar  > MovingAvatar
+        wall > Immovable
+        ground > Immovable
+        walked > Immovable
+        rock > Immovable
+    
+    LevelMapping
+        r > rock
+        w > wall
+        g > ground
+        A > avatar
+        
+    TerminationSet
+        SpriteCounter      stype=avatar               limit=0 win=False  
+        SpriteCounter   stype=ground   limit=0 win=True
+
+    InteractionSet
+        avatar rock wall > stepBack
+        avatar walked > killSprite
+        ground avatar > transformTo stype=walked

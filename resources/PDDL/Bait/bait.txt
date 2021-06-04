@@ -1,0 +1,31 @@
+BasicGame
+    SpriteSet
+        hole   > Immovable
+        avatar > MovingAvatar
+        mushroom > Immovable
+        key > Resource limit=1
+        goal > Immovable
+        box    > Passive
+        wall > Immovable
+
+    LevelMapping
+        A > avatar
+        0 > hole
+        1 > box
+        k > key
+        g > goal
+        m > mushroom
+
+    InteractionSet
+        avatar wall > stepBack
+        avatar hole > killSprite
+        box avatar  > bounceForward
+        box wall box mushroom > undoAll
+        box hole > killBoth
+        key avatar > collectResource
+        goal avatar > killIfOtherHasMore resource=key limit=1
+        mushroom avatar > killSprite
+
+    TerminationSet
+        SpriteCounter stype=goal limit=0 win=True
+        SpriteCounter stype=avatar limit=0 win=False

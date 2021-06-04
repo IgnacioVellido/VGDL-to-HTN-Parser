@@ -7,6 +7,20 @@ help:
 	python3 ./src/main.py -h
 
 # ------------------------------------------------------------------------------
+# PDDL
+# ------------------------------------------------------------------------------
+
+pddl-game:
+	python3 ./src/main.py -l pddl -gi $(gi) -go $(go)
+
+pddl-level:
+	@echo "This functionality is not yet completed"
+
+# For this repo: Generate PDDL domain and configuration file
+config:
+	python3 ./src/main.py -l pddl -c -gi $(gi) -go ../domains/simplified-version/$(go).pddl -co ../config/simplified-version/$(go).yaml
+	
+# ------------------------------------------------------------------------------
 # HPDL
 # ------------------------------------------------------------------------------
 
@@ -53,62 +67,3 @@ replan:
 	python3 ./src/main.py -l hpdl  -gi $(gi) -li $(li) -go $(go) -lo $(lo)
 	./planners/Siadex/planner -d $(go) -p $(lo)
 	# ./planners/Siadex/planner -d $(go) -p $(lo) 2> /dev/null
-
-
-# ------------------------------------------------------------------------------
-# PDDL
-# ------------------------------------------------------------------------------
-
-pddl-game:
-	python3 ./src/main.py -l pddl -gi $(gi) -go ./output/domain.pddl
-	# python3 ./src/main.py -l pddl -gi ./resources/games/brainman.txt -go ./output/domain.pddl
-	# planners/Madagascar/MpC output/domain.pddl output/problem.pddl
-
-	# python3 ./src/main.py -l=pddl -gi ./resources/games/sokoban.txt -go ./output/domain.pddl
-	# planners/Madagascar/MpC output/domain.pddl output/problem-sokoban.pddl
-
-	# python3 ./src/main.py -l=pddl -gi ./resources/games/boulderdash.txt -go ./output/domain.pddl
-	# python3 ./src/main.py -l=pddl -gi ./resources/games/butterflies.txt -go ./output/domain.pddl
-	# python3 ./src/main.py -l=pddl -gi ./resources/games/zelda.txt -go ./output/domain.pddl
-	# python3 ./src/main.py -l=pddl -gi ./resources/games/aliens.txt -go ./output/domain.pddl
-
-pddl-level:
-	@echo "This functionality is not yet completed"
-
-# # ------------------------------------------------------------------------------
-# # Fast Downward
-# # ------------------------------------------------------------------------------
-
-# fd-compile:
-# 	cd ./planners/FastDownward;	python3 ./build.py
-
-# fd-run:
-# 	python3 ./planners/FastDownward/fast-downward.py ./output/pddl-domain.pddl ./output/pddl-problem.pddl --search "astar(lmcut())"
-
-# fd2-run:
-# 	python3 ./planners/FastDownward/fast-downward.py --alias seq-sat-lama-2011 ./output/pddl-domain.pddl ./output/pddl-problem.pddl
-
-# fd-help:
-# 	python3 ./planners/FastDownward/fast-downward.py --help
-
-# # ------------------------------------------------------------------------------
-# # Metric-FF
-# # ------------------------------------------------------------------------------
-
-# # -s 0 = NO optimization
-# metric-run:
-# 	./planners/Metric-FF-v2.1/ff -o ./output/pddl-domain.pddl -f ./output/pddl-problem.pddl -s 0
-# 	#  -O -g 1 -h 1
-
-# # ------------------------------------------------------------------------------
-# # MADAGASCAR
-# # ------------------------------------------------------------------------------
-
-# madagascar1-run:
-# 	planners/Madagascar/MpC output/pddl-domain.pddl output/pddl-problem.pddl -o ./output/plan.txt
-
-# madagascar2-run:
-# 	planners/Madagascar/Mp output/pddl-domain.pddl output/pddl-problem.pddl -o ./output/plan.txt
-
-# madagascar3-run:
-# 	planners/Madagascar/M output/pddl-domain.pddl output/pddl-problem.pddl -o ./output/plan.txt

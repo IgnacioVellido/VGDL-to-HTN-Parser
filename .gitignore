@@ -15,6 +15,7 @@ planners/Madagascar/*
 planners/SMTPlan/*
 planners/UPMurphi/*
 planners/ENHSP/*
+planners/SatPlan/*
 
 #############
 # From ANTLR

@@ -49,6 +49,13 @@ from pddl.problemWriterPDDL import ProblemWriterPDDL
 
 
 # -----------------------------------------------------------------------------
+# Configuration file
+# -----------------------------------------------------------------------------
+
+import yaml
+from pddl.configurationGenerator import *
+
+# -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
 
 # Receiving argument '-help' or '-h', prints Help
@@ -190,6 +197,13 @@ def main(argv):
     )
     argparser.add_argument(
         "-vh", "--verboseHelp", action="store_true", help="Show additional information"
+    )
+    # For this repo: Generate configuration file
+    argparser.add_argument(
+        "-c", "--configuration", action="store_true", help="Generate configuration file"
+    )
+    argparser.add_argument(
+        "-co", "--configurationOutput", default="configuration.yaml", help="Configuration output path"
     )
 
     args = argparser.parse_args()
@@ -336,6 +350,24 @@ def main(argv):
         except Exception as e:
             print("Error writing problem: " + str(e))
 
+
+    # --------------------------------------------------------------------------
+    # Generate configuration file
+    if args.configuration:
+        # Get configuration text
+        config = get_config(
+                    domainGenerator,
+                    listener,
+                    terminations
+                )
+
+        # Write YAML file in folder
+        os.makedirs(os.path.dirname(args.configurationOutput), exist_ok=True)
+        with open(args.configurationOutput, 'w') as configfile:
+            yaml.dump(config, configfile, default_flow_style=False, sort_keys=False)
+        
+        print("Configuration file produced without errors.")
+            
 
 ###############################################################################
 # -----------------------------------------------------------------------------

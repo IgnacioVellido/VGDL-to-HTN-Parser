@@ -1,0 +1,27 @@
+BasicGame
+	SpriteSet
+		wall > Immovable
+		sword > Flicker limit=1
+		exitdoor > Door
+		diamond > Resource limit=10
+		boulder > Immovable
+		moving >
+			avatar  > ShootAvatar   stype=sword
+
+	LevelMapping
+		e > exitdoor
+		o > boulder
+		x > diamond
+		A > avatar
+
+	InteractionSet
+		boulder sword > killSprite
+
+		diamond avatar > collectResource
+		moving wall boulder > stepBack
+
+		exitdoor avatar > killIfOtherHasMore resource=diamond limit=4
+
+	TerminationSet
+		SpriteCounter stype=avatar limit=0 win=False
+		SpriteCounter stype=exitdoor limit=0 win=True

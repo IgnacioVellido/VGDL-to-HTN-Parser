@@ -1,17 +1,15 @@
 # VGDL to HTN Parser
 
-__Note__: PDDL functionality is not yet completed, but domains in PPDL2.1 can be produced.
-
 VGDL-to-HTN-Parser is a Python parser from VGDL game and level description into HPDL domains and problems.
 
 ``` This research is being developed and partially funded by the Spanish MINECO R&D Project TIN2015-71618-R and RTI2018-098460-B-I00 ```
 
-# Requirements
+# :unlock: Requirements
 - Python3
 - ANTLR 4.7.2 for Python3 (or superior), see [here](https://github.com/antlr/antlr4/blob/master/doc/python-target.md) for more information
 - (For replanning only) Java JDK 8 (or superior)
 
-# Installation
+# :wrench: Installation
 
 Install ANTLR4 Python3 runtime:
 ```
@@ -24,7 +22,7 @@ Compile Siadex planner (see the [README](planners/Siadex/README.md) for requirem
 $ make siadex-planner
 ```
 
-# Usage
+# :computer: Usage
 
 With the exception of the replanning module, all functionally can be called from the makefile.
 
@@ -53,14 +51,24 @@ For HPDL execution with SIADEX:
     p: HPDL problem path
 
 - siadex-parse-and-run: Parse and call planner
-    gi: VGDL game description path.
-    li: VGDL level path.
+    gi: VGDL game description path
+    li: VGDL level path
 
 For PDDL:
-- pddl-game: Parse only the VGDL description into a PDDL domain
-    gi: VGDL game description path.
+- pddl-game: Generate only the PDDL domain
+  - gi: VGDL game description path
+  - go: Output path
+
+- config: Generate configuration and PDDL domain for a planning-based agent
+  - gi: Path to VGDL description file
+  - go: Name to be given to the output files
 ```
 
+### PDDL parser
+
+__Note__: Generation of PDDL levels is not yet completed, but domains in PPDL2.1 can be produced.
+
+The PDDL parser was made for a planning-based agent (repo can be found [here](https://github.com/IgnacioVellido/VGDL-PDDL)). The subset of the VGDL language accepted is different from the HTN one, but nevertheless bigger, more efficient, and better tested. What's more, as in PDDL the planners handle the plan search, there is no need to define an agent strategy.
 
 ### Domain and problem generation
 For domain and problem generation, you can use the makefile provided or directly the ```src/main.py``` script.
@@ -124,6 +132,6 @@ To run the agent, set the game id ant the level on ```replanning/configuration.t
 
 You can also use an already defined domain setting the _KEEPDOMAIN_ variable in ```/master/replanning/GVGAI/src/main/Agent.java:20``` as __true__ and including it in the ```replanning/tmp``` folder with the name ```domain.hpdl```.
 
-# Results and experimentation
+# :books: Results and experimentation
 
 All related documentation and experimentation can be found under the [doc](https://github.com/IgnacioVellido/VGDL-to-HTN-Parser/tree/master/doc) directory.

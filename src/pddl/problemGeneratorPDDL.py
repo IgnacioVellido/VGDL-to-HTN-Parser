@@ -199,7 +199,7 @@ class ProblemGeneratorPDDL:
         for line in lines:
             for char in line:
                 # Not considering spaces
-                if char is not " " or char is not "\t":
+                if char != " " or char != "\t":
                     # Checking for wrong characters
                     if char not in valid_used_char:
                         for change in changed_char:

@@ -8,9 +8,9 @@
 
 from vgdl.typesVGDL import *
 from pddl.typesPDDL import *
-from pddl.avatarPDDL import *
-from pddl.spritePDDL import *
-from pddl.interactionPDDL import *
+from pddl.avatarPDDL import AvatarPDDL
+from pddl.spritePDDL import SpritePDDL
+from pddl.interactionPDDL import InteractionPDDL
 
 ###############################################################################
 # -----------------------------------------------------------------------------
@@ -45,20 +45,32 @@ class DomainGeneratorPDDL:
 
         # For the level parser
         self.partner = None
+        self.stepbacks = [] # List of objects involved with the avatar in a stepback interaction
+        self.killIfHasLess = [] # List of objects involved with the avatar in a killIfHasLess interaction
+        self.killIfOtherHasMore = [] # List of objects involved with the avatar in a killIfOtherHasMore and stepBack interaction
+        self.undoAll = {}
+
         self.short_types = []  # The char part of a LevelMapping
         self.long_types = []  # The sprites part of a LevelMapping
         self.stypes = set()  # All types in the game (bigger than long_types)
         self.transformTo = []  # Objects that can be created
-        # ADD LATER THE SPAWNPOINTS TOO
+        # ADD LATER THE SPAWNPOINTS TOO - AND PRODUCERS
 
         self.search_partner()
-        self.avatarPDDL = AvatarPDDL(self.avatar, self.hierarchy, self.partner)
+        self.find_stepbacks()
+        self.find_killIfHasLess()
+        self.find_killIfOtherHasMore()
+        self.find_undoAll()
+        self.avatarPDDL = AvatarPDDL(self.avatar, self.hierarchy, self.stepbacks, 
+                                        self.killIfHasLess, self.killIfOtherHasMore, 
+                                        self.partner)
 
         # Assign spritesPDDL
         self.spritesPDDL = []
         for obj in self.sprites:
             partner = self.find_partner(obj)
-            self.spritesPDDL.append(SpritePDDL(obj, self.hierarchy, partner))
+            self.spritesPDDL.append(SpritePDDL(obj, self.hierarchy, self.stepbacks, self.killIfHasLess,
+                                          self.undoAll, partner))
 
         self.assign_types()
         # self.assign_constants()
@@ -81,6 +93,56 @@ class DomainGeneratorPDDL:
             for sprite in self.sprites:
                 if sprite.name is not None and partner_name in sprite.name:
                     self.partner = sprite
+
+    def find_stepbacks(self):
+        """ Finds objects involved with the avatar in a stepBack/killSprite interaction """
+        for i in self.interactions:
+            # Check if interaction if stepback type
+            if i.type == "stepBack" or i.type == "killSprite":
+                # Find if avatar is involved           
+                if i.sprite_name in self.hierarchy[self.avatar.name] or i.sprite_name == self.avatar.name:
+                    self.stepbacks.append(i.partner_name)
+
+        # Remove missiles
+        for o in self.sprites:
+            if o.stype == "Missile" and o.name in self.stepbacks:
+                self.stepbacks.remove(o.name)
+
+    def find_killIfHasLess(self):
+        """ Finds objects involved with the avatar in a killIfHasLess interaction """
+        for i in self.interactions:
+            # Check if interaction if stepback type
+            if i.type == "killIfHasLess":
+                # Find if avatar is involved           
+                if i.sprite_name in self.hierarchy[self.avatar.name] or i.sprite_name == self.avatar.name:
+                    parameters = [p for p in i.parameters if "resource=" in p]
+                    resource = parameters[0].replace("resource=",'')
+                    self.killIfHasLess.append([i.partner_name, resource])
+
+    def find_killIfOtherHasMore(self):
+        """ Finds objects involved with the avatar in a killIfOtherHasMore and stepBack interaction """
+        for i in self.interactions:
+            # Check if interaction if stepback type
+            if i.type == "killIfOtherHasMore":
+                # Find if avatar is involved           
+                if i.partner_name in self.hierarchy[self.avatar.name] or i.partner_name == self.avatar.name:                    
+                    # Make sure same object is involved in stepBack interaction
+                    # if i.sprite_name in self.stepbacks:
+                    parameters = [p for p in i.parameters if "resource=" in p]
+                    resource = parameters[0].replace("resource=",'')
+
+                    parameters = [p for p in i.parameters if "limit=" in p]
+                    limit = parameters[0].replace("limit=",'')
+
+                    self.killIfOtherHasMore.append([i.sprite_name, resource, limit])
+
+    def find_undoAll(self):
+        for i in self.interactions:
+            if i.type == "undoAll":
+                if i.sprite_name not in self.undoAll.keys():
+                    self.undoAll[i.sprite_name] = []
+
+                self.undoAll[i.sprite_name].append(i.partner_name)
 
     # -------------------------------------------------------------------------
     # Auxiliary
@@ -166,8 +228,8 @@ class DomainGeneratorPDDL:
         stypes = []
         names = []
 
-        # CELL OBJECT
-        self.types.append(["Immovable", "cell"])
+        # Numerics
+        self.types.append(["", "num"])
 
         for sprite in self.sprites:
             names.append(sprite.name)
@@ -251,12 +313,31 @@ class DomainGeneratorPDDL:
     # -------------------------------------------------------------------------
 
     def assign_predicates(self):
-        """ Depends of the avatar - Probably more needed to undo operations """
+        """ Depends of the avatar - Probably more needed to undo operations """        
+        # PDDL specific
         self.predicates.extend(
-            ["(oriented-up ?o - Object)",
-                "(oriented-down ?o - Object)",
-                "(oriented-left ?o - Object)",
-                "(oriented-right ?o - Object)"]
+            [  "; Orientation",
+               "(oriented-up ?o - Object)",
+               "(oriented-down ?o - Object)",
+               "(oriented-left ?o - Object)",
+               "(oriented-right ?o - Object)",
+               "(oriented-none ?o - Object)",
+
+               "; Game turn order",
+               "(turn-avatar)",
+               "(turn-sprites)",
+               "(turn-interactions)",
+
+               "; Numerics",
+               "(next ?x ?y - num)",
+               "(previous ?x ?y - num)",
+
+               "; Position",
+               "(at ?x ?y - num ?o - Object)",
+               "(object-dead ?o - Object)",
+
+               "; Game specific"
+            ]
         )
 
         avatar = self.avatarPDDL.predicates
@@ -265,25 +346,6 @@ class DomainGeneratorPDDL:
         for spPDDL in self.spritesPDDL:
             sprite = spPDDL.predicates
             self.predicates.extend(sprite)
-
-        # PDDL specific
-        self.predicates.extend(
-            ["; To maintain order",
-            "(turn-avatar)",
-            "(turn-sprites)",
-            "(turn-interactions)",
-
-            "; For tile connections",
-            "(connected-up ?c1 ?c2 - cell)",
-            "(connected-down ?c1 ?c2 - cell)",
-            "(connected-right ?c1 ?c2 - cell)",
-            "(connected-left ?c1 ?c2 - cell)",
-
-            "(at ?c - cell ?o - Object)",
-            "(last-at ?c - cell ?o - Object)",
-
-            "(object-dead ?o - Object)"]
-        )
 
     # -------------------------------------------------------------------------
 
@@ -307,32 +369,69 @@ class DomainGeneratorPDDL:
                 self.actions.extend(actions)
 
         # And one for each interaction
+        pairs = set()
         for interaction in self.interactions:
             sprite = self.find_sprite_by_name(interaction.sprite_name)
             partner = self.find_sprite_by_name(interaction.partner_name)
-            self.actions.extend(
-                InteractionActions(interaction, sprite, partner, self.hierarchy).actions
-            )
 
+            new_actions = InteractionPDDL(interaction, sprite, partner,
+                                          self.hierarchy, self.avatar.name,
+                                          self.stepbacks, self.killIfHasLess,
+                                          self.killIfOtherHasMore,
+                                          self.undoAll).actions
+
+            if new_actions:
+                self.actions.extend(new_actions)
+
+                # Save objects involved                
+                pairs.add((interaction.sprite_name, interaction.partner_name))
 
 
         # PDDL specific actions
+
+        # Check objects involved in interactions
+        end_turn_preconditions = ["(turn-interactions)"]
+
+        # Objecst defined as a predicate
+        pred_sprite = set(self.stepbacks)
+        for o in self.killIfHasLess:
+            pred_sprite.add(o[0])
+
+        for o in self.killIfOtherHasMore:
+            pred_sprite.add(o[0])
+
+        for p in pairs:
+            if p[0] not in pred_sprite and p[1] not in pred_sprite:
+                end_turn_preconditions.append("(not (exists (?o1 - " + p[0] + " ?o2 - " + p[1] + """ ?x ?y - num) 
+                                (and
+                                    (not (= ?o1 ?o2))
+                                    (at ?x ?y ?o1)
+                                    (at ?x ?y ?o2)
+                                )
+                            )
+                        )""")
+            elif p[0] in pred_sprite:
+                end_turn_preconditions.append("(not (exists (?o1 - " + p[1] + """ ?x ?y - num) 
+                                (and
+                                    """ + "(is-{} ?x ?y)\n".format(p[0]) +
+"""                                    (at ?x ?y ?o1)
+                                )
+                            )
+                        )""")
+            else:
+                end_turn_preconditions.append("(not (exists (?o1 - " + p[0] + """ ?x ?y - num) 
+                                (and
+                                    """ + "(is-{} ?x ?y)\n".format(p[1]) +
+"""                                    (at ?x ?y ?o1)
+                                )
+                            )
+                        )""")
+
         end_turn_interactions = Action(
             "END-TURN-INTERACTIONS", # Name
             [], # Parameters
-            ["(turn-interactions)", 
-            """(not 
-				(exists (?x - Object ?y - Object ?c - cell) 
-					(and
-						(not (= ?x ?y))
-						(at ?c ?x)
-						(at ?c ?y)
-					)
-				)
-			)"""], # Preconditions
-            ["; Restart turn",
-            "(turn-avatar)",
-            "(not (turn-sprites))",
+            end_turn_preconditions, # Preconditions
+            ["(turn-sprites)",
 			"(not (turn-interactions))"], # Effects
         )
         self.actions.append(end_turn_interactions)
@@ -350,19 +449,20 @@ class DomainGeneratorPDDL:
         turn_predicates = [p for p in spPredicates if "(turn-" in p]
         turn_predicates.append("(not (turn-sprites))")
 
-        # Get the sprites predicates (finished-turn-...)
-        finished_predicates = [p for p in spPredicates if "(finished-turn-" in p]
-
-        # Negate them and append last predicate
-        negated_finished_predicates = ["(not " +  p + ")" for p in finished_predicates]
-        negated_finished_predicates.append("(turn-interactions)")
-
         self.actions.append(Action(
             "TURN-SPRITES",
             [],
             ["(turn-sprites)"],
             turn_predicates
         ))
+
+        # Get the sprites predicates (finished-turn-...)
+        finished_predicates = [p for p in spPredicates if "(finished-turn-" in p]
+
+        # Negate them and append last predicate
+        negated_finished_predicates = ["(not " +  p + ")" for p in finished_predicates]
+        negated_finished_predicates.append("(turn-avatar)")
+        finished_predicates.append("(not (turn-interactions))")
 
         self.actions.append(Action(
             "END-TURN-SPRITES",

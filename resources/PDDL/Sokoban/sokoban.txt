@@ -1,0 +1,18 @@
+BasicGame
+    SpriteSet
+        hole   > Immovable
+        avatar > MovingAvatar
+        box    > Passive
+        wall > Immovable
+    LevelMapping
+        0 > hole
+        1 > box
+        w > wall
+        A > avatar
+    InteractionSet
+        avatar wall > stepBack
+        box avatar  > bounceForward
+        box wall box  > undoAll
+        box hole    > killSprite
+    TerminationSet
+        SpriteCounter stype=box    limit=0 win=True

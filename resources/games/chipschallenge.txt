@@ -1,0 +1,90 @@
+BasicGame
+    SpriteSet
+        water > Immovable
+        mud > Immovable
+        fire > Immovable
+        
+        redkey > Resource
+        bluekey > Resource
+        greenkey > Resource
+        yellowkey > Resource
+
+        reddoor > Immovable
+        bluedoor > Immovable
+        greendoor > Immovable
+        yellowdoor > Immovable
+
+        flippers > Resource
+        fireboots > Resource
+        
+        crate > Passive
+        
+        gate > Immovable
+        exit > Immovable
+        chip > Resource limit=11
+        avatar > MovingAvatar
+        wall > Immovable
+            
+    
+    LevelMapping
+        w > wall
+        A > avatar 
+        ~ > water 
+        m > mud 
+        x > fire 
+        r > redkey 
+        g > greenkey 
+        b > bluekey 
+        y > yellowkey 
+
+        1 > reddoor 
+        2 > greendoor 
+        3 > bluedoor 
+        4 > yellowdoor 
+
+        - > gate 
+        c > chip 
+        e > exit 
+        f > flippers 
+        i > fireboots 
+        d > crate 
+
+    TerminationSet
+        SpriteCounter      stype=avatar               limit=0 win=False  
+        SpriteCounter      stype=exit               limit=0 win=True        
+
+    InteractionSet
+        crate avatar > bounceForward
+        crate crate wall reddoor bluedoor greendoor yellowdoor redkey yellowkey bluekey greenkey chip gate mud fire flippers fireboots > undoAll
+
+        water crate > transformTo stype=mud killSecond=true
+        
+        mud avatar > killSprite
+        
+        gate avatar > killIfOtherHasMore resource=chip limit=11
+        avatar wall > stepBack
+
+        chip avatar > collectResource scoreChange=1
+        redkey avatar > collectResource
+        bluekey avatar > collectResource
+        greenkey avatar > collectResource
+        yellowkey avatar > collectResource
+        fireboots avatar > collectResource scoreChange=3
+        flippers avatar > collectResource scoreChange=3
+
+        reddoor avatar > killIfOtherHasMore resource=redkey limit=1
+        avatar reddoor > changeResource resource=redkey value=-1
+
+        greendoor avatar > killIfOtherHasMore resource=greenkey limit=1
+        avatar greendoor > changeResource resource=greenkey value=-1
+
+        bluedoor avatar > killIfOtherHasMore resource=bluekey limit=1
+        avatar bluedoor > changeResource resource=bluekey value=-1
+
+        yellowdoor avatar > killIfOtherHasMore resource=yellowkey limit=1
+        avatar yellowdoor > changeResource resource=yellowkey value=-1
+        
+        avatar water > killIfHasLess resource=flippers limit=0
+        avatar fire > killIfHasLess resource=fireboots limit=0
+
+        exit avatar > killSprite

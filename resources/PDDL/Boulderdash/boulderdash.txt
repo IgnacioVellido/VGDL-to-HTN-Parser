@@ -1,0 +1,37 @@
+BasicGame
+	SpriteSet
+		wall > Immovable
+		sword > Flicker limit=1
+		exitdoor > Door
+		diamond > Resource limit=10
+		boulder > Missile orientation=DOWN
+		dirt > Immovable
+		moving >
+			avatar  > ShootAvatar   stype=sword
+			enemy > RandomNPC
+				crab > 
+				butterfly > 
+
+	LevelMapping
+		e > exitdoor
+		o > boulder
+		x > diamond
+		c > crab
+		b > butterfly
+		A > avatar
+		. > dirt
+
+	InteractionSet
+		boulder dirt wall diamond boulder > undoAll
+		dirt avatar sword > killSprite
+
+		diamond avatar > collectResource
+		moving wall boulder > stepBack
+
+		avatar butterfly crab > killSprite
+
+		exitdoor avatar > killIfOtherHasMore resource=diamond limit=4
+
+	TerminationSet
+		SpriteCounter stype=avatar limit=0 win=False
+		SpriteCounter stype=exitdoor limit=0 win=True

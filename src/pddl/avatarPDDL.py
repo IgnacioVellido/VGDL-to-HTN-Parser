@@ -15,7 +15,7 @@ from pddl.typesPDDL import *
 
 class AvatarPDDL:
     """ Class that encapsulate the generation of PDDL domain structures 
-    for the avatar 
+    for the avatar
     
     Atributes:
         avatar           - SpriteVGDL
@@ -23,9 +23,20 @@ class AvatarPDDL:
         hierarchy        - Dict<String,String>
     """
 
-    def __init__(self, avatar: "Sprite", hierarchy: dict, partner: "Sprite" = None):
+    def __init__(
+        self, 
+        avatar: "Sprite", 
+        hierarchy: dict, 
+        stepbacks: list, 
+        killIfHasLess: list,
+        killIfOtherHasMore: list,
+        partner: "Sprite" = None
+    ):
         self.avatar = avatar
         self.hierarchy = hierarchy
+        self.stepbacks = stepbacks
+        self.killIfHasLess = killIfHasLess
+        self.killIfOtherHasMore = killIfOtherHasMore
         self.partner = partner
 
         self.tasks = []     # Empty
@@ -33,6 +44,12 @@ class AvatarPDDL:
         self.actions = []
         self.predicates = []
         self.level_predicates = []
+
+
+        # Remove killIfOtherHasMore sprites from stepbacks
+        for o in self.killIfOtherHasMore:
+            if o[1] in self.stepbacks:
+                self.stepbacks.remove(o[1])
 
         self.get_actions()
         self.get_predicates()
@@ -42,7 +59,9 @@ class AvatarPDDL:
     # -------------------------------------------------------------------------
 
     def get_actions(self):
-        self.actions = AvatarActions(self.avatar, self.hierarchy, self.partner).actions
+        self.actions = AvatarActions(self.avatar, self.hierarchy, self.stepbacks, 
+                                        self.killIfHasLess, self.killIfOtherHasMore,
+                                        self.partner).actions
 
     # -------------------------------------------------------------------------
 
@@ -52,7 +71,8 @@ class AvatarPDDL:
     # -------------------------------------------------------------------------
 
     def get_predicates(self):
-        self.predicates = AvatarPredicates(self.avatar, self.partner).predicates
+        self.predicates = AvatarPredicates(self.avatar, self.stepbacks, 
+                                            self.killIfHasLess, self.killIfOtherHasMore, self.partner).predicates
 
 ###############################################################################
 # -----------------------------------------------------------------------------
@@ -70,34 +90,52 @@ class AvatarActions:
         actions - List<ActionPDDL>
     """
 
-    def __init__(self, avatar: "Sprite", hierarchy: dict, partner: "Sprite"):
+    def __init__(
+        self, 
+        avatar: "Sprite", 
+        hierarchy: dict, 
+        stepbacks: list, 
+        killIfHasLess: list,
+        killIfOtherHasMore: list,
+        partner: "Sprite"
+    ):
         self.avatar = avatar
         self.hierarchy = hierarchy
+        self.stepbacks = stepbacks
+        self.killIfHasLess = killIfHasLess
+        self.killIfOtherHasMore = killIfOtherHasMore
         self.partner = partner
+
+        # stepbacks and killIfOtherHasMore intersects.
+        # Remove common sprites
+        for o in stepbacks:
+            if o[0] in stepbacks:
+                self.stepbacks.remove()
 
         self.actions = []
 
         # Dict with the functions needed for each avatar
         avatar_action_list = {
-            # Can't move but can use object
-            "AimedAvatar" : [self.turn_up, self.turn_down, self.turn_left, self.turn_right, self.use_up, self.use_down, self.use_left, self.use_right, self.nil],
+            # Can't move but can turn and use object over itself
+            "AimedAvatar" : [self.turn_up, self.turn_down, self.turn_left, self.turn_right, self.use_up, self.use_down, self.use_left, self.use_right], # self.nil],
 
+            # NOT SUPPORTED
             # This avatar should have ammo !!!!!!!!!!
-            # Always same orientation, can move horizontally and use object  
-            "FlakAvatar"  : [self.move_left, self.move_right, self.use_up, self.use_down, self.use_left, self.use_right, self.nil],
+            # Always same orientation, can move horizontally and use object
+            # "FlakAvatar"  : [self.move_left, self.move_right, self.use_center] # self.nil],
 
             # Always same orientation, can only move left or right
-            "HorizontalAvatar": [self.move_left, self.move_right, self.nil],
+            "HorizontalAvatar": [self.move_left, self.move_right], # self.nil],
 
             # Always same orientation, can move in any direction
-            # This avatar don't have orientation, so it can move freely
-            "MovingAvatar" : [self.move_up, self.move_down, self.move_left, self.move_right, self.turn_up, self.turn_down, self.turn_left, self.turn_right, self.nil],
+            # This avatar doesn't have orientation, so it can move freely
+            "MovingAvatar" : [self.move_up, self.move_down, self.move_left, self.move_right], # self.nil],
 
-            # Can move and aim in any direction, can't use object
-            "OrientedAvatar" : [self.move_up, self.move_down, self.move_left, self.move_right, self.turn_up, self.turn_down, self.turn_left, self.turn_right, self.nil],
+            # Can move and turn in any direction
+            "OrientedAvatar" : [self.move_up, self.move_down, self.move_left, self.move_right, self.turn_up, self.turn_down, self.turn_left, self.turn_right], # self.nil],
 
-            # Can move and aim in any direction, can use object
-            "ShootAvatar" : [self.move_up, self.move_down, self.move_left, self.move_right, self.turn_up, self.turn_down, self.turn_left, self.turn_right, self.use_up, self.use_down, self.use_left, self.use_right, self.nil],
+            # Can move and turn in any direction, can use object in the 4 directions
+            "ShootAvatar" : [self.move_up, self.move_down, self.move_left, self.move_right, self.turn_up, self.turn_down, self.turn_left, self.turn_right, self.use_up, self.use_down, self.use_left, self.use_right], # self.nil],
 
             # Always same orientation, can only move up or down
             "VerticalAvatar" : [self.move_up, self.move_down]
@@ -111,84 +149,263 @@ class AvatarActions:
     def get_actions(self, action_list):
         """ Stores in self.actions the actions defined """
         for function in action_list:
-            self.actions.append(function())
+            act = function()
+            # If case Action is not returned
+            if act:
+                self.actions.append(function())
 
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
 
+    # DONE - Needed stepback objects
     def move_up(self):
-        name = "AVATAR_MOVE_UP"
-        parameters = [["a", self.avatar.stype], ["c_actual", "cell"], ["c_last", "cell"], ["c_next", "cell"]]
+        name = "AVATAR_ACTION_MOVE_UP"
+        parameters = [["a", self.avatar.stype], ["x", "num"], ["y", "num"], ["new_y", "num"]]
 
         # can-move indicates that te avatar has the ability to move in that direction
-        preconditions = ["(turn-avatar)", "(can-move-up ?a)", "(oriented-up ?a)", 
-                         "(at ?c_actual ?a)", "(last-at ?c_last ?a)",
-                         "(connected-up ?c_actual ?c_next)"]
+        preconditions = ["(turn-avatar)", "(or (oriented-up ?a) (oriented-none ?a))",
+                         "(at ?x ?y ?a)",
+                         "(previous ?y ?new_y)"]
 
-        effects = ["(not (last-at ?c_last ?a))", "(last-at ?c_actual ?a)",
-                    "(not (at ?c_actual ?a))", "(at ?c_next ?a)", 
-                    "(not (turn-avatar))", "(turn-sprites)"]
+        # Add stepback objects
+        for o in self.stepbacks:
+            preconditions.append("(not (is-" + o + " ?x ?new_y))")
+        
+        # Add killIfHasLess
+        # o[0] -> type of cell
+        # o[1] -> resource needed
+        for o in self.killIfHasLess:
+            preconditions.append("""(or
+                            (and 
+                                (is-""" + o[0] + """ ?x ?new_y)
+                                (not (got-resource-""" + o[1] + """ n0))
+                            )
+                            (not (is-""" + o[0] + """ ?x ?new_y))
+                        )""")
+
+        # Add killIfOtherHasMore
+        # o[0] -> type of cell
+        # o[1] -> resource needed
+        # o[2] -> resource limit
+        for o in self.killIfOtherHasMore:
+            preconditions.append("""(or
+                            (not (is-""" + o[0] + """ ?x ?new_y))
+                            (and 
+                                (is-""" + o[0] + """ ?x ?new_y)
+                                (got-resource-""" + o[1] + """ n""" + o[2] + """)
+                            )
+                        )""")
+        
+        effects = [
+                    "(not (at ?x ?y ?a))", "(at ?x ?new_y ?a)", 
+                    "(not (turn-avatar))", "(turn-interactions)", """; Change orientation
+					(when
+                        (oriented-down ?a )
+                        (not (oriented-down ?a))
+                    )
+					
+                    (when
+                        (oriented-right ?a )
+                        (not (oriented-right ?a))
+                    )
+					
+                    (when
+                        (oriented-left ?a )
+                        (not (oriented-left ?a))
+                    )
+					(oriented-up ?a)"""]
 
         return Action(name, parameters, preconditions, effects)
 
     # -------------------------------------------------------------------------
 
+    # DONE - Needed stepback objects
     def move_down(self):
-        name = "AVATAR_MOVE_DOWN"
-        parameters = [["a", self.avatar.stype], ["c_actual", "cell"], ["c_last", "cell"], ["c_next", "cell"]]
+        name = "AVATAR_ACTION_MOVE_DOWN"
+        parameters = [["a", self.avatar.stype], ["x", "num"], ["y", "num"], ["new_y", "num"]]
 
         # can-move indicates that te avatar has the ability to move in that direction
-        preconditions = ["(turn-avatar)", "(can-move-down ?a)", "(oriented-down ?a)", 
-                         "(at ?c_actual ?a)", "(last-at ?c_last ?a)",
-                         "(connected-down ?c_actual ?c_next)"]
-        effects = ["(not (last-at ?c_last ?a))", "(last-at ?c_actual ?a)",
-                    "(not (at ?c_actual ?a))", "(at ?c_next ?a)", 
-                    "(not (turn-avatar))", "(turn-sprites)"]
+        preconditions = ["(turn-avatar)", "(or (oriented-down ?a) (oriented-none ?a))",
+                         "(at ?x ?y ?a)",
+                         "(next ?y ?new_y)"]
+
+        # Add stepback objects
+        for o in self.stepbacks:
+            preconditions.append("(not (is-" + o + " ?x ?new_y))")
+
+        # Add killIfHasLess
+        # o[0] -> type of cell
+        # o[1] -> resource needed
+        for o in self.killIfHasLess:
+            preconditions.append("""(or
+                            (and 
+                                (is-""" + o[0] + """ ?x ?new_y)
+                                (not (got-resource-""" + o[1] + """ n0))
+                            )
+                            (not (is-""" + o[0] + """ ?x ?new_y))
+                        )""")
+
+        # Add killIfOtherHasMore
+        # o[0] -> type of cell
+        # o[1] -> resource needed
+        # o[2] -> resource limit
+        for o in self.killIfOtherHasMore:
+            preconditions.append("""(or
+                            (not (is-""" + o[0] + """ ?x ?new_y))
+                            (and 
+                                (is-""" + o[0] + """ ?x ?new_y)
+                                (got-resource-""" + o[1] + """ n""" + o[2] + """)
+                            )
+                        )""")
+        
+        effects = [
+                    "(not (at ?x ?y ?a))", "(at ?x ?new_y ?a)", 
+                    "(not (turn-avatar))", "(turn-interactions)", """; Change orientation
+					(when
+                        (oriented-up ?a )
+                        (not (oriented-up ?a))
+                    )					
+                    (when
+                        (oriented-right ?a )
+                        (not (oriented-right ?a))
+                    )					
+                    (when
+                        (oriented-left ?a )
+                        (not (oriented-left ?a))
+                    )
+					(oriented-down ?a)"""]
 
         return Action(name, parameters, preconditions, effects)
 
     # -------------------------------------------------------------------------
 
+    # DONE
     def move_left(self):
-        name = "AVATAR_MOVE_LEFT"
-        parameters = [["a", self.avatar.stype], ["c_actual", "cell"], ["c_last", "cell"], ["c_next", "cell"]]
+        name = "AVATAR_ACTION_MOVE_LEFT"
+        parameters = [["a", self.avatar.stype], ["x", "num"], ["y", "num"], ["new_x", "num"]]
 
         # can-move indicates that te avatar has the ability to move in that direction
-        preconditions = ["(turn-avatar)", "(can-move-left ?a)", "(oriented-left ?a)", 
-                         "(at ?c_actual ?a)", "(last-at ?c_last ?a)",
-                         "(connected-left ?c_actual ?c_next)"]
-        effects = ["(not (last-at ?c_last ?a))", "(last-at ?c_actual ?a)",
-                    "(not (at ?c_actual ?a))", "(at ?c_next ?a)", 
-                    "(not (turn-avatar))", "(turn-sprites)"]
+        preconditions = ["(turn-avatar)", "(or (oriented-left ?a) (oriented-none ?a))", 
+                         "(at ?x ?y ?a)",
+                         "(previous ?x ?new_x)"]
+
+        # Add stepback objects
+        for o in self.stepbacks:
+            preconditions.append("(not (is-" + o + " ?new_x ?y))")
+
+
+        # Add killIfHasLess
+        # o[0] -> type of cell
+        # o[1] -> resource needed
+        for o in self.killIfHasLess:
+            preconditions.append("""(or
+                            (and 
+                                (is-""" + o[0] + """ ?new_x ?y)
+                                (not (got-resource-""" + o[1] + """ n0))
+                            )
+                            (not (is-""" + o[0] + """ ?new_x ?y))
+                        )""")
+
+        # Add killIfOtherHasMore
+        # o[0] -> type of cell
+        # o[1] -> resource needed
+        # o[2] -> resource limit
+        for o in self.killIfOtherHasMore:
+            preconditions.append("""(or
+                            (not (is-""" + o[0] + """ ?new_x ?y))
+                            (and 
+                                (is-""" + o[0] + """ ?new_x ?y)
+                                (got-resource-""" + o[1] + """ n""" + o[2] + """)
+                            )
+                        )""")
+
+        effects = [
+                    "(not (at ?x ?y ?a))", "(at ?new_x ?y ?a)", 
+                    "(not (turn-avatar))", "(turn-interactions)", """; Change orientation
+                    (when
+                        (oriented-up ?a )
+                        (not (oriented-up ?a))
+                    )
+					(when
+                        (oriented-down ?a )
+                        (not (oriented-down ?a))
+                    )					
+                    (when
+                        (oriented-right ?a )
+                        (not (oriented-right ?a))
+                    )					
+					(oriented-left ?a)"""]
 
         return Action(name, parameters, preconditions, effects)
 
     # -------------------------------------------------------------------------
 
+    # DONE
     def move_right(self):
-        name = "AVATAR_MOVE_RIGHT"
-        parameters = [["a", self.avatar.stype], ["c_actual", "cell"], ["c_last", "cell"], ["c_next", "cell"]]
+        name = "AVATAR_ACTION_MOVE_RIGHT"
+        parameters = [["a", self.avatar.stype], ["x", "num"], ["y", "num"], ["new_x", "num"]]
 
         # can-move indicates that te avatar has the ability to move in that direction
-        preconditions = ["(turn-avatar)", "(can-move-right ?a)", "(oriented-right ?a)", 
-                         "(at ?c_actual ?a)", "(last-at ?c_last ?a)",
-                         "(connected-right ?c_actual ?c_next)"]
-        effects = ["(not (last-at ?c_last ?a))", "(last-at ?c_actual ?a)",
-                    "(not (at ?c_actual ?a))", "(at ?c_next ?a)", 
-                    "(not (turn-avatar))", "(turn-sprites)"]
+        preconditions = ["(turn-avatar)", "(or (oriented-right ?a) (oriented-none ?a))", 
+                         "(at ?x ?y ?a)",
+                         "(next ?x ?new_x)"]
+
+        # Add stepback objects
+        for o in self.stepbacks:
+            preconditions.append("(not (is-" + o + " ?new_x ?y))")
+
+        # Add killIfHasLess
+        # o[0] -> type of cell
+        # o[1] -> resource needed
+        for o in self.killIfHasLess:
+            preconditions.append("""(or
+                            (and 
+                                (is-""" + o[0] + """ ?new_x ?y)
+                                (not (got-resource-""" + o[1] + """ n0))
+                            )
+                            (not (is-""" + o[0] + """ ?new_x ?y))
+                        )""")
+
+        # Add killIfOtherHasMore
+        # o[0] -> type of cell
+        # o[1] -> resource needed
+        # o[2] -> resource limit
+        for o in self.killIfOtherHasMore:
+            preconditions.append("""(or
+                            (not (is-""" + o[0] + """ ?new_x ?y))
+                            (and 
+                                (is-""" + o[0] + """ ?new_x ?y)
+                                (got-resource-""" + o[1] + """ n""" + o[2] + """)
+                            )
+                        )""")
+
+        effects = [
+                    "(not (at ?x ?y ?a))", "(at ?new_x ?y ?a)", 
+                    "(not (turn-avatar))", "(turn-interactions)", """; Change orientation
+                    (when
+                        (oriented-up ?a )
+                        (not (oriented-up ?a))
+                    )					
+					(when
+                        (oriented-down ?a )
+                        (not (oriented-down ?a))
+                    )					
+                    (when
+                        (oriented-left ?a )
+                        (not (oriented-left ?a))
+                    )
+					(oriented-right ?a)"""]
 
         return Action(name, parameters, preconditions, effects)
 
     # -------------------------------------------------------------------------
 
+    # DONE
     # This method should only be called if the avatar can turn
     def turn_up(self):
-        name = "AVATAR_TURN_UP"
+        name = "AVATAR_ACTION_TURN_UP"
         parameters = [["a", self.avatar.stype]]
 
-        # If not (can-change-orientation ?a), the avatar cannot use this action
-        # preconditions = ["(turn-avatar)", "(can-change-orientation ?a)","(not (oriented-up ?a))"]
-        # can-change-orientation maybe not needed
         preconditions = ["(turn-avatar)", "(not (oriented-up ?a))"]
 
         effect_down = """
@@ -207,19 +424,17 @@ class AvatarActions:
                         (not (oriented-right ?a))
                     )"""
 
-        effects = [effect_down, effect_right, effect_left, "(oriented-up ?a)", "(not (turn-avatar))", "(turn-sprites)"]
+        effects = [effect_down, effect_right, effect_left, "(oriented-up ?a)", "(not (turn-avatar))", "(turn-interactions)"]
 
         return Action(name, parameters, preconditions, effects)
 
     # -------------------------------------------------------------------------
 
+    # DONE
     def turn_down(self):
-        name = "AVATAR_TURN_DOWN"
+        name = "AVATAR_ACTION_TURN_DOWN"
         parameters = [["a", self.avatar.stype]]
 
-        # If not (can-change-orientation ?a), the avatar cannot use this action
-        # preconditions = ["(turn-avatar)", "(can-change-orientation ?a)","(not (oriented-down ?a))"]
-        # can-change-orientation maybe not needed
         preconditions = ["(turn-avatar)", "(not (oriented-down ?a))"]
 
         effect_up = """
@@ -238,18 +453,17 @@ class AvatarActions:
                         (not (oriented-right ?a))
                     )"""
 
-        effects = [effect_left, effect_right, effect_up, "(oriented-down ?a)", "(not (turn-avatar))", "(turn-sprites)"]
+        effects = [effect_left, effect_right, effect_up, "(oriented-down ?a)", "(not (turn-avatar))", "(turn-interactions)"]
 
         return Action(name, parameters, preconditions, effects)
 
     # -------------------------------------------------------------------------
 
+    # DONE
     def turn_left(self):
-        name = "AVATAR_TURN_LEFT"
+        name = "AVATAR_ACTION_TURN_LEFT"
         parameters = [["a", self.avatar.stype]]
 
-        # If not (can-change-orientation ?a), the avatar cannot use this action
-        # preconditions = ["(turn-avatar)", "(can-change-orientation ?a)","(not (oriented-left ?a))"]
         preconditions = ["(turn-avatar)", "(not (oriented-left ?a))"]
 
         effect_down = """
@@ -268,18 +482,17 @@ class AvatarActions:
                         (not (oriented-right ?a))
                     )"""
 
-        effects = [effect_down, effect_right, effect_up, "(oriented-left ?a)", "(not (turn-avatar))", "(turn-sprites)"]
+        effects = [effect_down, effect_right, effect_up, "(oriented-left ?a)", "(not (turn-avatar))", "(turn-interactions)"]
 
         return Action(name, parameters, preconditions, effects)
 
     # -------------------------------------------------------------------------
 
+    # DONE
     def turn_right(self):
-        name = "AVATAR_TURN_RIGHT"
+        name = "AVATAR_ACTION_TURN_RIGHT"
         parameters = [["a", self.avatar.stype]]
 
-        # If not (can-change-orientation ?a), the avatar cannot use this action
-        # preconditions = ["(turn-avatar)", "(can-change-orientation ?a)","(not (oriented-right ?a))"]
         preconditions = ["(turn-avatar)", "(not (oriented-right ?a))"]
 
         effect_down = """
@@ -298,13 +511,32 @@ class AvatarActions:
                         (not (oriented-left ?a))
                     )"""
 
-        effects = [effect_down, effect_left, effect_up, "(oriented-right ?a)", "(not (turn-avatar))", "(turn-sprites)"]
+        effects = [effect_down, effect_left, effect_up, "(oriented-right ?a)", "(not (turn-avatar))", "(turn-interactions)"]
 
         return Action(name, parameters, preconditions, effects)
 
     # -------------------------------------------------------------------------
 
-    # can-use is a predicate that should not be active in case there is no ammo
+    # DONE
+    def use_center(self):
+        """ Generates the partner object in the same tile as the avatar
+
+        partner:     Sprite that is generated
+        """
+        if self.partner == None:
+            raise TypeError('Argument "partner" is not defined')
+
+        name = "AVATAR_ACTION_USE_CENTER"
+        parameters = [["a", self.avatar.stype], ["p", self.partner.name], ["x", "num"], ["y", "num"]]
+        preconditions = ["(turn-avatar)", "(at ?x ?y ?a)"]
+
+        effects = ["(at ?x ?y ?p)", "(not (turn-avatar))", "(turn-interactions)"]
+
+        return Action(name, parameters, preconditions, effects)
+
+    # -------------------------------------------------------------------------
+
+    # DONE
     def use_up(self):
         """ Generates the partner object in front of the avatar (UP)
 
@@ -313,19 +545,17 @@ class AvatarActions:
         if self.partner == None:
             raise TypeError('Argument "partner" is not defined')
 
-        name = "AVATAR_USE_UP"
-        parameters = [["a", self.avatar.stype], ["p", self.partner.name], ["c_actual", "cell"], ["c_up", "cell"]]
-        preconditions = ["(turn-avatar)", "(can-use ?a ?p)", "(at ?c_actual ?a)", "(oriented-up ?a)", "(connected-up ?c_actual ?c_up)"]
+        name = "AVATAR_ACTION_USE_UP"
+        parameters = [["a", self.avatar.stype], ["p", self.partner.name], ["x", "num"], ["y", "num"], ["new_y", "num"]]
+        preconditions = ["(turn-avatar)", "(at ?x ?y ?a)", "(oriented-up ?a)", "(previous ?y ?new_y)"]
 
-        effects = ["(at ?c_up ?p)", "(not (turn-avatar))", "(turn-sprites)"]
+        effects = ["(at ?x ?new_y ?p)", "(not (turn-avatar))", "(turn-interactions)"]
 
         return Action(name, parameters, preconditions, effects)
 
     # -------------------------------------------------------------------------
 
-    # MAYBE SOME AVATAR DON'T HAVE ORIENTATION BUT CAN USE - CAREFULL
-
-    # can-use is a predicate that should not be active in case there is no ammo
+    # DONE
     def use_down(self):
         """ Generates the partner object in front of the avatar (UP)
 
@@ -334,17 +564,17 @@ class AvatarActions:
         if self.partner == None:
             raise TypeError('Argument "partner" is not defined')
 
-        name = "AVATAR_USE_DOWN"
-        parameters = [["a", self.avatar.stype], ["p", self.partner.name], ["c_actual", "cell"], ["c_down", "cell"]]
-        preconditions = ["(turn-avatar)", "(can-use ?a ?p)", "(at ?c_actual ?a)", "(oriented-down ?a)", "(connected-down ?c_actual ?c_down)"]
+        name = "AVATAR_ACTION_USE_DOWN"
+        parameters = [["a", self.avatar.stype], ["p", self.partner.name], ["x", "num"], ["y", "num"], ["new_y", "num"]]
+        preconditions = ["(turn-avatar)", "(at ?x ?y ?a)", "(oriented-down ?a)", "(next ?y ?new_y)"]
 
-        effects = ["(at ?c_down ?p)", "(not (turn-avatar))", "(turn-sprites)"]
+        effects = ["(at ?x ?new_y ?p)", "(not (turn-avatar))", "(turn-interactions)"]
 
         return Action(name, parameters, preconditions, effects)
 
     # -------------------------------------------------------------------------
 
-    # can-use is a predicate that should not be active in case there is no ammo
+    # DONE
     def use_left(self):
         """ Generates the partner object in front of the avatar (UP)
 
@@ -353,17 +583,17 @@ class AvatarActions:
         if self.partner == None:
             raise TypeError('Argument "partner" is not defined')
 
-        name = "AVATAR_USE_LEFT"
-        parameters = [["a", self.avatar.stype], ["p", self.partner.name], ["c_actual", "cell"], ["c_left", "cell"]]
-        preconditions = ["(turn-avatar)", "(can-use ?a ?p)", "(at ?c_actual ?a)", "(oriented-left ?a)", "(connected-left ?c_actual ?c_left)"]
+        name = "AVATAR_ACTION_USE_LEFT"
+        parameters = [["a", self.avatar.stype], ["p", self.partner.name], ["x", "num"], ["y", "num"], ["new_x", "num"]]
+        preconditions = ["(turn-avatar)", "(at ?x ?y ?a)", "(oriented-left ?a)", "(previous ?x ?new_x)"]
 
-        effects = ["(at ?c_left ?p)", "(not (turn-avatar))", "(turn-sprites)"]
+        effects = ["(at ?new_x ?y ?p)", "(not (turn-avatar))", "(turn-interactions)"]
 
         return Action(name, parameters, preconditions, effects)
 
     # -------------------------------------------------------------------------
 
-    # can-use is a predicate that should not be active in case there is no ammo
+    # DONE
     def use_right(self):
         """ Generates the partner object in front of the avatar (UP)
 
@@ -372,23 +602,23 @@ class AvatarActions:
         if self.partner == None:
             raise TypeError('Argument "partner" is not defined')
 
-        name = "AVATAR_USE_RIGHT"
-        parameters = [["a", self.avatar.stype], ["p", self.partner.name], ["c_actual", "cell"], ["c_right", "cell"]]
-        preconditions = ["(turn-avatar)", "(can-use ?a ?p)", "(at ?c_actual ?a)", "(oriented-right ?a)", "(connected-right ?c_actual ?c_right)"]
+        name = "AVATAR_ACTION_USE_RIGHT"
+        parameters = [["a", self.avatar.stype], ["p", self.partner.name], ["x", "num"], ["y", "num"], ["new_x", "num"]]
+        preconditions = ["(turn-avatar)", "(at ?x ?y ?a)", "(oriented-right ?a)", "(next ?x ?new_x)"]
 
-        effects = ["(at ?c_right ?p)", "(not (turn-avatar))", "(turn-sprites)"]
+        effects = ["(at ?new_x ?y ?p)", "(not (turn-avatar))", "(turn-interactions)"]
 
         return Action(name, parameters, preconditions, effects)
 
     # -------------------------------------------------------------------------
 
-    # Probably will not work
+    # DONE
     def nil(self):
         """ Avatar doesn't do anything """
-        name = "AVATAR_NIL"
+        name = "AVATAR_ACTION_NIL"
         parameters = [["a", self.avatar.stype]]
         preconditions = ["(turn-avatar)"]
-        effects = ["(not (turn-avatar))", "(turn-sprites)"]
+        effects = ["(not (turn-avatar))", "(turn-interactions)"]
 
         return Action(name, parameters, preconditions, effects)
 
@@ -401,8 +631,12 @@ class AvatarActions:
 class AvatarPredicates:
     """ Returns different predicates depending of the avatar """
 
-    def __init__(self, avatar: "Sprite", partner: "Sprite" = None):
+    def __init__(self, avatar: "Sprite", stepbacks: list, killIfHasLess: list, killIfOtherHasMore: list,
+                    partner: "Sprite" = None):
         self.avatar = avatar
+        self.stepbacks = stepbacks
+        self.killIfHasLess = killIfHasLess
+        self.killIfOtherHasMore = killIfOtherHasMore
         self.partner = partner
 
         self.predicates = []
@@ -423,45 +657,37 @@ class AvatarPredicates:
         # Dict with the predicates needed for each avatar
         avatar_predicates_list = {
             # Can't move but can use object
-            "AimedAvatar" : ["(can-use ?a - AimedAvatar ?p - " + partner_name + ")"],
-            #                  "(can-change-orientation ?a - AimedAvatar)"],
+            "AimedAvatar" : [],
 
+            # NOT SUPPORTED
             # This avatar should have ammo !!!!!!!!!!
             # Always same orientation, can move horizontally and use object  
-            "FlakAvatar"  : ["(can-move-left ?a - FlakAvatar)",
-                            "(can-move-right ?a - FlakAvatar)",
-                            "(can-use ?a - FlakAvatar ?p - " + partner_name + ")"],
+            # "FlakAvatar"  : [],
 
             # Always same orientation, can only move left or right
-            "HorizontalAvatar": ["(can-move-left ?a - HorizontalAvatar)",
-                                "(can-move-right ?a - HorizontalAvatar)"],
+            "HorizontalAvatar": [],
 
             # Always same orientation, can move in any direction
             # This avatar don't have orientation, so it can move freely
-            "MovingAvatar" : ["(can-move-up ?a - MovingAvatar)",
-                            "(can-move-down ?a - MovingAvatar)",
-                            "(can-move-left ?a - MovingAvatar)",
-                            "(can-move-right ?a - MovingAvatar)"],
+            "MovingAvatar" : [],
 
             # Can move and aim in any direction, can't use object
-            "OrientedAvatar" : ["(can-move-up ?a - OrientedAvatar)",
-                            "(can-move-down ?a - OrientedAvatar)",
-                            "(can-move-left ?a - OrientedAvatar)",
-                            "(can-move-right ?a - OrientedAvatar)"],
-                            # "(can-change-orientation ?a - OrientedAvatar)"],
+            "OrientedAvatar" : [],
 
             # Can move and aim in any direction, can use object
-            "ShootAvatar" : ["(can-move-up ?a - ShootAvatar)",
-                            "(can-move-down ?a - ShootAvatar)",
-                            "(can-move-left ?a - ShootAvatar)",
-                            "(can-move-right ?a - ShootAvatar)",
-                            # "(can-change-orientation ?a - ShootAvatar)"
-                            "(can-use ?a - ShootAvatar ?p - " + partner_name + ")"],
+            "ShootAvatar" : [],
 
             # Always same orientation, can only move up or down
-            "VerticalAvatar" : ["(can-move-up ?a - VerticalAvatar)",
-                            "(can-move-down ?a - VerticalAvatar)"]
+            "VerticalAvatar" : []
         }
+
+        # Add stepback objects
+        for o in self.stepbacks:
+            self.predicates.append("(is-" + o + " ?x ?y - num)")
+        for o in self.killIfHasLess:
+            self.predicates.append("(is-" + o[0] + " ?x ?y - num)")
+        for o in self.killIfOtherHasMore:
+            self.predicates.append("(is-" + o[0] + " ?x ?y - num)")
 
         self.predicates.extend(avatar_predicates_list.get(self.avatar.stype, []))
 
@@ -493,33 +719,28 @@ class AvatarLevelPredicates:
         # Dict with the predicates needed for each avatar
         avatar_levelPredicates_list = {
             # Can't move but can use object
-            "AimedAvatar" : ["(can-use ?a partner)", "(can-change-orientation ?a)"],
+            "AimedAvatar" : [],
 
+            # NOT SUPPORTED
             # This avatar should have ammo !!!!!!!!!!
             # Always same orientation, can move horizontally and use object  
-            "FlakAvatar"  : ["(can-move-left ?a)", "(can-move-right ?a)",
-                                "(can-use ?a partner)"],
+            # "FlakAvatar"  : [],
 
             # Always same orientation, can only move left or right
-            "HorizontalAvatar": ["(can-move-left ?a)", "(can-move-right ?a)"],
+            "HorizontalAvatar": [],
 
             # Always same orientation, can move in any direction
             # This avatar don't have orientation, so it can move freely
-            "MovingAvatar" : ["(can-move-up ?a)", "(can-move-down ?a)",
-                                "(can-move-left ?a)", "(can-move-right ?a)"],
+            "MovingAvatar" : [],
 
             # Can move and aim in any direction, can't use object
-            "OrientedAvatar" : ["(can-move-up ?a)", "(can-move-down ?a)",
-                                "(can-move-left ?a)", "(can-move-right ?a)",
-                                "(can-change-orientation ?a)"],
+            "OrientedAvatar" : [],
 
             # Can move and aim in any direction, can use object
-            "ShootAvatar" : ["(can-move-up ?a)", "(can-move-down ?a)",
-                            "(can-move-left ?a)", "(can-move-right ?a)",
-                            "(can-change-orientation ?a)", "(can-use ?a partner)"],
+            "ShootAvatar" : [],
 
             # Always same orientation, can only move up or down
-            "VerticalAvatar" : ["(can-move-up ?a)", "(can-move-down ?a )"]
+            "VerticalAvatar" : []
         }
 
         self.level_predicates.extend(avatar_levelPredicates_list.get(self.avatar.stype, []))
