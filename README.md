@@ -66,7 +66,7 @@ For PDDL:
 
 ### PDDL parser
 
-__Note__: Generation of PDDL levels is not yet completed, but domains in PPDL2.1 can be produced.
+__Note__: Generation of PDDL levels is not yet completed, but domains in PPDL1.2 can be produced.
 
 The PDDL parser was made for a planning-based agent (repo can be found [here](https://github.com/IgnacioVellido/VGDL-PDDL)). The subset of the VGDL language accepted is different from the HTN one, but nevertheless bigger, more efficient, and better tested. What's more, as in PDDL the planners handle the plan search, there is no need to define an agent strategy.
 
