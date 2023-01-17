@@ -19,7 +19,7 @@ Install ANTLR4 Python3 runtime:
 pip install antlr4-python3-runtime==4.7.2
 ```
 
-Install PyYAML Python3 runtime:
+Install PyYAML:
 ```
 pip install pyyaml
 ```
