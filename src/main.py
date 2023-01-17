@@ -151,7 +151,7 @@ def write_output(filename: str, text: str):
         with open(filename, "wb") as file:
             file.write(text.encode("utf-8"))
     except Exception as e:
-        print("Cannot open file " + path)
+        print("Cannot open file " + filename)
         print(str(e))
 
 
