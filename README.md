@@ -6,16 +6,23 @@ VGDL-to-HTN-Parser is a Python parser from VGDL game and level description into 
 
 # :unlock: Requirements
 - Python3
-- ANTLR 4.7.2 for Python3 (or superior), see [here](https://github.com/antlr/antlr4/blob/master/doc/python-target.md) for more information
+- ANTLR 4.7.2 for Python3, see [here](https://github.com/antlr/antlr4/blob/master/doc/python-target.md) for more information
+- PyYAML
 - (For replanning only) Java JDK 8 (or superior)
+
+We recommend the use of an anaconda environment to avoid conflicts with other packages.
 
 # :wrench: Installation
 
 Install ANTLR4 Python3 runtime:
 ```
-pip install antlr4-python3-runtime
+pip install antlr4-python3-runtime==4.7.2
 ```
 
+Install PyYAML Python3 runtime:
+```
+pip install pyyaml
+```
 
 Compile Siadex planner (see the [README](planners/Siadex/README.md) for requirements):
 ```bash
